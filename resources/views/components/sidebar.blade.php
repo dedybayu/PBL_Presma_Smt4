@@ -34,17 +34,16 @@
             <ul class="vertical-nav-menu">
                 <li class="app-sidebar__heading">Menu</li>
                 <li class="mm-active">
-                    <a href="#">
+                    <a href="#" class="{{ request()->is('/') ? 'mm-active' : '' }}">
                         <i class="metismenu-icon pe-7s-rocket"></i> Dashboards
                         <i class="metismenu-state-icon pe-7s-angle-down caret-left"></i>
                     </a>
                     <ul>
                         <li>
-                            <a href="analytics.html" class="mm-active">
-                                <i class="metismenu-icon">
-                                </i>Analytics
+                            <a href="/" class="{{ request()->is('/') ? 'mm-active' : '' }}">
+                                <i class="metismenu-icon"></i>Prestasi
                             </a>
-                        </li>
+                        </li>                        
                         <li>
                             <a href="commerce.html">
                                 <i class="metismenu-icon">
