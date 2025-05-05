@@ -6,6 +6,8 @@
     <title>Document</title>
     <!-- Tailwind versi terbaru via CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
+    {{-- @vite('resources/css/app.css') --}}
+
 
     <style>
         /* Background Image + Blur */

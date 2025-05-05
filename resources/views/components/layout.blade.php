@@ -13,6 +13,7 @@
     <meta name="msapplication-tap-highlight" content="no">
 
     <link rel="stylesheet" href="../assets/css/base.min.css">
+    <x-css>{{$css}}</x-css>
 
 </head>
 
@@ -193,6 +194,9 @@
     <!--Tables Init-->
     <script src="../assets/js/scripts-init/tables.js"></script>
 
+    
+    {{-- Js Tambahan --}}
+    <x-js>{{$js}}</x-js>
 </body>
 
 </html>

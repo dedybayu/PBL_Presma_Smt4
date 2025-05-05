@@ -1,7 +1,13 @@
 <x-layout>
+    <x-slot:css>
+        {{-- <style>.aaaa { color: red; }</style> --}}
+    </x-slot:css>
+
     <x-slot:title>
         Dashboard Admin
     </x-slot:title>
+
+    <h1 class="aaaa">Dashboard</h1>
     <div class="mb-3 card">
         <div class="card-header-tab card-header">
             <div class="card-header-title font-size-lg text-capitalize font-weight-normal">
@@ -674,4 +680,13 @@
             </div>
         </div>
     </div>
+
+    <x-slot:js>
+        <script>
+            $(document).ready(function() {
+                $('.aaaa').css("color", "blue");
+            });
+        </script>
+    </x-slot:js>
+
 </x-layout>

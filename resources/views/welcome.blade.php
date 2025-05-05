@@ -11,7 +11,10 @@
         https://tailwindcss.com/docs/installation
     -->
     <!-- Tailwind CDN -->
-    <script src="https://cdn.tailwindcss.com"></script>
+    {{--
+    <script src="https://cdn.tailwindcss.com"></script> --}}
+    @vite('resources/css/app.css')
+
 
     <!-- AOS CSS -->
     <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
@@ -55,11 +58,11 @@
 
 <body class="overflow-x-hidden antialiased">
     <!-- Header Section -->
-    <header class="sticky top-0 z-50 w-full h-16">
+    <header class="sticky top-0 z-50 w-full h-16 bg-opacity-75">
         <div
             class="container flex items-center justify-center h-full max-w-6xl px-8 mx-auto sm:justify-between xl:px-0">
 
-            <a href="/" class="relative flex items-center inline-block h-5 h-full font-black leading-none">
+            <a href="/" class="flex items-center font-black leading-none h-6">
                 <svg class="w-auto h-6 text-indigo-600 fill-current" viewBox="0 0 194 116"
                     xmlns="http://www.w3.org/2000/svg">
                     <g fill-rule="evenodd">
@@ -68,7 +71,7 @@
                         <path d="M87 68.732l9.926 17.143 29.893-51.59L174.15 116H194L126.817 0z" />
                     </g>
                 </svg>
-                <span class="ml-3 text-xl text-gray-800">Landmark<span class="text-pink-500">.</span></span>
+                <span class="ml-2 text-xl text-gray-800">Landmark<span class="text-pink-500">.</span></span>
             </a>
 
             <nav id="nav"
@@ -797,7 +800,7 @@
     <!-- End Testimonials-->
 
 
-    <footer class="px-4 pt-12 pb-8 text-white bg-white border-t border-gray-200">
+    <footer class="px-4 pt-12 pb-8 text-white bg-white border-t border-gray-200" data-aos="fade-up" data-aos-delay="400">
         <div class="container flex flex-col justify-between max-w-6xl px-4 mx-auto overflow-hidden lg:flex-row">
             <div class="w-full pl-12 mr-4 text-left lg:w-1/4 sm:text-center sm:pl-0 lg:text-left">
                 <a href="/"
@@ -904,10 +907,13 @@
         window.addEventListener("scroll", function () {
             var header = document.querySelector("header");
             if (window.scrollY > 0) {
-                header.classList.add("bg-blue-400", "bg-opacity-75");  // Menambahkan background biru
+                // header.classList.add("bg-blue-400");  // Menambahkan background biru
+                header.style.backgroundColor = "rgba(59, 130, 246, 0.8)";  // Set background dengan transparansi
             } else {
-                header.classList.remove("bg-blue-400", "bg-opacity-75");  // Menghapus background biru
+                // header.classList.remove("bg-blue-400");  // Menghapus background biru
+                header.style.backgroundColor = "rgba(59, 130, 246, 0)";  // Menghapus transparansi (full transparan)
             }
+
         });
         if (document.getElementById('nav-mobile-btn')) {
             document.getElementById('nav-mobile-btn').addEventListener('click', function () {
