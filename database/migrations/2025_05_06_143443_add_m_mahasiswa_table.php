@@ -17,11 +17,11 @@ return new class extends Migration
             $table->string('password');
             $table->string('nama');
             $table->unsignedBigInteger('kelas_id');
-            $table->string('status');
+            $table->boolean('status_kuliah')->default(true); // status mahasiswa aktif atau tidak
             $table->string('no_tlp');
             $table->string('email');
-            $table->string('alamat');
-            $table->string('foto_profile');
+            $table->string('alamat')->nullable();
+            $table->string('foto_profile')->nullable();
             $table->timestamps();
 
             $table->foreign('kelas_id')->references('kelas_id')->on('m_kelas');

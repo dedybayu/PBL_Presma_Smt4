@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('nama');
             $table->string('email');
             $table->string('no_tlp');
-            $table->string('foto_profile');
+            $table->string('foto_profile')->nullable();
             $table->timestamps();
         });
     }
