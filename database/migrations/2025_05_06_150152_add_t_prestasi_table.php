@@ -17,7 +17,6 @@ return new class extends Migration
             $table->unsignedBigInteger('dosen_id');
             $table->string('prestasi_nama');
             $table->unsignedBigInteger('lomba_id');
-            $table->string('penyelenggara');
             $table->date('tanggal_mulai');
             $table->date('tanggal_selesai');
             $table->string('file_sertifikat');
