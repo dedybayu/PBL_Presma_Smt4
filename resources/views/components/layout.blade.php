@@ -29,7 +29,7 @@
         <!--THEME OPTIONS END-->
         
         {{-- <x-main></x-main> --}}
-        <div class="app-main">
+        <div class="app-main" style="background-color: rgb(225, 242, 255);">
             <x-sidebar></x-sidebar>
             
             <div class="app-main__outer">

@@ -1,4 +1,4 @@
-<div class="app-sidebar sidebar-shadow">
+<div class="app-sidebar sidebar-shadow" style="background-color: rgb(225, 242, 255);">
     <div class="app-header__logo">
         <div class="logo-src"></div>
         <div class="header__pane ml-auto">
