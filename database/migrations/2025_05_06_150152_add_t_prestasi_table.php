@@ -24,6 +24,7 @@ return new class extends Migration
             $table->string('file_surat_tugas');
             $table->string('file_surat_undangan');
             $table->string('file_surat_proposal');
+            $table->boolean('status_verifikasi');
             $table->timestamps();
 
             $table->foreign('mahasiswa_id')->references('mahasiswa_id')->on('m_mahasiswa');
