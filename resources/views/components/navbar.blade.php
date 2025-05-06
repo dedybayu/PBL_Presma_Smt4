@@ -1,5 +1,5 @@
 <!--Header START-->
-<div class="app-header header-shadow">
+<div class="app-header header-shadow" style="background-color: rgb(147, 200, 243);">
     <div class="app-header__logo">
         <div class="logo-src"></div>
         <div class="header__pane ml-auto">
