@@ -77,9 +77,9 @@
                             </a>
                         </li>
                         <li>
-                            <a href="chat.html">
+                            <a href="mailbox.html">
                                 <i class="metismenu-icon">
-                                </i>Rekomendasi & Pendamping
+                                </i>Kategori Lomba
                             </a>
                         </li>
                     </ul>
