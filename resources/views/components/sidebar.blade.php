@@ -1,4 +1,4 @@
-<div class="app-sidebar sidebar-shadow" style="background-color: rgb(225, 242, 255);">
+<div class="app-sidebar sidebar-shadow" style="background-color: rgb(255, 255, 255);">
     <div class="app-header__logo">
         <div class="logo-src"></div>
         <div class="header__pane ml-auto">
@@ -33,19 +33,19 @@
         <div class="app-sidebar__inner">
             <ul class="vertical-nav-menu">
                 <li class="app-sidebar__heading">Menu</li>
-                <li>
-                    <a href="dahsboard.html">
+                <li class="">
+                    <a href="dashboard">
                         <i class="metismenu-icon pe-7s-rocket"></i> Dashboard
                     </a>
                 </li>
-                <li>
+                <li class="mm-active">
                     <a href="#">
                         <i class="metismenu-icon pe-7s-users"></i> Manajemen Pengguna
                         <i class="metismenu-state-icon pe-7s-angle-down caret-left"></i>
                     </a>
                     <ul>
                         <li>
-                            <a href="mailbox.html">
+                            <a href="daftar-mahasiswa" class="mm-active">
                                 <i class="metismenu-icon">
                                 </i>Mahasiswa
                             </a>
