@@ -33,6 +33,104 @@
         <div class="app-sidebar__inner">
             <ul class="vertical-nav-menu">
                 <li class="app-sidebar__heading">Menu</li>
+                <li>
+                    <a href="dahsboard.html">
+                        <i class="metismenu-icon pe-7s-rocket"></i> Dashboard
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <i class="metismenu-icon pe-7s-users"></i> Manajemen Pengguna
+                        <i class="metismenu-state-icon pe-7s-angle-down caret-left"></i>
+                    </a>
+                    <ul>
+                        <li>
+                            <a href="mailbox.html">
+                                <i class="metismenu-icon">
+                                </i>Mahasiswa
+                            </a>
+                        </li>
+                        <li>
+                            <a href="chat.html">
+                                <i class="metismenu-icon">
+                                </i>Dosen Pembimbing
+                            </a>
+                        </li>
+                        <li>
+                            <a href="chat.html">
+                                <i class="metismenu-icon">
+                                </i>Admin
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="#">
+                        <i class="metismenu-icon pe-7s-note2"></i> Manajemen Data Lomba
+                        <i class="metismenu-state-icon pe-7s-angle-down caret-left"></i>
+                    </a>
+                    <ul>
+                        <li>
+                            <a href="mailbox.html">
+                                <i class="metismenu-icon">
+                                </i>Daftar Lomba
+                            </a>
+                        </li>
+                        <li>
+                            <a href="chat.html">
+                                <i class="metismenu-icon">
+                                </i>Rekomendasi & Pendamping
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="#">
+                        <i class="metismenu-icon pe-7s-check"></i> Verifikasi Data
+                        <i class="metismenu-state-icon pe-7s-angle-down caret-left"></i>
+                    </a>
+                    <ul>
+                        <li>
+                            <a href="mailbox.html">
+                                <i class="metismenu-icon">
+                                </i>Prestasi Mahasiswa
+                            </a>
+                        </li>
+                        <li>
+                            <a href="chat.html">
+                                <i class="metismenu-icon">
+                                </i>Data Lomba
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="#">
+                        <i class="metismenu-icon pe-7s-study"></i>Data Akademik
+                        <i class="metismenu-state-icon pe-7s-angle-down caret-left"></i>
+                    </a>
+                    <ul>
+                        <li>
+                            <a href="mailbox.html">
+                                <i class="metismenu-icon">
+                                </i>Periode Semester
+                            </a>
+                        </li>
+                        <li>
+                            <a href="chat.html">
+                                <i class="metismenu-icon">
+                                </i>Program Studi
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="#">
+                        <i class="metismenu-icon pe-7s-graph3">
+                            </i>Laporan & Analisis
+                    </a>
+                </li>
+                <li class="app-sidebar__heading">UI Components</li>
                 <li class="mm-active">
                     <a href="#" class="{{ request()->is('/') ? 'mm-active' : '' }}">
                         <i class="metismenu-icon pe-7s-rocket"></i> Dashboards
@@ -83,76 +181,6 @@
                         </li>
                     </ul>
                 </li>
-                <li>
-                    <a href="#">
-                        <i class="metismenu-icon pe-7s-browser"></i> Pages
-                        <i class="metismenu-state-icon pe-7s-angle-down caret-left"></i>
-                    </a>
-                    <ul>
-                        <li>
-                            <a href="login.html">
-                                <i class="metismenu-icon"></i> Login
-                            </a>
-                        </li>
-                        <li>
-                            <a href="login-boxed.html">
-                                <i class="metismenu-icon">
-                                </i>Login Boxed
-                            </a>
-                        </li>
-                        <li>
-                            <a href="register.html">
-                                <i class="metismenu-icon">
-                                </i>Register
-                            </a>
-                        </li>
-                        <li>
-                            <a href="register-boxed.html">
-                                <i class="metismenu-icon">
-                                </i>Register Boxed
-                            </a>
-                        </li>
-                        <li>
-                            <a href="forgot-password.html">
-                                <i class="metismenu-icon">
-                                </i>Forgot Password
-                            </a>
-                        </li>
-                        <li>
-                            <a href="forgot-password-boxed.html">
-                                <i class="metismenu-icon">
-                                </i>Forgot Password Boxed
-                            </a>
-                        </li>
-                    </ul>
-                </li>
-                <li>
-                    <a href="#">
-                        <i class="metismenu-icon pe-7s-plugin"></i> Applications
-                        <i class="metismenu-state-icon pe-7s-angle-down caret-left"></i>
-                    </a>
-                    <ul>
-                        <li>
-                            <a href="mailbox.html">
-                                <i class="metismenu-icon">
-                                </i>Mailbox
-                            </a>
-                        </li>
-                        <li>
-                            <a href="chat.html">
-                                <i class="metismenu-icon">
-                                </i>Chat
-                            </a>
-                        </li>
-                        <li>
-                            <a href="faq-section.html">
-                                <i class="metismenu-icon">
-                                </i>FAQ Section
-                            </a>
-                        </li>
-                    </ul>
-                </li>
-                <li class="app-sidebar__heading">UI Components</li>
                 <li>
                     <a href="#">
                         <i class="metismenu-icon pe-7s-diamond"></i> Elements
