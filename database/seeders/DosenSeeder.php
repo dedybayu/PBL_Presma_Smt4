@@ -20,7 +20,7 @@ class DosenSeeder extends Seeder
         for ($i = 1; $i <= 20; $i++) {
             DosenModel::create([
                 'nidn' => 'NIDN' . str_pad($i, 4, '0', STR_PAD_LEFT),
-                'password' => Hash::make('password123'),
+                'password' => 'dosen123',
                 'nama' => $faker->name,
                 'email' => $faker->unique()->safeEmail,
                 'no_tlp' => $faker->phoneNumber,

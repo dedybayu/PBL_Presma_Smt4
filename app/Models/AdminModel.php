@@ -5,31 +5,24 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class MahasiswaModel extends Model
+class AdminModel extends Model
 {
     use HasFactory;
-    protected $table = 'm_mahasiswa';
-    protected $primaryKey = 'mahasiswa_id';
+    protected $table = 'm_admin';
+    protected $primaryKey = 'admin_id';
     public $incrementing = true;
     protected $keyType = 'int';
+    public $timestamps = true;
 
     protected $fillable = [
-        'nim',
+        'username',
         'password',
         'nama',
-        'kelas_id',
-        'no_tlp',
         'email',
-        'alamat',
+        'no_tlp',
         'foto_profile',
     ];
 
     protected $hidden = ['password'];
     protected $casts = ['password' => 'hashed'];
-
-    // Relasi ke kelas
-    public function kelas()
-    {
-        return $this->belongsTo(KelasModel::class, 'kelas_id', 'kelas_id');
-    }
 }

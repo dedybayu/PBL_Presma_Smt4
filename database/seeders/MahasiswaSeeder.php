@@ -30,13 +30,13 @@ class MahasiswaSeeder extends Seeder
 
             $mahasiswaData[] = [
                 'nim' => $faker->unique()->numerify('2023########'),
-                'password' => bcrypt('password123'),
+                'password' => 'mahasiswa123',
                 'nama' => $faker->firstName . ' ' . $faker->lastName,
                 'kelas_id' => $kelasId,
                 'no_tlp' => $faker->unique()->phoneNumber,
                 'email' => $faker->unique()->safeEmail,
                 'alamat' => $faker->address,
-                // 'foto_profile' => $faker->imageUrl(),
+                'foto_profile' => null,
                 'created_at' => now(),
                 'updated_at' => now(),
             ];

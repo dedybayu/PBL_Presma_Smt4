@@ -32,4 +32,7 @@ class DosenModel extends Model
 
     // Apakah timestamps digunakan (created_at & updated_at)
     public $timestamps = true;
+
+    protected $hidden = ['password'];
+    protected $casts = ['password' => 'hashed'];
 }
