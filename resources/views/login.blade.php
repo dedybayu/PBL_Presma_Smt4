@@ -5,8 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <!-- Tailwind versi terbaru via CDN -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    {{-- @vite('resources/css/app.css') --}}
+    {{--
+    <script src="https://cdn.tailwindcss.com"></script> --}}
+    @vite('resources/css/app.css')
 
 
     <style>
@@ -81,16 +82,19 @@
 
                         <div class="mx-auto max-w-xs">
 
-                            <form id="loginForm" onsubmit="return validateForm(event)">
+                            <form id="loginForm" onsubmit="return validateForm(event)"
+                                action="{{ route('custom.login') }}" method="POST">
+                                @csrf
                                 <div class="mb-2">
-                                    <input id="username"
+                                    <input id="identifier" name="identifier"
                                         class="w-full px-8 py-4 rounded-lg font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400 focus:bg-white"
                                         type="text" placeholder="NIM/NIP/Username" />
                                 </div>
-                                <p id="usernameError" class="text-red-500 text-sm mt-1 hidden">Username harus diisi.</p>
+                                <p id="identifierError" class="text-red-500 text-sm mt-1 hidden">NIM/NIP/Username harus diisi.
+                                </p>
 
                                 <div class="relative w-full mt-5 mb-2">
-                                    <input id="password"
+                                    <input id="password" name="password"
                                         class="w-full px-8 py-4 rounded-lg font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400 focus:bg-white"
                                         type="password" placeholder="Password" />
                                     <button type="button" onclick="togglePassword()"
@@ -105,6 +109,33 @@
                                     </button>
                                 </div>
                                 <p id="passwordError" class="text-red-500 text-sm mt-1 hidden">Password harus diisi.</p>
+
+                                @if (session()->has('loginError'))
+                                    <div id="alert-2"
+                                        class="relative w-full mt-5 flex items-center p-4 mb-4 text-red-800 rounded-lg bg-red-50 transition-opacity duration-500 ease-in-out"
+                                        role="alert">
+                                        <svg class="shrink-0 w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+                                            fill="currentColor" viewBox="0 0 20 20">
+                                            <path
+                                                d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z" />
+                                        </svg>
+                                        <span class="sr-only">Info</span>
+                                        <div class="ms-3 text-sm font-medium">
+                                            {{ session('loginError') }}
+                                        </div>
+                                        <button id="close-alert"
+                                            class="ms-auto -mx-1.5 -my-1.5 bg-red-50 text-red-500 rounded-lg focus:ring-2 focus:ring-red-400 p-1.5 hover:bg-red-200 inline-flex items-center justify-center h-8 w-8"
+                                            aria-label="Close">
+                                            <span class="sr-only">Close</span>
+                                            <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+                                                fill="none" viewBox="0 0 14 14">
+                                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                                    stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
+                                            </svg>
+                                        </button>
+                                    </div>
+                                @endif
+
 
                                 <button type="submit"
                                     class="mt-5 tracking-wide font-semibold bg-indigo-500 text-gray-100 w-full py-4 rounded-lg hover:bg-indigo-700 transition-all duration-300 ease-in-out flex items-center justify-center focus:shadow-outline focus:outline-none">
@@ -125,6 +156,26 @@
     </div>
 
     <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const alertBox = document.getElementById("alert-2");
+            const closeBtn = document.getElementById("close-alert");
+
+            if (alertBox && closeBtn) {
+                function fadeOutAndRemove() {
+                    alertBox.classList.add("opacity-0");
+                    setTimeout(() => {
+                        alertBox.remove();
+                    }, 500); // harus sesuai dengan transition duration (500ms)
+                }
+
+                // Klik manual
+                closeBtn.addEventListener("click", fadeOutAndRemove);
+
+                // Auto hilang dalam 7 detik (7000ms)
+                setTimeout(fadeOutAndRemove, 7000);
+            }
+        });
+
         function togglePassword() {
             const passwordInput = document.getElementById("password");
             const eyeIcon = document.getElementById("eyeIcon");
@@ -162,19 +213,19 @@
         function validateForm(event) {
             event.preventDefault();
 
-            const username = document.getElementById('username');
+            const identifier = document.getElementById('identifier');
             const password = document.getElementById('password');
-            const usernameError = document.getElementById('usernameError');
+            const identifierError = document.getElementById('identifierError');
             const passwordError = document.getElementById('passwordError');
 
             let valid = true;
 
             // Reset error messages
-            usernameError.classList.add('hidden');
+            identifierError.classList.add('hidden');
             passwordError.classList.add('hidden');
 
-            if (!username.value.trim()) {
-                usernameError.classList.remove('hidden');
+            if (!identifier.value.trim()) {
+                identifierError.classList.remove('hidden');
                 valid = false;
             }
 

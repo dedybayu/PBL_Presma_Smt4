@@ -23,26 +23,21 @@ class MahasiswaSeeder extends Seeder
         $mahasiswaData = [];
 
         // Membuat data mahasiswa random
-        for ($i = 1; $i <= 10; $i++) { // Ganti 10 sesuai jumlah data yang diinginkan
-            // Pilih kelas_id berdasarkan kelas_kode secara acak
-            $kelasKode = array_rand($kelas->toArray()); 
+        for ($i = 1; $i <= 10; $i++) {
+            $kelasKode = array_rand($kelas->toArray());
             $kelasId = $kelas[$kelasKode];
 
-            $mahasiswaData[] = [
+            MahasiswaModel::create([
                 'nim' => $faker->unique()->numerify('2023########'),
-                'password' => 'mahasiswa123',
+                'password' => 'mahasiswa123', // Akan di-hash otomatis oleh model
                 'nama' => $faker->firstName . ' ' . $faker->lastName,
                 'kelas_id' => $kelasId,
                 'no_tlp' => $faker->unique()->phoneNumber,
                 'email' => $faker->unique()->safeEmail,
                 'alamat' => $faker->address,
                 'foto_profile' => null,
-                'created_at' => now(),
-                'updated_at' => now(),
-            ];
+            ]);
         }
 
-        // Insert data mahasiswa ke tabel
-        MahasiswaModel::insert($mahasiswaData);
     }
 }
