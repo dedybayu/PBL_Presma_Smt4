@@ -44,7 +44,9 @@ class AuthController extends Controller
         }
 
         // Jika semua gagal
-        return back()->with(['loginError' => 'Login gagal, periksa kembali NIM/NIDN/Username dan password Anda.']);
+        return back()
+        ->with(['loginError' => 'Login gagal, periksa kembali NIM/NIDN/Username dan password Anda.'])
+        ->withInput(); ;
     }
 
         public function logout(Request $request)
