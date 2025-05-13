@@ -13,7 +13,8 @@ class ProdiController extends Controller
      */
     public function index()
     {
-        return view('admin.prodi.daftar_prodi');
+        $prodi = ProdiModel::all();
+        return view('admin.prodi.daftar_prodi')->with(["prodi" => $prodi]);
     }
 
     /**

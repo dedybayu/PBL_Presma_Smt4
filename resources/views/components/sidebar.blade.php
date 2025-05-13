@@ -119,10 +119,9 @@
                             </a>
                         </li>
                         <li>
-                            <a href="{{ route('prodi.index') }}"
-                                class="{{ request()->routeIs('prodi.index') ? 'mm-active' : '' }}">
+                            <a href="{{ route('prodi.index') }}" class="{{ request()->routeIs('prodi.index') ? 'mm-active' : '' }}">
                                 <i class="metismenu-icon">
-                                </i>Program Studi
+                                </i> Program Studi
                             </a>
                         </li>
                         <li>
