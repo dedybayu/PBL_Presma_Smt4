@@ -6,6 +6,7 @@ use App\Http\Controllers\DosenController;
 use App\Http\Controllers\MahasiswaController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\KelasController;
+use App\Http\Controllers\ProdiController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -69,6 +70,15 @@ Route::middleware(['auth:admin'])->group(function () {
         Route::get('/{id}/edit', [AdminController::class, 'edit'])->name('admin.edit');
         Route::put('/{id}', [AdminController::class, 'update'])->name('admin.update');
         Route::delete('/{id}', [AdminController::class, 'destroy'])->name('admin.destroy');
+    });
+    Route::prefix('prodi')->group(function () {
+        Route::get('/', [ProdiController::class, 'index'])->name('prodi.index');
+        Route::post('/list', [ProdiController::class, 'list'])->name('prodi.list'); // tambahkan nama route
+        Route::get('/create', [ProdiController::class, 'create'])->name('prodi.create');
+        Route::post('/', [ProdiController::class, 'store'])->name('prodi.store');
+        Route::get('/{id}/edit', [ProdiController::class, 'edit'])->name('prodi.edit');
+        Route::put('/{id}', [ProdiController::class, 'update'])->name('prodi.update');
+        Route::delete('/{id}', [ProdiController::class, 'destroy'])->name('prodi.destroy');
     });
 });
 

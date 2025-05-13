@@ -20,10 +20,9 @@ class AdminController extends Controller
     public function list(Request $request)
 {
     if ($request->ajax()) {
-        // Ambil data admin dengan kolom yang dibutuhkan saja
         $admin = AdminModel::select("admin_id", "nama", "email", "no_tlp", "foto_profile");
 
-        // Filter jika ada (contoh berdasarkan nama)
+
         if ($request->nama) {
             $admin->where('nama', 'like', '%' . $request->nama . '%');
         }
@@ -63,7 +62,7 @@ class AdminController extends Controller
             ->make(true);
     }
 
-    // Jika bukan AJAX, beri response error
+    
     return response()->json(['message' => 'Invalid request.'], 400);
 }
 

@@ -119,7 +119,8 @@
                             </a>
                         </li>
                         <li>
-                            <a href="chat.html">
+                            <a href="{{ route('prodi.index') }}"
+                                class="{{ request()->routeIs('prodi.index') ? 'mm-active' : '' }}">
                                 <i class="metismenu-icon">
                                 </i>Program Studi
                             </a>
