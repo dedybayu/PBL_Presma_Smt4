@@ -4,6 +4,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DosenController;
 use App\Http\Controllers\MahasiswaController;
+use App\Http\Controllers\AdminController;
 use App\Http\Controllers\KelasController;
 use Illuminate\Support\Facades\Route;
 
@@ -36,10 +37,9 @@ Route::middleware(['auth:admin'])->group(function () {
         Route::get('/{mahasiswa}/show', [MahasiswaController::class, 'show'])->name('mahasiswa.show');
         Route::get('/create', [MahasiswaController::class, 'create'])->name('mahasiswa.create');
         Route::post('/', [MahasiswaController::class, 'store'])->name('mahasiswa.store');
-        Route::get('/{mahasiswa}/edit', [MahasiswaController::class, 'edit'])->name('mahasiswa.edit');
-        Route::put('/{mahasiswa}', [MahasiswaController::class, 'update'])->name('mahasiswa.update');
-        Route::get('/{mahasiswa}/confirm-delete', [MahasiswaController::class, 'confirmDelete'])->name('mahasiswa.confirm-delete');
-        Route::delete('/{mahasiswa}', [MahasiswaController::class, 'destroy'])->name('mahasiswa.destroy');
+        Route::get('/{id}/edit', [MahasiswaController::class, 'edit'])->name('mahasiswa.edit');
+        Route::put('/{id}', [MahasiswaController::class, 'update'])->name('mahasiswa.update');
+        Route::delete('/{id}', [MahasiswaController::class, 'destroy'])->name('mahasiswa.destroy');
     });
     Route::prefix('kelas')->group(function () {
         Route::get('/', [KelasController::class, 'index'])->name('kelas.index');
@@ -59,6 +59,15 @@ Route::middleware(['auth:admin'])->group(function () {
         Route::get('/{id}/edit', [DosenController::class, 'edit'])->name('dosen.edit');
         Route::put('/{id}', [DosenController::class, 'update'])->name('dosen.update');
         Route::delete('/{id}', [DosenController::class, 'destroy'])->name('dosen.destroy');
+    });
+    Route::prefix('admin')->group(function () {
+        Route::get('/', [AdminController::class, 'index'])->name('admin.index');
+        Route::post('/list', [AdminController::class, 'list'])->name('admin.list'); // tambahkan nama route
+        Route::get('/create', [AdminController::class, 'create'])->name('admin.create');
+        Route::post('/', [AdminController::class, 'store'])->name('admin.store');
+        Route::get('/{id}/edit', [AdminController::class, 'edit'])->name('admin.edit');
+        Route::put('/{id}', [AdminController::class, 'update'])->name('admin.update');
+        Route::delete('/{id}', [AdminController::class, 'destroy'])->name('admin.destroy');
     });
 });
 
