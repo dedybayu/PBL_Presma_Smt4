@@ -40,11 +40,11 @@
                     </a>
                 </li>
                 <li class="">
-                    <a href="#">
+                    <a href="#" class="{{ request()->routeIs('mahasiswa.*', 'dosen.*', 'admin.*') ? 'mm-active' : '' }}">
                         <i class="metismenu-icon pe-7s-users"></i> Manajemen Pengguna
                         <i class="metismenu-state-icon pe-7s-angle-down caret-left"></i>
                     </a>
-                    <ul>
+                    <ul class="{{ request()->routeIs('mahasiswa.*', 'dosen.*', 'admin.*') ? 'mm-show' : '' }}">
                         <li>
                             <a href="{{ route('mahasiswa.index') }}"
                                 class="{{ request()->routeIs('mahasiswa.index') ? 'mm-active' : '' }}">
@@ -53,13 +53,13 @@
                             </a>
                         </li>
                         <li>
-                            <a href="dosen" class="{{ request()->is('dosen') ? 'mm-active' : '' }}">
+                            <a href="dosen" class="{{ request()->routeIs('dosen.index') ? 'mm-active' : '' }}">
                                 <i class="metismenu-icon">
                                 </i> Dosen
                             </a>
                         </li>
                         <li>
-                            <a href="daftar-admin" class="{{ request()->is('admin') ? 'mm-active' : '' }}">
+                            <a href="daftar-admin" class="{{ request()->routeIs('admin.index') ? 'mm-active' : '' }}">
                                 <i class="metismenu-icon">
                                 </i> Admin
                             </a>
@@ -107,11 +107,11 @@
                     </ul>
                 </li>
                 <li>
-                    <a href="#">
+                    <a href="#" class="{{ request()->routeIs('periode.*', 'prodi.*', 'kelas.*') ? 'mm-active' : '' }}">
                         <i class="metismenu-icon pe-7s-study"></i>Data Akademik
                         <i class="metismenu-state-icon pe-7s-angle-down caret-left"></i>
                     </a>
-                    <ul>
+                    <ul class="{{ request()->routeIs('periode.*', 'prodi.*', 'kelas.*') ? 'mm-show' : '' }}">
                         <li>
                             <a href="mailbox.html">
                                 <i class="metismenu-icon">
