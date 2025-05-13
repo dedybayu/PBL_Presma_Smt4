@@ -124,6 +124,12 @@
                                 </i>Program Studi
                             </a>
                         </li>
+                        <li>
+                            <a href="chat.html">
+                                <i class="metismenu-icon">
+                                </i>Daftar Kelas
+                            </a>
+                        </li>
                     </ul>
                 </li>
                 <li>
