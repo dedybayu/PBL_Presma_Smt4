@@ -22,6 +22,8 @@
     <!-- Font Awesome -->
     <link rel="stylesheet" href="{{ asset('assets/plugins/fontawesome-free/css/all.min.css') }}">
 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+
     {{--
     <link rel="stylesheet" href="../assets/css/base.min.css"> --}}
     <link rel="stylesheet" href="{{ asset('assets/css/base.min.css') }}">
@@ -64,6 +66,16 @@
     <!--DRAWER START-->
     <x-drawer></x-drawer>
     <!--DRAWER END-->
+
+    {{-- Modal CRUD Container --}}
+    <div id="modal-crud" class="modal fade animate shake" tabindex="-1" role="dialog" data-backdrop="static"
+        data-keyboard="false" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content"></div>
+        </div>
+    </div>
+
+
 
     <!--SCRIPTS INCLUDES-->
 
