@@ -72,12 +72,10 @@ class KelasController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(KelasModel $kelasModel)
+    public function show(KelasModel $kelas)
     {
-        $prodi = ProdiModel::select('prodi_id', 'prodi_nama')->get();
-        return view('admin.kelas.show')->with([
-            'kelas' => $kelasModel,
-            'prodi' => $prodi
+        return view('admin.kelas.show_kelas')->with([
+            'kelas' => $kelas
         ]);
     }
 
