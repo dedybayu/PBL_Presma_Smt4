@@ -53,13 +53,13 @@
                             </a>
                         </li>
                         <li>
-                            <a href="dosen" class="{{ request()->routeIs('dosen.index') ? 'mm-active' : '' }}">
+                            <a href="{{ route('dosen.index') }}" class="{{ request()->routeIs('dosen.index') ? 'mm-active' : '' }}">
                                 <i class="metismenu-icon">
                                 </i> Dosen
                             </a>
                         </li>
                         <li>
-                            <a href="daftar-admin" class="{{ request()->routeIs('admin.index') ? 'mm-active' : '' }}">
+                            <a href="{{ route('admin.index') }}" class="{{ request()->routeIs('admin.index') ? 'mm-active' : '' }}">
                                 <i class="metismenu-icon">
                                 </i> Admin
                             </a>
