@@ -53,7 +53,7 @@
                             </a>
                         </li>
                         <li>
-                            <a href="daftar-dosen" class="{{ request()->is('dosen') ? 'mm-active' : '' }}">
+                            <a href="dosen" class="{{ request()->is('dosen') ? 'mm-active' : '' }}">
                                 <i class="metismenu-icon">
                                 </i> Dosen
                             </a>

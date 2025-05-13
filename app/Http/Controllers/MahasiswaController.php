@@ -110,7 +110,7 @@ class MahasiswaController extends Controller
         // return 'helloaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa';
         $kelas = KelasModel::select('kelas_id', 'kelas_nama');
         $prodi = ProdiModel::select('prodi_id', 'prodi_nama');   
-        return view('admin.mahasiswa.show_mahasiswa')->with(['mahasiswa' => $mahasiswa,'kelas'=> $kelas, 'prodi' => $prodi]);
+        return view('admin.mahasiswa.show_mahasiswa')->with(['kelas'=> $kelas, 'prodi' => $prodi]);
     }
 
     /**
