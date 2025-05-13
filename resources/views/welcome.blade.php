@@ -56,14 +56,7 @@
             class="container flex items-center justify-center h-full max-w-6xl px-8 mx-auto sm:justify-between xl:px-0">
 
             <a href="/" class="flex items-center font-black leading-none h-6">
-                <svg class="w-auto h-6 text-indigo-600 fill-current" viewBox="0 0 194 116"
-                    xmlns="http://www.w3.org/2000/svg ">
-                    <g fill-rule="evenodd">
-                        <path
-                            d="M96.869 0L30 116h104l-9.88-17.134H59.64l47.109-81.736zM0 116h19.831L77 17.135 67.088 0z" />
-                        <path d="M87 68.732l9.926 17.143 29.893-51.59L174.15 116H194L126.817 0z" />
-                    </g>
-                </svg>
+                <img src="../assets/images/presapp-logo.png" alt="Logo" class="w-auto h-12" />
                 <span class="ml-2 text-xl text-gray-800">PresApp<span class="text-pink-500">.</span></span>
             </a>
 
@@ -87,8 +80,7 @@
                 <a href="{{ route('login') }}"
                     class="relative z-40 px-3 py-2 mr-0 text-sm font-bold text-pink-500 md:px-5 lg:text-white sm:mr-3 md:mt-0">Masuk</a>
                 <a href="{{ route('login') }}"
-                    class="relative z-40 inline-block w-auto h-full px-5 py-3 text-sm font-bold leading-none text-white transition-all transition duration-100 duration-300 bg-indigo-700 rounded shadow-md fold-bold lg:bg-white lg:text-indigo-700 sm:w-full lg:shadow-none hover:shadow-xl">Get
-                    Started</a>
+                    class="relative z-40 inline-block w-auto h-full px-5 py-3 text-sm font-bold leading-none text-white transition-all transition duration-100 duration-300 bg-indigo-700 rounded shadow-md fold-bold lg:bg-white lg:text-indigo-700 sm:w-full lg:shadow-none hover:shadow-xl">Mulai</a>
 
             </div>
 
@@ -481,23 +473,15 @@
 
     <footer class="px-4 pt-12 pb-8 text-white bg-white border-t border-gray-200" data-aos="fade-up" data-aos-delay="400">
         <div class="container flex flex-col justify-between max-w-6xl px-4 mx-auto overflow-hidden lg:flex-row">
-            <div class="w-full pl-12 mr-4 text-left lg:w-1/4 sm:text-center sm:pl-0 lg:text-left">
+            <div class="w-full pl-12 mr-2 text-left lg:w-1/4 sm:text-center sm:pl-0 lg:text-left">
                 <a href="/"
                     class="flex justify-start block text-left sm:text-center lg:text-left sm:justify-center lg:justify-start">
                     <span class="flex items-start sm:items-center">
-                        <svg class="w-auto h-6 text-gray-800 fill-current" viewBox="0 0 194 116"
-                            xmlns="http://www.w3.org/2000/svg">
-                            <g fill-rule="evenodd">
-                                <path
-                                    d="M96.869 0L30 116h104l-9.88-17.134H59.64l47.109-81.736zM0 116h19.831L77 17.135 67.088 0z">
-                                </path>
-                                <path d="M87 68.732l9.926 17.143 29.893-51.59L174.15 116H194L126.817 0z"></path>
-                            </g>
-                        </svg>
+                        <img src="../assets/images/presapp-logo.png" alt="Logo" class="w-auto h-15" />
                     </span>
                 </a>
             </div>
-            <div class="block w-full pl-10 mt-6 text-sm lg:w-3/4 sm:flex lg:mt-0">
+            <div class="block w-full pl-5 mt-6 text-sm lg:w-3/4 sm:flex lg:mt-0">
                 <ul class="flex flex-col w-full p-0 font-medium text-left text-gray-700 list-none">
                     <li class="inline-block px-3 py-2 mt-5 font-bold tracking-wide text-gray-800 uppercase md:mt-0">
                         Product</li>
