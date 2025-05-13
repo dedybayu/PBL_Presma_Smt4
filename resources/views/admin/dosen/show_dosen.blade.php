@@ -1,4 +1,4 @@
-@empty($mahasiswa)
+@empty($dosen)
     <div id="modal-delete" class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -12,13 +12,13 @@
                     <h5><i class="icon fas fa-ban"></i> Kesalahan!!!</h5>
                     Data yang anda cari tidak ditemukan
                 </div>
-                <a href="{{ url('/mahasiswa') }}" class="btn btn-warning">Kembali</a>
+                <a href="{{ url('/dosen') }}" class="btn btn-warning">Kembali</a>
             </div>
         </div>
     </div>
 @else
     <div class="modal-header">
-        <h5 class="modal-title">Data mahasiswa</h5>
+        <h5 class="modal-title">Data dosen</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
         </button>
@@ -26,23 +26,24 @@
     <div class="modal-body">
         <table class="table table-sm table-bordered table-striped">
             <tr>
-                <th class="text-right col-3">Nama mahasiswa :</th>
-                <td class="col-9">{{ $mahasiswa->nama }}</td>
+                <th class="text-right col-3">Nama dosen :</th>
+                <td class="col-9">{{ $dosen->nama }}</td>
             </tr>
             <tr>
-                <th class="text-right col-3">Kode mahasiswa :</th>
-                <td class="col-9">{{ $mahasiswa->nim }}</td>
+                <th class="text-right col-3">nidn :</th>
+                <td class="col-9">{{ $dosen->nidn }}</td>
             </tr>
             <tr>
-                <th class="text-right col-3">Kelas :</th>
-                <td class="col-9">{{ $mahasiswa->kelas->kelas_nama }}</td>
+                <th class="text-right col-3">email :</th>
+                <td class="col-9">{{ $dosen->email }}</td>
             </tr>
             <tr>
-                <th class="text-right col-3">no_telp :</th>
-                <td class="col-9">{{ $mahasiswa->no_tlp }}</td>
+                <th class="text-right col-3">no-telp :</th>
+                <td class="col-9">{{ $dosen->no_tlp }}</td>
             </tr>
         </table>
-        <div class="modal-footer">
+    </div>
+    <div class="modal-footer">
         <button type="button" data-dismiss="modal" class="btn btn-primary btn-sm">Close</button>
     </div>
 @endempty

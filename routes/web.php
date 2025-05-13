@@ -34,7 +34,7 @@ Route::middleware(['auth:admin'])->group(function () {
     Route::prefix('mahasiswa')->group(function () {
         Route::get('/', [MahasiswaController::class, 'index'])->name('mahasiswa.index');
         Route::post('/list', [MahasiswaController::class, 'list']);
-        Route::get('/{mahasiswa}/show', [MahasiswaController::class, 'show'])->name('mahasiswa.show');
+        Route::get('/{id}/show', [MahasiswaController::class, 'show'])->name('mahasiswa.show');
         Route::get('/create', [MahasiswaController::class, 'create'])->name('mahasiswa.create');
         Route::post('/', [MahasiswaController::class, 'store'])->name('mahasiswa.store');
         Route::get('/{id}/edit', [MahasiswaController::class, 'edit'])->name('mahasiswa.edit');
@@ -44,7 +44,7 @@ Route::middleware(['auth:admin'])->group(function () {
     Route::prefix('kelas')->group(function () {
         Route::get('/', [KelasController::class, 'index'])->name('kelas.index');
         Route::post('/list', [KelasController::class, 'list']);
-        Route::get('/{kelas}/show', [KelasController::class, 'show'])->name('kelas.show');
+        Route::get('/{id}/show', [KelasController::class, 'show'])->name('kelas.show');
         Route::get('/create', [KelasController::class, 'create'])->name('kelas.create');
         Route::post('/', [KelasController::class, 'store'])->name('kelas.store');
         Route::get('/{kelas}/edit', [KelasController::class, 'edit'])->name('kelas.edit');
@@ -54,6 +54,7 @@ Route::middleware(['auth:admin'])->group(function () {
     Route::prefix('dosen')->group(function () {
         Route::get('/', [DosenController::class, 'index'])->name('dosen.index');
         Route::post('/list', [DosenController::class, 'list']);
+        Route::get('/{id}/show', [DosenController::class, 'show'])->name('dosen.show');
         Route::get('/create', [DosenController::class, 'create'])->name('dosen.create');
         Route::post('/', [DosenController::class, 'store'])->name('dosen.store');
         Route::get('/{id}/edit', [DosenController::class, 'edit'])->name('dosen.edit');
@@ -62,7 +63,7 @@ Route::middleware(['auth:admin'])->group(function () {
     });
     Route::prefix('admin')->group(function () {
         Route::get('/', [AdminController::class, 'index'])->name('admin.index');
-        Route::post('/list', [AdminController::class, 'list'])->name('admin.list'); // tambahkan nama route
+        Route::post('/list', [AdminController::class, 'list'])->name('admin.list');
         Route::get('/create', [AdminController::class, 'create'])->name('admin.create');
         Route::post('/', [AdminController::class, 'store'])->name('admin.store');
         Route::get('/{id}/edit', [AdminController::class, 'edit'])->name('admin.edit');

@@ -25,10 +25,10 @@
                         <label class="col-12 col-md-1 control-label col-form-label">Filter:</label>
 
                         <div class="col-12 col-md-3 mb-2 mb-md-0">
-                            <select class="form-select" id="nidn" name="nidn" style="width: 100%">
+                            <select class="form-select" id="dosen_id" name="dosen_id" style="width: 100%">
                                 <option value="">- Semua -</option>
                                 @foreach($dosen as $item)
-                                    <option value="{{ $item->nidn }}">{{ $item->nama }}</option>
+                                    <option value="{{ $item->dosen_id}}">{{ $item->nama }}</option>
                                 @endforeach
                             </select>
                             <small class="form-text text-muted">Filter Nama</small>
@@ -38,7 +38,7 @@
             </div>
 
             <div class="table-responsive">
-                <!-- Mahasiswa Table -->
+                <!-- Dosen Table -->
                 <table class="table table-bordered table-sm table-striped table-hover" id="table-dosen">
                     <thead>
                         <tr>
@@ -84,7 +84,7 @@
 
             var dataDosen
             $(document).ready(function () {
-                $('#nidn').select2({
+                $('#dosen_id').select2({
                     theme: 'bootstrap-5',
                     placeholder: "- Semua -",
                     allowClear: true,
@@ -102,7 +102,7 @@
                         dataType: "json",
                         type: "POST",
                         data: function (d) {
-                            d.prodi_id = $('#nidn').val();
+                            d.dosen_id = $('#dosen_id').val();
                         }
                     },
                     columns: [
@@ -114,7 +114,7 @@
                 });
 
 
-                $('#nidn').on('change', function () {
+                $('#dosen_id').on('change', function () {
                     dataDosen.ajax.reload();
                 });
 

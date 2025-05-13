@@ -104,13 +104,12 @@ class MahasiswaController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(MahasiswaModel $mahasiswa)
+    public function show($id)
     {
-        // $mahasiswaModel = MahasiswaModel::findOrFail($id);
-        // return 'helloaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa';
+        $mahasiswa = MahasiswaModel::find($id);
         $kelas = KelasModel::select('kelas_id', 'kelas_nama');
         $prodi = ProdiModel::select('prodi_id', 'prodi_nama');   
-        return view('admin.mahasiswa.show_mahasiswa')->with(['kelas'=> $kelas, 'prodi' => $prodi]);
+        return view('admin.mahasiswa.show_mahasiswa')->with(['kelas'=> $kelas, 'prodi' => $prodi, 'mahasiswa' => $mahasiswa]);
     }
 
     /**
