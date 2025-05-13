@@ -1,5 +1,10 @@
 <x-layout>
     <x-slot:css>
+        <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+        <link href="https://cdn.jsdelivr.net/npm/select2-bootstrap-5-theme@1.1.1/dist/select2-bootstrap-5-theme.min.css"
+            rel="stylesheet" />
+        {{-- <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.4.1/css/responsive.bootstrap5.min.css"> --}}
+
     </x-slot:css>
     <x-slot:title>
         Daftar Mahasiswa
@@ -11,40 +16,32 @@
         </div>
 
         <div class="card-body">
-            <!-- Filter Section -->
-            <div class="form-horizontal filter-date p-3 border-bottom mb-4">
-                <div class="row align-items-center">
-                    <!-- Filter Dropdown -->
-                    <div class="col-auto">
-                        <div class="input-group input-group-sm">
-                            <label class="input-group-text bg-light border-end-0 rounded-start" for="filter_kelas">
-                                <i class="fa fa-filter text-muted"></i>
-                            </label>
-                            <select name="filter_kelas" id="filter_kelas"
-                                class="form-select form-select-sm filter_kelas border-start-0" style="min-width: 150px">
+
+            {{-- Filter --}}
+            {{-- Filter --}}
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group row">
+                        <label class="col-12 col-md-1 control-label col-form-label">Filter:</label>
+
+                        <div class="col-12 col-md-3 mb-2 mb-md-0">
+                            <select class="form-select" id="prodi_id" name="prodi_id" style="width: 100%">
                                 <option value="">- Semua -</option>
-                                <option value="TI">Kelas TI</option>
-                                <option value="SIB">Kelas SIB</option>
+                                @foreach($prodi as $item)
+                                    <option value="{{ $item->prodi_id }}">{{ $item->prodi_nama }}</option>
+                                @endforeach
                             </select>
+                            <small class="form-text text-muted">Filter Prodi</small>
                         </div>
-                    </div>
-
-                    <!-- Search Box -->
-                    <div class="col-auto">
-                        <div class="input-group input-group-sm">
-                            <span class="input-group-text bg-light border-end-0 rounded-start">
-                                <i class="fa fa-search text-muted"></i>
-                            </span>
-                            <input type="text" class="form-control border-start-0" id="search-mahasiswa"
-                                placeholder="Search">
+                        <div class="col-12 col-md-3 mb-2 mb-md-0">
+                            <select class="form-select" id="kelas_id" name="kelas_id" style="width: 100%">
+                                <option value="">- Semua -</option>
+                                @foreach($kelas as $item)
+                                    <option value="{{ $item->kelas_id }}">{{ $item->kelas_nama }}</option>
+                                @endforeach
+                            </select>
+                            <small class="form-text text-muted">Filter Kelas</small>
                         </div>
-                    </div>
-
-                    <!-- Reset Button -->
-                    <div class="col-auto">
-                        <button type="button" class="btn btn-sm btn-outline-secondary" id="reset-filter">
-                            <i class="fa fa-undo"></i> Reset
-                        </button>
                     </div>
                 </div>
             </div>
@@ -69,7 +66,6 @@
         </div>
     </div>
 
-    <!-- Modal Section -->
     {{-- Modal Container --}}
     <div id="modal-crud" class="modal fade animate shake" tabindex="-1" role="dialog" data-backdrop="static"
         data-keyboard="false" aria-hidden="true">
@@ -97,14 +93,29 @@
             });
 
 
-            var dataSupplier
+            var dataMahasiswa
             $(document).ready(function () {
-                dataSupplier = $('#table-mahasiswa').DataTable({
+                $('#prodi_id, #kelas_id').select2({
+                    theme: 'bootstrap-5',
+                    placeholder: "- Semua -",
+                    allowClear: true,
+                    width: '100%' // Gunakan width penuh
+                });
+
+
+
+                dataMahasiswa = $('#table-mahasiswa').DataTable({
                     serverSide: true,
+                    // responsive: true, // <-- ini penting
+
                     ajax: {
                         url: "{{ url('mahasiswa/list') }}",
                         dataType: "json",
                         type: "POST",
+                        data: function (d) {
+                            d.prodi_id = $('#prodi_id').val();
+                            d.kelas_id = $('#kelas_id').val();
+                        }
                     },
                     columns: [
                         { data: "DT_RowIndex", className: "text-center", orderable: false, searchable: false },
@@ -115,6 +126,12 @@
                         { data: "aksi", className: "", orderable: false, searchable: false }
                     ]
                 });
+
+
+                $('#prodi_id, #kelas_id').on('change', function () {
+                    dataMahasiswa.ajax.reload();
+                });
+
             });
         </script>
     </x-slot:js>

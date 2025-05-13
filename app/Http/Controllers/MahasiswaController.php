@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\KelasModel;
 use App\Models\MahasiswaModel;
+use App\Models\ProdiModel;
 use Illuminate\Http\Request;
 use Yajra\DataTables\DataTables;
 
@@ -13,14 +15,31 @@ class MahasiswaController extends Controller
      */
     public function index()
     {
-        $mahasiswa = MahasiswaModel::all();
-        return view('admin.daftar_mahasiswa', compact('mahasiswa'));
+        $kelas = KelasModel::all();
+        $prodi = ProdiModel::all();
+        return view('admin.daftar_mahasiswa')->with([
+            'kelas' => $kelas,
+            'prodi' => $prodi
+        ]);
     }
 
     public function list(Request $request)
     {
         if ($request->ajax()) {
-            $mahasiswas = MahasiswaModel::with('kelas')->get();
+            $mahasiswas = MahasiswaModel::with('kelas');
+
+            if ($request->prodi_id) {
+                $mahasiswas->whereHas('kelas', function ($query) use ($request) {
+                    $query->where('prodi_id', $request->prodi_id);
+                });
+            }
+
+            if ($request->kelas_id) {
+                $mahasiswas->where('kelas_id', $request->kelas_id);
+            }
+
+            $mahasiswas = $mahasiswas->get();
+
 
             return DataTables::of($mahasiswas)
                 ->addIndexColumn() // untuk DT_RowIndex
@@ -58,7 +77,8 @@ class MahasiswaController extends Controller
                     $btn = '<button onclick="modalAction(\'' . url('/mahasiswa/' . $row->id . '/show') . '\')" class="btn btn-info btn-sm"><i class="fa fa-eye"></i> Detail</button> ';
                     $btn .= '<button onclick="modalAction(\'' . url('/mahasiswa/' . $row->id . '/edit') . '\')" class="btn btn-sm btn-warning" title="Edit"><i class="fa fa-pen"></i> Edit</button> ';
                     $btn .= '<button onclick="modalAction(\'' . url('/mahasiswa/' . $row->id . '/delete') . '\')" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i> Hapus</button> ';
-                    return '<div class="flex">' . $btn . '</div>';
+                    // return '<div class="">' . $btn . '</div>';
+                    return $btn;
                 })
                 ->rawColumns(['info', 'aksi']) // agar tombol HTML tidak di-escape
                 ->make(true);
