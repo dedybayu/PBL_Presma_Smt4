@@ -5,14 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PresApp</title>
-    <!--
-        For more customization options, we would advise
-        you to build your TailwindCSS from the source.
-        https://tailwindcss.com/docs/installation
-    -->
-    <!-- Tailwind CDN -->
-    {{--
-    <script src="https://cdn.tailwindcss.com"></script> --}}
+    
     @vite('resources/css/app.css')
 
 
@@ -64,7 +57,7 @@
 
             <a href="/" class="flex items-center font-black leading-none h-6">
                 <svg class="w-auto h-6 text-indigo-600 fill-current" viewBox="0 0 194 116"
-                    xmlns="http://www.w3.org/2000/svg">
+                    xmlns="http://www.w3.org/2000/svg ">
                     <g fill-rule="evenodd">
                         <path
                             d="M96.869 0L30 116h104l-9.88-17.134H59.64l47.109-81.736zM0 116h19.831L77 17.135 67.088 0z" />
@@ -77,23 +70,22 @@
             <nav id="nav"
                 class="absolute top-0 left-0 z-50 flex flex-col items-center justify-between hidden w-full h-64 pt-5 mt-24 text-sm text-gray-800 bg-white border-t border-gray-200 md:w-auto md:flex-row md:h-24 lg:text-base md:bg-transparent md:mt-0 md:border-none md:py-0 md:flex md:relative">
                 <a href="#"
-                    class="ml-0 mr-0 font-bold duration-100 md:ml-12 md:mr-3 lg:mr-8 transition-color hover:text-indigo-600">Home</a>
+                    class="ml-0 mr-0 font-bold duration-100 md:ml-12 md:mr-3 lg:mr-8 transition-color hover:text-indigo-600">Beranda</a>
                 <a href="#features"
-                    class="mr-0 font-bold duration-100 md:mr-3 lg:mr-8 transition-color hover:text-indigo-600">Features</a>
+                    class="mr-0 font-bold duration-100 md:mr-3 lg:mr-8 transition-color hover:text-indigo-600">Fitur Kami</a>
                 <a href="#testimonials"
-                    class="font-bold duration-100 transition-color hover:text-indigo-600">Testimonials</a>
+                    class="font-bold duration-100 transition-color hover:text-indigo-600">Bintang Prestasi</a>
                 <div class="flex flex-col block w-full font-medium border-t border-gray-200 md:hidden">
-                    <a href="{{ route('login') }}" class="w-full py-2 font-bold text-center text-pink-500">Login</a>
+                    <a href="{{ route('login') }}" class="w-full py-2 font-bold text-center text-pink-500">Masuk</a>
                     <a href="{{ route('login') }}"
-                        class="relative inline-block w-full px-5 py-3 text-sm leading-none text-center text-white bg-indigo-700 fold-bold">Get
-                        Started</a>
+                        class="relative inline-block w-full px-5 py-3 text-sm leading-none text-center text-white bg-indigo-700 fold-bold">Mulai</a>
                 </div>
             </nav>
 
             <div
                 class="absolute left-0 flex-col items-center justify-center hidden w-full pb-8 mt-48 border-b border-gray-200 md:relative md:w-auto md:bg-transparent md:border-none md:mt-0 md:flex-row md:p-0 md:items-end md:flex md:justify-between">
                 <a href="{{ route('login') }}"
-                    class="relative z-40 px-3 py-2 mr-0 text-sm font-bold text-pink-500 md:px-5 lg:text-white sm:mr-3 md:mt-0">Login</a>
+                    class="relative z-40 px-3 py-2 mr-0 text-sm font-bold text-pink-500 md:px-5 lg:text-white sm:mr-3 md:mt-0">Masuk</a>
                 <a href="{{ route('login') }}"
                     class="relative z-40 inline-block w-auto h-full px-5 py-3 text-sm font-bold leading-none text-white transition-all transition duration-100 duration-300 bg-indigo-700 rounded shadow-md fold-bold lg:bg-white lg:text-indigo-700 sm:w-full lg:shadow-none hover:shadow-xl">Get
                     Started</a>
@@ -163,11 +155,10 @@
             class="container flex flex-col items-center justify-between h-full max-w-6xl px-8 mx-auto -mt-32 lg:flex-row xl:px-0">
             <div
                 class="z-30 flex flex-col items-center w-full max-w-xl pt-48 text-center lg:items-start lg:w-1/2 lg:pt-20 xl:pt-40 lg:text-left">
-                <h1 class="relative mb-4 text-3xl font-black leading-tight text-gray-900 sm:text-6xl xl:mb-8">Track Your Academic Excellence</h1>
-                <p class="pr-0 mb-8 text-base text-gray-600 sm:text-lg xl:text-xl lg:pr-20">Are you ready to embark on your journey and start tracking your best academic achievements?</p>
+                <h1 class="relative mb-4 text-3xl font-black leading-tight text-gray-900 sm:text-6xl xl:mb-8">Lacak Prestasi Akademik Anda</h1>
+                <p class="pr-0 mb-8 text-base text-gray-600 sm:text-lg xl:text-xl lg:pr-20">Apakah Anda siap untuk memulai perjalanan Anda dan mulai melacak prestasi akademik terbaik Anda?</p>
                 <a href="#_"
-                    class="relative self-start inline-block w-auto px-8 py-4 mx-auto mt-0 text-base font-bold text-white bg-indigo-600 border-t border-gray-200 rounded-md shadow-xl sm:mt-1 fold-bold lg:mx-0">Signup
-                    Today!</a>
+                    class="relative self-start inline-block w-auto px-8 py-4 mx-auto mt-0 text-base font-bold text-white bg-indigo-600 border-t border-gray-200 rounded-md shadow-xl sm:mt-1 fold-bold lg:mx-0">Daftar Hari Ini!</a>
                 <svg class="absolute left-0 max-w-md mt-24 -ml-64 left-svg" viewBox="0 0 423 423"
                     xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
                     <defs>
@@ -209,10 +200,10 @@
     <div id="features" class="relative w-full px-8 py-10 border-t border-gray-200 md:py-16 lg:py-24 xl:py-40 xl:px-0"
         data-aos="fade-up" data-aos-delay="400">
         <div class="container flex flex-col items-center justify-between h-full max-w-6xl mx-auto">
-            <h2 class="my-5 text-base font-medium tracking-tight text-indigo-500 uppercase">Our Features</h2>
+            <h2 class="my-5 text-base font-medium tracking-tight text-indigo-500 uppercase">Fitur Kami</h2>
             <h3
                 class="max-w-2xl px-5 mt-2 text-3xl font-black leading-tight text-center text-gray-900 sm:mt-0 sm:px-0 sm:text-6xl">
-                Built to Empower Your Academic Journey</h3>
+                Dirancang untuk Mendukung Perjalanan Akademik Anda</h3>
             <div class="flex flex-col w-full mt-0 lg:flex-row sm:mt-10 lg:mt-20">
 
                 <div class="w-full max-w-md p-4 mx-auto mb-0 sm:mb-16 lg:mb-0 lg:w-1/3">
@@ -270,12 +261,9 @@
                                 </g>
                             </g>
                         </svg>
-                        <h4 class="relative mt-6 text-lg font-bold">Automated Tools</h4>
-                        <p class="relative mt-2 text-base text-center text-gray-600">Automate your workflow with these
-                            top of the
-                            line marketing tools.</p>
-                        <a href="#_" class="relative flex mt-2 text-sm font-medium text-indigo-500 underline">Learn
-                            More</a>
+                        <h4 class="relative mt-6 text-lg font-bold">Manajemen Data Lomba</h4>
+                        <p class="relative mt-2 text-base text-center text-gray-600">Mendaftar lomba, melihat kategori lomba, dan melihat rekomendasi pembimbing</p>
+                        <a href="#_" class="relative flex mt-2 text-sm font-medium text-indigo-500 underline">Pelajari Lebih Lanjut</a>
                     </div>
                 </div>
 
@@ -333,12 +321,9 @@
                                 </g>
                             </g>
                         </svg>
-                        <h4 class="relative mt-6 text-lg font-bold">Machine Learning</h4>
-                        <p class="relative mt-2 text-base text-center text-gray-600">Your Marketing tools will learn how
-                            to better
-                            convert and sell.</p>
-                        <a href="#_" class="relative flex mt-2 text-sm font-medium text-indigo-500 underline">Learn
-                            More</a>
+                        <h4 class="relative mt-6 text-lg font-bold">Verifikasi Data</h4>
+                        <p class="relative mt-2 text-base text-center text-gray-600">Mengajukan verifikasi data oleh mahasiswa dan melakukan verifikasi data oleh admin</p>
+                        <a href="#_" class="relative flex mt-2 text-sm font-medium text-indigo-500 underline">Pelajari Lebih Lanjut</a>
                     </div>
                 </div>
 
@@ -396,12 +381,9 @@
                                 </g>
                             </g>
                         </svg>
-                        <h4 class="relative mt-6 text-lg font-bold">Smart Notifications</h4>
-                        <p class="relative mt-2 text-base text-center text-gray-600">Our smart notifications will notify
-                            you when
-                            users convert.</p>
-                        <a href="#_" class="relative flex mt-2 text-sm font-medium text-indigo-500 underline">Learn
-                            More</a>
+                        <h4 class="relative mt-6 text-lg font-bold">Laporan & Analisis</h4>
+                        <p class="relative mt-2 text-base text-center text-gray-600">Melihat laporan prestasi, melihat statistik serta grafik, dan ekspor data</p>
+                        <a href="#_" class="relative flex mt-2 text-sm font-medium text-indigo-500 underline">Pelajari Lebih Lanjut</a>
                     </div>
                 </div>
 
@@ -416,12 +398,12 @@
         <div class="max-w-6xl mx-auto">
             <div class="flex-col items-center ">
                 <div class="flex flex-col items-center justify-center w-full h-full max-w-2xl pr-8 mx-auto text-center">
-                    <p class="my-5 text-base font-medium tracking-tight text-indigo-500 uppercase">OUR STUDENTS APPRECIATE OUR SYSTEM
+                    <p class="my-5 text-base font-medium tracking-tight text-indigo-500 uppercase">MAHASISWA UNGGUL
                     </p>
                     <h2
                         class="text-4xl font-extrabold leading-10 tracking-tight text-gray-900 sm:text-5xl sm:leading-none md:text-6xl lg:text-5xl xl:text-6xl">
-                        From Us, For Students</h2>
-                    <p class="my-6 text-xl font-medium text-gray-500">Learn how our system has empowered students like you.</p>
+                        Bintang Prestasi</h2>
+                    <p class="my-6 text-xl font-medium text-gray-500">Menampilkan prestasi terbaik dari mahasiswa kami.</p>
 
                 </div>
                 <div class="flex flex-col items-center justify-center max-w-2xl py-8 mx-auto xl:flex-row xl:max-w-full">
@@ -430,19 +412,11 @@
                             class="flex flex-col-reverse items-center justify-between w-full col-span-1 p-6 text-center transition-all duration-200 bg-gray-100 rounded-lg md:flex-row md:text-left hover:bg-white hover:shadow ease">
                             <div class="flex flex-col pr-8">
                                 <div class="relative pl-12">
-                                    <svg class="absolute left-0 w-10 h-10 text-indigo-500 fill-current"
-                                        xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 125">
-                                        <path
-                                            d="M30.7 42c0 6.1 12.6 7 12.6 22 0 11-7.9 19.2-18.9 19.2C12.7 83.1 5 72.6 5 61.5c0-19.2 18-44.6 29.2-44.6 2.8 0 7.9 2 7.9 5.4S30.7 31.6 30.7 42zM82.4 42c0 6.1 12.6 7 12.6 22 0 11-7.9 19.2-18.9 19.2-11.8 0-19.5-10.5-19.5-21.6 0-19.2 18-44.6 29.2-44.6 2.8 0 7.9 2 7.9 5.4S82.4 31.6 82.4 42z" />
-                                    </svg>
-                                    <p class="mt-2 text-base text-gray-600">I'm loving these templates! Very nice
-                                        features and layouts.
+                                    <p class="mt-2 text-base text-gray-600">Juara 1 Lomba Makan Kelereng Tingkat Dunia Lain
                                     </p>
                                 </div>
 
-                                <h3 class="pl-12 mt-3 text-base font-medium leading-5 text-gray-800 truncate">Sandra
-                                    Walton <span class="mt-1 text-sm leading-5 text-gray-500 truncate">- CEO
-                                        SomeCompany</span></h3>
+                                <h3 class="pl-12 mt-3 text-base font-medium leading-5 text-gray-800 truncate">Michelle Dorani <span class="mt-1 text-sm leading-5 text-gray-500 truncate">- TI-2B</span></h3>
                                 <p class="mt-1 text-sm leading-5 text-gray-500 truncate"></p>
                             </div>
                             <img class="flex-shrink-0 object-cover w-24 h-24 mb-5 bg-gray-300 rounded-full md:mb-0"
@@ -453,18 +427,9 @@
                             class="flex flex-col-reverse items-center justify-between w-full col-span-1 p-6 mt-16 mb-16 text-center transition-all duration-200 bg-gray-100 rounded-lg md:flex-row md:text-left hover:bg-white hover:shadow ease xl:mb-0">
                             <div class="flex flex-col pr-10">
                                 <div class="relative pl-12">
-                                    <svg class="absolute left-0 w-10 h-10 text-indigo-500 fill-current"
-                                        xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 125">
-                                        <path
-                                            d="M30.7 42c0 6.1 12.6 7 12.6 22 0 11-7.9 19.2-18.9 19.2C12.7 83.1 5 72.6 5 61.5c0-19.2 18-44.6 29.2-44.6 2.8 0 7.9 2 7.9 5.4S30.7 31.6 30.7 42zM82.4 42c0 6.1 12.6 7 12.6 22 0 11-7.9 19.2-18.9 19.2-11.8 0-19.5-10.5-19.5-21.6 0-19.2 18-44.6 29.2-44.6 2.8 0 7.9 2 7.9 5.4S82.4 31.6 82.4 42z" />
-                                    </svg>
-                                    <p class="mt-2 text-base text-gray-600">Really digging this service. Now I can
-                                        quickly bootstrap any
-                                        project.</p>
+                                    <p class="mt-2 text-base text-gray-600">Juara Apa Lagi yaaaaahhh</p>
                                 </div>
-                                <h3 class="pl-12 mt-3 text-base font-medium leading-5 text-gray-800 truncate">Kenny
-                                    Jones <span class="mt-1 text-sm leading-5 text-gray-500 truncate">- CEO
-                                        SomeCompany</span></h3>
+                                <h3 class="pl-12 mt-3 text-base font-medium leading-5 text-gray-800 truncate">Rizqi Fauzan <span class="mt-1 text-sm leading-5 text-gray-500 truncate">- TI-2B</span></h3>
                                 <p class="mt-1 text-sm leading-5 text-gray-500 truncate"></p>
                             </div>
                             <img class="flex-shrink-0 object-cover w-24 h-24 mb-5 bg-gray-300 rounded-full md:mb-0"
@@ -477,18 +442,12 @@
                             class="flex flex-col-reverse items-center justify-between w-full col-span-1 p-6 text-center transition-all duration-200 bg-gray-100 rounded-lg md:flex-row md:text-left hover:bg-white hover:shadow ease">
                             <div class="flex flex-col pr-10">
                                 <div class="relative pl-12">
-                                    <svg class="absolute left-0 w-10 h-10 text-indigo-500 fill-current"
-                                        xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 125">
-                                        <path
-                                            d="M30.7 42c0 6.1 12.6 7 12.6 22 0 11-7.9 19.2-18.9 19.2C12.7 83.1 5 72.6 5 61.5c0-19.2 18-44.6 29.2-44.6 2.8 0 7.9 2 7.9 5.4S30.7 31.6 30.7 42zM82.4 42c0 6.1 12.6 7 12.6 22 0 11-7.9 19.2-18.9 19.2-11.8 0-19.5-10.5-19.5-21.6 0-19.2 18-44.6 29.2-44.6 2.8 0 7.9 2 7.9 5.4S82.4 31.6 82.4 42z" />
-                                    </svg>
-                                    <p class="mt-2 text-base text-gray-600">Extremely helpful in every single project we
-                                        have released.
+                                    <p class="mt-2 text-base text-gray-600">Yang Penting Juara
                                     </p>
                                 </div>
 
-                                <h3 class="pl-12 mt-3 text-base font-medium leading-5 text-gray-800 truncate">Mike Smith
-                                    <span class="mt-1 text-sm leading-5 text-gray-500 truncate">- CEO SomeCompany</span>
+                                <h3 class="pl-12 mt-3 text-base font-medium leading-5 text-gray-800 truncate">Denis Tolongin Donk
+                                    <span class="mt-1 text-sm leading-5 text-gray-500 truncate">- TI-2B</span>
                                 </h3>
                                 <p class="mt-1 text-sm leading-5 text-gray-500 truncate"></p>
                             </div>
@@ -500,19 +459,10 @@
                             class="flex flex-col-reverse items-center justify-between w-full col-span-1 p-6 mt-16 text-center transition-all duration-200 bg-gray-100 rounded-lg md:flex-row md:text-left hover:bg-white hover:shadow ease">
                             <div class="flex flex-col pr-10">
                                 <div class="relative pl-12">
-                                    <svg class="absolute left-0 w-10 h-10 text-indigo-500 fill-current"
-                                        xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 125">
-                                        <path
-                                            d="M30.7 42c0 6.1 12.6 7 12.6 22 0 11-7.9 19.2-18.9 19.2C12.7 83.1 5 72.6 5 61.5c0-19.2 18-44.6 29.2-44.6 2.8 0 7.9 2 7.9 5.4S30.7 31.6 30.7 42zM82.4 42c0 6.1 12.6 7 12.6 22 0 11-7.9 19.2-18.9 19.2-11.8 0-19.5-10.5-19.5-21.6 0-19.2 18-44.6 29.2-44.6 2.8 0 7.9 2 7.9 5.4S82.4 31.6 82.4 42z" />
-                                    </svg>
-                                    <p class="mt-2 text-base text-gray-600">Finally a quick and easy system I can use
-                                        for any type of
-                                        project.</p>
+                                    <p class="mt-2 text-base text-gray-600">Yh Ap Aj Dah Gwej Ngantuq</p>
                                 </div>
 
-                                <h3 class="pl-12 mt-3 text-base font-medium leading-5 text-gray-800 truncate">Molly
-                                    Sanchez <span class="mt-1 text-sm leading-5 text-gray-500 truncate">- CEO
-                                        SomeCompany</span></h3>
+                                <h3 class="pl-12 mt-3 text-base font-medium leading-5 text-gray-800 truncate">Mei-Mei <span class="mt-1 text-sm leading-5 text-gray-500 truncate">- TI-2B</span></h3>
                                 <p class="mt-1 text-sm leading-5 text-gray-500 truncate"></p>
                             </div>
                             <img class="flex-shrink-0 object-cover w-24 h-24 mb-5 bg-gray-300 rounded-full md:mb-0"
@@ -546,18 +496,13 @@
                         </svg>
                     </span>
                 </a>
-                <p class="mt-6 mr-4 text-base text-gray-500">Crafting the next-level of user experience and engagement.
-                </p>
             </div>
             <div class="block w-full pl-10 mt-6 text-sm lg:w-3/4 sm:flex lg:mt-0">
                 <ul class="flex flex-col w-full p-0 font-medium text-left text-gray-700 list-none">
                     <li class="inline-block px-3 py-2 mt-5 font-bold tracking-wide text-gray-800 uppercase md:mt-0">
                         Product</li>
                     <li><a href="#_"
-                            class="inline-block px-3 py-2 text-gray-500 no-underline hover:text-gray-600">Features</a>
-                    </li>
-                    <li><a href="#_"
-                            class="inline-block px-3 py-2 text-gray-500 no-underline hover:text-gray-600">Integrations</a>
+                            class="inline-block px-3 py-2 text-gray-500 no-underline hover:text-gray-600">Fitur</a>
                     </li>
                     <li><a href="#_"
                             class="inline-block px-3 py-2 text-gray-500 no-underline hover:text-gray-600">FAQ</a></li>
