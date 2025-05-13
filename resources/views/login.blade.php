@@ -18,7 +18,7 @@
         }
 
         .background-image {
-            background-image: url('../assets/images/gdungjti.png');
+            background-image: url('{{ asset('assets/images/gdungjti.png') }}');
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
