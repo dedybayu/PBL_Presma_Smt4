@@ -125,7 +125,8 @@
                             </a>
                         </li>
                         <li>
-                            <a href="chat.html">
+                            <a href="{{ route('kelas.index') }}"
+                                class="{{ request()->routeIs('kelas.index') ? 'mm-active' : '' }}">
                                 <i class="metismenu-icon">
                                 </i>Daftar Kelas
                             </a>
