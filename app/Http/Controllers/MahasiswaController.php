@@ -17,7 +17,7 @@ class MahasiswaController extends Controller
     {
         $kelas = KelasModel::all();
         $prodi = ProdiModel::all();
-        return view('admin.daftar_mahasiswa')->with([
+        return view('admin.mahasiswa.daftar_mahasiswa')->with([
             'kelas' => $kelas,
             'prodi' => $prodi
         ]);
@@ -98,7 +98,7 @@ class MahasiswaController extends Controller
      */
     public function store(Request $request)
     {
-        //
+
     }
 
     /**
@@ -106,7 +106,9 @@ class MahasiswaController extends Controller
      */
     public function show(MahasiswaModel $mahasiswaModel)
     {
-        //
+        $kelas = KelasModel::select('kelas_id', 'kelas_nama');
+        $prodi = ProdiModel::select('prodi_id', 'prodi_nama');   
+        return view('show.mahasiswa')->with(['kelas'=> $kelas, 'prodi' => $prodi]);
     }
 
     /**
