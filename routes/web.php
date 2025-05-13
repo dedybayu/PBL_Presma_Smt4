@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\DosenController;
 use App\Http\Controllers\MahasiswaController;
 use App\Http\Controllers\KelasController;
 use Illuminate\Support\Facades\Route;
@@ -46,6 +47,15 @@ Route::middleware(['auth:admin'])->group(function () {
         Route::get('/{id}/edit', [KelasController::class, 'edit'])->name('kelas.edit');
         Route::put('/{id}', [KelasController::class, 'update'])->name('kelas.update');
         Route::delete('/{id}', [KelasController::class, 'destroy'])->name('kelas.destroy');
+    });
+    Route::prefix('dosen')->group(function () {
+        Route::get('/', [DosenController::class, 'index'])->name('dosen.index');
+        Route::post('/list', [DosenController::class, 'list']);
+        Route::get('/create', [DosenController::class, 'create'])->name('dosen.create');
+        Route::post('/', [DosenController::class, 'store'])->name('dosen.store');
+        Route::get('/{id}/edit', [DosenController::class, 'edit'])->name('dosen.edit');
+        Route::put('/{id}', [DosenController::class, 'update'])->name('dosen.update');
+        Route::delete('/{id}', [DosenController::class, 'destroy'])->name('dosen.destroy');
     });
 });
 
