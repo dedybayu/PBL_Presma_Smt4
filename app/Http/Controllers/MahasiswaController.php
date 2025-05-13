@@ -12,7 +12,8 @@ class MahasiswaController extends Controller
      */
     public function index()
     {
-        //
+        $mahasiswa = MahasiswaModel::all();
+        return view('admin.daftar_mahasiswa', compact('mahasiswa'));
     }
 
     /**

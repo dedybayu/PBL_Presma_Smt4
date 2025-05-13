@@ -2,7 +2,7 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
-use App\Http\Controllers\DaftarMahasiswaController;
+use App\Http\Controllers\MahasiswaController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -32,7 +32,7 @@ Route::middleware(['auth:mahasiswa,dosen,admin'])->group(function () {
 //     return view('admin.dashboard');
 // });
 
-Route::get('/daftar-mahasiswa', [DaftarMahasiswaController::class, 'index'])->name('daftar-mahasiswa');
+Route::get('/daftar-mahasiswa', [MahasiswaController::class, 'index'])->name('daftar-mahasiswa');
 
 Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');

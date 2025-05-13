@@ -53,13 +53,13 @@
                         <li>
                             <a href="daftar-dosen" class="{{ request()->is('daftar-dosen') ? 'mm-active' : '' }}">
                                 <i class="metismenu-icon">
-                                    </i>Dosen
+                                    </i> Dosen
                             </a>
                         </li>
                         <li>
                             <a href="daftar-admin" class="{{ request()->is('daftar-admin') ? 'mm-active' : '' }}">
                                 <i class="metismenu-icon">
-                                    </i>Admin
+                                    </i> Admin
                             </a>
                         </li>
                     </ul>
