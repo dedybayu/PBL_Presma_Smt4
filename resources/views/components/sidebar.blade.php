@@ -3,7 +3,8 @@
         <div class="logo-src"></div>
         <div class="header__pane ml-auto">
             <div>
-                <button type="button" class="hamburger close-sidebar-btn hamburger--elastic" data-class="closed-sidebar">
+                <button type="button" class="hamburger close-sidebar-btn hamburger--elastic"
+                    data-class="closed-sidebar">
                     <span class="hamburger-box">
                         <span class="hamburger-inner"></span>
                     </span>
@@ -26,7 +27,7 @@
                 <span class="btn-icon-wrapper">
                     <i class="fa fa-ellipsis-v fa-w-6"></i>
                 </span>
-        </button>
+            </button>
         </span>
     </div>
     <div class="scrollbar-sidebar">
@@ -45,21 +46,22 @@
                     </a>
                     <ul>
                         <li>
-                            <a href="{{ route('daftar-mahasiswa') }}" class="{{ request()->routeIs('daftar-mahasiswa') ? 'mm-active' : '' }}">
+                            <a href="{{ route('mahasiswa.index') }}"
+                                class="{{ request()->routeIs('mahasiswa.index') ? 'mm-active' : '' }}">
                                 <i class="metismenu-icon">
-                                    </i> Mahasiswa
+                                </i> Mahasiswa
                             </a>
                         </li>
                         <li>
-                            <a href="daftar-dosen" class="{{ request()->is('daftar-dosen') ? 'mm-active' : '' }}">
+                            <a href="daftar-dosen" class="{{ request()->is('dosen') ? 'mm-active' : '' }}">
                                 <i class="metismenu-icon">
-                                    </i> Dosen
+                                </i> Dosen
                             </a>
                         </li>
                         <li>
-                            <a href="daftar-admin" class="{{ request()->is('daftar-admin') ? 'mm-active' : '' }}">
+                            <a href="daftar-admin" class="{{ request()->is('admin') ? 'mm-active' : '' }}">
                                 <i class="metismenu-icon">
-                                    </i> Admin
+                                </i> Admin
                             </a>
                         </li>
                     </ul>
@@ -127,9 +129,9 @@
                 <li>
                     <a href="#">
                         <i class="metismenu-icon pe-7s-graph3">
-                            </i>Laporan & Analisis
+                        </i>Laporan & Analisis
                     </a>
-                </li>                
+                </li>
             </ul>
         </div>
     </div>

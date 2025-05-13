@@ -13,12 +13,14 @@
     <!-- Disable tap highlight on IE -->
     <meta name="msapplication-tap-highlight" content="no">
 
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+
     {{--
     <link rel="stylesheet" href="../assets/css/base.min.css"> --}}
     <link rel="stylesheet" href="{{ asset('assets/css/base.min.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
 
-    {{-- Custom CSS  --}}
+    {{-- Custom CSS --}}
     <x-css>{{$css}}</x-css>
 
 </head>
@@ -29,7 +31,7 @@
         <x-navbar></x-navbar>
 
         <!--THEME OPTIONS START-->
-        <x-options></x-options>
+        {{-- <x-options></x-options> --}}
         <!--THEME OPTIONS END-->
 
         {{-- <x-main></x-main> --}}
@@ -206,6 +208,10 @@
     <!--Tables Init-->
     <script src="{{ asset('assets/js/scripts-init/tables.js')}}"></script>
 
+    <script>
+        // Untuk mengirimkan token Laravel CSRF pada setiap request ajax
+        $.ajaxSetup({ headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') } });
+    </script>
 
     {{-- Js Tambahan --}}
     <x-js>{{$js}}</x-js>

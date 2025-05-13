@@ -23,7 +23,7 @@ class MahasiswaSeeder extends Seeder
         $mahasiswaData = [];
 
         // Membuat data mahasiswa random
-        for ($i = 1; $i <= 10; $i++) {
+        for ($i = 1; $i <= 100; $i++) {
             $kelasKode = array_rand($kelas->toArray());
             $kelasId = $kelas[$kelasKode];
 
