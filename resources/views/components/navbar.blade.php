@@ -158,41 +158,9 @@
                         <i class="fa fa-angle-down ml-2 opacity-5"></i>
                     </a>
                     <div tabindex="-1" role="menu" aria-hidden="true" class="rm-pointers dropdown-menu">
-                        <div class="dropdown-menu-header">
-                            <div class="dropdown-menu-header-inner bg-secondary">
-                                <div class="menu-header-image opacity-5"
-                                    style="background-image: url('../assets/images/dropdown-header/abstract2.jpg');">
-                                </div>
-                                <div class="menu-header-content">
-                                    <h5 class="menu-header-title">Overview</h5>
-                                    <h6 class="menu-header-subtitle">Dropdown menus for everyone</h6>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="scroll-area-xs">
-                            <div class="scrollbar-container">
-                                <h6 tabindex="-1" class="dropdown-header">Key Figures</h6>
-                                <button type="button" tabindex="0" class="dropdown-item">Service Calendar</button>
-                                <button type="button" tabindex="0" class="dropdown-item">Knowledge Base</button>
-                                <button type="button" tabindex="0" class="dropdown-item">Accounts</button>
-                                <div tabindex="-1" class="dropdown-divider"></div>
-                                <button type="button" tabindex="0" class="dropdown-item">Products</button>
-                                <button type="button" tabindex="0" class="dropdown-item">Rollup Queries</button>
-                            </div>
-                        </div>
-                        <ul class="nav flex-column">
-                            <li class="nav-item-divider nav-item"></li>
-                            <li class="nav-item-btn nav-item">
-                                <button class="btn-wide btn-shadow btn btn-danger btn-sm">Cancel</button>
-                            </li>
-                        </ul>
                     </div>
                 </li>
                 <li class="dropdown nav-item">
-                    <a aria-haspopup="true" data-toggle="dropdown" class="nav-link" aria-expanded="false">
-                        <i class="nav-link-icon pe-7s-settings"></i> Projects
-                        <i class="fa fa-angle-down ml-2 opacity-5"></i>
-                    </a>
                     <div tabindex="-1" role="menu" aria-hidden="true"
                         class="dropdown-menu-rounded dropdown-menu-lg rm-pointers dropdown-menu">
                         <div class="dropdown-menu-header">
@@ -201,8 +169,6 @@
                                     style="background-image: url('../assets/images/dropdown-header/abstract3.jpg');">
                                 </div>
                                 <div class="menu-header-content text-left">
-                                    <h5 class="menu-header-title">Overview</h5>
-                                    <h6 class="menu-header-subtitle">Unlimited options</h6>
                                     <div class="menu-header-btn-pane">
                                         <button class="mr-2 btn btn-dark btn-sm">Settings</button>
                                         <button class="btn-icon btn-icon-only btn btn-warning btn-sm">
@@ -212,17 +178,6 @@
                                 </div>
                             </div>
                         </div>
-                        <button type="button" tabindex="0" class="dropdown-item"><i
-                                class="dropdown-icon lnr-file-empty"> </i>Graphic Design</button>
-                        <button type="button" tabindex="0" class="dropdown-item"><i
-                                class="dropdown-icon lnr-file-empty"> </i>App Development</button>
-                        <button type="button" tabindex="0" class="dropdown-item"><i
-                                class="dropdown-icon lnr-file-empty"> </i>Icon Design</button>
-                        <div tabindex="-1" class="dropdown-divider"></div>
-                        <button type="button" tabindex="0" class="dropdown-item"><i
-                                class="dropdown-icon lnr-file-empty"> </i>Miscellaneous</button>
-                        <button type="button" tabindex="0" class="dropdown-item"><i
-                                class="dropdown-icon lnr-file-empty"> </i>Frontend Dev</button>
                     </div>
                 </li>
             </ul>
