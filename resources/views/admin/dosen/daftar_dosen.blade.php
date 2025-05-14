@@ -22,17 +22,6 @@
             <div class="row">
                 <div class="col-md-12">
                     <div class="form-group row">
-                        <label class="col-12 col-md-1 control-label col-form-label">Filter:</label>
-
-                        <div class="col-12 col-md-3 mb-2 mb-md-0">
-                            <select class="form-select" id="dosen_id" name="dosen_id" style="width: 100%">
-                                <option value="">- Semua -</option>
-                                @foreach($dosen as $item)
-                                    <option value="{{ $item->dosen_id}}">{{ $item->nama }}</option>
-                                @endforeach
-                            </select>
-                            <small class="form-text text-muted">Filter Nama</small>
-                        </div>
                     </div>
                 </div>
             </div>

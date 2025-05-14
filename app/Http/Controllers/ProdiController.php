@@ -25,13 +25,6 @@ class ProdiController extends Controller
         if ($request->ajax()) {
 
             $prodi = ProdiModel::select('prodi_id', 'prodi_kode', 'prodi_nama');
-
-
-            if ($request->prodi_nama) {
-                $prodi->where('prodi_nama', 'like', '%' . $request->prodi_nama . '%');
-            }
-
-
             return DataTables::of($prodi)
                 ->addIndexColumn()
                 ->addColumn('info', function ($row) {
