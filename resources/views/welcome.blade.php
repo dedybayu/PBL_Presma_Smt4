@@ -408,11 +408,11 @@
                                     </p>
                                 </div>
 
-                                <h3 class="pl-12 mt-3 text-base font-medium leading-5 text-gray-800 truncate">Michelle Dorani <span class="mt-1 text-sm leading-5 text-gray-500 truncate">- TI-2B</span></h3>
+                                <h3 class="pl-12 mt-3 text-base font-medium leading-5 text-gray-800 truncate">ZiGal<span class="mt-1 text-sm leading-5 text-gray-500 truncate">- TI-2B</span></h3>
                                 <p class="mt-1 text-sm leading-5 text-gray-500 truncate"></p>
                             </div>
-                            <img class="flex-shrink-0 object-cover w-24 h-24 mb-5 bg-gray-300 rounded-full md:mb-0"
-                                src="https://images.unsplash.com/photo-1544725176-7c40e5a71c5e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2694&q=80"
+                            <img class="flex-shrink-0 object-cover w-35 h-35 mb-5 bg-gray-300 rounded-full md:mb-0"
+                                src="../assets/images/zigal.jpg"
                                 alt="">
                         </blockquote>
                         <blockquote
@@ -421,11 +421,11 @@
                                 <div class="relative pl-12">
                                     <p class="mt-2 text-base text-gray-600">Juara Apa Lagi yaaaaahhh</p>
                                 </div>
-                                <h3 class="pl-12 mt-3 text-base font-medium leading-5 text-gray-800 truncate">Rizqi Fauzan <span class="mt-1 text-sm leading-5 text-gray-500 truncate">- TI-2B</span></h3>
+                                <h3 class="pl-12 mt-3 text-base font-medium leading-5 text-gray-800 truncate">Zafiro Alvarisi<span class="mt-1 text-sm leading-5 text-gray-500 truncate">- TI-2B</span></h3>
                                 <p class="mt-1 text-sm leading-5 text-gray-500 truncate"></p>
                             </div>
-                            <img class="flex-shrink-0 object-cover w-24 h-24 mb-5 bg-gray-300 rounded-full md:mb-0"
-                                src="https://images.unsplash.com/photo-1546820389-44d77e1f3b31?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1400&q=80"
+                            <img class="flex-shrink-0 object-cover w-35 h-35 mb-5 bg-gray-300 rounded-full md:mb-0"
+                                src="../assets/images/galih.jpg"
                                 alt="">
                         </blockquote>
                     </div>
@@ -443,8 +443,8 @@
                                 </h3>
                                 <p class="mt-1 text-sm leading-5 text-gray-500 truncate"></p>
                             </div>
-                            <img class="flex-shrink-0 object-cover w-24 h-24 mb-5 bg-gray-300 rounded-full md:mb-0"
-                                src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1700&q=80"
+                            <img class="flex-shrink-0 object-cover w-35 h-35 mb-5 bg-gray-300 rounded-full md:mb-0"
+                                src="../assets/images/denis.png"
                                 alt="">
                         </blockquote>
                         <blockquote
@@ -457,8 +457,8 @@
                                 <h3 class="pl-12 mt-3 text-base font-medium leading-5 text-gray-800 truncate">Mei-Mei <span class="mt-1 text-sm leading-5 text-gray-500 truncate">- TI-2B</span></h3>
                                 <p class="mt-1 text-sm leading-5 text-gray-500 truncate"></p>
                             </div>
-                            <img class="flex-shrink-0 object-cover w-24 h-24 mb-5 bg-gray-300 rounded-full md:mb-0"
-                                src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2700&q=80"
+                            <img class="flex-shrink-0 object-cover w-35 h-35 mb-5 bg-gray-300 rounded-full md:mb-0"
+                                src="../assets/images/zilan.jpg"
                                 alt="">
                         </blockquote>
                     </div>
