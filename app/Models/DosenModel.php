@@ -24,6 +24,7 @@ class DosenModel extends Authenticatable
 
     // Kolom yang boleh diisi
     protected $fillable = [
+        'user_id',
         'nidn',
         'password',
         'nama',

@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('m_mahasiswa', function (Blueprint $table) {
             $table->id('mahasiswa_id');
+            $table->unsignedBigInteger('user_id')->unique();
             $table->string('nim')->unique();
             $table->string('password');
             $table->string('nama');
@@ -24,6 +25,7 @@ return new class extends Migration
             $table->string('foto_profile')->nullable();
             $table->timestamps();
 
+            $table->foreign('user_id')->references('user_id')->on('m_user');
             $table->foreign('kelas_id')->references('kelas_id')->on('m_kelas');
         });
     }

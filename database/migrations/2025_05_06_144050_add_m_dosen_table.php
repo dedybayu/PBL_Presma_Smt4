@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('m_dosen', function (Blueprint $table) {
             $table->id('dosen_id');
+            $table->unsignedBigInteger('user_id')->unique();
             $table->string('nidn')->unique();
             $table->string('password');
             $table->string('nama');
@@ -20,6 +21,8 @@ return new class extends Migration
             $table->string('no_tlp');
             $table->string('foto_profile')->nullable();
             $table->timestamps();
+
+            $table->foreign('user_id')->references('user_id')->on('m_user');
         });
     }
 

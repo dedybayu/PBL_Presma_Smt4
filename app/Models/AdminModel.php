@@ -17,6 +17,7 @@ class AdminModel extends Authenticatable
     public $timestamps = true;
 
     protected $fillable = [
+        'user_id',
         'username',
         'password',
         'nama',

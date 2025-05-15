@@ -16,6 +16,7 @@ class MahasiswaModel extends Authenticatable
     protected $keyType = 'int';
 
     protected $fillable = [
+        'user_id',
         'nim',
         'password',
         'nama',
@@ -34,4 +35,6 @@ class MahasiswaModel extends Authenticatable
     {
         return $this->belongsTo(KelasModel::class, 'kelas_id', 'kelas_id');
     }
+
+    
 }
