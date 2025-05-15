@@ -19,7 +19,6 @@ class UserModel extends Model
         'level',
     ];
 
-    protected $hidden = [
-        'password',
-    ];
+    protected $hidden = ['password'];
+    protected $casts = ['password' => 'hashed'];
 }

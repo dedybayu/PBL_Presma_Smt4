@@ -26,7 +26,7 @@ class DosenModel extends Authenticatable
     protected $fillable = [
         'user_id',
         'nidn',
-        'password',
+        // 'password',
         'nama',
         'email',
         'no_tlp',
@@ -36,6 +36,11 @@ class DosenModel extends Authenticatable
     // Apakah timestamps digunakan (created_at & updated_at)
     public $timestamps = true;
 
-    protected $hidden = ['password'];
-    protected $casts = ['password' => 'hashed'];
+    // protected $hidden = ['password'];
+    // protected $casts = ['password' => 'hashed'];
+
+    public function user()
+    {
+        return $this->belongsTo(UserModel::class, 'user_id', 'user_id');
+    }
 }

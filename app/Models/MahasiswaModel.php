@@ -18,7 +18,7 @@ class MahasiswaModel extends Authenticatable
     protected $fillable = [
         'user_id',
         'nim',
-        'password',
+        // 'password',
         'nama',
         'kelas_id',
         'no_tlp',
@@ -27,8 +27,8 @@ class MahasiswaModel extends Authenticatable
         'foto_profile',
     ];
 
-    protected $hidden = ['password'];
-    protected $casts = ['password' => 'hashed'];
+    // protected $hidden = ['password'];
+    // protected $casts = ['password' => 'hashed'];
 
     // Relasi ke kelas
     public function kelas()
@@ -36,5 +36,9 @@ class MahasiswaModel extends Authenticatable
         return $this->belongsTo(KelasModel::class, 'kelas_id', 'kelas_id');
     }
 
-    
+    public function user()
+    {
+        return $this->belongsTo(UserModel::class, 'user_id', 'user_id');
+    }
+
 }

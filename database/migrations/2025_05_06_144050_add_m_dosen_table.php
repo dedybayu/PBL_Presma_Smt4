@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id('dosen_id');
             $table->unsignedBigInteger('user_id')->unique();
             $table->string('nidn')->unique();
-            $table->string('password');
+            // $table->string('password');
             $table->string('nama');
             $table->string('email');
             $table->string('no_tlp');

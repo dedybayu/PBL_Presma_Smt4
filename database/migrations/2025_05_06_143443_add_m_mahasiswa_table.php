@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id('mahasiswa_id');
             $table->unsignedBigInteger('user_id')->unique();
             $table->string('nim')->unique();
-            $table->string('password');
+            // $table->string('password');
             $table->string('nama');
             $table->unsignedBigInteger('kelas_id');
             //$table->boolean('status_kuliah')->default(true); // status mahasiswa aktif atau tidak

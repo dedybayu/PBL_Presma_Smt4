@@ -14,8 +14,8 @@ return new class extends Migration
         Schema::create('m_admin', function (Blueprint $table) {
             $table->id('admin_id');
             $table->unsignedBigInteger('user_id')->unique();
-            $table->string('username')->unique();
-            $table->string('password');
+            // $table->string('username')->unique();
+            // $table->string('password');
             $table->string('nama');
             $table->string('email');
             $table->string('no_tlp');

@@ -15,8 +15,10 @@ return new class extends Migration
             $table->id('user_id');
             $table->string('username')->unique();
             $table->string('password');
-            $table->string('level')->nullable();
+            $table->string('level_id')->nullable();
             $table->timestamps();
+
+            $table->foreign('level_id')->references('level_id')->on('m_level');
         });
     }
 

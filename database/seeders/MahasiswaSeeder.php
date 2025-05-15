@@ -3,7 +3,9 @@
 namespace Database\Seeders;
 
 use App\Models\KelasModel;
+use App\Models\LevelModel;
 use App\Models\MahasiswaModel;
+use App\Models\UserModel;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Faker\Factory as Faker;
@@ -20,16 +22,24 @@ class MahasiswaSeeder extends Seeder
         // Ambil seluruh kelas_id berdasarkan kelas_kode
         $kelas = KelasModel::all()->pluck('kelas_id', 'kelas_kode');
 
-        $mahasiswaData = [];
+        // $mahasiswaData = [];
 
         // Membuat data mahasiswa random
         for ($i = 1; $i <= 100; $i++) {
             $kelasKode = array_rand($kelas->toArray());
             $kelasId = $kelas[$kelasKode];
+            $nim = $faker->unique()->numerify('2023########');
+
+            $userId = UserModel::create([
+                'username' => $nim,
+                'password' => 'mahasiswa123',
+                'level_id' => LevelModel::where('level_kode', 'MHS')->first()->level_id,
+            ]);
 
             MahasiswaModel::create([
-                'nim' => $faker->unique()->numerify('2023########'),
-                'password' => 'mahasiswa123', // Akan di-hash otomatis oleh model
+                'user_id' => $userId->user_id,
+                'nim' => $nim,
+                // 'password' => 'mahasiswa123', // Akan di-hash otomatis oleh model
                 'nama' => $faker->firstName . ' ' . $faker->lastName,
                 'kelas_id' => $kelasId,
                 'no_tlp' => $faker->unique()->phoneNumber,

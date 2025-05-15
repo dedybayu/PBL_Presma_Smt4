@@ -18,14 +18,17 @@ class AdminModel extends Authenticatable
 
     protected $fillable = [
         'user_id',
-        'username',
-        'password',
         'nama',
         'email',
         'no_tlp',
         'foto_profile',
     ];
 
-    protected $hidden = ['password'];
-    protected $casts = ['password' => 'hashed'];
+    // protected $hidden = ['password'];
+    // protected $casts = ['password' => 'hashed'];
+
+    public function user()
+    {
+        return $this->belongsTo(UserModel::class, 'user_id', 'user_id');
+    }
 }
