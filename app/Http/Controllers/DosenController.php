@@ -18,7 +18,7 @@ class DosenController extends Controller
     public function list(Request $request)
     {
         if ($request->ajax()) {
-            $dosen = DosenModel::select("dosen_id", "nidn", "password", "nama", "email", "no_tlp", "foto_profile");
+            $dosen = DosenModel::select("dosen_id", "nidn", "nama", "email", "no_tlp", "foto_profile");
 
             if ($request->dosen_id) {
                 $dosen->where('dosen_id', $request->dosen_id);
