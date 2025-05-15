@@ -17,6 +17,7 @@ class MahasiswaModel extends Authenticatable
 
     protected $fillable = [
         'user_id',
+        'tahun_angkatan',
         'nim',
         // 'password',
         'nama',

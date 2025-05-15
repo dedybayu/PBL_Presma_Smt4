@@ -28,6 +28,20 @@ class MahasiswaSeeder extends Seeder
         for ($i = 1; $i <= 100; $i++) {
             $kelasKode = array_rand($kelas->toArray());
             $kelasId = $kelas[$kelasKode];
+            $angkatan = '';
+
+            if (str_contains($kelasKode, '1')) {
+                $angkatan = '2024';
+            } elseif (str_contains($kelasKode, '2')) {
+                $angkatan = '2023';
+            } else if (str_contains($kelasKode, '3')) {
+                $angkatan = '2022';
+            } else if (str_contains($kelasKode, '4')) {
+                $angkatan = '2021';
+            } else {
+                $angkatan = '2020';
+            }
+
             $nim = $faker->unique()->numerify('2023########');
 
             $userId = UserModel::create([
@@ -38,6 +52,7 @@ class MahasiswaSeeder extends Seeder
 
             MahasiswaModel::create([
                 'user_id' => $userId->user_id,
+                'tahun_angkatan' => $angkatan,
                 'nim' => $nim,
                 // 'password' => 'mahasiswa123', // Akan di-hash otomatis oleh model
                 'nama' => $faker->firstName . ' ' . $faker->lastName,
