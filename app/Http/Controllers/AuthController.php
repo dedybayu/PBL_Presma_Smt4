@@ -22,47 +22,46 @@ class AuthController extends Controller
         $identifier = $request->identifier;
         $password = $request->password;
 
+        $credentials = $request->only('username', 'password');
+        if (Auth::attempt($credentials)) {
+            return redirect()->intended('/dashboard');
+        }
+
+
         // Coba login sebagai Mahasiswa (berdasarkan NIM)
-        $user = MahasiswaModel::where('nim', $identifier)->first();
-        if ($user && \Hash::check($password, $user->password)) {
-            Auth::guard('mahasiswa')->login($user);
-            return redirect()->intended('/dashboard');
-        }
+        // $user = MahasiswaModel::where('nim', $identifier)->first();
+        // if ($user && \Hash::check($password, $user->password)) {
+        //     Auth::guard('mahasiswa')->login($user);
+        //     return redirect()->intended('/dashboard');
+        // }
 
-        // Coba login sebagai Dosen (berdasarkan NIDN)
-        $user = DosenModel::where('nidn', $identifier)->first();
-        if ($user && \Hash::check($password, $user->password)) {
-            Auth::guard('dosen')->login($user);
-            return redirect()->intended('/dashboard');
-        }
+        // // Coba login sebagai Dosen (berdasarkan NIDN)
+        // $user = DosenModel::where('nidn', $identifier)->first();
+        // if ($user && \Hash::check($password, $user->password)) {
+        //     Auth::guard('dosen')->login($user);
+        //     return redirect()->intended('/dashboard');
+        // }
 
-        // Coba login sebagai Admin (berdasarkan username)
-        $user = AdminModel::where('username', $identifier)->first();
-        if ($user && \Hash::check($password, $user->password)) {
-            Auth::guard('admin')->login($user);
-            return redirect()->intended('/dashboard');
-        }
+        // // Coba login sebagai Admin (berdasarkan username)
+        // $user = AdminModel::where('username', $identifier)->first();
+        // if ($user && \Hash::check($password, $user->password)) {
+        //     Auth::guard('admin')->login($user);
+        //     return redirect()->intended('/dashboard');
+        // }
 
         // Jika semua gagal
         return back()
-        ->with(['loginError' => 'Login gagal, periksa kembali NIM/NIDN/Username dan password Anda.'])
-        ->withInput(); ;
+            ->with(['loginError' => 'Login gagal, periksa kembali NIM/NIDN/Username dan password Anda.'])
+            ->withInput();
+        ;
     }
 
-        public function logout(Request $request)
+    public function logout(Request $request)
     {
-        if (Auth::guard('admin')->check()) {
-            Auth::guard('admin')->logout();
-        } elseif (Auth::guard('dosen')->check()) {
-            Auth::guard('dosen')->logout();
-        } elseif (Auth::guard('mahasiswa')->check()) {
-            Auth::guard('mahasiswa')->logout();
-        }
-
+        Auth::logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();
-
-        return redirect('/');
+        return redirect('login');
     }
 
 }

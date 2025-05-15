@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
 
-class AdminModel extends Authenticatable
+class AdminModel extends Model
 {
     use HasFactory;
     protected $table = 'm_admin';

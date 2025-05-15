@@ -50,10 +50,10 @@
                     @csrf
 
                     <div>
-                        <input id="identifier" name="identifier" value="{{ old('identifier') }}"
+                        <input id="username" name="username" value="{{ old('username') }}"
                             class="w-full px-4 py-3 rounded-lg bg-gray-100 border border-gray-300 placeholder-gray-500 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-400"
                             type="text" placeholder="NIM/NIP/Username" />
-                        <p id="identifierError" class="text-red-500 text-sm mt-1 hidden">NIM/NIP/Username harus diisi.</p>
+                        <p id="usernameError" class="text-red-500 text-sm mt-1 hidden">NIM/NIP/Username harus diisi.</p>
                     </div>
 
                     <div class="relative">
@@ -135,17 +135,17 @@
         function validateForm(event) {
             event.preventDefault();
 
-            const identifier = document.getElementById('identifier');
+            const username = document.getElementById('username');
             const password = document.getElementById('password');
-            const identifierError = document.getElementById('identifierError');
+            const usernameError = document.getElementById('usernameError');
             const passwordError = document.getElementById('passwordError');
 
             let valid = true;
-            identifierError.classList.add('hidden');
+            usernameError.classList.add('hidden');
             passwordError.classList.add('hidden');
 
-            if (!identifier.value.trim()) {
-                identifierError.classList.remove('hidden');
+            if (!username.value.trim()) {
+                usernameError.classList.remove('hidden');
                 valid = false;
             }
 

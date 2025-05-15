@@ -19,11 +19,9 @@ class AuthorizeUser
      */
     public function handle(Request $request, Closure $next, ...$roles): Response
     {
-        foreach ($roles as $role) {
-            if (Auth::guard($role)->check()) {
-                Auth::shouldUse($role); // Set guard aktif
-                return $next($request);
-            }
+        $user_role = $request->user()->getRole();
+        if (in_array($user_role, $roles)) {
+            return $next($request);
         }
 
         abort(403, 'Forbidden, Anda tidak punya akses ke halaman ini');

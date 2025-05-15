@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
 
-class MahasiswaModel extends Authenticatable
+class MahasiswaModel extends Model
 {
     use HasFactory;
     protected $table = 'm_mahasiswa';

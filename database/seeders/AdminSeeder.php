@@ -26,7 +26,7 @@ class AdminSeeder extends Seeder
             // 'username' => 'admin',
             // 'password' => 'admin123',
             'user_id' => $userId->user_id,
-            'nama' => 'Administrator',
+            'nama' => 'Michelle Dorani',
             'email' => 'admin@example.com',
             'no_tlp' => '081234567890',
             'foto_profile' => null,

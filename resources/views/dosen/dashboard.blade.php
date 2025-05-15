@@ -4,7 +4,7 @@
     </x-slot:css>
 
     <x-slot:title>
-        Dashboard Dosen {{ Auth::guard('dosen')->user()->nama }}
+        Dashboard Dosen {{ auth()->user()->nama }}
     </x-slot:title>
 
     <h1 class="aaaa">Dashboard</h1>

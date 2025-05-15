@@ -7,16 +7,25 @@ use Illuminate\Http\Request;
 
 class DashboardController extends Controller
 {
-        public function index()
+    public function index()
     {
-        if (Auth::guard('admin')->check()) {
-            return view('admin.dashboard');
-        } elseif (Auth::guard('dosen')->check()) {
-            return view('dosen.dashboard');
-        } elseif (Auth::guard('mahasiswa')->check()) {
-            return view('mahasiswa.dashboard');
+        // Cek apakah user sudah login
+        if (!Auth::check()) {
+            return redirect('/login')->with('loginError', 'Silakan login terlebih dahulu.');
         }
-        // return view('welcome');
-        return redirect('/login')->with('loginError', 'Silakan login terlebih dahulu.');
+
+        $user = Auth::user();
+        $levelKode = $user->level->level_kode ?? null;
+
+        switch ($levelKode) {
+            case 'MHS':
+                return view('mahasiswa.dashboard');
+            case 'DOS':
+                return view('dosen.dashboard');
+            case 'ADM':
+                return view('admin.dashboard');
+            default:
+                return redirect('/login')->with('loginError', 'Level tidak dikenali. Silakan login kembali.');
+        }
     }
 }

@@ -27,7 +27,7 @@ class DosenSeeder extends Seeder
             $userId = UserModel::create([
                 'username' => $nidn,
                 'password' => 'dosen123',
-                'level_id' => LevelModel::where('level_kode', 'MHS')->first()->level_id,
+                'level_id' => LevelModel::where('level_kode', 'DOS')->first()->level_id,
             ]);
 
             DosenModel::create([

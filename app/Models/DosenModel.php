@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
 
-class DosenModel extends Authenticatable
+class DosenModel extends Model
 {
     use HasFactory;
     // Nama tabel yang digunakan

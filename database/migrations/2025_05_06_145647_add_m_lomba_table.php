@@ -20,6 +20,8 @@ return new class extends Migration
             $table->string('penyelenggara');
             $table->date('tanggal_mulai');
             $table->date('tanggal_selesai');
+            $table->boolean('status_verifikasi')->nullable()->default(null);
+
             $table->timestamps();
 
             $table->foreign('tingkat_lomba_id')->references('tingkat_lomba_id')->on('m_tingkat_lomba');

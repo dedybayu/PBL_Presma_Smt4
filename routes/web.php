@@ -20,6 +20,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+
 Route::get('/', function () {
     return view('welcome');
 });
@@ -27,11 +28,22 @@ Route::get('/', function () {
 Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
 Route::post('/login', [AuthController::class, 'login'])->name('custom.login');
 
-Route::middleware(['auth:mahasiswa,dosen,admin'])->group(function () {
+Route::middleware('auth')->group(function () {
+    Route::get('/dashboard', [DashboardController::class, 'index']);
+
+    Route::middleware(['role:ADM'])->group(function () {
+
+    });
+});
+
+
+
+
+Route::middleware(['role:MHS,DOS,ADM'])->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index']);
 });
 
-Route::middleware(['auth:admin'])->group(function () {
+Route::middleware(['role:ADM'])->group(function () {
     Route::prefix('mahasiswa')->group(function () {
         Route::get('/', [MahasiswaController::class, 'index'])->name('mahasiswa.index');
         Route::post('/list', [MahasiswaController::class, 'list']);
@@ -73,7 +85,7 @@ Route::middleware(['auth:admin'])->group(function () {
     });
     Route::prefix('prodi')->group(function () {
         Route::get('/', [ProdiController::class, 'index'])->name('prodi.index');
-        Route::post('/list', [ProdiController::class, 'list'])->name('prodi.list'); 
+        Route::post('/list', [ProdiController::class, 'list'])->name('prodi.list');
         Route::get('/create', [ProdiController::class, 'create'])->name('prodi.create');
         Route::post('/', [ProdiController::class, 'store'])->name('prodi.store');
         Route::get('/{id}/edit', [ProdiController::class, 'edit'])->name('prodi.edit');
