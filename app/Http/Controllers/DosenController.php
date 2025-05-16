@@ -34,8 +34,8 @@ class DosenController extends Controller
                 return $row->nidn;
             })
             ->addColumn('info', function ($row) {
-                $image = $row->image ? asset('storage/' . $row->foto_profile) :asset('assets/images/user.png');
-                $image = asset('assets/images/user.png');
+                $image = $row->foto_profile ? asset('storage/' . $row->foto_profile) :asset('assets/images/user.png');
+                // $image = asset('assets/images/user.png');
 
                 return '
                     <div class="d-flex align-items-center text-start">

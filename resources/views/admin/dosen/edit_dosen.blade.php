@@ -17,8 +17,7 @@
         </div>
     </div>
 @else
-    <form action="{{ url('/dosen/' . $dosen->dosen_id) }}" method="POST" enctype="multipart/form-data"
-        id="form-edit">
+    <form action="{{ url('/dosen/' . $dosen->dosen_id) }}" method="POST" enctype="multipart/form-data" id="form-edit">
         @csrf
         @method('PUT')
         <div class="modal-header">
@@ -62,14 +61,12 @@
                     </div>
                     <div class="form-group">
                         <label>NIDN</label>
-                        <input value="{{ $dosen->nidn }}" type="text" name="nidn" id="nidn" class="form-control"
-                            required>
+                        <input value="{{ $dosen->nidn }}" type="text" name="nidn" id="nidn" class="form-control" required>
                         <small id="error-nidn" class="error-text form-text text-danger"></small>
                     </div>
                     <div class="form-group">
                         <label>Nama</label>
-                        <input value="{{ $dosen->nama }}" type="text" name="nama" id="nama" class="form-control"
-                            required>
+                        <input value="{{ $dosen->nama }}" type="text" name="nama" id="nama" class="form-control" required>
                         <small id="error-nama" class="error-text form-text text-danger"></small>
                     </div>
                 </div>
@@ -89,7 +86,6 @@
                         <small id="error-no_tlp" class="error-text form-text text-danger"></small>
                     </div>
                 </div>
-            </div>
                 <div class="col-md-6">
                     <div class="form-group">
                         <label>Password</label>
@@ -99,6 +95,8 @@
                     </div>
                 </div>
             </div>
+
+        </div>
         </div>
         <div class="modal-footer">
             <button type="button" class="btn btn-warning" data-dismiss="modal">Batal</button>

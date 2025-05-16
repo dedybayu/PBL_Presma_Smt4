@@ -47,18 +47,18 @@
         <script>
             function modalAction(url) {
                 // Kosongkan modal sebelum memuat konten baru
-                $("#modal-crud .modal-content").html("");
+                $("#modal-dosen .modal-content").html("");
 
                 // Panggil modal melalui AJAX
                 $.get(url, function (response) {
-                    $("#modal-crud .modal-content").html(response);
-                    $("#modal-crud").modal("show");
+                    $("#modal-dosen .modal-content").html(response);
+                    $("#modal-dosen").modal("show");
                 });
             }
 
             // Bersihkan isi modal setelah ditutup
-            $('#modal-crud').on('hidden.bs.modal', function () {
-                $("#modal-crud .modal-content").html("");
+            $('#modal-dosen').on('hidden.bs.modal', function () {
+                $("#modal-dosen .modal-content").html("");
             });
 
 
