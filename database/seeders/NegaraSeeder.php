@@ -22,7 +22,11 @@ class NegaraSeeder extends Seeder
             foreach ($countries as $country) {
                 NegaraModel::updateOrCreate(
                     ['negara_kode' => $country['cca2']],
-                    ['negara_nama' => $country['name']['common']]
+                    [
+                        'negara_nama' => $country['name']['common'],
+                        'created_at' => now(),
+                        'updated_at' => now(),
+                    ]
                 );
             }
         } else {

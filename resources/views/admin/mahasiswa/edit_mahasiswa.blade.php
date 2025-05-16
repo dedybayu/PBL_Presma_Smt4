@@ -17,7 +17,7 @@
         </div>
     </div>
 @else
-    <form action="{{ url('/mahasiswa/' . $mahasiswa->mahasiswa_id) }}" method="POST" id="form-edit">
+    <form action="{{ url('/mahasiswa/' . $mahasiswa->mahasiswa_id) }}" method="POST" enctype="multipart/form-data" id="form-edit">
         @csrf
         @method('PUT')
         <div class="modal-header">
@@ -32,13 +32,13 @@
                     <div class="text-center">
                         <img id="profileImage" class="img-thumbnail rounded-circle mb-3"
                             style="width: 160px; height: 160px; object-fit: cover;"
-                            src="{{ $mahasiswa->profile_picture ? asset('storage/' . auth()->mahasiswa()->profile_picture) : asset('assets/images/user.png') }}"
+                            src="{{ $mahasiswa->foto_profile ? asset('storage/' . auth()->mahasiswa()->foto_profile) : asset('assets/images/user.png') }}"
                             alt="Profile picture">
 
                         <div class="mt-2">
-                            <input type="file" id="profile_picture" name="profile_picture" class="d-none" accept="image/*"
+                            <input type="file" id="foto_profile" name="foto_profile" class="d-none" accept="image/*"
                                 onchange="previewImage(event)">
-                            <button type="button" onclick="document.getElementById('profile_picture').click()"
+                            <button type="button" onclick="document.getElementById('foto_profile').click()"
                                 class="btn btn-primary">
                                 Change Picture
                             </button>
@@ -141,7 +141,7 @@
 
         function removeImage() {
             document.getElementById('profileImage').src = '/../img/mahasiswa.png';
-            document.getElementById('profile_picture').value = '';
+            document.getElementById('foto_profile').value = '';
             document.getElementById('remove_picture').value = "1";
         }
 

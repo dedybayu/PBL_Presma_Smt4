@@ -27,9 +27,11 @@ class WilayahSeeder extends Seeder
             foreach ($provinsis as $provinsiData) {
                 // Simpan data provinsi
                 $provinsi = ProvinsiModel::firstOrCreate([
-                    'provinsi_nama' => $provinsiData['name'], 
-                    'negara_id' => $indonesia->negara_id
-                    ]);
+                    'provinsi_nama' => $provinsiData['name'],
+                    'negara_id' => $indonesia->negara_id,
+                    'created_at' => now(),
+                    'updated_at' => now(),
+                ]);
 
                 // Ambil data kota/kabupaten berdasarkan ID provinsi
                 $kotaResponse = Http::get("https://emsifa.github.io/api-wilayah-indonesia/api/regencies/{$provinsiData['id']}.json");
@@ -39,9 +41,12 @@ class WilayahSeeder extends Seeder
 
                     foreach ($kotas as $kotaData) {
                         // Simpan data kota/kabupaten
-                        KotaModel::firstOrCreate(
-                            ['kota_nama' => $kotaData['name'], 'provinsi_id' => $provinsi->provinsi_id]
-                        );
+                        KotaModel::firstOrCreate([
+                            'kota_nama' => $kotaData['name'], 
+                            'provinsi_id' => $provinsi->provinsi_id,
+                            'created_at' => now(),
+                            'updated_at' => now(),
+                            ]);
                     }
                 }
             }

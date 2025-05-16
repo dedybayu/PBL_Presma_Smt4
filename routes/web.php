@@ -46,7 +46,7 @@ Route::middleware('auth')->group(function () {
         Route::prefix('kelas')->group(function () {
             Route::get('/', [KelasController::class, 'index'])->name('kelas.index');
             Route::post('/list', [KelasController::class, 'list']);
-            Route::get('/{id}/show', [KelasController::class, 'show'])->name('kelas.show');
+            Route::get('/{kelas}/show', [KelasController::class, 'show'])->name('kelas.show');
             Route::get('/create', [KelasController::class, 'create'])->name('kelas.create');
             Route::post('/', [KelasController::class, 'store'])->name('kelas.store');
             Route::get('/{kelas}/edit', [KelasController::class, 'edit'])->name('kelas.edit');
