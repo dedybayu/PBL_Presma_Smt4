@@ -11,10 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('m_minat_keahlian', function (Blueprint $table) {
-            $table->id('minat_keahlian_id');
-            $table->string('minat_keahlian_kode')->unique();
-            $table->string('minat_keahlian_nama');
+        Schema::create('m_bidang_keahlian', function (Blueprint $table) {
+            $table->id('bidang_keahlian_id');
+            $table->string('bidang_keahlian_kode')->unique();
+            $table->string('bidang_keahlian_nama');
             $table->timestamps();
         });
     }

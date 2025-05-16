@@ -16,16 +16,18 @@ return new class extends Migration
             $table->string('lomba_kode')->unique();
             $table->string('lomba_nama');
             $table->unsignedBigInteger('tingkat_lomba_id');
-            $table->unsignedBigInteger('kategori_lomba_id');
-            $table->string('penyelenggara');
+            $table->unsignedBigInteger('bidang_keahlian_id');
+            $table->unsignedBigInteger('penyelenggara_id');
             $table->date('tanggal_mulai');
             $table->date('tanggal_selesai');
             $table->boolean('status_verifikasi')->nullable()->default(null);
 
             $table->timestamps();
 
+
+            $table->foreign('penyelenggara_id')->references('penyelenggara_id')->on('m_penyelenggara');
             $table->foreign('tingkat_lomba_id')->references('tingkat_lomba_id')->on('m_tingkat_lomba');
-            $table->foreign('kategori_lomba_id')->references('kategori_lomba_id')->on('m_kategori_lomba');
+            $table->foreign('bidang_keahlian_id')->references('bidang_keahlian_id')->on('m_bidang_keahlian');
         });
     }
 

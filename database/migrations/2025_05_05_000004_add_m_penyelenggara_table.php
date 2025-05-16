@@ -14,8 +14,8 @@ return new class extends Migration
         Schema::create('m_penyelenggara', function (Blueprint $table) {
             $table->id('penyelenggara_id');
             $table->string('penyelenggara_nama');
-            $table->unsignedBigInteger('kota_id');
-            $table->unsignedBigInteger('negara_id');
+            $table->unsignedBigInteger('kota_id')->nullable();
+            $table->unsignedBigInteger('negara_id')->nullable();
             $table->timestamps();
 
             $table->foreign('kota_id')->references('kota_id')->on('m_kota');

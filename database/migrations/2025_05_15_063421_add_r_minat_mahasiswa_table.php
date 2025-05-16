@@ -14,11 +14,11 @@ return new class extends Migration
         Schema::create('r_minat_mahasiswa', function (Blueprint $table) {
             $table->id('minat_mahasiswa_id');
             $table->unsignedBigInteger('mahasiswa_id');
-            $table->unsignedBigInteger('minat_keahlian_id');
+            $table->unsignedBigInteger('bidang_keahlian_id');
             $table->timestamps();
 
             $table->foreign('mahasiswa_id')->references('mahasiswa_id')->on('m_mahasiswa');
-            $table->foreign('minat_keahlian_id')->references('minat_keahlian_id')->on('m_minat_keahlian');
+            $table->foreign('bidang_keahlian_id')->references('bidang_keahlian_id')->on('m_bidang_keahlian');
         });
     }
 
