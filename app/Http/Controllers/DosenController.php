@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\DosenModel;
 use App\Models\UserModel;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use Yajra\DataTables\Facades\DataTables;
 
@@ -33,7 +34,7 @@ class DosenController extends Controller
                 return $row->nidn;
             })
             ->addColumn('info', function ($row) {
-                $image = $row->image ? asset('storage/' . $row->foto_profile) : asset('img/user.png');
+                $image = $row->image ? asset('storage/' . $row->foto_profile) :asset('assets/images/user.png');
                 $image = asset('assets/images/user.png');
 
                 return '
@@ -69,45 +70,91 @@ class DosenController extends Controller
         return view('admin.dosen.show_dosen')->with(['dosen' => $dosen]);
     }
 
-    public function edit($id)
+    public function edit(DosenModel $dosen)
     {
-        $dosen = DosenModel::find($id);
-        $user = UserModel::select('password');
-        return view('admin.dosen.edit_dosen')->with(['dosen' => $dosen, 'user' => $user]);
+        return view('admin.dosen.edit_dosen')->with(['dosen' => $dosen]);
     }
 
-    public function update(Request $request, $id)
+    public function update(Request $request, DosenModel $dosen)
     {
-        // cek apakah request dari ajax
         if ($request->ajax() || $request->wantsJson()) {
+            // dd($request);
+            // dd($request->file('foto_profile'));
+
             $rules = [
-                'nama' => 'required|string|max:300',
-                'no_telp' => 'required|string|max:300', // nama harus diisi, berupa string, dan maksi
-                'password' => 'nullable|min:5' // password harus diisi dan minimal 5 karakter
+                'username' => 'required|max:20|unique:m_user,username,' . $dosen->user->user_id . ',user_id',
+                'nama' => 'required|max:100',
+                'password' => 'nullable|min:6|max:20'
             ];
             $validator = Validator::make($request->all(), $rules);
+
             if ($validator->fails()) {
                 return response()->json([
-                    'status' => false, // respon json, true: berhasil, false: gagal
+                    'status' => false,
                     'message' => 'Validasi gagal.',
-                    'msgField' => $validator->errors() // menunjukkan field mana yang error
+                    'msgField' => $validator->errors()
                 ]);
             }
-            $check = DosenModel::find($id);
-            if ($check) {
-                if (!$request->filled('dosen_id')) { // jika password tidak diisi, maka hapus dari request
-                    $request->request->remove('dosen_id');
+            if ($request->hasFile('foto_profile')) {
+                // return response()->json(['error' => 'No file uploaded'], 400);
+                $file = $request->file('foto_profile');
+
+                if (!$file->isValid()) {
+                    return response()->json(['error' => 'Invalid file'], 400);
                 }
-                $check->update($request->all());
-                return response()->json([
-                    'status' => true,
-                    'message' => 'Data berhasil diupdate'
-                ]);
+
+                // Nama file unik
+                $filename = time() . '_' . $file->getClientOriginalName();
+
+                // Pastikan folder penyimpanan ada
+                $destinationPath = storage_path('app/public/dosen/profile-pictures');
+                if (!file_exists($destinationPath)) {
+                    mkdir($destinationPath, 0775, true);
+                }
+
+                // Hapus file lama jika ada
+                $oldImage = $dosen->foto_profile ?? null; // Ambil path file lama dari database
+
+                if ($oldImage) {
+                    Storage::disk('public')->delete($oldImage);
+                }
+
+                // Pindahkan file
+                $file->move($destinationPath, $filename);
+
+                $imagePath = "dosen/profile-pictures/$filename"; // Simpan path gambar
             } else {
-                return response()->json([
-                    'status' => false,
-                    'message' => 'Data tidak ditemukan'
-                ]);
+                $imagePath = null;
+                // return  'dijalankan';
+            }
+
+            // return 'aaaa'.$imagePath;
+
+            $check = UserModel::find($dosen->user->user_id);
+            if ($check) {
+                if (!$request->filled('password')) {
+                    $data_user = [
+                        'username' => $request->username,
+                    ];
+                } else {
+                    $data_user = [
+                        'username' => $request->username,
+                        'password' => $request->password
+                    ];
+                }
+                $check->update($data_user);
+
+                $data_dosen = [
+                    'nidn' => $request->nidn,
+                    'nama' => $request->nama,
+                    'email' => $request->email,
+                    'no_tlp' => $request->no_tlp,
+                    'foto_profile' => $imagePath
+                ];
+                $dosen->update($data_dosen);
+                return response()->json(['status' => true, 'message' => 'Data berhasil diupdate']);
+            } else {
+                return response()->json(['status' => false, 'message' => 'Data tidak ditemukan']);
             }
         }
         return redirect('/');
