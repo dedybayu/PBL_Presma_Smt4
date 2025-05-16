@@ -56,12 +56,13 @@ Route::middleware('auth')->group(function () {
         Route::prefix('dosen')->group(function () {
             Route::get('/', [DosenController::class, 'index'])->name('dosen.index');
             Route::post('/list', [DosenController::class, 'list']);
-            Route::get('/{id}/show', [DosenController::class, 'show'])->name('dosen.show');
+            Route::get('/{dosen}/show', [DosenController::class, 'show'])->name('dosen.show');
             Route::get('/create', [DosenController::class, 'create'])->name('dosen.create');
             Route::post('/', [DosenController::class, 'store'])->name('dosen.store');
-            Route::get('/{id}/edit', [DosenController::class, 'edit'])->name('dosen.edit');
-            Route::put('/{id}/update', [DosenController::class, 'update'])->name('dosen.update');
-            Route::delete('/{id}', [DosenController::class, 'destroy'])->name('dosen.destroy');
+            Route::get('/{dosen}/edit', [DosenController::class, 'edit'])->name('dosen.edit');
+            Route::put('/{dosen}/update', [DosenController::class, 'update'])->name('dosen.update');
+            Route::get('/{dosen}/delete', [DosenController::class, 'delete'])->name('dosen.delete');
+            Route::delete('/{dosen}', [DosenController::class, 'destroy'])->name('dosen.destroy');
         });
         Route::prefix('admin')->group(function () {
             Route::get('/', [AdminController::class, 'index'])->name('admin.index');

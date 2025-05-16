@@ -76,9 +76,10 @@ class DosenController extends Controller
         return view('admin.dosen.edit_dosen')->with(['dosen' => $dosen, 'user' => $user]);
     }
 
-    public function update(Request $request, $id){
-         // cek apakah request dari ajax
-         if ($request->ajax() || $request->wantsJson()) {
+    public function update(Request $request, $id)
+    {
+        // cek apakah request dari ajax
+        if ($request->ajax() || $request->wantsJson()) {
             $rules = [
                 'nama' => 'required|string|max:300',
                 'no_telp' => 'required|string|max:300', // nama harus diisi, berupa string, dan maksi
@@ -110,5 +111,28 @@ class DosenController extends Controller
             }
         }
         return redirect('/');
+    }
+
+    public function delete(DosenModel $dosen)
+    {
+        return view('admin.dosen.confirm_delete')->with(['dosen' => $dosen]);
+    }
+
+    public function destroy(DosenModel $dosen)
+    {
+        if ($dosen) {
+            try {
+                $dosen->delete();
+                return response()->json([
+                    'status' => true,
+                    'message' => 'Data berhasil dihapus'
+                ]);
+            } catch (\Illuminate\Database\QueryException $e) {
+                return response()->json([
+                    'status' => false,
+                    'message' => 'Data user gagal dihapus karena masih terdapat tabel lain yang terkait dengan data ini'
+                ]);
+            }
+        }
     }
 }

@@ -43,8 +43,6 @@
 
         </div>
     </div>
-
-
     <x-slot:js>
         <script>
             function modalAction(url) {

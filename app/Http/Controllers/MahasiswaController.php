@@ -7,8 +7,8 @@ use App\Models\MahasiswaModel;
 use App\Models\ProdiModel;
 use App\Models\UserModel;
 use Illuminate\Http\Request;
-use Storage;
-use Validator;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Validator;
 use Yajra\DataTables\DataTables;
 
 class MahasiswaController extends Controller
@@ -68,7 +68,6 @@ class MahasiswaController extends Controller
                             </div>
                         </div>
                     ';
-
                 })
                 ->addColumn('kelas', function ($row) {
                     return $row->kelas->kelas_nama ?? '-';
@@ -86,7 +85,6 @@ class MahasiswaController extends Controller
                 ->rawColumns(['info', 'aksi']) // agar tombol HTML tidak di-escape
                 ->make(true);
         }
-
     }
     /**
      * Show the form for creating a new resource.
@@ -99,10 +97,7 @@ class MahasiswaController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
-    {
-
-    }
+    public function store(Request $request) {}
 
     /**
      * Display the specified resource.
@@ -244,6 +239,5 @@ class MahasiswaController extends Controller
                 ]);
             }
         }
-
     }
 }
