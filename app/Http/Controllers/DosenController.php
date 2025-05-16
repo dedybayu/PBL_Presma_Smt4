@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\DosenModel;
+use App\Models\UserModel;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 use Yajra\DataTables\Facades\DataTables;
 
 class DosenController extends Controller
@@ -65,5 +67,48 @@ class DosenController extends Controller
     {
         $dosen = DosenModel::find($id);
         return view('admin.dosen.show_dosen')->with(['dosen' => $dosen]);
+    }
+
+    public function edit($id)
+    {
+        $dosen = DosenModel::find($id);
+        $user = UserModel::select('password');
+        return view('admin.dosen.edit_dosen')->with(['dosen' => $dosen, 'user' => $user]);
+    }
+
+    public function update(Request $request, $id){
+         // cek apakah request dari ajax
+         if ($request->ajax() || $request->wantsJson()) {
+            $rules = [
+                'nama' => 'required|string|max:300',
+                'no_telp' => 'required|string|max:300', // nama harus diisi, berupa string, dan maksi
+                'password' => 'nullable|min:5' // password harus diisi dan minimal 5 karakter
+            ];
+            $validator = Validator::make($request->all(), $rules);
+            if ($validator->fails()) {
+                return response()->json([
+                    'status' => false, // respon json, true: berhasil, false: gagal
+                    'message' => 'Validasi gagal.',
+                    'msgField' => $validator->errors() // menunjukkan field mana yang error
+                ]);
+            }
+            $check = DosenModel::find($id);
+            if ($check) {
+                if (!$request->filled('dosen_id')) { // jika password tidak diisi, maka hapus dari request
+                    $request->request->remove('dosen_id');
+                }
+                $check->update($request->all());
+                return response()->json([
+                    'status' => true,
+                    'message' => 'Data berhasil diupdate'
+                ]);
+            } else {
+                return response()->json([
+                    'status' => false,
+                    'message' => 'Data tidak ditemukan'
+                ]);
+            }
+        }
+        return redirect('/');
     }
 }

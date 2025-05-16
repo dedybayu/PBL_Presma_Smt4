@@ -59,7 +59,7 @@ Route::middleware('auth')->group(function () {
             Route::get('/create', [DosenController::class, 'create'])->name('dosen.create');
             Route::post('/', [DosenController::class, 'store'])->name('dosen.store');
             Route::get('/{id}/edit', [DosenController::class, 'edit'])->name('dosen.edit');
-            Route::put('/{id}', [DosenController::class, 'update'])->name('dosen.update');
+            Route::put('/{id}/update', [DosenController::class, 'update'])->name('dosen.update');
             Route::delete('/{id}', [DosenController::class, 'destroy'])->name('dosen.destroy');
         });
         Route::prefix('admin')->group(function () {
