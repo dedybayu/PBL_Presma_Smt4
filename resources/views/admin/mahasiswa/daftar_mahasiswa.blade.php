@@ -76,18 +76,18 @@
         <script>
             function modalAction(url) {
                 // Kosongkan modal sebelum memuat konten baru
-                $("#modal-crud .modal-content").html("");
+                $("#modal-mahasiswa .modal-content").html("");
 
                 // Panggil modal melalui AJAX
                 $.get(url, function (response) {
-                    $("#modal-crud .modal-content").html(response);
-                    $("#modal-crud").modal("show");
+                    $("#modal-mahasiswa .modal-content").html(response);
+                    $("#modal-mahasiswa").modal("show");
                 });
             }
 
             // Bersihkan isi modal setelah ditutup
-            $('#modal-crud').on('hidden.bs.modal', function () {
-                $("#modal-crud .modal-content").html("");
+            $('#modal-mahasiswa').on('hidden.bs.modal', function () {
+                $("#modal-mahasiswa .modal-content").html("");
             });
 
             var dataMahasiswa

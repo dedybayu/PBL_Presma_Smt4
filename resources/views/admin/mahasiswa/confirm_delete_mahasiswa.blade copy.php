@@ -24,6 +24,10 @@
         </button>
     </div>
     <div class="modal-body">
+        <div class="alert alert-warning">
+            <h5><i class="icon fas fa-ban"></i> Konfirmasi !!!</h5>
+            Apakah Anda ingin menghapus data mahasiswa seperti di bawah ini?
+        </div>
         <table class="table table-sm table-bordered table-striped">
             <tr>
                 <th class="text-right col-3">Nama mahasiswa :</th>
@@ -42,10 +46,12 @@
                 <td class="col-9">{{ $mahasiswa->no_tlp }}</td>
             </tr>
         </table>
-        <div class="modal-footer">
-            <button onclick="modalAction('{{ url('/mahasiswa/' . $mahasiswa->mahasiswa_id . '/edit') }}')"
-                class="btn btn-success btn-sm">Edit
-            </button>
-            <button type="button" data-dismiss="modal" class="btn btn-primary btn-sm">Close</button>
-        </div>
+        <div class="modal-footer"></div>
+        {{-- <form action="{{ url('/mahasiswa/' . $mahasiswa->mahasiswa_id) }}" method="POST" id="form-delete">
+            @csrf
+            @method('DELETE')
+            <button type="submit" class="btn btn-danger btn-sm">Hapus</button>
+        </form> --}}
+        <button type="button" data-dismiss="modal" class="btn btn-primary btn-sm">Close</button>
+    </div>
 @endempty

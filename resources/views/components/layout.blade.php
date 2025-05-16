@@ -15,7 +15,7 @@
 
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-        <!-- Google Font: Source Sans Pro -->
+    <!-- Google Font: Source Sans Pro -->
     <link rel="stylesheet"
         href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
 
@@ -28,6 +28,10 @@
     <link rel="stylesheet" href="../assets/css/base.min.css"> --}}
     <link rel="stylesheet" href="{{ asset('assets/css/base.min.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
+
+    {{-- Sweet Alert --}}
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@sweetalert2/theme-bootstrap-4/bootstrap-4.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
 
     {{-- Custom CSS --}}
     <x-css>{{$css}}</x-css>
@@ -67,13 +71,10 @@
     <x-drawer></x-drawer>
     <!--DRAWER END-->
 
+
     {{-- Modal CRUD Container --}}
-    <div id="modal-crud" class="modal fade animate shake" tabindex="-1" role="dialog" data-backdrop="static"
-        data-keyboard="false" aria-hidden="true">
-        <div class="modal-dialog modal-lg" role="document">
-            <div class="modal-content"></div>
-        </div>
-    </div>
+    <x-modal></x-modal>
+
 
 
 
@@ -203,8 +204,11 @@
     <script src="{{ asset('assets/js/scripts-init/toastr.js')}}"></script>
 
     <!--SweetAlert2-->
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script>
-    <script src="{{ asset('assets/js/scripts-init/sweet-alerts.js')}}"></script>
+    {{-- <script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script>
+    <script src="{{ asset('assets/js/scripts-init/sweet-alerts.js')}}"></script> --}}
+        <!-- Sweet alert2 -->
+
+    <script src="{{ asset('assets/plugins/sweetalert2/sweetalert2.min.js') }}"></script>
 
     <!--Tree View -->
     <script src="{{ asset('assets/js/vendors/treeview.js')}}"></script>
@@ -226,6 +230,10 @@
 
     <!--Tables Init-->
     <script src="{{ asset('assets/js/scripts-init/tables.js')}}"></script>
+
+    <!-- jquery validation -->
+    <script src="{{ asset('assets/plugins/jquery-validation/jquery.validate.min.js') }}"></script>
+    <script src="{{ asset('assets/plugins/jquery-validation/additional-methods.min.js') }}"></script>
 
     <script>
         // Untuk mengirimkan token Laravel CSRF pada setiap request ajax

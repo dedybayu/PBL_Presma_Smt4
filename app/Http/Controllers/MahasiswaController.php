@@ -5,7 +5,9 @@ namespace App\Http\Controllers;
 use App\Models\KelasModel;
 use App\Models\MahasiswaModel;
 use App\Models\ProdiModel;
+use App\Models\UserModel;
 use Illuminate\Http\Request;
+use Validator;
 use Yajra\DataTables\DataTables;
 
 class MahasiswaController extends Controller
@@ -107,9 +109,9 @@ class MahasiswaController extends Controller
     public function show($id)
     {
         $mahasiswa = MahasiswaModel::find($id);
-        $kelas = KelasModel::select('kelas_id', 'kelas_nama');
-        $prodi = ProdiModel::select('prodi_id', 'prodi_nama');   
-        return view('admin.mahasiswa.show_mahasiswa')->with(['kelas'=> $kelas, 'prodi' => $prodi, 'mahasiswa' => $mahasiswa]);
+        // $kelas = KelasModel::select('kelas_id', 'kelas_nama');
+        // $prodi = ProdiModel::select('prodi_id', 'prodi_nama');
+        return view('admin.mahasiswa.show_mahasiswa')->with(['mahasiswa' => $mahasiswa]);
     }
 
     /**
@@ -117,7 +119,11 @@ class MahasiswaController extends Controller
      */
     public function edit(MahasiswaModel $mahasiswa)
     {
-        //
+        // $mahasiswa = MahasiswaModel::find($id);
+
+        $kelas = KelasModel::select('kelas_id', 'kelas_nama');
+        $prodi = ProdiModel::select('prodi_id', 'prodi_nama');
+        return view('admin.mahasiswa.edit_mahasiswa')->with(['kelas' => $kelas, 'prodi' => $prodi, 'mahasiswa' => $mahasiswa]);
     }
 
     /**
@@ -125,7 +131,53 @@ class MahasiswaController extends Controller
      */
     public function update(Request $request, MahasiswaModel $mahasiswa)
     {
-        //
+        if ($request->ajax() || $request->wantsJson()) {
+            $rules = [
+                'username' => 'required|max:20|unique:m_user,username,' . $mahasiswa->user->user_id . ',user_id',
+                'nama' => 'required|max:100',
+                'password' => 'nullable|min:6|max:20'
+            ];
+            $validator = Validator::make($request->all(), $rules);
+
+            if ($validator->fails()) {
+                return response()->json([
+                    'status' => false,
+                    'message' => 'Validasi gagal.',
+                    'msgField' => $validator->errors()
+                ]);
+            }
+
+
+
+            $check = UserModel::find($mahasiswa->user->user_id);
+            if ($check) {
+                if (!$request->filled('password')) {
+                    $data_user = [
+                        'username' => $request->username,
+                    ];
+                } else {
+                    $data_user = [
+                        'username' => $request->username,
+                        'password' => $request->password
+                    ];
+                }
+                $check->update($data_user);
+
+                $data_mahasiswa = [
+                    'nim' => $request->nim,
+                    'nama' => $request->nama,
+                    'email' => $request->email,
+                    'no_tlp' => $request->no_tlp,
+                    'alamat' => $request->alamat,
+                    'tahun_angkatan' => $request->tahun_angkatan
+                ];
+                $mahasiswa->update($data_mahasiswa);
+                return response()->json(['status' => true, 'message' => 'Data berhasil diupdate']);
+            } else {
+                return response()->json(['status' => false, 'message' => 'Data tidak ditemukan']);
+            }
+        }
+        return redirect('/');
     }
 
     /**
@@ -133,11 +185,28 @@ class MahasiswaController extends Controller
      */
     public function confirmDelete(MahasiswaModel $mahasiswa)
     {
-        return $mahasiswa->mahasiswa_id;
+        $kelas = KelasModel::select('kelas_id', 'kelas_nama');
+        $prodi = ProdiModel::select('prodi_id', 'prodi_nama');
+        return view('admin.mahasiswa.confirm_delete_mahasiswa')->with(['kelas' => $kelas, 'prodi' => $prodi, 'mahasiswa' => $mahasiswa]);
     }
 
     public function destroy(MahasiswaModel $mahasiswa)
     {
-        //
+        // return $mahasiswa;
+        if ($mahasiswa) {
+            try {
+                $mahasiswa->delete();
+                return response()->json([
+                    'status' => true,
+                    'message' => 'Data berhasil dihapus'
+                ]);
+            } catch (\Illuminate\Database\QueryException $e) {
+                return response()->json([
+                    'status' => false,
+                    'message' => 'Data user gagal dihapus karena masih terdapat tabel lain yang terkait dengan data ini'
+                ]);
+            }
+        }
+
     }
 }
