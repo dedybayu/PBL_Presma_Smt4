@@ -34,9 +34,9 @@ class DosenController extends Controller
                 return $row->nidn;
             })
             ->addColumn('info', function ($row) {
-                $image = $row->foto_profile ? asset('storage/' . $row->foto_profile) :asset('assets/images/user.png');
+                $image = $row->foto_profile ? asset('storage/' . $row->foto_profile) : asset('assets/images/user.png');
                 // $image = asset('assets/images/user.png');
-
+    
                 return '
                     <div class="d-flex align-items-center text-start">
                         <img 
@@ -144,6 +144,17 @@ class DosenController extends Controller
                 }
                 $check->update($data_user);
 
+                if ($request->input('remove_picture') == "1") {
+                    // Hapus gambar lama jika ada
+                    if ($dosen->foto_profile) {
+                        $oldImage = $dosen->foto_profile; // Ambil path file lama dari database
+                        if ($oldImage) {
+                            Storage::disk('public')->delete($oldImage);
+                        }
+                    }
+                    $imagePath = null; // Set kolom di database jadi null
+                }
+
                 $data_dosen = [
                     'nidn' => $request->nidn,
                     'nama' => $request->nama,
@@ -169,6 +180,10 @@ class DosenController extends Controller
     {
         if ($dosen) {
             try {
+                $oldImage = $dosen->foto_profile; // Ambil path file lama dari database
+                if ($oldImage) {
+                    Storage::disk('public')->delete($oldImage);
+                }
                 $dosen->delete();
                 return response()->json([
                     'status' => true,

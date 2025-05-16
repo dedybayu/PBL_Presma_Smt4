@@ -52,7 +52,7 @@ class MahasiswaController extends Controller
                 ->addColumn('info', function ($row) {
                     $image = $row->foto_profile ? asset('storage/' . $row->foto_profile) : asset('assets/images/user.png');
                     // $image = asset('assets/images/user.png');
-
+    
                     return '
                         <div class="d-flex align-items-center text-start">
                             <img 
@@ -97,7 +97,9 @@ class MahasiswaController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request) {}
+    public function store(Request $request)
+    {
+    }
 
     /**
      * Display the specified resource.
@@ -194,6 +196,17 @@ class MahasiswaController extends Controller
                 }
                 $check->update($data_user);
 
+                if ($request->input('remove_picture') == "1") {
+                    // Hapus gambar lama jika ada
+                    if ($mahasiswa->foto_profile) {
+                        $oldImage = $mahasiswa->foto_profile; // Ambil path file lama dari database
+                        if ($oldImage) {
+                            Storage::disk('public')->delete($oldImage);
+                        }
+                    }
+                    $imagePath = null; // Set kolom di database jadi null
+                }
+
                 $data_mahasiswa = [
                     'nim' => $request->nim,
                     'nama' => $request->nama,
@@ -227,6 +240,10 @@ class MahasiswaController extends Controller
         // return $mahasiswa;
         if ($mahasiswa) {
             try {
+                $oldImage = $mahasiswa->foto_profile; // Ambil path file lama dari database
+                if ($oldImage) {
+                    Storage::disk('public')->delete($oldImage);
+                }
                 $mahasiswa->delete();
                 return response()->json([
                     'status' => true,

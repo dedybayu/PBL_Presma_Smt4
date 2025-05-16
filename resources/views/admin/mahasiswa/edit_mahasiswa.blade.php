@@ -141,7 +141,7 @@
         }
 
         function removeImage() {
-            document.getElementById('profileImage').src = '/../img/user.png';
+            document.getElementById('profileImage').src = '/../assets/images/user.png';
             document.getElementById('foto_profile').value = '';
             document.getElementById('remove_picture').value = "1";
         }
