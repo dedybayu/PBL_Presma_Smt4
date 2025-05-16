@@ -50,8 +50,8 @@ class MahasiswaController extends Controller
                     return $row->nim;
                 })
                 ->addColumn('info', function ($row) {
-                    $image = $row->image ? asset('storage/' . $row->foto_profile) : asset('img/user.png');
-                    $image = asset('assets/images/user.png');
+                    $image = $row->foto_profile ? asset('storage/' . $row->foto_profile) : asset('assets/images/user.png');
+                    // $image = asset('assets/images/user.png');
 
                     return '
                         <div class="d-flex align-items-center text-start">
@@ -129,7 +129,7 @@ class MahasiswaController extends Controller
     {
         if ($request->ajax() || $request->wantsJson()) {
             // dd($request);
-            dd($request->file('foto_profile'));
+            // dd($request->file('foto_profile'));
 
             $rules = [
                 'username' => 'required|max:20|unique:m_user,username,' . $mahasiswa->user->user_id . ',user_id',
@@ -175,7 +175,7 @@ class MahasiswaController extends Controller
                 $imagePath = "mahasiswa/profile-pictures/$filename"; // Simpan path gambar
             } else {
                 $imagePath = null;
-                return  'dijalankan';
+                // return  'dijalankan';
             }
 
             // return 'aaaa'.$imagePath;

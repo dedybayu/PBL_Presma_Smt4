@@ -17,7 +17,8 @@
         </div>
     </div>
 @else
-    <form action="{{ url('/mahasiswa/' . $mahasiswa->mahasiswa_id) }}" method="POST" enctype="multipart/form-data" id="form-edit">
+    <form action="{{ url('/mahasiswa/' . $mahasiswa->mahasiswa_id) }}" method="POST" enctype="multipart/form-data"
+        id="form-edit">
         @csrf
         @method('PUT')
         <div class="modal-header">
@@ -32,7 +33,7 @@
                     <div class="text-center">
                         <img id="profileImage" class="img-thumbnail rounded-circle mb-3"
                             style="width: 160px; height: 160px; object-fit: cover;"
-                            src="{{ $mahasiswa->foto_profile ? asset('storage/' . auth()->mahasiswa()->foto_profile) : asset('assets/images/user.png') }}"
+                            src="{{ $mahasiswa->foto_profile ? asset('storage/' . $mahasiswa->foto_profile) : asset('assets/images/user.png') }}"
                             alt="Profile picture">
 
                         <div class="mt-2">
@@ -47,9 +48,10 @@
                             </button>
                         </div>
                     </div>
+                    <input type="hidden" id="remove_picture" name="remove_picture" value="0">
                 </div>
 
-                <input type="hidden" id="remove_picture" name="remove_picture" value="0">
+                {{-- <input type="hidden" id="remove_picture" name="remove_picture" value="0"> --}}
 
                 <div class="col-md-6">
                     <div class="form-group">
@@ -89,12 +91,11 @@
                 </div>
             </div>
 
-                <div class="form-group">
-                    <label>Alamat</label>
-                    <input value="{{ $mahasiswa->alamat }}" type="text" name="alamat" id="alamat" class="form-control"
-                        required>
-                    <small id="error-alamat" class="error-text form-text text-danger"></small>
-                </div>
+            <div class="form-group">
+                <label>Alamat</label>
+                <input value="{{ $mahasiswa->alamat }}" type="text" name="alamat" id="alamat" class="form-control" required>
+                <small id="error-alamat" class="error-text form-text text-danger"></small>
+            </div>
             <div class="row">
                 <div class="col-md-6">
                     <div class="form-group">
@@ -140,7 +141,7 @@
         }
 
         function removeImage() {
-            document.getElementById('profileImage').src = '/../img/mahasiswa.png';
+            document.getElementById('profileImage').src = '/../img/user.png';
             document.getElementById('foto_profile').value = '';
             document.getElementById('remove_picture').value = "1";
         }
@@ -148,15 +149,18 @@
         $(document).ready(function () {
             $("#form-edit").validate({
                 rules: {
-                    nim: { required: true, minlength: 3, maxlength: 20 },
+                    username: { required: true, minlength: 3, maxlength: 20 },
                     nama: { required: true, minlength: 3, maxlength: 100 },
                     password: { minlength: 6, maxlength: 20 }
                 },
                 submitHandler: function (form) {
+                    var formData = new FormData(form); // Gunakan FormData untuk menangani file
                     $.ajax({
                         url: form.action,
                         type: form.method,
-                        data: $(form).serialize(),
+                        data: formData,
+                        processData: false, // Penting: Agar jQuery tidak memproses data
+                        contentType: false, // Penting: Agar tidak diubah menjadi application/x-www-form-urlencoded
                         success: function (response) {
                             if (response.status) {
                                 $('#modal-mahasiswa').modal('hide');
@@ -173,6 +177,7 @@
                     });
                     return false;
                 },
+
                 errorElement: 'span',
                 errorPlacement: function (error, element) {
                     error.addClass('invalid-feedback');
