@@ -16,7 +16,7 @@ class LombaSeeder extends Seeder
      */
     public function run(): void
     {
-$tingkatLomba = TingkatLombaModel::pluck('tingkat_lomba_id')->values();
+        $tingkatLomba = TingkatLombaModel::pluck('tingkat_lomba_id')->values();
         $bidangKeahlian = BidangKeahlianModel::pluck('bidang_keahlian_id')->values();
         $penyelenggara = PenyelenggaraModel::pluck('penyelenggara_id')->values();
 
@@ -24,6 +24,7 @@ $tingkatLomba = TingkatLombaModel::pluck('tingkat_lomba_id')->values();
             [
                 'lomba_kode' => 'LMB001',
                 'lomba_nama' => 'Hackathon Nasional',
+                'lomba_deskripsi' => 'Kompetisi pengembangan solusi digital dalam waktu terbatas.',
                 'tingkat_lomba_id' => $tingkatLomba[1],
                 'bidang_keahlian_id' => $bidangKeahlian[1],
                 'penyelenggara_id' => $penyelenggara[0],
@@ -33,6 +34,7 @@ $tingkatLomba = TingkatLombaModel::pluck('tingkat_lomba_id')->values();
             [
                 'lomba_kode' => 'LMB002',
                 'lomba_nama' => 'UI/UX Challenge',
+                'lomba_deskripsi' => 'Kompetisi merancang antarmuka dan pengalaman pengguna yang menarik.',
                 'tingkat_lomba_id' => $tingkatLomba[0],
                 'bidang_keahlian_id' => $bidangKeahlian[0],
                 'penyelenggara_id' => $penyelenggara[1],
@@ -42,6 +44,7 @@ $tingkatLomba = TingkatLombaModel::pluck('tingkat_lomba_id')->values();
             [
                 'lomba_kode' => 'LMB003',
                 'lomba_nama' => 'Web Development Competition',
+                'lomba_deskripsi' => 'Lomba membangun aplikasi web dengan teknologi terkini.',
                 'tingkat_lomba_id' => $tingkatLomba[1],
                 'bidang_keahlian_id' => $bidangKeahlian[2],
                 'penyelenggara_id' => $penyelenggara[2],
@@ -51,6 +54,7 @@ $tingkatLomba = TingkatLombaModel::pluck('tingkat_lomba_id')->values();
             [
                 'lomba_kode' => 'LMB004',
                 'lomba_nama' => 'Mobile App Contest',
+                'lomba_deskripsi' => 'Kompetisi pengembangan aplikasi mobile yang inovatif.',
                 'tingkat_lomba_id' => $tingkatLomba[1],
                 'bidang_keahlian_id' => $bidangKeahlian[1],
                 'penyelenggara_id' => $penyelenggara[0],
@@ -60,6 +64,7 @@ $tingkatLomba = TingkatLombaModel::pluck('tingkat_lomba_id')->values();
             [
                 'lomba_kode' => 'LMB005',
                 'lomba_nama' => 'IT Project Management Cup',
+                'lomba_deskripsi' => 'Ajang kompetisi manajemen proyek teknologi informasi.',
                 'tingkat_lomba_id' => $tingkatLomba[2],
                 'bidang_keahlian_id' => $bidangKeahlian[4],
                 'penyelenggara_id' => $penyelenggara[1],
@@ -69,6 +74,7 @@ $tingkatLomba = TingkatLombaModel::pluck('tingkat_lomba_id')->values();
             [
                 'lomba_kode' => 'LMB006',
                 'lomba_nama' => 'Cybersecurity Championship',
+                'lomba_deskripsi' => 'Kompetisi pengujian dan pertahanan keamanan sistem informasi.',
                 'tingkat_lomba_id' => $tingkatLomba[1],
                 'bidang_keahlian_id' => $bidangKeahlian[3],
                 'penyelenggara_id' => $penyelenggara[2],
@@ -78,6 +84,7 @@ $tingkatLomba = TingkatLombaModel::pluck('tingkat_lomba_id')->values();
             [
                 'lomba_kode' => 'LMB007',
                 'lomba_nama' => 'AI Innovation Contest',
+                'lomba_deskripsi' => 'Kompetisi inovasi dalam bidang kecerdasan buatan.',
                 'tingkat_lomba_id' => $tingkatLomba[0],
                 'bidang_keahlian_id' => $bidangKeahlian[5],
                 'penyelenggara_id' => $penyelenggara[0],
@@ -87,6 +94,7 @@ $tingkatLomba = TingkatLombaModel::pluck('tingkat_lomba_id')->values();
             [
                 'lomba_kode' => 'LMB008',
                 'lomba_nama' => 'Game Development Festival',
+                'lomba_deskripsi' => 'Festival pengembangan game untuk semua platform.',
                 'tingkat_lomba_id' => $tingkatLomba[2],
                 'bidang_keahlian_id' => $bidangKeahlian[3],
                 'penyelenggara_id' => $penyelenggara[1],
@@ -96,6 +104,7 @@ $tingkatLomba = TingkatLombaModel::pluck('tingkat_lomba_id')->values();
             [
                 'lomba_kode' => 'LMB009',
                 'lomba_nama' => 'Data Science Competition',
+                'lomba_deskripsi' => 'Kompetisi analisis data dan machine learning.',
                 'tingkat_lomba_id' => $tingkatLomba[1],
                 'bidang_keahlian_id' => $bidangKeahlian[6],
                 'penyelenggara_id' => $penyelenggara[2],
@@ -105,6 +114,7 @@ $tingkatLomba = TingkatLombaModel::pluck('tingkat_lomba_id')->values();
             [
                 'lomba_kode' => 'LMB010',
                 'lomba_nama' => 'Robotic Engineering Challenge',
+                'lomba_deskripsi' => 'Tantangan membangun dan memprogram robot untuk menyelesaikan tugas.',
                 'tingkat_lomba_id' => $tingkatLomba[0],
                 'bidang_keahlian_id' => $bidangKeahlian[7],
                 'penyelenggara_id' => $penyelenggara[0],
@@ -112,6 +122,7 @@ $tingkatLomba = TingkatLombaModel::pluck('tingkat_lomba_id')->values();
                 'tanggal_selesai' => '2025-11-22',
             ],
         ];
+
 
         foreach ($lombaData as &$data) {
             $data['created_at'] = now();
