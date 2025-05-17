@@ -16,11 +16,13 @@ class LombaModel extends Model
     protected $fillable = [
         'lomba_kode',
         'lomba_nama',
+        'lomba_deskripsi',
         'tingkat_lomba_id',
         'bidang_keahlian_id',
         'penyelenggara_id',
         'tanggal_mulai',
         'tanggal_selesai',
+        'foto_pamflet',
         'status_verifikasi',
     ];
 
