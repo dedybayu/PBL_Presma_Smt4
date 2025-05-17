@@ -42,7 +42,7 @@ class WilayahSeeder extends Seeder
                     foreach ($kotas as $kotaData) {
                         // Simpan data kota/kabupaten
                         KotaModel::firstOrCreate([
-                            'kota_nama' => $kotaData['name'], 
+                            'kota_nama' => ucwords(strtolower($kotaData['name'])), 
                             'provinsi_id' => $provinsi->provinsi_id,
                             'created_at' => now(),
                             'updated_at' => now(),
