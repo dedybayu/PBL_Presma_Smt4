@@ -24,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('m_minat');
+        Schema::dropIfExists('m_bidang_keahlian');
     }
 };
