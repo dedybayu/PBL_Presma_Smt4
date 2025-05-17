@@ -13,6 +13,12 @@
     <div class="card">
         <div class="card-header">
             <h3 class="card-title">Daftar Dosen</h3>
+            <div class="btn-actions-pane-right text-capitalize">
+                {{-- <button class="btn-wide btn-outline-2x mr-md-2 btn btn-outline-focus btn-sm">View All</button> --}}
+                <button onclick="modalAction('{{ url('/dosen/create') }}')" class="btn btn-sm btn-success mt-1">
+                    <i class="fa fa-plus"></i> Tambah
+                </button>
+            </div>
         </div>
 
         <div class="card-body">

@@ -64,6 +64,87 @@ class DosenController extends Controller
             ->make(true);
     }
 
+    public function create(DosenModel $dosen){
+        return view('admin.dosen.create_dosen')->with($dosen);
+    }
+
+    public function store(Request $request){
+        if ($request->ajax() || $request->wantsJson()) {
+            // dd($request);
+            // dd($request->file('foto_profile'));
+            if ($request->ajax() || $request->wantsJson()) {
+                $rules_user = [
+                    'username' => 'required|max:20|unique:m_user,username',
+                    'password' => 'required|min:6|max:20'
+                ];
+                $rules_dosen = [
+                    'nidn' => 'required',
+                    'nama' => 'required|max:100',
+                    'email' => 'required|email|max:255',
+                    'no_tlp' => 'nullable|max:20',
+                ];
+            
+                $validator_user = Validator::make($request->only(['username', 'password']), $rules_user);
+                $validator_dosen = Validator::make($request->only(['nidn', 'nama', 'email', 'no_tlp']), $rules_dosen);
+            
+                if ($validator_user->fails() || $validator_dosen->fails()) {
+                    return response()->json([
+                        'status' => false,
+                        'message' => 'Validasi gagal.',
+                        'msgField' => array_merge($validator_user->errors()->toArray(), $validator_dosen->errors()->toArray())
+                    ]);
+                }
+            
+                $imagePath = null;
+                if ($request->hasFile('foto_profile')) {
+                    $file = $request->file('foto_profile');
+            
+                    if (!$file->isValid()) {
+                        return response()->json(['error' => 'Invalid file'], 400);
+                    }
+            
+                    $filename = time() . '_' . $file->getClientOriginalName();
+                    $destinationPath = storage_path('app/public/dosen/profile-pictures');
+                    if (!file_exists($destinationPath)) {
+                        mkdir($destinationPath, 0775, true);
+                    }
+            
+                    $file->move($destinationPath, $filename);
+                    $imagePath = "dosen/profile-pictures/$filename"; // Simpan path gambar
+                }
+            
+                try {
+                    // Buat user baru
+                    $user = UserModel::create([
+                        'username' => $request->username,
+                        'password' => bcrypt($request->password),
+                        'level_id' => 2, // Asumsi level_id untuk dosen adalah 2
+                    ]);
+            
+                    // Buat dosen baru
+                    $dosen = DosenModel::create([
+                        'user_id' => $user->user_id,
+                        'nidn' => $request->nidn,
+                        'nama' => $request->nama,
+                        'email' => $request->email,
+                        'no_tlp' => $request->no_tlp,
+                        'foto_profile' => $imagePath,
+                    ]);
+            
+                    return response()->json(['status' => true, 'message' => 'Data dosen berhasil ditambahkan', 'data' => $dosen]);
+            
+                } catch (\Exception $e) {
+                    // Jika terjadi error saat membuat user atau dosen, hapus user yang mungkin sudah terbuat
+                    if (isset($user)) {
+                        $user->delete();
+                    }
+                    return response()->json(['status' => false, 'message' => 'Gagal menambahkan data dosen: ' . $e->getMessage()], 500);
+                }
+            }
+            return redirect('/dosen'); // Redirect jika bukan request AJAX
+    }
+}
+
     public function show($id)
     {
         $dosen = DosenModel::find($id);
