@@ -53,13 +53,15 @@
                             </a>
                         </li>
                         <li>
-                            <a href="{{ route('dosen.index') }}" class="{{ request()->routeIs('dosen.index') ? 'mm-active' : '' }}">
+                            <a href="{{ route('dosen.index') }}" 
+                                class="{{ request()->routeIs('dosen.index') ? 'mm-active' : '' }}">
                                 <i class="metismenu-icon">
                                 </i> Dosen
                             </a>
                         </li>
                         <li>
-                            <a href="{{ route('admin.index') }}" class="{{ request()->routeIs('admin.index') ? 'mm-active' : '' }}">
+                            <a href="{{ route('admin.index') }}" 
+                                class="{{ request()->routeIs('admin.index') ? 'mm-active' : '' }}">
                                 <i class="metismenu-icon">
                                 </i> Admin
                             </a>
@@ -82,6 +84,13 @@
                             <a href="mailbox.html">
                                 <i class="metismenu-icon">
                                 </i>Kategori Lomba
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{ route('penyelenggara.index') }}"
+                                class="{{ request()->routeIs('penyelenggara.index') ? 'mm-active' : '' }}"> 
+                                <i class="metismenu-icon">
+                                </i> Daftar Penyelenggara
                             </a>
                         </li>
                     </ul>

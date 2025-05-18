@@ -7,6 +7,7 @@ use App\Http\Controllers\MahasiswaController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\KelasController;
 use App\Http\Controllers\ProdiController;
+use App\Http\Controllers\PenyelenggaraController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -45,7 +46,7 @@ Route::middleware('auth')->group(function () {
         });
         Route::prefix('kelas')->group(function () {
             Route::get('/', [KelasController::class, 'index'])->name('kelas.index');
-            Route::post('/list', [KelasController::class, 'list']);
+            Route::post('/list', [KelasController::class, 'list'])->name('kelas.list');
             Route::get('/{kelas}/show', [KelasController::class, 'show'])->name('kelas.show');
             Route::get('/create', [KelasController::class, 'create'])->name('kelas.create');
             Route::post('/', [KelasController::class, 'store'])->name('kelas.store');
@@ -81,6 +82,17 @@ Route::middleware('auth')->group(function () {
             Route::get('/{id}/edit', [ProdiController::class, 'edit'])->name('prodi.edit');
             Route::put('/{id}', [ProdiController::class, 'update'])->name('prodi.update');
             Route::delete('/{id}', [ProdiController::class, 'destroy'])->name('prodi.destroy');
+        });
+        Route::prefix('penyelenggara')->group(function () {
+            Route::get('/', [PenyelenggaraController::class, 'index'])->name('penyelenggara.index');
+            Route::post('/list', [PenyelenggaraController::class, 'list'])->name('penyelenggara.list');
+            Route::get('/{id}/show', [PenyelenggaraController::class, 'show'])->name('penyelenggara.show');
+            Route::get('/create', [PenyelenggaraController::class, 'create'])->name('penyelenggara.create');
+            Route::post('/', [PenyelenggaraController::class, 'store'])->name('penyelenggara.store');
+            Route::get('/{id}/edit', [PenyelenggaraController::class, 'edit'])->name('penyelenggara.edit');
+            Route::put('/{id}', [PenyelenggaraController::class, 'update'])->name('penyelenggara.update');
+            Route::get('/{penyelenggara}/confirm-delete', [PenyelenggaraController::class, 'confirmDelete'])->name('penyelenggara.confirm-delete');
+            Route::delete('/{penyelenggara}', [PenyelenggaraController::class, 'destroy'])->name('penyelenggara.destroy');
         });
     });
 });
