@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\KelasModel;
+use App\Models\LevelModel;
 use App\Models\MahasiswaModel;
 use App\Models\ProdiModel;
 use App\Models\UserModel;
@@ -91,7 +92,9 @@ class MahasiswaController extends Controller
      */
     public function create()
     {
-        return 'Ini Create';
+        $kelas = KelasModel::select('kelas_id', 'kelas_nama', 'prodi_id')->get();
+        $prodi = ProdiModel::select('prodi_id', 'prodi_nama')->get();
+        return view('admin.mahasiswa.create_mahasiswa')->with(['kelas' => $kelas, 'prodi' => $prodi]);
     }
 
     /**
@@ -99,6 +102,97 @@ class MahasiswaController extends Controller
      */
     public function store(Request $request)
     {
+        // dd($request->file('foto_profile'));
+
+        // dd($request);
+        if ($request->ajax() || $request->wantsJson()) {
+            // dd($request);
+            // dd($request->file('foto_profile'));
+
+            $rules = [
+                'username' => 'required|max:20|unique:m_user,username',
+                'nama' => 'required|max:100',
+                'email' => 'required|email|unique:m_mahasiswa,email',
+                'no_tlp' => 'nullable|max:20',
+                'nim' => 'required|unique:m_mahasiswa,nim',
+                'prodi_id' => 'required',
+                'kelas_id' => 'required',
+                'alamat' => 'nullable',
+                'foto_profile' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+                'password' => 'nullable|min:6|max:20'
+            ];
+            $validator = Validator::make($request->all(), $rules);
+
+            if ($validator->fails()) {
+                return response()->json([
+                    'status' => false,
+                    'message' => 'Validasi gagal.',
+                    'msgField' => $validator->errors()
+                ]);
+            }
+            if ($request->hasFile('foto_profile')) {
+                // return response()->json(['error' => 'No file uploaded'], 400);
+                $file = $request->file('foto_profile');
+
+                if (!$file->isValid()) {
+                    return response()->json(['error' => 'Invalid file'], 400);
+                }
+
+                // Nama file unik
+                $filename = time() . '_' . $file->getClientOriginalName();
+
+                // Pastikan folder penyimpanan ada
+                $destinationPath = storage_path('app/public/mahasiswa/profile-pictures');
+                if (!file_exists($destinationPath)) {
+                    mkdir($destinationPath, 0775, true);
+                }
+
+                // Hapus file lama jika ada
+                $oldImage = $mahasiswa->foto_profile ?? null; // Ambil path file lama dari database
+
+                if ($oldImage) {
+                    Storage::disk('public')->delete($oldImage);
+                }
+
+                // Pindahkan file
+                $file->move($destinationPath, $filename);
+
+                $imagePath = "mahasiswa/profile-pictures/$filename"; // Simpan path gambar
+            } else {
+                $imagePath = null;
+                // return  'dijalankan';
+            }
+            // dd($imagePath);
+
+            try {
+            $data_user = [
+                'username' => $request->username,
+                'password' => $request->password,
+                'level_' => LevelModel::where('level_kode', 'MHS')->first()->level_id
+            ];
+            $userId = UserModel::create($data_user)->user_id;
+
+            $data_mahasiswa = [
+                'user_id' => $userId,
+                'prodi_id' => $request->prodi_id,
+                'kelas_id' => $request->kelas_id,
+                'nim' => $request->nim,
+                'nama' => $request->nama,
+                'email' => $request->email,
+                'no_tlp' => $request->no_tlp,
+                'alamat' => $request->alamat,
+                'tahun_angkatan' => $request->tahun_angkatan,
+                'foto_profile' => $imagePath
+            ];
+
+            $mahasiswa = MahasiswaModel::create($data_mahasiswa);
+            return response()->json(['status' => true, 'message' => 'Data Mahasiswa berhasil ditambahkan']);
+            } catch (\Exception $e) {
+                return response()->json(['status' => false, 'message' => 'Terjadi kesalahan pada server']);
+            }
+
+
+        }
     }
 
     /**
@@ -244,7 +338,10 @@ class MahasiswaController extends Controller
                 if ($oldImage) {
                     Storage::disk('public')->delete($oldImage);
                 }
+
+                $userId = $mahasiswa->user_id;
                 $mahasiswa->delete();
+                UserModel::where('user_id', $userId)->delete();
                 return response()->json([
                     'status' => true,
                     'message' => 'Data berhasil dihapus'

@@ -265,7 +265,10 @@ class DosenController extends Controller
                 if ($oldImage) {
                     Storage::disk('public')->delete($oldImage);
                 }
+
+                $user_id = $dosen->user_id;
                 $dosen->delete();
+                UserModel::where('user_id', $user_id)->delete();
                 return response()->json([
                     'status' => true,
                     'message' => 'Data berhasil dihapus'
