@@ -59,6 +59,7 @@
                             <th>Lomba</th>
                             <th>Juara</th>
                             <th>Tingkat</th>
+                            <th>Poin</th>
                             <th>Aksi</th>
                         </tr>
                     </thead>
@@ -123,6 +124,7 @@
                         { data: "lomba", className: "", orderable: false, searchable: true },
                         { data: "juara", className: "", orderable: false, searchable: true },
                         { data: "tingkat", className: "", orderable: false, searchable: true },
+                        { data: "poin", className: "", orderable: false, searchable: true },
                         { data: "aksi", className: "", orderable: false, searchable: false }
                     ]
                 });
