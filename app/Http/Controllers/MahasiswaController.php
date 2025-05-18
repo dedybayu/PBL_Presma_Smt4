@@ -190,8 +190,6 @@ class MahasiswaController extends Controller
             } catch (\Exception $e) {
                 return response()->json(['status' => false, 'message' => 'Terjadi kesalahan pada server']);
             }
-
-
         }
     }
 
