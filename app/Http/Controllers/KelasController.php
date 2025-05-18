@@ -5,13 +5,11 @@ namespace App\Http\Controllers;
 use App\Models\KelasModel;
 use App\Models\ProdiModel;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 use Yajra\DataTables\DataTables;
 
 class KelasController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
         $prodi = ProdiModel::all();
@@ -45,7 +43,7 @@ class KelasController extends Controller
                 ->addColumn('aksi', function ($row) {
                     $btn = '<button onclick="modalAction(\'' . url('/kelas/' . $row->kelas_id . '/show') . '\')" class="btn btn-info btn-sm"><i class="fa fa-eye"></i> Detail</button> ';
                     $btn .= '<button onclick="modalAction(\'' . url('/kelas/' . $row->kelas_id . '/edit') . '\')" class="btn btn-warning btn-sm"><i class="fa fa-pen"></i> Edit</button> ';
-                    $btn .= '<button onclick="modalAction(\'' . url('/kelas/' . $row->kelas_id . '/delete') . '\')" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i> Hapus</button>';
+                    $btn .= '<button onclick="modalAction(\'' . url('/kelas/' . $row->kelas_id . '/confirm-delete') . '\')" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i> Hapus</button>';
                     return $btn;
                 })
                 ->rawColumns(['aksi'])
@@ -53,55 +51,111 @@ class KelasController extends Controller
         }
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
-        //
+        $prodi = ProdiModel::all();
+        return view('admin.kelas.create_kelas')->with([
+            'prodi' => $prodi
+        ]);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        //
+        $rules = [
+            'kelas_kode' => 'required|string|max:50',
+            'kelas_nama' => 'required|string|max:255',
+            'prodi_id' => 'required|exists:m_prodi,prodi_id',
+        ];
+
+        $validator = Validator::make($request->all(), $rules);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Validasi gagal.',
+                'msgField' => $validator->errors()
+            ]);
+        }
+
+        KelasModel::create([
+            'kelas_kode' => $request->kelas_kode,
+            'kelas_nama' => $request->kelas_nama,
+            'prodi_id' => $request->prodi_id,
+        ]);
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Data berhasil disimpan.'
+        ]);
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show(KelasModel $kelas)
     {
-        // dd  ($kelas);
-        // $kelas = KelasModel::find($id);
         return view('admin.kelas.show_kelas')->with([
             'kelas' => $kelas
         ]);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(KelasModel $kelasModel)
+    public function edit(KelasModel $kelas)
     {
-        //
+        $prodi = ProdiModel::all();
+        return view('admin.kelas.edit_kelas')->with([
+            'kelas' => $kelas,
+            'prodi' => $prodi
+        ]);
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, KelasModel $kelasModel)
+    public function update(Request $request, KelasModel $kelas)
     {
-        //
+        $rules = [
+            'kelas_kode' => 'required|string|max:50',
+            'kelas_nama' => 'required|string|max:255',
+            'prodi_id' => 'required|exists:m_prodi,prodi_id',
+        ];
+
+        $validator = Validator::make($request->all(), $rules);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Validasi gagal.',
+                'msgField' => $validator->errors()
+            ]);
+        }
+
+        $kelas->update([
+            'kelas_kode' => $request->kelas_kode,
+            'kelas_nama' => $request->kelas_nama,
+            'prodi_id' => $request->prodi_id,
+        ]);
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Data berhasil diupdate.'
+        ]);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(KelasModel $kelasModel)
+    public function confirmDelete(KelasModel $kelas)
     {
-        //
+        return view('admin.kelas.confirm_delete_kelas')->with([
+            'kelas' => $kelas
+        ]);
+    }
+
+    public function destroy(KelasModel $kelas)
+    {
+        try {
+            $kelas->delete();
+
+            return response()->json([
+                'status' => true,
+                'message' => 'Data berhasil dihapus'
+            ]);
+        } catch (\Illuminate\Database\QueryException $e) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Data gagal dihapus karena masih terdapat tabel lain yang terkait dengan data ini'
+            ]);
+        }
     }
 }
