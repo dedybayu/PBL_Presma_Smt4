@@ -23,7 +23,15 @@ class PrestasiController extends Controller
     public function list(Request $request)
     {
         if ($request->ajax()) {
-            $prestasi = PrestasiModel::with('mahasiswa', 'dosen', 'lomba.tingkat')->get();
+            $prestasi = PrestasiModel::with('mahasiswa', 'dosen', 'lomba.tingkat');
+
+            if ($request->tingkat_lomba_id) {
+                $prestasi->whereHas('lomba.tingkat', function ($query) use ($request) {
+                    $query->where('tingkat_lomba_id', $request->tingkat_lomba_id);
+                });
+            }
+
+            $prestasi = $prestasi->get();
 
             return DataTables::of($prestasi)
                 ->addIndexColumn() // untuk DT_RowIndex

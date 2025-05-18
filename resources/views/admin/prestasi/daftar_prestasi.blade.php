@@ -131,7 +131,7 @@
 
 
                 $('#tingkat_lomba_id').on('change', function () {
-                    dataprestasi.ajax.reload();
+                    dataPrestasi.ajax.reload();
                 });
 
             });
