@@ -1,9 +1,7 @@
 <x-layout>
     <x-slot:css>
         <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
-        <link href="https://cdn.jsdelivr.net/npm/select2-bootstrap-5-theme@1.1.1/dist/select2-bootstrap-5-theme.min.css"
-            rel="stylesheet" />
-        {{-- <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.4.1/css/responsive.bootstrap5.min.css"> --}}
+        <link href="https://cdn.jsdelivr.net/npm/select2-bootstrap-5-theme@1.1.1/dist/select2-bootstrap-5-theme.min.css" rel="stylesheet" />
     </x-slot:css>
 
     <x-slot:title>
@@ -15,7 +13,7 @@
             <h3 class="card-title">Daftar Penyelenggara</h3>
             <div class="btn-actions-pane-right text-capitalize">
                 <button onclick="modalAction('{{ url('/penyelenggara/create') }}')" class="btn btn-sm btn-success mt-1">
-                    <i class="fa fa-plus"></i> Tambah Ajax
+                    <i class="fa fa-plus"></i> Tambah Penyelenggara
                 </button>
             </div>
         </div>

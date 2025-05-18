@@ -47,11 +47,12 @@ Route::middleware('auth')->group(function () {
         Route::prefix('kelas')->group(function () {
             Route::get('/', [KelasController::class, 'index'])->name('kelas.index');
             Route::post('/list', [KelasController::class, 'list'])->name('kelas.list');
-            Route::get('/{kelas}/show', [KelasController::class, 'show'])->name('kelas.show');
             Route::get('/create', [KelasController::class, 'create'])->name('kelas.create');
             Route::post('/', [KelasController::class, 'store'])->name('kelas.store');
+            Route::get('/{kelas}/show', [KelasController::class, 'show'])->name('kelas.show');
             Route::get('/{kelas}/edit', [KelasController::class, 'edit'])->name('kelas.edit');
             Route::put('/{kelas}', [KelasController::class, 'update'])->name('kelas.update');
+            Route::get('/{kelas}/confirm-delete', [KelasController::class, 'confirmDelete'])->name('kelas.confirm-delete'); // jika ingin pakai konfirmasi hapus
             Route::delete('/{kelas}', [KelasController::class, 'destroy'])->name('kelas.destroy');
         });
         Route::prefix('dosen')->group(function () {
@@ -86,9 +87,9 @@ Route::middleware('auth')->group(function () {
         Route::prefix('penyelenggara')->group(function () {
             Route::get('/', [PenyelenggaraController::class, 'index'])->name('penyelenggara.index');
             Route::post('/list', [PenyelenggaraController::class, 'list'])->name('penyelenggara.list');
-            Route::get('/{id}/show', [PenyelenggaraController::class, 'show'])->name('penyelenggara.show');
             Route::get('/create', [PenyelenggaraController::class, 'create'])->name('penyelenggara.create');
             Route::post('/', [PenyelenggaraController::class, 'store'])->name('penyelenggara.store');
+            Route::get('/{id}/show', [PenyelenggaraController::class, 'show'])->name('penyelenggara.show');
             Route::get('/{id}/edit', [PenyelenggaraController::class, 'edit'])->name('penyelenggara.edit');
             Route::put('/{id}', [PenyelenggaraController::class, 'update'])->name('penyelenggara.update');
             Route::get('/{penyelenggara}/confirm-delete', [PenyelenggaraController::class, 'confirmDelete'])->name('penyelenggara.confirm-delete');
