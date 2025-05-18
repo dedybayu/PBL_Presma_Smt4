@@ -102,7 +102,8 @@
                     </a>
                     <ul>
                         <li>
-                            <a href="mailbox.html">
+                            <a href="{{ route('prestasi.index') }}" 
+                                class="{{ request()->routeIs('prestasi.index') ? 'mm-active' : '' }}">
                                 <i class="metismenu-icon">
                                 </i>Prestasi Mahasiswa
                             </a>

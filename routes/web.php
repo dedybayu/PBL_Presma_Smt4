@@ -6,6 +6,7 @@ use App\Http\Controllers\DosenController;
 use App\Http\Controllers\MahasiswaController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\KelasController;
+use App\Http\Controllers\PrestasiController;
 use App\Http\Controllers\ProdiController;
 use App\Http\Controllers\PenyelenggaraController;
 use Illuminate\Support\Facades\Route;
@@ -94,6 +95,17 @@ Route::middleware('auth')->group(function () {
             Route::put('/{id}', [PenyelenggaraController::class, 'update'])->name('penyelenggara.update');
             Route::get('/{penyelenggara}/confirm-delete', [PenyelenggaraController::class, 'confirmDelete'])->name('penyelenggara.confirm-delete');
             Route::delete('/{penyelenggara}', [PenyelenggaraController::class, 'destroy'])->name('penyelenggara.destroy');
+        });
+        Route::prefix('prestasi')->group(function () {
+            Route::get('/', [PrestasiController::class, 'index'])->name('prestasi.index');
+            Route::post('/list', [PrestasiController::class, 'list']);
+            Route::get('/{id}/show', [PrestasiController::class, 'show'])->name('prestasi.show');
+            Route::get('/create', [PrestasiController::class, 'create'])->name('prestasi.create');
+            Route::post('/', [PrestasiController::class, 'store'])->name('prestasi.store');
+            Route::get('/{prestasi}/edit', [PrestasiController::class, 'edit'])->name('prestasi.edit');
+            Route::put('/{prestasi}', [PrestasiController::class, 'update'])->name('prestasi.update');
+            Route::get('/{prestasi}/confirm-delete', [PrestasiController::class, 'confirmDelete'])->name('prestasi.confirm-delete');
+            Route::delete('/{prestasi}', [PrestasiController::class, 'destroy'])->name('prestasi.destroy');
         });
     });
 });
