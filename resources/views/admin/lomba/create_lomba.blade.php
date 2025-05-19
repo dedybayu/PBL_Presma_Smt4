@@ -28,25 +28,31 @@
             </select>
             <small id="error-tingkat_lomba_id" class="text-danger"></small>
         </div>
-        <div class="form-group">
-            <label for="bidang_keahlian_id">Bidang</label>
-            <select name="bidang_keahlian_id" id="bidang_keahlian_id" class="form-control">
-                <option value="">- Pilih Keahlian -</option>
-                @foreach($bidang as $n)
-                    <option value="{{ $n->bidang_keahlian_id }}">{{ $n->bidang_keahlian_nama }}</option>
-                @endforeach
-            </select>
-            <small id="error-bidang_keahlian_id" class="text-danger"></small>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label>Bidang</label>
+                <select class="form-select" id="bidang_keahlian_id" name="bidang_kelas_id" style="width: 100%">
+                    <option value="" disabled selected>- Pilih bidang -</option>
+                    @foreach($bidang as $item)
+                        <option value="{{ $item->bidang_keahlian_id }}">
+                            {{ $item->bidang_keahlian_nama }}
+                        </option>
+                    @endforeach
+                </select>
+            </div>
         </div>
-        <div class="form-group">
-            <label for="penyelenggara_id">Penyelenggara</label>
-            <select name="penyelenggara_id" id="penyelenggara_id" class="form-control">
-                <option value="">- Pilih penyelenggara -</option>
-                @foreach($penyelenggara as $n)
-                    <option value="{{ $n->penyelenggara_id }}">{{ $n->penyelenggara_nama }}</option>
-                @endforeach
-            </select>
-            <small id="error-penyelenggara_id" class="text-danger"></small>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label>Penyelenggara</label>
+                <select class="form-select" id="penyelenggara_id" name="penyelenggara_id" style="width: 100%">
+                    <option value="" disabled selected>- Pilih penyelenggara -</option>
+                    @foreach($penyelenggara as $item)
+                        <option value="{{ $item->penyelenggara_id }}">
+                            {{ $item->penyelenggara_nama }}
+                        </option>
+                    @endforeach
+                </select>
+            </div>
         </div>
         <div class="form-group">
             <label for="tanggal_mulai">tanggal mulai</label>
@@ -58,11 +64,6 @@
             <input type="date" name="tanggal_selesai" id="tanggal_selesai" class="form-control">
             <small id="error-tanggal_selesai" class="text-danger"></small>
         </div>
-        <div class="form-group">
-            <label for="status_verifikasi">status</label>
-            <input type="number" name="status_verifikasi" id="status_verifikasi" class="form-control">
-            <small id="error-status_verifikasi" class="text-danger"></small>
-        </div>
     </div>
 
     <div class="modal-footer">
@@ -72,6 +73,27 @@
 </form>
 
 <script>
+    function initSelect2() {
+        // Hanya inisialisasi jika belum di-init
+        if (!$('#bidang_keahlian_id').hasClass("select2-hidden-accessible")) {
+            $('#bidang_keahlian_id').select2({
+                theme: 'bootstrap-5',
+                placeholder: "- Pilih Bidang -",
+                width: '100%',
+                dropdownParent: $('#modal-lomba') // ⬅️ INI PENTING!
+            });
+        }
+
+        if (!$('#penyelenggara_id').hasClass("select2-hidden-accessible")) {
+            $('#penyelenggara_id').select2({
+                theme: 'bootstrap-5',
+                placeholder: "- Pilih penyelenggara -",
+                width: '100%',
+                dropdownParent: $('#modal-lomba') // ⬅️ INI PENTING!
+            });
+        }
+    }
+    
     $(document).ready(function () {
         $("#form-tambah-lomba").validate({
             rules: {

@@ -17,6 +17,12 @@
             <small id="error-lomba_kode" class="error-text form-text text-danger"></small>
         </div>
         <div class="form-group">
+            <label>Nama Lomba</label>
+            <input type="text" name="lomba_nama" id="lomba_nama" class="form-control"
+                value="{{ $lomba->lomba_nama }}" required>
+            <small id="error-lomba_nama" class="error-text form-text text-danger"></small>
+        </div>
+        <div class="form-group">
             <label>Tingkat</label>
             <select name="tingkat_lomba_id" id="tingkat_lomba_id" class="form-control" required>
                 <option value="">-- Pilih tingkat --</option>
@@ -66,12 +72,6 @@
             <input type="text" name="tanggal_selesai" id="tanggal_selesai" class="form-control"
                 value="{{ $lomba->tanggal_selesai }}" required>
             <small id="error-tanggal_selesai" class="error-text form-text text-danger"></small>
-        </div>
-        <div class="form-group">
-            <label>status verifikasi</label>
-            <input type="number" name="status_verifikasi" id="status_verifikasi" class="form-control"
-                value="{{ $lomba->status_verifikasi }}" required>
-            <small id="error-status_verifikasi" class="error-text form-text text-danger"></small>
         </div>
     </div>
     <div class="modal-footer">
