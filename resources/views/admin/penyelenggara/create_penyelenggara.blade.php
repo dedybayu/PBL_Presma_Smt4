@@ -13,18 +13,7 @@
             <input type="text" name="penyelenggara_nama" id="penyelenggara_nama" class="form-control">
             <small id="error-penyelenggara_nama" class="text-danger"></small>
         </div>
-
-        <div class="form-group">
-            <label for="kota_id">Kota</label>
-            <select name="kota_id" id="kota_id" class="form-control">
-                <option value="">- Pilih Kota -</option>
-                @foreach($kota as $k)
-                    <option value="{{ $k->kota_id }}">{{ $k->kota_nama }}</option>
-                @endforeach
-            </select>
-            <small id="error-kota_id" class="text-danger"></small>
-        </div>
-
+        
         <div class="form-group">
             <label for="negara_id">Negara</label>
             <select name="negara_id" id="negara_id" class="form-control">
@@ -34,6 +23,18 @@
                 @endforeach
             </select>
             <small id="error-negara_id" class="text-danger"></small>
+        </div>
+
+        <div class="form-group">
+            <label for="kota_id">Kota</label>
+            <small id="warning-kota-non-indonesia" class="text-warning d-none">( Kota hanya dapat dipilih jika negaranya Indonesia. )</small>
+            <select name="kota_id" id="kota_id" class="form-control" disabled>
+                <option value="">- Pilih Kota -</option>
+                @foreach($kota as $k)
+                    <option value="{{ $k->kota_id }}">{{ $k->kota_nama }}</option>
+                @endforeach
+            </select>
+            <small id="error-kota_id" class="text-danger"></small>
         </div>
     </div>
 
@@ -79,6 +80,17 @@
                     }
                 });
                 return false;
+            }
+        });
+        // Aktifkan kota hanya jika negara Indonesia (negara_id = 92) dipilih
+        $('#negara_id').on('change', function () {
+            let negaraId = $(this).val();
+            if (negaraId == '92') {
+                $('#kota_id').prop('disabled', false);
+                $('#warning-kota-non-indonesia').addClass('d-none');
+            } else {
+                $('#kota_id').val('').prop('disabled', true);
+                $('#warning-kota-non-indonesia').removeClass('d-none');
             }
         });
     });

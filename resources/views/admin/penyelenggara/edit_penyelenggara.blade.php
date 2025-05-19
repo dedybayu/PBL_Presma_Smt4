@@ -12,26 +12,13 @@
     <div class="modal-body">
         <div class="form-group">
             <label>Nama Penyelenggara</label>
-            <input type="text" name="penyelenggara_nama" id="penyelenggara_nama" class="form-control" value="{{ $penyelenggara->penyelenggara_nama }}" required>
-            <small id="error-penyelenggara_nama" class="error-text form-text text-danger"></small>
-        </div>
-
-        <div class="form-group">
-            <label>Lokasi (Kota)</label>
-            <select name="kota_id" id="kota_id" class="form-control" required>
-                <option value="">-- Pilih Kota --</option>
-                @foreach($kota as $k)
-                    <option value="{{ $k->kota_id }}" {{ $penyelenggara->kota_id == $k->kota_id ? 'selected' : '' }}>
-                        {{ $k->kota_nama }}
-                    </option>
-                @endforeach
-            </select>
-            <small id="error-kota_id" class="error-text form-text text-danger"></small>
+            <input type="text" name="penyelenggara_nama" id="penyelenggara_nama" class="form-control" value="{{ $penyelenggara->penyelenggara_nama }}">
+            <small id="error-penyelenggara_nama" class="text-danger"></small>
         </div>
 
         <div class="form-group">
             <label>Negara</label>
-            <select name="negara_id" id="negara_id" class="form-control" required>
+            <select name="negara_id" id="negara_id" class="form-control">
                 <option value="">-- Pilih Negara --</option>
                 @foreach($negara as $n)
                     <option value="{{ $n->negara_id }}" {{ $penyelenggara->negara_id == $n->negara_id ? 'selected' : '' }}>
@@ -39,7 +26,21 @@
                     </option>
                 @endforeach
             </select>
-            <small id="error-negara_id" class="error-text form-text text-danger"></small>
+            <small id="error-negara_id" class="text-danger"></small>
+        </div>
+
+        <div class="form-group">
+            <label>Kota</label>
+            <small id="warning-kota-non-indonesia" class="text-warning d-none">( Kota hanya dapat dipilih jika negaranya Indonesia. )</small>
+            <select name="kota_id" id="kota_id" class="form-control">
+                <option value="">-- Pilih Kota --</option>
+                @foreach($kota as $k)
+                    <option value="{{ $k->kota_id }}" {{ $penyelenggara->kota_id == $k->kota_id ? 'selected' : '' }}>
+                        {{ $k->kota_nama }}
+                    </option>
+                @endforeach
+            </select>
+            <small id="error-kota_id" class="text-danger"></small>
         </div>
     </div>
 
@@ -48,9 +49,23 @@
         <button type="submit" class="btn btn-primary">Simpan</button>
     </div>
 </form>
-
 <script>
 $(document).ready(function () {
+    function toggleKotaDropdown(negaraId) {
+        if (negaraId == '92') {
+            $('#kota_id').prop('disabled', false);
+            $('#warning-kota-non-indonesia').addClass('d-none');
+        } else {
+            $('#kota_id').val('').prop('disabled', true);
+            $('#warning-kota-non-indonesia').removeClass('d-none');
+        }
+    }
+
+    toggleKotaDropdown($('#negara_id').val());
+    $('#negara_id').on('change', function () {
+        toggleKotaDropdown($(this).val());
+    });
+
     $("#form-edit-penyelenggara").validate({
         rules: {
             penyelenggara_nama: { required: true, minlength: 3, maxlength: 255 },
@@ -68,7 +83,7 @@ $(document).ready(function () {
                         Swal.fire({ icon: 'success', title: 'Berhasil', text: response.message });
                         dataPenyelenggara.ajax.reload();
                     } else {
-                        $('.error-text').text('');
+                        $('.text-danger').text('');
                         $.each(response.msgField, function (prefix, val) {
                             $('#error-' + prefix).text(val[0]);
                         });

@@ -86,6 +86,15 @@ class PenyelenggaraController extends Controller
             ]);
         }
 
+        // Validasi kota hanya bisa dipilih jika negara Indonesia
+        if ($request->negara_id != 92 && $request->filled('kota_id')) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Kota hanya boleh dipilih jika negara adalah Indonesia.',
+                'msgField' => ['kota_id' => ['Hanya untuk negara Indonesia']]
+            ]);
+        }
+
         PenyelenggaraModel::create([
             'penyelenggara_nama' => $request->penyelenggara_nama,
             'kota_id' => $request->kota_id,
@@ -134,6 +143,15 @@ class PenyelenggaraController extends Controller
                 'status' => false,
                 'message' => 'Validasi gagal.',
                 'msgField' => $validator->errors()
+            ]);
+        }
+
+        // Validasi kota hanya bisa dipilih jika negara Indonesia
+        if ($request->negara_id != 92 && $request->filled('kota_id')) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Kota hanya boleh dipilih jika negara adalah Indonesia.',
+                'msgField' => ['kota_id' => ['Hanya untuk negara Indonesia']]
             ]);
         }
 
