@@ -37,29 +37,27 @@
         </div>
         <div class="form-group">
             <label>Bidang</label>
-            <select name="bidang_keahlian_id" id="bidang_keahlian_id" class="form-control" required>
-                <option value="">-- Pilih bidang --</option>
-                @foreach ($bidang as $n)
-                    <option value="{{ $n->bidang_keahlian_id }}"
-                        {{ $lomba->bidang_keahlian_id == $n->bidang_keahlian_id ? 'selected' : '' }}>
-                        {{ $n->bidang_keahlian_nama }}
+            <select class="form-select" id="bidang_keahlian_id_edit" name="bidang_kelas_id" style="width: 100%">
+                <option value="" disabled>- Pilih bidang -</option>
+                @foreach($bidang as $item)
+                    <option value="{{ $item->bidang_keahlian_id }}"
+                            {{ old('bidang_kelas_id', $lomba->bidang_keahlian_id) == $item->bidang_keahlian_id ? 'selected' : '' }}>
+                        {{ $item->bidang_keahlian_nama }}
                     </option>
                 @endforeach
             </select>
-            <small id="error-bidang_keahlian_id" class="error-text form-text text-danger"></small>
         </div>
         <div class="form-group">
             <label>Penyelenggara</label>
-            <select name="penyelenggara_id" id="penyelenggara_id" class="form-control" required>
-                <option value="">-- Pilih penyelenggara --</option>
-                @foreach ($penyelenggara as $n)
-                    <option value="{{ $n->penyelenggara_id }}"
-                        {{ $lomba->penyelenggara_id == $n->penyelenggara_id ? 'selected' : '' }}>
-                        {{ $n->penyelenggara_nama }}
+            <select class="form-select" id="penyelenggara_id" name="penyelenggara_id" style="width: 100%">
+                <option value="" disabled>- Pilih penyelenggara -</option>
+                @foreach($penyelenggara as $item)
+                    <option value="{{ $item->penyelenggara_id }}"
+                            {{ old('penyelenggara_id', $lomba->penyelenggara_id) == $item->penyelenggara_id ? 'selected' : '' }}>
+                        {{ $item->penyelenggara_nama }}
                     </option>
                 @endforeach
             </select>
-            <small id="error-penyelenggara_id" class="error-text form-text text-danger"></small>
         </div>
         <div class="form-group">
             <label>tanggal mulai</label>
@@ -81,7 +79,20 @@
 </form>
 
 <script>
+    function initSelect2() {
+        // Hanya inisialisasi jika belum di-init
+        $('#bidang_keahlian_id_edit, #penyelenggara_id').select2({
+            theme: 'bootstrap-5',
+            placeholder: "- Pilih Bidang -",
+            width: '100%',
+            dropdownParent: $('#modal-lomba') // ⬅️ INI PENTING!
+        });
+    }
     $(document).ready(function() {
+        $('#modal-lomba').on('shown.bs.modal', function () {
+            initSelect2();
+        });
+        
         $("#form-edit-lomba").validate({
             rules: {
                 lomba_kode: {
