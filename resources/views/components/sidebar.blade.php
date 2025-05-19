@@ -75,7 +75,8 @@
                     </a>
                     <ul>
                         <li>
-                            <a href="mailbox.html">
+                            <a href="{{ route('lomba.index') }}"
+                                class="{{ request()->routeIs('lomba.index') ? 'mm-active' : '' }}">
                                 <i class="metismenu-icon">
                                 </i>Daftar Lomba
                             </a>
@@ -109,10 +110,10 @@
                             </a>
                         </li>
                         <li>
-                            <a href="{{ route('lomba.index') }}"
-                                class="{{ request()->routeIs('lomba.index') ? 'mm-active' : '' }}">
+                            <a href="mailbox.html">
                                 <i class="metismenu-icon">
-                                </i>Data Lomba
+                                </i>Data lomba
+                            </a>
                             </a>
                         </li>
                     </ul>

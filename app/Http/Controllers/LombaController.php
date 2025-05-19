@@ -62,4 +62,12 @@ class LombaController extends Controller
                 ->make(true);
         }
     }
+
+    public function show(LombaModel $lomba){
+        $tingkat = TingkatLombaModel::all();
+        $bidang = BidangKeahlianModel::all();
+        $penyelenggara = PenyelenggaraModel::all();
+        return view('admin.lomba.show_lomba')->with(['lomba' => $lomba, 'tingkat' => $tingkat, 'bidang' => $bidang, 'penyelenggara' => $penyelenggara]);
+    }
+    
 }
