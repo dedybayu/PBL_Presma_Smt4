@@ -64,8 +64,8 @@ class DosenController extends Controller
             ->make(true);
     }
 
-    public function create(DosenModel $dosen){
-        return view('admin.dosen.create_dosen')->with($dosen);
+    public function create(){
+        return view('admin.dosen.create_dosen');
     }
 
     public function store(Request $request){
