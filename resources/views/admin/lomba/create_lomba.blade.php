@@ -53,17 +53,18 @@
             <input type="date" name="tanggal_mulai" id="tanggal_mulai" class="form-control">
             <small id="error-tanggal-mulai" class="text-danger"></small>
         </div>
+        <div class="form-group">
+            <label for="tanggal_selesai">tanggal_selesai</label>
+            <input type="date" name="tanggal_selesai" id="tanggal_selesai" class="form-control">
+            <small id="error-tanggal_selesai" class="text-danger"></small>
+        </div>
+        <div class="form-group">
+            <label for="status_verifikasi">status</label>
+            <input type="number" name="status_verifikasi" id="status_verifikasi" class="form-control">
+            <small id="error-status_verifikasi" class="text-danger"></small>
+        </div>
     </div>
-    <div class="form-group">
-        <label for="tanggal_selesai">tanggal_selesai</label>
-        <input type="date" name="tanggal_selesai" id="tanggal_selesai" class="form-control">
-        <small id="error-tanggal_selesai" class="text-danger"></small>
-    </div>
-    <div class="form-group">
-        <label for="status_verifikasi">status</label>
-        <input type="number" name="status_verifikasi" id="status_verifikasi" class="form-control">
-        <small id="error-status_verifikasi" class="text-danger"></small>
-    </div>
+
     <div class="modal-footer">
         <button type="button" class="btn btn-warning" data-dismiss="modal">Batal</button>
         <button type="submit" class="btn btn-primary">Simpan</button>
