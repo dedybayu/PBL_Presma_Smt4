@@ -30,7 +30,7 @@
         </div>
         <div class="form-group">
             <label>Bidang</label>
-            <select class="form-select" id="bidang_keahlian_id" name="bidang_kelas_id" style="width: 100%">
+            <select class="form-select" id="bidang_keahlian_id_create" name="bidang_kelas_id" style="width: 100%">
                 <option value="" disabled selected>- Pilih bidang -</option>
                 @foreach($bidang as $item)
                     <option value="{{ $item->bidang_keahlian_id }}">
@@ -71,7 +71,7 @@
 <script>
     function initSelect2() {
         // Hanya inisialisasi jika belum di-init
-        $('#bidang_keahlian_id, #penyelenggara_id').select2({
+        $('#bidang_keahlian_id_create, #penyelenggara_id').select2({
             theme: 'bootstrap-5',
             placeholder: "- Pilih Bidang -",
             width: '100%',

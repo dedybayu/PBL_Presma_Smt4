@@ -38,6 +38,7 @@ class PrestasiController extends Controller
                 ->addColumn('nim', function ($row) {
                     return $row->mahasiswa->nim;
                 })
+                
                 // ->addColumn('info', function ($row) {
                 //     $image = $row->foto_profile ? asset('storage/' . $row->foto_profile) : asset('assets/images/user.png');
                 //     // $image = asset('assets/images/user.png');
@@ -77,7 +78,15 @@ class PrestasiController extends Controller
                 ->addColumn('poin', function ($row) {
                     return $row->poin ?? '-';
                 })
-
+                ->addColumn('status_verifikasi', function ($row) {
+                    if ($row->status_verifikasi == 1) {
+                        return '<span class="badge bg-success" style="color: white;">Terverifikasi</span>';
+                    } else if ($row->status_verifikasi == 0) {
+                        return '<span class="badge bg-danger" style="color: white;">Ditolak</span>';
+                    } else {
+                        return '<span class="badge bg-warning"style="color: white;">Belum Diverifikasi</span>';
+                    }
+                })
                 ->addColumn('aksi', function ($row) {
                     $btn = '<button onclick="modalAction(\'' . url('/mahasiswa/' . $row->mahasiswa_id . '/show') . '\')" class="btn btn-info btn-sm"><i class="fa fa-eye"></i> Detail</button> ';
                     $btn .= '<button onclick="modalAction(\'' . url('/mahasiswa/' . $row->mahasiswa_id . '/edit') . '\')" class="btn btn-sm btn-warning" title="Edit"><i class="fa fa-pen"></i> Edit</button> ';
@@ -85,7 +94,7 @@ class PrestasiController extends Controller
                     // return '<div class="">' . $btn . '</div>';
                     return $btn;
                 })
-                ->rawColumns(['info', 'aksi']) // agar tombol HTML tidak di-escape
+                ->rawColumns(['info', 'aksi', 'status_verifikasi']) // agar tombol HTML tidak di-escape
                 ->make(true);
         }
     }

@@ -48,7 +48,6 @@
             </div>
 
             <div class="table-responsive">
-                <!-- prestasi Table -->
                 <table class="table table-bordered table-sm table-striped table-hover" id="table-prestasi">
                     <thead>
                         <tr>
@@ -60,10 +59,10 @@
                             <th>Juara</th>
                             <th>Tingkat</th>
                             <th>Poin</th>
+                            <th>Status</th>
                             <th>Aksi</th>
                         </tr>
                     </thead>
-
                 </table>
             </div>
 
@@ -125,6 +124,7 @@
                         { data: "juara", className: "", orderable: false, searchable: true },
                         { data: "tingkat", className: "", orderable: false, searchable: true },
                         { data: "poin", className: "", orderable: false, searchable: true },
+                        { data: "status_verifikasi", className: "", orderable: false, searchable: true },
                         { data: "aksi", className: "", orderable: false, searchable: false }
                     ]
                 });
