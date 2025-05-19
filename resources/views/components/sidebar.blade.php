@@ -3,8 +3,7 @@
         <div class="logo-src"></div>
         <div class="header__pane ml-auto">
             <div>
-                <button type="button" class="hamburger close-sidebar-btn hamburger--elastic"
-                    data-class="closed-sidebar">
+                <button type="button" class="hamburger close-sidebar-btn hamburger--elastic" data-class="closed-sidebar">
                     <span class="hamburger-box">
                         <span class="hamburger-inner"></span>
                     </span>
@@ -40,7 +39,8 @@
                     </a>
                 </li>
                 <li class="">
-                    <a href="#" class="{{ request()->routeIs('mahasiswa.*', 'dosen.*', 'admin.*') ? 'mm-active' : '' }}">
+                    <a href="#"
+                        class="{{ request()->routeIs('mahasiswa.*', 'dosen.*', 'admin.*') ? 'mm-active' : '' }}">
                         <i class="metismenu-icon pe-7s-users"></i> Manajemen Pengguna
                         <i class="metismenu-state-icon pe-7s-angle-down caret-left"></i>
                     </a>
@@ -53,14 +53,14 @@
                             </a>
                         </li>
                         <li>
-                            <a href="{{ route('dosen.index') }}" 
+                            <a href="{{ route('dosen.index') }}"
                                 class="{{ request()->routeIs('dosen.index') ? 'mm-active' : '' }}">
                                 <i class="metismenu-icon">
                                 </i> Dosen
                             </a>
                         </li>
                         <li>
-                            <a href="{{ route('admin.index') }}" 
+                            <a href="{{ route('admin.index') }}"
                                 class="{{ request()->routeIs('admin.index') ? 'mm-active' : '' }}">
                                 <i class="metismenu-icon">
                                 </i> Admin
@@ -88,7 +88,7 @@
                         </li>
                         <li>
                             <a href="{{ route('penyelenggara.index') }}"
-                                class="{{ request()->routeIs('penyelenggara.index') ? 'mm-active' : '' }}"> 
+                                class="{{ request()->routeIs('penyelenggara.index') ? 'mm-active' : '' }}">
                                 <i class="metismenu-icon">
                                 </i> Daftar Penyelenggara
                             </a>
@@ -102,14 +102,15 @@
                     </a>
                     <ul>
                         <li>
-                            <a href="{{ route('prestasi.index') }}" 
+                            <a href="{{ route('prestasi.index') }}"
                                 class="{{ request()->routeIs('prestasi.index') ? 'mm-active' : '' }}">
                                 <i class="metismenu-icon">
                                 </i>Prestasi Mahasiswa
                             </a>
                         </li>
                         <li>
-                            <a href="chat.html">
+                            <a href="{{ route('lomba.index') }}"
+                                class="{{ request()->routeIs('lomba.index') ? 'mm-active' : '' }}">
                                 <i class="metismenu-icon">
                                 </i>Data Lomba
                             </a>
@@ -117,7 +118,8 @@
                     </ul>
                 </li>
                 <li>
-                    <a href="#" class="{{ request()->routeIs('periode.*', 'prodi.*', 'kelas.*') ? 'mm-active' : '' }}">
+                    <a href="#"
+                        class="{{ request()->routeIs('periode.*', 'prodi.*', 'kelas.*') ? 'mm-active' : '' }}">
                         <i class="metismenu-icon pe-7s-study"></i>Data Akademik
                         <i class="metismenu-state-icon pe-7s-angle-down caret-left"></i>
                     </a>
@@ -129,7 +131,8 @@
                             </a>
                         </li>
                         <li>
-                            <a href="{{ route('prodi.index') }}" class="{{ request()->routeIs('prodi.index') ? 'mm-active' : '' }}">
+                            <a href="{{ route('prodi.index') }}"
+                                class="{{ request()->routeIs('prodi.index') ? 'mm-active' : '' }}">
                                 <i class="metismenu-icon">
                                 </i> Program Studi
                             </a>

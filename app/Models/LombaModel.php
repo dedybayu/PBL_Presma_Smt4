@@ -36,7 +36,7 @@ class LombaModel extends Model
         return $this->belongsTo(TingkatLombaModel::class, 'tingkat_lomba_id', 'tingkat_lomba_id');
     }
 
-    public function bidang_keahlian()
+    public function bidang()
     {
         return $this->belongsTo(BidangKeahlianModel::class, 'bidang_keahlian_id', 'bidang_keahlian_id');
     }

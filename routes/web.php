@@ -6,6 +6,7 @@ use App\Http\Controllers\DosenController;
 use App\Http\Controllers\MahasiswaController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\KelasController;
+use App\Http\Controllers\LombaController;
 use App\Http\Controllers\PrestasiController;
 use App\Http\Controllers\ProdiController;
 use App\Http\Controllers\PenyelenggaraController;
@@ -106,6 +107,18 @@ Route::middleware('auth')->group(function () {
             Route::put('/{prestasi}', [PrestasiController::class, 'update'])->name('prestasi.update');
             Route::get('/{prestasi}/confirm-delete', [PrestasiController::class, 'confirmDelete'])->name('prestasi.confirm-delete');
             Route::delete('/{prestasi}', [PrestasiController::class, 'destroy'])->name('prestasi.destroy');
+        });
+
+        Route::prefix('lomba')->group(function () {
+            Route::get('/', [LombaController::class, 'index'])->name('lomba.index');
+            Route::post('/list', [LombaController::class, 'list']);
+            Route::get('/{lomba}/show', [LombaController::class, 'show'])->name('lomba.show');
+            Route::get('/create', [LombaController::class, 'create'])->name('lomba.create');
+            Route::post('/', [LombaController::class, 'store'])->name('lomba.store');
+            Route::get('/{lomba}/edit', [LombaController::class, 'edit'])->name('lomba.edit');
+            Route::put('/{lomba}', [LombaController::class, 'update'])->name('lomba.update');
+            Route::get('/{lomba}/confirm-delete', [LombaController::class, 'confirmDelete'])->name('lomba.confirm-delete');
+            Route::delete('/{lomba}', [LombaController::class, 'destroy'])->name('lomba.destroy');
         });
     });
 });
