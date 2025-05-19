@@ -47,7 +47,9 @@
                             <select class="form-select" id="kelas_id" name="kelas_id" style="width: 100%">
                                 <option value="">- Semua -</option>
                                 @foreach($kelas as $item)
-                                    <option value="{{ $item->kelas_id }}">{{ $item->kelas_nama }}</option>
+                                    <option value="{{ $item->kelas_id }}" data-prodi-id="{{ $item->prodi_id }}">
+                                        {{ $item->kelas_nama }}
+                                    </option>
                                 @endforeach
                             </select>
                             <small class="form-text text-muted">Filter Kelas</small>
@@ -100,6 +102,8 @@
 
             var dataMahasiswa
             $(document).ready(function () {
+                handleKelasFilterByProdi('#prodi_id', '#kelas_id');
+
                 $('#prodi_id, #kelas_id').select2({
                     theme: 'bootstrap-5',
                     placeholder: "- Semua -",
@@ -138,6 +142,41 @@
                 });
 
             });
+
+            function handleKelasFilterByProdi(prodiSelector, kelasSelector) {
+                const $prodi = $(prodiSelector);
+                const $kelas = $(kelasSelector);
+
+                const allOptions = $kelas.find('option').clone(); // simpan semua opsi awal
+
+                $kelas.prop('disabled', true);
+
+                $prodi.on('change', function () {
+                    const selectedProdiId = $(this).val();
+
+                    if (selectedProdiId) {
+                        // Filter opsi sesuai prodi
+                        const filteredOptions = allOptions.filter(function () {
+                            const prodiId = $(this).data('prodi-id');
+                            return !prodiId || prodiId == selectedProdiId || $(this).val() === ""; // biarkan option kosong tetap ada
+                        });
+
+                        $kelas.empty().append(filteredOptions); // update opsi
+                        $kelas.prop('disabled', false).val('');
+
+                        // Refresh Select2
+                        if ($kelas.hasClass("select2-hidden-accessible")) {
+                            $kelas.trigger('change.select2');
+                        }
+                    } else {
+                        $kelas.prop('disabled', true).val('');
+
+                        if ($kelas.hasClass("select2-hidden-accessible")) {
+                            $kelas.trigger('change.select2');
+                        }
+                    }
+                });
+            }
         </script>
     </x-slot:js>
 </x-layout>

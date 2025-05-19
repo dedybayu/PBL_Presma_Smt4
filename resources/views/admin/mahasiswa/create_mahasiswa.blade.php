@@ -214,38 +214,38 @@
     });
 
     function handleKelasFilterByProdi(prodiSelector, kelasSelector) {
-    const $prodi = $(prodiSelector);
-    const $kelas = $(kelasSelector);
+        const $prodi = $(prodiSelector);
+        const $kelas = $(kelasSelector);
 
-    const allOptions = $kelas.find('option').clone(); // simpan semua opsi awal
+        const allOptions = $kelas.find('option').clone(); // simpan semua opsi awal
 
-    $kelas.prop('disabled', true);
+        $kelas.prop('disabled', true);
 
-    $prodi.on('change', function () {
-        const selectedProdiId = $(this).val();
+        $prodi.on('change', function () {
+            const selectedProdiId = $(this).val();
 
-        if (selectedProdiId) {
-            // Filter opsi sesuai prodi
-            const filteredOptions = allOptions.filter(function () {
-                const prodiId = $(this).data('prodi-id');
-                return !prodiId || prodiId == selectedProdiId || $(this).val() === ""; // biarkan option kosong tetap ada
-            });
+            if (selectedProdiId) {
+                // Filter opsi sesuai prodi
+                const filteredOptions = allOptions.filter(function () {
+                    const prodiId = $(this).data('prodi-id');
+                    return !prodiId || prodiId == selectedProdiId || $(this).val() === ""; // biarkan option kosong tetap ada
+                });
 
-            $kelas.empty().append(filteredOptions); // update opsi
-            $kelas.prop('disabled', false).val('');
+                $kelas.empty().append(filteredOptions); // update opsi
+                $kelas.prop('disabled', false).val('');
 
-            // Refresh Select2
-            if ($kelas.hasClass("select2-hidden-accessible")) {
-                $kelas.trigger('change.select2');
+                // Refresh Select2
+                if ($kelas.hasClass("select2-hidden-accessible")) {
+                    $kelas.trigger('change.select2');
+                }
+            } else {
+                $kelas.prop('disabled', true).val('');
+
+                if ($kelas.hasClass("select2-hidden-accessible")) {
+                    $kelas.trigger('change.select2');
+                }
             }
-        } else {
-            $kelas.prop('disabled', true).val('');
-
-            if ($kelas.hasClass("select2-hidden-accessible")) {
-                $kelas.trigger('change.select2');
-            }
-        }
-    });
-}
+        });
+    }
 
 </script>
