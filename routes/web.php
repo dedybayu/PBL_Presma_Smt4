@@ -117,7 +117,7 @@ Route::middleware('auth')->group(function () {
             Route::post('/', [LombaController::class, 'store'])->name('lomba.store');
             Route::get('/{lomba}/edit', [LombaController::class, 'edit'])->name('lomba.edit');
             Route::put('/{lomba}', [LombaController::class, 'update'])->name('lomba.update');
-            Route::get('/{lomba}/confirm-delete', [LombaController::class, 'confirmDelete'])->name('lomba.confirm-delete');
+            Route::get('/{lomba}/delete', [LombaController::class, 'confirm'])->name('lomba.delete');
             Route::delete('/{lomba}', [LombaController::class, 'destroy'])->name('lomba.destroy');
         });
     });
