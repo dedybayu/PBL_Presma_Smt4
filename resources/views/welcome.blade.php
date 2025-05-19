@@ -4,8 +4,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="{{ asset('assets/images/presapp-logo.png') }}" />
+
     <title>PresApp</title>
-    
+
     @vite('resources/css/app.css')
 
 
@@ -65,9 +67,10 @@
                 <a href="#"
                     class="ml-0 mr-0 font-bold duration-100 md:ml-12 md:mr-3 lg:mr-8 transition-color hover:text-indigo-600">Beranda</a>
                 <a href="#features"
-                    class="mr-0 font-bold duration-100 md:mr-3 lg:mr-8 transition-color hover:text-indigo-600">Fitur Kami</a>
-                <a href="#testimonials"
-                    class="font-bold duration-100 transition-color hover:text-indigo-600">Bintang Prestasi</a>
+                    class="mr-0 font-bold duration-100 md:mr-3 lg:mr-8 transition-color hover:text-indigo-600">Fitur
+                    Kami</a>
+                <a href="#testimonials" class="font-bold duration-100 transition-color hover:text-indigo-600">Bintang
+                    Prestasi</a>
                 <div class="flex flex-col block w-full font-medium border-t border-gray-200 md:hidden">
                     <a href="{{ route('login') }}" class="w-full py-2 font-bold text-center text-pink-500">Masuk</a>
                     <a href="{{ route('login') }}"
@@ -147,10 +150,13 @@
             class="container flex flex-col items-center justify-between h-full max-w-6xl px-8 mx-auto -mt-32 lg:flex-row xl:px-0">
             <div
                 class="z-30 flex flex-col items-center w-full max-w-xl pt-48 text-center lg:items-start lg:w-1/2 lg:pt-20 xl:pt-40 lg:text-left">
-                <h1 class="relative mb-4 text-3xl font-black leading-tight text-gray-900 sm:text-6xl xl:mb-8">Lacak Prestasi Akademik Anda</h1>
-                <p class="pr-0 mb-8 text-base text-gray-600 sm:text-lg xl:text-xl lg:pr-20">Apakah Anda siap untuk memulai perjalanan Anda dan mulai melacak prestasi akademik terbaik Anda?</p>
+                <h1 class="relative mb-4 text-3xl font-black leading-tight text-gray-900 sm:text-6xl xl:mb-8">Lacak
+                    Prestasi Akademik Anda</h1>
+                <p class="pr-0 mb-8 text-base text-gray-600 sm:text-lg xl:text-xl lg:pr-20">Apakah Anda siap untuk
+                    memulai perjalanan Anda dan mulai melacak prestasi akademik terbaik Anda?</p>
                 <a href="#_"
-                    class="relative self-start inline-block w-auto px-8 py-4 mx-auto mt-0 text-base font-bold text-white bg-indigo-600 border-t border-gray-200 rounded-md shadow-xl sm:mt-1 fold-bold lg:mx-0">Daftar Hari Ini!</a>
+                    class="relative self-start inline-block w-auto px-8 py-4 mx-auto mt-0 text-base font-bold text-white bg-indigo-600 border-t border-gray-200 rounded-md shadow-xl sm:mt-1 fold-bold lg:mx-0">Daftar
+                    Hari Ini!</a>
                 <svg class="absolute left-0 max-w-md mt-24 -ml-64 left-svg" viewBox="0 0 423 423"
                     xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
                     <defs>
@@ -254,8 +260,10 @@
                             </g>
                         </svg>
                         <h4 class="relative mt-6 text-lg font-bold">Manajemen Data Lomba</h4>
-                        <p class="relative mt-2 text-base text-center text-gray-600">Mendaftar lomba, melihat kategori lomba, dan melihat rekomendasi pembimbing</p>
-                        <a href="#_" class="relative flex mt-2 text-sm font-medium text-indigo-500 underline">Pelajari Lebih Lanjut</a>
+                        <p class="relative mt-2 text-base text-center text-gray-600">Mendaftar lomba, melihat kategori
+                            lomba, dan melihat rekomendasi pembimbing</p>
+                        <a href="#_" class="relative flex mt-2 text-sm font-medium text-indigo-500 underline">Pelajari
+                            Lebih Lanjut</a>
                     </div>
                 </div>
 
@@ -314,8 +322,10 @@
                             </g>
                         </svg>
                         <h4 class="relative mt-6 text-lg font-bold">Verifikasi Data</h4>
-                        <p class="relative mt-2 text-base text-center text-gray-600">Mengajukan verifikasi data oleh mahasiswa dan melakukan verifikasi data oleh admin</p>
-                        <a href="#_" class="relative flex mt-2 text-sm font-medium text-indigo-500 underline">Pelajari Lebih Lanjut</a>
+                        <p class="relative mt-2 text-base text-center text-gray-600">Mengajukan verifikasi data oleh
+                            mahasiswa dan melakukan verifikasi data oleh admin</p>
+                        <a href="#_" class="relative flex mt-2 text-sm font-medium text-indigo-500 underline">Pelajari
+                            Lebih Lanjut</a>
                     </div>
                 </div>
 
@@ -374,8 +384,10 @@
                             </g>
                         </svg>
                         <h4 class="relative mt-6 text-lg font-bold">Laporan & Analisis</h4>
-                        <p class="relative mt-2 text-base text-center text-gray-600">Melihat laporan prestasi, melihat statistik serta grafik, dan ekspor data</p>
-                        <a href="#_" class="relative flex mt-2 text-sm font-medium text-indigo-500 underline">Pelajari Lebih Lanjut</a>
+                        <p class="relative mt-2 text-base text-center text-gray-600">Melihat laporan prestasi, melihat
+                            statistik serta grafik, dan ekspor data</p>
+                        <a href="#_" class="relative flex mt-2 text-sm font-medium text-indigo-500 underline">Pelajari
+                            Lebih Lanjut</a>
                     </div>
                 </div>
 
@@ -395,7 +407,8 @@
                     <h2
                         class="text-4xl font-extrabold leading-10 tracking-tight text-gray-900 sm:text-5xl sm:leading-none md:text-6xl lg:text-5xl xl:text-6xl">
                         Bintang Prestasi</h2>
-                    <p class="my-6 text-xl font-medium text-gray-500">Menampilkan prestasi terbaik dari mahasiswa kami.</p>
+                    <p class="my-6 text-xl font-medium text-gray-500">Menampilkan prestasi terbaik dari mahasiswa kami.
+                    </p>
 
                 </div>
                 <div class="flex flex-col items-center justify-center max-w-2xl py-8 mx-auto xl:flex-row xl:max-w-full">
@@ -404,16 +417,17 @@
                             class="flex flex-col-reverse items-center justify-between w-full col-span-1 p-6 text-center transition-all duration-200 bg-gray-100 rounded-lg md:flex-row md:text-left hover:bg-white hover:shadow ease">
                             <div class="flex flex-col pr-8">
                                 <div class="relative pl-12">
-                                    <p class="mt-2 text-base text-gray-600">Juara 1 Lomba Makan Kelereng Tingkat Dunia Lain
+                                    <p class="mt-2 text-base text-gray-600">Juara 1 Lomba Makan Kelereng Tingkat Dunia
+                                        Lain
                                     </p>
                                 </div>
 
-                                <h3 class="pl-12 mt-3 text-base font-medium leading-5 text-gray-800 truncate">ZiGal<span class="mt-1 text-sm leading-5 text-gray-500 truncate">- TI-2B</span></h3>
+                                <h3 class="pl-12 mt-3 text-base font-medium leading-5 text-gray-800 truncate">ZiGal<span
+                                        class="mt-1 text-sm leading-5 text-gray-500 truncate">- TI-2B</span></h3>
                                 <p class="mt-1 text-sm leading-5 text-gray-500 truncate"></p>
                             </div>
                             <img class="flex-shrink-0 object-cover w-35 h-35 mb-5 bg-gray-300 rounded-full md:mb-0"
-                                src="../assets/images/zigal.jpg"
-                                alt="">
+                                src="../assets/images/zigal.jpg" alt="">
                         </blockquote>
                         <blockquote
                             class="flex flex-col-reverse items-center justify-between w-full col-span-1 p-6 mt-16 mb-16 text-center transition-all duration-200 bg-gray-100 rounded-lg md:flex-row md:text-left hover:bg-white hover:shadow ease xl:mb-0">
@@ -421,12 +435,13 @@
                                 <div class="relative pl-12">
                                     <p class="mt-2 text-base text-gray-600">Juara Apa Lagi yaaaaahhh</p>
                                 </div>
-                                <h3 class="pl-12 mt-3 text-base font-medium leading-5 text-gray-800 truncate">Zafiro Alvarisi<span class="mt-1 text-sm leading-5 text-gray-500 truncate">- TI-2B</span></h3>
+                                <h3 class="pl-12 mt-3 text-base font-medium leading-5 text-gray-800 truncate">Zafiro
+                                    Alvarisi<span class="mt-1 text-sm leading-5 text-gray-500 truncate">- TI-2B</span>
+                                </h3>
                                 <p class="mt-1 text-sm leading-5 text-gray-500 truncate"></p>
                             </div>
                             <img class="flex-shrink-0 object-cover w-35 h-35 mb-5 bg-gray-300 rounded-full md:mb-0"
-                                src="../assets/images/galih.jpg"
-                                alt="">
+                                src="../assets/images/galih.jpg" alt="">
                         </blockquote>
                     </div>
                     <div class="w-full xl:w-1/2 xl:pl-8">
@@ -438,14 +453,14 @@
                                     </p>
                                 </div>
 
-                                <h3 class="pl-12 mt-3 text-base font-medium leading-5 text-gray-800 truncate">Denis Tolongin Donk
+                                <h3 class="pl-12 mt-3 text-base font-medium leading-5 text-gray-800 truncate">Denis
+                                    Tolongin Donk
                                     <span class="mt-1 text-sm leading-5 text-gray-500 truncate">- TI-2B</span>
                                 </h3>
                                 <p class="mt-1 text-sm leading-5 text-gray-500 truncate"></p>
                             </div>
                             <img class="flex-shrink-0 object-cover w-35 h-35 mb-5 bg-gray-300 rounded-full md:mb-0"
-                                src="../assets/images/denis.png"
-                                alt="">
+                                src="../assets/images/denis.png" alt="">
                         </blockquote>
                         <blockquote
                             class="flex flex-col-reverse items-center justify-between w-full col-span-1 p-6 mt-16 text-center transition-all duration-200 bg-gray-100 rounded-lg md:flex-row md:text-left hover:bg-white hover:shadow ease">
@@ -454,12 +469,12 @@
                                     <p class="mt-2 text-base text-gray-600">Yh Ap Aj Dah Gwej Ngantuq</p>
                                 </div>
 
-                                <h3 class="pl-12 mt-3 text-base font-medium leading-5 text-gray-800 truncate">Mei-Mei <span class="mt-1 text-sm leading-5 text-gray-500 truncate">- TI-2B</span></h3>
+                                <h3 class="pl-12 mt-3 text-base font-medium leading-5 text-gray-800 truncate">Mei-Mei
+                                    <span class="mt-1 text-sm leading-5 text-gray-500 truncate">- TI-2B</span></h3>
                                 <p class="mt-1 text-sm leading-5 text-gray-500 truncate"></p>
                             </div>
                             <img class="flex-shrink-0 object-cover w-35 h-35 mb-5 bg-gray-300 rounded-full md:mb-0"
-                                src="../assets/images/zilan.jpg"
-                                alt="">
+                                src="../assets/images/zilan.jpg" alt="">
                         </blockquote>
                     </div>
                 </div>
@@ -471,7 +486,8 @@
     <!-- End Testimonials-->
 
 
-    <footer class="px-4 pt-12 pb-8 text-white bg-white border-t border-gray-200" data-aos="fade-up" data-aos-delay="400">
+    <footer class="px-4 pt-12 pb-8 text-white bg-white border-t border-gray-200" data-aos="fade-up"
+        data-aos-delay="400">
         <div class="container flex flex-col justify-between max-w-6xl px-4 mx-auto overflow-hidden lg:flex-row">
             <div class="w-full pl-12 mr-2 text-left lg:w-1/4 sm:text-center sm:pl-0 lg:text-left">
                 <a href="/"
