@@ -27,7 +27,7 @@ class WilayahSeeder extends Seeder
             foreach ($provinsis as $provinsiData) {
                 // Simpan data provinsi
                 $provinsi = ProvinsiModel::firstOrCreate([
-                    'provinsi_nama' => $provinsiData['name'],
+                    'provinsi_nama' => ucwords(strtolower($provinsiData['name'])),
                     'negara_id' => $indonesia->negara_id,
                     'created_at' => now(),
                     'updated_at' => now(),
