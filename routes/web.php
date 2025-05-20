@@ -46,6 +46,9 @@ Route::middleware('auth')->group(function () {
             Route::put('/{mahasiswa}', [MahasiswaController::class, 'update'])->name('mahasiswa.update');
             Route::get('/{mahasiswa}/confirm-delete', [MahasiswaController::class, 'confirmDelete'])->name('mahasiswa.confirm-delete');
             Route::delete('/{mahasiswa}', [MahasiswaController::class, 'destroy'])->name('mahasiswa.destroy');
+            Route::get('/import', [MahasiswaController::class, 'import']); 
+            Route::post('/import_ajax', [MahasiswaController::class, 'import_ajax']);
+            Route::get('/export', [MahasiswaController::class, 'export_excel']);
         });
         Route::prefix('kelas')->group(function () {
             Route::get('/', [KelasController::class, 'index'])->name('kelas.index');

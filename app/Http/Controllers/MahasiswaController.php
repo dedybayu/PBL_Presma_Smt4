@@ -10,6 +10,7 @@ use App\Models\UserModel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
+use PhpOffice\PhpSpreadsheet\IOFactory;
 use Yajra\DataTables\DataTables;
 
 class MahasiswaController extends Controller
@@ -352,4 +353,145 @@ class MahasiswaController extends Controller
             }
         }
     }
+
+    
+    public function import()
+{
+    return view('admin.mahasiswa.import_mahasiswa');
+}
+
+public function import_ajax(Request $request)
+{
+    if ($request->ajax() || $request->wantsJson()) {
+        $rules = [
+            'file_mahasiswa' => ['required', 'mimes:xlsx', 'max:1024']
+        ];
+
+        $validator = Validator::make($request->all(), $rules);
+        if ($validator->fails()) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Validasi gagal saat upload file.',
+                'msgField' => $validator->errors()
+            ]);
+        }
+
+        $file = $request->file('file_mahasiswa');
+        $reader = IOFactory::createReader('Xlsx');
+        $reader->setReadDataOnly(true);
+        $spreadsheet = $reader->load($file->getRealPath());
+        $sheet = $spreadsheet->getActiveSheet();
+        $data = $sheet->toArray(null, false, true, true);
+
+        $inserted = 0;
+        $levelId = \App\Models\LevelModel::where('level_kode', 'MHS')->value('level_id');
+
+        if (count($data) > 1) {
+            foreach ($data as $baris => $value) {
+                if ($baris == 1) continue; // Header
+
+                try {
+                    $user = UserModel::create([
+                        'username' => trim($value['A']),
+                        'password' => bcrypt(trim($value['B'])),
+                        'level_id' => 1,
+                        'created_at' => now()
+                    ]);
+
+                    MahasiswaModel::create([
+                        'user_id' => $user->user_id,
+                        'tahun_angkatan' => trim($value['C']),
+                        'nim' => trim($value['D']),
+                        'nama' => trim($value['E']),
+                        'email' => trim($value['F']),
+                        'no_tlp' => trim($value['G']),
+                        'alamat' => trim($value['H']),
+                        'prodi_id' => trim($value['I']),
+                        'kelas_id' => trim($value['J']),
+                        'foto_profile' => null // Tidak bisa upload gambar via Excel
+                    ]);
+
+                    $inserted++;
+                } catch (\Exception $e) {
+                    continue; // Skip error, lanjut baris berikutnya
+                }
+            }
+
+            return response()->json([
+                'status' => true,
+                'message' => "Import selesai. Total data disimpan: $inserted"
+            ]);
+        }
+
+        return response()->json([
+            'status' => false,
+            'message' => 'Tidak ada data pada file.'
+        ]);
+    }
+
+    return redirect('/');
+}
+
+public function export_excel()
+{
+    $mahasiswa = MahasiswaModel::with(['user', 'prodi', 'kelas'])->orderBy('mahasiswa_id')->get();
+
+    $spreadsheet = new \PhpOffice\PhpSpreadsheet\Spreadsheet();
+    $sheet = $spreadsheet->getActiveSheet();
+
+    // Header
+    $sheet->setCellValue('A1', 'No');
+    $sheet->setCellValue('B1', 'Username');
+    $sheet->setCellValue('C1', 'Password'); // tidak diekspor, hanya dummy
+    $sheet->setCellValue('D1', 'NIM');
+    $sheet->setCellValue('E1', 'Nama');
+    $sheet->setCellValue('F1', 'Email');
+    $sheet->setCellValue('G1', 'No Telepon');
+    $sheet->setCellValue('H1', 'Alamat');
+    $sheet->setCellValue('I1', 'Tahun Angkatan');
+    $sheet->setCellValue('J1', 'Kelas');
+    $sheet->setCellValue('K1', 'Prodi');
+
+    $sheet->getStyle('A1:K1')->getFont()->setBold(true);
+
+    $baris = 2;
+    $no = 1;
+    foreach ($mahasiswa as $m) {
+        $sheet->setCellValue("A$baris", $no++);
+        $sheet->setCellValue("B$baris", $m->user->username ?? '-');
+        $sheet->setCellValue("C$baris", '********'); // Password disembunyikan
+        $sheet->setCellValue("D$baris", $m->nim);
+        $sheet->setCellValue("E$baris", $m->nama);
+        $sheet->setCellValue("F$baris", $m->email);
+        $sheet->setCellValue("G$baris", $m->no_tlp);
+        $sheet->setCellValue("H$baris", $m->alamat);
+        $sheet->setCellValue("I$baris", $m->tahun_angkatan);
+        $sheet->setCellValue("J$baris", $m->kelas->kelas_nama ?? '-');
+        $sheet->setCellValue("K$baris", $m->prodi->prodi_nama ?? '-');
+        $baris++;
+    }
+
+    // Auto width
+    foreach (range('A', 'K') as $col) {
+        $sheet->getColumnDimension($col)->setAutoSize(true);
+    }
+
+    $filename = 'Data_Mahasiswa_' . date('Y-m-d_H-i-s') . '.xlsx';
+
+    // Bersihkan output buffer
+    if (ob_get_length()) {
+        ob_end_clean();
+    }
+
+    // Header untuk download
+    header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+    header("Content-Disposition: attachment; filename=\"$filename\"");
+    header('Cache-Control: max-age=0');
+
+    // Simpan file ke output
+    $writer = \PhpOffice\PhpSpreadsheet\IOFactory::createWriter($spreadsheet, 'Xlsx');
+    $writer->save('php://output');
+    exit;
+}
+
 }
