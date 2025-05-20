@@ -435,7 +435,7 @@ public function import_ajax(Request $request)
 
 public function export_excel()
 {
-    $mahasiswa = MahasiswaModel::with(['user', 'prodi', 'kelas'])->orderBy('mahasiswa_id')->get();
+    $mahasiswa = MahasiswaModel::with(['user', 'kelas'])->orderBy('mahasiswa_id')->get();
 
     $spreadsheet = new Spreadsheet();
     $sheet = $spreadsheet->getActiveSheet();
@@ -451,7 +451,6 @@ public function export_excel()
     $sheet->setCellValue('H1', 'Alamat');
     $sheet->setCellValue('I1', 'Tahun Angkatan');
     $sheet->setCellValue('J1', 'Kelas');
-    $sheet->setCellValue('K1', 'Prodi');
 
     $sheet->getStyle('A1:K1')->getFont()->setBold(true);
 
@@ -468,7 +467,6 @@ public function export_excel()
         $sheet->setCellValue("H$baris", $m->alamat);
         $sheet->setCellValue("I$baris", $m->tahun_angkatan);
         $sheet->setCellValue("J$baris", $m->kelas->kelas_nama ?? '-');
-        $sheet->setCellValue("K$baris", $m->prodi->prodi_nama ?? '-');
         $baris++;
     }
 
