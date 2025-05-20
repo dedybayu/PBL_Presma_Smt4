@@ -11,6 +11,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use PhpOffice\PhpSpreadsheet\IOFactory;
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use Yajra\DataTables\DataTables;
 
 class MahasiswaController extends Controller
@@ -436,7 +437,7 @@ public function export_excel()
 {
     $mahasiswa = MahasiswaModel::with(['user', 'prodi', 'kelas'])->orderBy('mahasiswa_id')->get();
 
-    $spreadsheet = new \PhpOffice\PhpSpreadsheet\Spreadsheet();
+    $spreadsheet = new Spreadsheet();
     $sheet = $spreadsheet->getActiveSheet();
 
     // Header
