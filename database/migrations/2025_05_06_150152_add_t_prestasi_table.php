@@ -18,14 +18,14 @@ return new class extends Migration {
             $table->unsignedBigInteger('lomba_id');
             $table->enum('juara', ['1', '2', '3', '4']); // hanya bisa 1-4
             $table->string('nama_juara')->nullable(); // keterangan tambahan juara
-            $table->date('tanggal_mulai');
-            $table->date('tanggal_selesai');
+            // $table->date('tanggal_mulai');
+            $table->date('tanggal_perolehan');
             $table->string('file_sertifikat');
             $table->string('file_bukti_foto');
             $table->string('file_surat_tugas');
             $table->string('file_surat_undangan');
             $table->string('file_surat_proposal')->nullable();
-            $table->integer('poin')->nullable();
+            $table->integer('poin')->nullable()->default();
             $table->boolean('status_verifikasi')->nullable()->default(null);
             $table->timestamps();
 
