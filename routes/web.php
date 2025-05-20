@@ -67,6 +67,9 @@ Route::middleware('auth')->group(function () {
             Route::put('/{dosen}', [DosenController::class, 'update'])->name('dosen.update');
             Route::get('/{dosen}/delete', [DosenController::class, 'delete'])->name('dosen.delete');
             Route::delete('/{dosen}', [DosenController::class, 'destroy'])->name('dosen.destroy');
+            Route::get('/import', [DosenController::class, 'import']); 
+            Route::post('/import_ajax', [DosenController::class, 'import_ajax']);
+            Route::get('/export', [DosenController::class, 'export_excel']);
         });
         Route::prefix('admin')->group(function () {
             Route::get('/', [AdminController::class, 'index'])->name('admin.index');

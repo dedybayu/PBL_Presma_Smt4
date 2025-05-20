@@ -6,7 +6,9 @@ use App\Models\DosenModel;
 use App\Models\UserModel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
+use PhpOffice\PhpSpreadsheet\IOFactory;
 use Yajra\DataTables\Facades\DataTables;
 
 class DosenController extends Controller
@@ -281,4 +283,129 @@ class DosenController extends Controller
             }
         }
     }
+
+    public function import()
+    {
+        return view('admin.dosen.import_dosen');
+    }
+    public function import_ajax(Request $request)
+{
+    if ($request->ajax() || $request->wantsJson()) {
+        $rules = [
+            'file_dosen' => ['required', 'mimes:xlsx', 'max:1024']
+        ];
+
+        $validator = Validator::make($request->all(), $rules);
+        if ($validator->fails()) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Validasi gagal saat upload file.',
+                'msgField' => $validator->errors()
+            ]);
+        }
+
+        $file = $request->file('file_dosen');
+        $reader = IOFactory::createReader('Xlsx');
+        $reader->setReadDataOnly(true);
+        $spreadsheet = $reader->load($file->getRealPath());
+        $sheet = $spreadsheet->getActiveSheet();
+        $data = $sheet->toArray(null, false, true, true);
+
+        $inserted = 0;
+
+        if (count($data) > 1) {
+            foreach ($data as $baris => $value) {
+                if ($baris == 1) continue; // header
+
+                try {
+                    $user = UserModel::create([
+                        'username' => trim($value['A']),
+                        'password' => bcrypt(trim($value['B'])),
+                        'level_id' => 2,
+                        'created_at' => now()
+                    ]);
+
+                    DosenModel::create([
+                        'user_id' => $user->user_id,
+                        'nidn' => trim($value['C']),
+                        'nama' => trim($value['D']),
+                        'email' => trim($value['E']),
+                        'no_tlp' => trim($value['F']),
+                        'foto_profile' => null
+                    ]);
+
+                    $inserted++;
+                } catch (\Exception $e) {
+                    // Abaikan error, lanjutkan ke baris berikutnya
+                    continue;
+                }
+            }
+
+            return response()->json([
+                'status' => true,
+                'message' => "Import selesai. Total data disimpan: $inserted"
+            ]);
+        }
+
+        return response()->json([
+            'status' => false,
+            'message' => 'Tidak ada data pada file.'
+        ]);
+    }
+
+    return redirect('/');
+}
+public function export_excel()
+{
+    $dosen = DosenModel::with('user')->orderBy('dosen_id')->get();
+
+    $spreadsheet = new \PhpOffice\PhpSpreadsheet\Spreadsheet();
+    $sheet = $spreadsheet->getActiveSheet();
+
+    $sheet->setCellValue('A1', 'No');
+    $sheet->setCellValue('B1', 'Username');
+    $sheet->setCellValue('C1', 'Password');
+    $sheet->setCellValue('D1', 'NIDN');
+    $sheet->setCellValue('E1', 'Nama');
+    $sheet->setCellValue('F1', 'Email');
+    $sheet->setCellValue('G1', 'No Telepon');
+
+    $sheet->getStyle('A1:G1')->getFont()->setBold(true);
+
+    $baris = 2;
+    $no = 1;
+    foreach ($dosen as $d) {
+        $sheet->setCellValue("A$baris", $no++);
+        $sheet->setCellValue("B$baris", $d->user->username ?? '-');
+        $sheet->setCellValue("C$baris", '********'); // password tidak diekspor
+        $sheet->setCellValue("D$baris", $d->nidn);
+        $sheet->setCellValue("E$baris", $d->nama);
+        $sheet->setCellValue("F$baris", $d->email);
+        $sheet->setCellValue("G$baris", $d->no_tlp);
+        $baris++;
+    }
+
+    foreach (range('A', 'G') as $col) {
+        $sheet->getColumnDimension($col)->setAutoSize(true);
+    }
+
+    $filename = 'Data_Dosen_' . date('Y-m-d_H-i-s') . '.xlsx';
+
+    // Bersihkan output buffer
+    if (ob_get_length()) {
+        ob_end_clean();
+    }
+
+    // Header untuk download
+    header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+    header("Content-Disposition: attachment; filename=\"$filename\"");
+    header('Cache-Control: max-age=0');
+
+    // Simpan file ke output
+    $writer = \PhpOffice\PhpSpreadsheet\IOFactory::createWriter($spreadsheet, 'Xlsx');
+    $writer->save('php://output');
+    exit;
+}
+
+
 }
