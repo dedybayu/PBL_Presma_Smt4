@@ -24,8 +24,8 @@ return new class extends Migration {
             $table->string('file_bukti_foto');
             $table->string('file_surat_tugas');
             $table->string('file_surat_undangan');
-            $table->string('file_surat_proposal')->nullable();
-            $table->integer('poin')->nullable()->default();
+            $table->string('file_proposal')->nullable();
+            $table->integer('poin')->nullable()->default(null);
             $table->boolean('status_verifikasi')->nullable()->default(null);
             $table->timestamps();
 

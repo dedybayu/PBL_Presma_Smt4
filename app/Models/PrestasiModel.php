@@ -22,7 +22,7 @@ class PrestasiModel extends Model
         'file_bukti_foto',
         'file_surat_tugas',
         'file_surat_undangan',
-        'file_surat_proposal',
+        'file_proposal',
         'poin',
         'status_verifikasi',
     ];
