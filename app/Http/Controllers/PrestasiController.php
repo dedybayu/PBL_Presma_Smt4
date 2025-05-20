@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\LombaModel;
 use App\Models\PrestasiModel;
 use App\Models\TingkatLombaModel;
 use Illuminate\Http\Request;
@@ -104,7 +105,8 @@ class PrestasiController extends Controller
      */
     public function create()
     {
-        //
+        $lomba = LombaModel::all();
+        return view('admin.prestasi.create_prestasi')->with(['lomba' => $lomba]);
     }
 
     /**
