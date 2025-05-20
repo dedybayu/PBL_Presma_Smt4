@@ -7,19 +7,22 @@ use App\Models\LombaModel;
 use App\Models\PenyelenggaraModel;
 use App\Models\TingkatLombaModel;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use Yajra\DataTables\Facades\DataTables;
 
 class LombaController extends Controller
 {
-    public function index(LombaModel $lomba){
+    public function index(LombaModel $lomba)
+    {
         $tingkat = TingkatLombaModel::all();
         $bidang = BidangKeahlianModel::all();
         $penyelenggara = PenyelenggaraModel::all();
         return view('admin.lomba.daftar_lomba')->with(['lomba' => $lomba, 'tingkat' => $tingkat, 'bidang' => $bidang, 'penyelenggara' => $penyelenggara]);
     }
 
-    public function list(Request $request){
+    public function list(Request $request)
+    {
         if ($request->ajax()) {
             $lomba = LombaModel::with('tingkat', 'bidang', 'penyelenggara');
 
@@ -36,8 +39,9 @@ class LombaController extends Controller
                     return $row->lomba_kode;
                 })
                 ->addColumn('info', function ($row) {
+                    $image = $row->foto_pamflet ? asset('storage/' . $row->foto_profile) : asset('assets/images/user.png');
                     return '
-                            <div class="d-flex flex-column justify-content-center">
+                    <div class="d-flex flex-column justify-content-center">
                                 <div style="font-weight: bold;">' . $row->lomba_nama . '</div>
                                 <div class="text-muted"><i class="fa fa-envelope me-1"></i> ' . $row->tingkat->tingkat_lomba_nama . '</div>
                                 <div class="text-muted"><i class="fa fa-envelope me-1"></i> ' . $row->bidang->bidang_keahlian_nama . '</div>
@@ -76,14 +80,16 @@ class LombaController extends Controller
         }
     }
 
-    public function create(){
+    public function create()
+    {
         $tingkat = TingkatLombaModel::all();
         $bidang = BidangKeahlianModel::all();
         $penyelenggara = PenyelenggaraModel::all();
         return view('admin.lomba.create_lomba')->with(['tingkat' => $tingkat, 'bidang' => $bidang, 'penyelenggara' => $penyelenggara]);
     }
 
-    public function store(Request $request){
+    public function store(Request $request)
+    {
         $rules = [
             'lomba_kode' => 'required|string|max:255',
             'lomba_nama' => 'required|string|max:255',
@@ -93,10 +99,10 @@ class LombaController extends Controller
             'penyelenggara_id' => 'required|exists:m_penyelenggara,penyelenggara_id',
             'tanggal_mulai' => 'required|date|date_format:Y-m-d',
             'tanggal_selesai' => 'required|date|date_format:Y-m-d',
+            'foto_pamflet' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ];
 
         $validator = Validator::make($request->all(), $rules);
-
         if ($validator->fails()) {
             return response()->json([
                 'status' => false,
@@ -105,7 +111,32 @@ class LombaController extends Controller
             ]);
         }
 
-        LombaModel::create($request->all());
+        $dataToStore = $request->except('foto_pamflet');
+
+        if ($request->hasFile('foto_pamflet')) {
+            $file = $request->file('foto_pamflet');
+
+            if (!$file->isValid()) {
+                return response()->json(['error' => 'Invalid file'], 400);
+            }
+
+            // Simpan file ke direktori public/lomba/pamflet
+            // Storage::disk('public')->putFile('lomba/pamflet', $file); // Ini akan menghasilkan nama file unik secara otomatis
+            // Atau jika ingin nama file yang Anda definisikan:
+            $filename = time() . '_' . $file->getClientOriginalName();
+            $imagePath = 'lomba/pamflet/' . $filename; // Path relatif untuk database
+
+            // Gunakan Storage facade untuk menyimpan file
+            Storage::disk('public')->put($imagePath, file_get_contents($file));
+
+            // Tambahkan path gambar ke data yang akan disimpan ke database
+            $dataToStore['foto_pamflet'] = $imagePath;
+        } else {
+            // Jika tidak ada file yang diunggah, dan Anda ingin menyimpan null atau nilai default
+            $dataToStore['foto_pamflet'] = null;
+        }
+
+        LombaModel::create($dataToStore);
 
         return response()->json([
             'status' => true,
@@ -113,21 +144,24 @@ class LombaController extends Controller
         ]);
     }
 
-    public function show(LombaModel $lomba){
+    public function show(LombaModel $lomba)
+    {
         $tingkat = TingkatLombaModel::all();
         $bidang = BidangKeahlianModel::all();
         $penyelenggara = PenyelenggaraModel::all();
         return view('admin.lomba.show_lomba')->with(['lomba' => $lomba, 'tingkat' => $tingkat, 'bidang' => $bidang, 'penyelenggara' => $penyelenggara]);
     }
 
-    public function edit(LombaModel $lomba){
+    public function edit(LombaModel $lomba)
+    {
         $tingkat = TingkatLombaModel::all();
         $bidang = BidangKeahlianModel::all();
         $penyelenggara = PenyelenggaraModel::all();
         return view('admin.lomba.edit_lomba')->with(['lomba' => $lomba, 'tingkat' => $tingkat, 'bidang' => $bidang, 'penyelenggara' => $penyelenggara]);
     }
 
-    public function update(Request $request, LombaModel $lomba){
+    public function update(Request $request, LombaModel $lomba)
+    {
         $rules = [
             'lomba_kode' => 'required|string|max:255',
             'lomba_nama' => 'required|string|max:255',
@@ -137,6 +171,7 @@ class LombaController extends Controller
             'penyelenggara_id' => 'required|exists:m_penyelenggara,penyelenggara_id',
             'tanggal_mulai' => 'required|date|date_format:Y-m-d',
             'tanggal_selesai' => 'required|date|date_format:Y-m-d',
+            'foto_pamflet' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ];
 
         $validator = Validator::make($request->all(), $rules);
@@ -149,15 +184,45 @@ class LombaController extends Controller
             ]);
         }
 
-       $lomba->update($request->all());
+        $dataToUpdate = $request->except('foto_pamflet'); // Ambil semua data kecuali foto_pamflet
+
+        // Penanganan unggahan gambar
+        if ($request->hasFile('foto_pamflet')) {
+            $file = $request->file('foto_pamflet');
+
+            if (!$file->isValid()) {
+                return response()->json(['error' => 'Invalid file'], 400);
+            }
+
+            // Hapus file lama jika ada
+            if ($lomba->foto_pamflet && Storage::disk('public')->exists($lomba->foto_pamflet)) {
+                Storage::disk('public')->delete($lomba->foto_pamflet);
+            }
+
+            // Simpan file baru
+            $filename = time() . '_' . $file->getClientOriginalName();
+            $imagePath = 'lomba/pamflet/' . $filename; // Path relatif untuk database
+
+            Storage::disk('public')->put($imagePath, file_get_contents($file));
+
+            // Tambahkan path gambar baru ke data yang akan diupdate
+            $dataToUpdate['foto_pamflet'] = $imagePath;
+        }
+        // Jika tidak ada file baru yang diunggah, foto_pamflet tidak akan diubah dalam $dataToUpdate.
+        // Jika Anda ingin mengizinkan penghapusan gambar (yaitu, mengatur foto_pamflet ke null),
+        // Anda perlu mekanisme tambahan (misalnya, checkbox "Hapus Gambar" di form).
+
+        // Update the LombaModel instance
+        $lomba->update($dataToUpdate);
 
         return response()->json([
             'status' => true,
-            'message' => 'Data berhasil disimpan.'
+            'message' => 'Data berhasil diperbarui.'
         ]);
     }
 
-    public function confirm(LombaModel $lomba){
+    public function confirm(LombaModel $lomba)
+    {
         $tingkat = TingkatLombaModel::all();
         $bidang = BidangKeahlianModel::all();
         $penyelenggara = PenyelenggaraModel::all();

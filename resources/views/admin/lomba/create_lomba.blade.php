@@ -9,6 +9,11 @@
 
     <div class="modal-body">
         <div class="form-group">
+            <label>Pilih File</label>
+            <input type="file" name="foto_pamflet" id="foto_pamflet" class="formcontrol" required>
+            <small id="error-foto_pamflet" class="error-text form-text textdanger"></small>
+        </div>
+        <div class="form-group">
             <label for="lomba_kode">Kode Lomba</label>
             <input type="text" name="lomba_kode" id="lomba_kode" class="form-control">
             <small id="error-lomba_kode" class="text-danger"></small>
