@@ -44,14 +44,14 @@ class LombaController extends Controller
                     <div class="d-flex flex-column justify-content-center">
                                 <div style="font-weight: bold;">' . $row->lomba_nama . '</div>
                                 <div class="text-muted"><i class="fa fa-envelope me-1"></i> ' . $row->tingkat->tingkat_lomba_nama . '</div>
-                                <div class="text-muted"><i class="fa fa-envelope me-1"></i> ' . $row->bidang->bidang_keahlian_nama . '</div>
+                                <div class="text-muted"><i class="fa fa-info"></i> ' . $row->bidang->bidang_keahlian_nama . '</div>
                                 <div class="text-muted"><i class="fa fa-phone me-1"></i> ' . $row->penyelenggara->penyelenggara_nama . '</div>
                             </div>
                         </div>
                     ';
                 })
                 ->addColumn('deskripsi', function ($row) {
-                    return $row->lomba_deskripsi ?? '-';
+                    return collect(explode(' ', $row->lomba_deskripsi))->take(2)->implode(' ') . '...';
                 })
                 ->addColumn('tanggal mulai', function ($row) {
                     return $row->tanggal_mulai ?? '-';
