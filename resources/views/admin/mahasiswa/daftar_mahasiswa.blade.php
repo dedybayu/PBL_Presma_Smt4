@@ -21,6 +21,10 @@
                 <button onclick="modalAction('{{ url('/mahasiswa/create') }}')" class="btn btn-sm btn-success mt-1">
                     <i class="fa fa-plus"></i> Tambah Ajax
                 </button>
+                <button onclick="modalAction('{{ url('/mahasiswa/import') }}')" class="btn btn-sm btn-primary mt-1">
+                    <i class="fa fa-plus"></i> Import
+                </button>
+                <a href="{{ url('/mahasiswa/export') }}" class="btn btn-info mt-1"><i class="fa fa-file-excel"></i> Export</a>
             </div>
         </div>
 
