@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\DosenModel;
 use App\Models\LombaModel;
+use App\Models\MahasiswaModel;
 use App\Models\PrestasiModel;
 use App\Models\TingkatLombaModel;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Yajra\DataTables\DataTables;
 
@@ -39,7 +42,7 @@ class PrestasiController extends Controller
                 ->addColumn('nim', function ($row) {
                     return $row->mahasiswa->nim;
                 })
-                
+
                 // ->addColumn('info', function ($row) {
                 //     $image = $row->foto_profile ? asset('storage/' . $row->foto_profile) : asset('assets/images/user.png');
                 //     // $image = asset('assets/images/user.png');
@@ -105,8 +108,17 @@ class PrestasiController extends Controller
      */
     public function create()
     {
-        $lomba = LombaModel::all();
-        return view('admin.prestasi.create_prestasi')->with(['lomba' => $lomba]);
+        $lomba = LombaModel::where('tanggal_selesai', '<', Carbon::now())
+            ->where('status_verifikasi', 1)
+            ->get();
+
+        $dosen = DosenModel::all();
+        $mahasiswa = MahasiswaModel::all();
+        return view('admin.prestasi.create_prestasi')->with([
+            'lomba' => $lomba,
+            'dosen' => $dosen,
+            'mahasiswa' => $mahasiswa
+        ]);
     }
 
     /**
@@ -114,7 +126,7 @@ class PrestasiController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        dd($request);
     }
 
     /**
