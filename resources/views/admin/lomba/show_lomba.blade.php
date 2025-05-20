@@ -50,7 +50,7 @@
                 <td class="col-9">{{ $lomba->tanggal_mulai }}</td>
             </tr>
             <tr>
-                <th class="text-right col-3">tanggal_selesai :</th>
+                <th class="text-right col-3">tanggal selesai :</th>
                 <td class="col-9">{{ $lomba->tanggal_selesai }}</td>
             </tr>
         </table>

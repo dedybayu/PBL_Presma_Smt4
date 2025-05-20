@@ -66,16 +66,14 @@
                             <th>No</th>
                             <th>lomba kode</th>
                             <th>Info</th>
-                            <th>tanggal mulai</th>
-                            <th>tanggal selesai</th>
-                            <th>status verifikasi</th>
+                            <th>Tanggal mulai</th>
+                            <th>Tanggal selesai</th>
+                            <th>Status verifikasi</th>
                             <th>Aksi</th>
                         </tr>
                     </thead>
-
                 </table>
             </div>
-
         </div>
     </div>
     <x-slot:js>
