@@ -45,9 +45,9 @@
             <label>Bidang</label>
             <select class="form-select" id="bidang_keahlian_id_edit" name="bidang_keahlian_id" style="width: 100%">
                 <option value="" disabled>- Pilih bidang -</option>
-                @foreach($bidang as $item)
+                @foreach ($bidang as $item)
                     <option value="{{ $item->bidang_keahlian_id }}"
-                            {{ old('bidang_kelas_id', $lomba->bidang_keahlian_id) == $item->bidang_keahlian_id ? 'selected' : '' }}>
+                        {{ old('bidang_kelas_id', $lomba->bidang_keahlian_id) == $item->bidang_keahlian_id ? 'selected' : '' }}>
                         {{ $item->bidang_keahlian_nama }}
                     </option>
                 @endforeach
@@ -57,9 +57,9 @@
             <label>Penyelenggara</label>
             <select class="form-select" id="penyelenggara_id" name="penyelenggara_id" style="width: 100%">
                 <option value="" disabled>- Pilih penyelenggara -</option>
-                @foreach($penyelenggara as $item)
+                @foreach ($penyelenggara as $item)
                     <option value="{{ $item->penyelenggara_id }}"
-                            {{ old('penyelenggara_id', $lomba->penyelenggara_id) == $item->penyelenggara_id ? 'selected' : '' }}>
+                        {{ old('penyelenggara_id', $lomba->penyelenggara_id) == $item->penyelenggara_id ? 'selected' : '' }}>
                         {{ $item->penyelenggara_nama }}
                     </option>
                 @endforeach
@@ -77,11 +77,21 @@
                 value="{{ $lomba->tanggal_selesai }}" required>
             <small id="error-tanggal_selesai" class="error-text form-text text-danger"></small>
         </div>
-    </div>
-    <div class="modal-footer">
-        <button type="button" class="btn btn-warning" data-dismiss="modal">Batal</button>
-        <button type="submit" class="btn btn-primary">Simpan</button>
-    </div>
+        <div class="mb-3 form-check">
+            {{-- Input hidden ini akan memastikan nilai 0 dikirim jika checkbox tidak dicentang --}}
+            <input type="hidden" name="status_verifikasi" value="0">
+            
+            <input type="checkbox" class="form-check-input" id="status_verifikasi" name="status_verifikasi" value="1"
+                   {{ old('status_verifikasi', $lomba->status_verifikasi) ? 'checked' : '' }}>
+            <label class="form-check-label" for="status_verifikasi">Status Verifikasi</label>
+            @error('status_verifikasi')
+                <div class="text-danger mt-1">{{ $message }}</div>
+            @enderror
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-warning" data-dismiss="modal">Batal</button>
+            <button type="submit" class="btn btn-primary">Simpan</button>
+        </div>
 </form>
 
 <script>
@@ -95,10 +105,10 @@
         });
     }
     $(document).ready(function() {
-        $('#modal-lomba').on('shown.bs.modal', function () {
+        $('#modal-lomba').on('shown.bs.modal', function() {
             initSelect2();
         });
-        
+
         $("#form-edit-lomba").validate({
             rules: {
                 lomba_kode: {
