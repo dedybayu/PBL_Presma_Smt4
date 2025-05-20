@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\BidangKeahlianController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DosenController;
 use App\Http\Controllers\MahasiswaController;
@@ -122,6 +123,18 @@ Route::middleware('auth')->group(function () {
             Route::put('/{lomba}', [LombaController::class, 'update'])->name('lomba.update');
             Route::get('/{lomba}/delete', [LombaController::class, 'confirm'])->name('lomba.delete');
             Route::delete('/{lomba}', [LombaController::class, 'destroy'])->name('lomba.destroy');
+        });
+
+        Route::prefix('bidangKeahlian')->group(function () {
+            Route::get('/', [BidangKeahlianController::class, 'index'])->name('bidangKeahlian.index');
+            Route::post('/list', [BidangKeahlianController::class, 'list']);
+            Route::get('/{bidangKeahlian}/show', [BidangKeahlianController::class, 'show'])->name('bidangKeahlian.show');
+            Route::get('/create', [BidangKeahlianController::class, 'create'])->name('bidangKeahlian.create');
+            Route::post('/', [BidangKeahlianController::class, 'store'])->name('bidangKeahlian.store');
+            Route::get('/{bidangKeahlian}/edit', [BidangKeahlianController::class, 'edit'])->name('bidangKeahlian.edit');
+            Route::put('/{bidangKeahlian}', [BidangKeahlianController::class, 'update'])->name('bidangKeahlian.update');
+            Route::get('/{bidangKeahlian}/delete', [BidangKeahlianController::class, 'confirm'])->name('bidangKeahlian.delete');
+            Route::delete('/{bidangKeahlian}', [BidangKeahlianController::class, 'destroy'])->name('bidangKeahlian.destroy');
         });
     });
 });

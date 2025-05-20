@@ -82,9 +82,10 @@
                             </a>
                         </li>
                         <li>
-                            <a href="mailbox.html">
+                            <a href="{{ route('bidangKeahlian.index') }}"
+                                class="{{ request()->routeIs('bidangKeahlian.index') ? 'mm-active' : '' }}">
                                 <i class="metismenu-icon">
-                                </i>Kategori Lomba
+                                </i>Daftar Bidang Keahlian
                             </a>
                         </li>
                         <li>
