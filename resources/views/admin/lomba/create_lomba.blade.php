@@ -14,9 +14,14 @@
             <small id="error-lomba_kode" class="text-danger"></small>
         </div>
         <div class="form-group">
-            <label for="lomb_nama">Nama Lomba</label>
+            <label for="lomba_nama">Nama Lomba</label>
             <input type="text" name="lomba_nama" id="lomba_nama" class="form-control">
             <small id="error-lomba_nama" class="text-danger"></small>
+        </div>
+        <div class="form-group">
+            <label for="lomba_deskripsi">deskripsi lomba</label>
+            <input type="text" name="lomba_deskripsi" id="lomba_deskripsi" class="form-control">
+            <small id="error-lomba_deskripsi" class="text-danger"></small>
         </div>
         <div class="form-group">
             <label for="tingkat_lomba_id">Tingkat Lomba</label>
@@ -30,7 +35,7 @@
         </div>
         <div class="form-group">
             <label>Bidang</label>
-            <select class="form-select" id="bidang_keahlian_id_create" name="bidang_kelas_id" style="width: 100%">
+            <select class="form-select" id="bidang_keahlian_id_create" name="bidang_keahlian_id" style="width: 100%">
                 <option value="" disabled selected>- Pilih bidang -</option>
                 @foreach($bidang as $item)
                     <option value="{{ $item->bidang_keahlian_id }}">

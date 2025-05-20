@@ -46,6 +46,9 @@ class LombaController extends Controller
                         </div>
                     ';
                 })
+                ->addColumn('deskripsi', function ($row) {
+                    return $row->lomba_deskripsi ?? '-';
+                })
                 ->addColumn('tanggal mulai', function ($row) {
                     return $row->tanggal_mulai ?? '-';
                 })
@@ -56,7 +59,7 @@ class LombaController extends Controller
                     if ($row->status_verifikasi == 1) {
                         return '<span class="badge bg-success" style="color: white;">Terverifikasi</span>';
                     } else if ($row->status_verifikasi == 0) {
-                        return '<span class="badge bg-danger" style="color: white;">Ditolak</span>';
+                        return '<span class="badge bg-danger" style="color: white;">Pending</span>';
                     } else {
                         return '<span class="badge bg-warning"style="color: white;">Belum Diverifikasi</span>';
                     }
@@ -84,12 +87,12 @@ class LombaController extends Controller
         $rules = [
             'lomba_kode' => 'required|string|max:255',
             'lomba_nama' => 'required|string|max:255',
+            'lomba_deskripsi' => 'required|string|max:255',
             'tingkat_lomba_id' => 'required|exists:m_tingkat_lomba,tingkat_lomba_id',
             'bidang_keahlian_id' => 'required|exists:m_bidang_keahlian,bidang_keahlian_id',
             'penyelenggara_id' => 'required|exists:m_penyelenggara,penyelenggara_id',
             'tanggal_mulai' => 'required|date|date_format:Y-m-d',
             'tanggal_selesai' => 'required|date|date_format:Y-m-d',
-            'status_verifikasi'=> 'required|integer'
         ];
 
         $validator = Validator::make($request->all(), $rules);
@@ -124,19 +127,19 @@ class LombaController extends Controller
         return view('admin.lomba.edit_lomba')->with(['lomba' => $lomba, 'tingkat' => $tingkat, 'bidang' => $bidang, 'penyelenggara' => $penyelenggara]);
     }
 
-    public function update(Request $request){
+    public function update(Request $request, LombaModel $lomba){
         $rules = [
             'lomba_kode' => 'required|string|max:255',
             'lomba_nama' => 'required|string|max:255',
+            'lomba_deskripsi' => 'required|string|max:255',
             'tingkat_lomba_id' => 'required|exists:m_tingkat_lomba,tingkat_lomba_id',
             'bidang_keahlian_id' => 'required|exists:m_bidang_keahlian,bidang_keahlian_id',
             'penyelenggara_id' => 'required|exists:m_penyelenggara,penyelenggara_id',
             'tanggal_mulai' => 'required|date|date_format:Y-m-d',
             'tanggal_selesai' => 'required|date|date_format:Y-m-d',
-            'status_verifikasi'=> 'required|integer'
         ];
 
-        $validator = Validator::update($request->all(), $rules);
+        $validator = Validator::make($request->all(), $rules);
 
         if ($validator->fails()) {
             return response()->json([
@@ -146,7 +149,7 @@ class LombaController extends Controller
             ]);
         }
 
-        LombaModel::create($request->all());
+       $lomba->update($request->all());
 
         return response()->json([
             'status' => true,
