@@ -87,11 +87,13 @@ Route::middleware('auth')->group(function () {
         Route::prefix('prodi')->group(function () {
             Route::get('/', [ProdiController::class, 'index'])->name('prodi.index');
             Route::post('/list', [ProdiController::class, 'list'])->name('prodi.list');
+            Route::get('/{prodi}/show', [ProdiController::class, 'show'])->name('prodi.show');
             Route::get('/create', [ProdiController::class, 'create'])->name('prodi.create');
             Route::post('/', [ProdiController::class, 'store'])->name('prodi.store');
-            Route::get('/{id}/edit', [ProdiController::class, 'edit'])->name('prodi.edit');
-            Route::put('/{id}', [ProdiController::class, 'update'])->name('prodi.update');
-            Route::delete('/{id}', [ProdiController::class, 'destroy'])->name('prodi.destroy');
+            Route::get('/{prodi}/edit', [ProdiController::class, 'edit'])->name('prodi.edit');
+            Route::put('/{prodi}', [ProdiController::class, 'update'])->name('prodi.update');
+            Route::get('/{prodi}/delete', [ProdiController::class, 'confirm'])->name('prodi.delete');
+            Route::delete('/{prodi}', [ProdiController::class, 'destroy'])->name('prodi.destroy');
         });
         Route::prefix('penyelenggara')->group(function () {
             Route::get('/', [PenyelenggaraController::class, 'index'])->name('penyelenggara.index');

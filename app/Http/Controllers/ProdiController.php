@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\ProdiModel;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 use Yajra\DataTables\DataTables;
 
 class ProdiController extends Controller
@@ -23,72 +24,125 @@ class ProdiController extends Controller
     public function list(Request $request)
     {
         if ($request->ajax()) {
+            $prodi = ProdiModel::select("prodi_id", "prodi_nama", "prodi_kode");
 
-            $prodi = ProdiModel::select('prodi_id', 'prodi_kode', 'prodi_nama');
-            return DataTables::of($prodi)
-                ->addIndexColumn()
-                ->addColumn('info', function ($row) {
-                    return $row->prodi_nama;
-                })
-                ->addColumn('kode', function ($row) {
-                    return $row->prodi_kode;
-                })
-                ->addColumn('aksi', function ($row) {
-                    return '
-                        <a href="' . route('prodi.edit', $row->prodi_id) . '" class="btn btn-warning btn-sm">Edit</a>
-                        <button data-url="' . route('prodi.destroy', $row->prodi_id) . '" class="btn btn-danger btn-sm btn-delete">Hapus</button>
-                    ';
-                })
-                ->rawColumns(['info','kode', 'aksi'])
-                ->make(true);
+            if ($request->prodi_id) {
+                $prodi->where('prodi_id', $request->prodi_id);
+            }
         }
+        $prodi = $prodi->get();
+        return DataTables::of($prodi)
+            ->addIndexColumn()
+            ->addColumn('info', function ($row) {
+                return $row->prodi_nama;
+            })
+            ->addColumn('kode', function ($row) {
+                return $row->prodi_kode;
+            })
+            ->addColumn('aksi', function ($row) {
+                $btn = '<button onclick="modalAction(\'' . url('/prodi/' . $row->prodi_id . '/show') . '\')" class="btn btn-info btn-sm"><i class="fa fa-eye"></i> Detail</button> ';
+                $btn .= '<button onclick="modalAction(\'' . url('/prodi/' . $row->prodi_id . '/edit') . '\')" class="btn btn-sm btn-warning" title="Edit"><i class="fa fa-pen"></i> Edit</button> ';
+                $btn .= '<button onclick="modalAction(\'' . url('/prodi/' . $row->prodi_id . '/delete') . '\')" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i> Hapus</button> ';
+                // return '<div class="">' . $btn . '</div>';
+                return $btn;
+            })
+            ->rawColumns(['info', 'aksi']) // agar tombol HTML tidak di-escape
+            ->make(true);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
-
+        return view("admin.prodi.create_prodi");
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store()
+    public function store(Request $request)
     {
-       
+        $rules = [
+            'prodi_nama' => 'required|string|max:255',
+            'prodi_kode' => 'required|string|max:255'
+        ];
+
+        $validator = Validator::make($request->all(), $rules);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Validasi gagal.',
+                'msgField' => $validator->errors()
+            ]);
+        }
+
+        ProdiModel::create([
+            'prodi_nama' => $request->prodi_nama,
+            'prodi_kode' => $request->prodi_kode,
+        ]);
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Data berhasil disimpan.'
+        ]);
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show()
+    public function show($id)
     {
-        
+        $prodi = ProdiModel::find($id);
+        return view('admin.prodi.show_prodi')->with(['prodi' => $prodi]);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit()
+    public function edit(ProdiModel $prodi)
     {
-        
+        return view('admin.prodi.edit_prodi')->with(['prodi' => $prodi]);
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update()
+    public function update(Request $request, $id)
     {
+        $prodi = ProdiModel::findOrFail($id);
 
+        $rules = [
+            'prodi_nama' => 'required|string|max:255',
+            'prodi_kode' => 'required|string|max:255',
+        ];
+
+        $validator = Validator::make($request->all(), $rules);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Validasi gagal.',
+                'msgField' => $validator->errors()
+            ]);
+        }
+
+        $prodi->update([
+            'prodi_nama' => $request->prodi_nama,
+            'prodi_kode' => $request->prodi_kode,
+        ]);
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Data berhasil diupdate.'
+        ]);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy()
+    public function confirmDelete(ProdiModel $prodi)
     {
+        return view('admin.prodi.confirm_delete_prodi')->with(['prodi' => $prodi]);
+    }
 
+    public function destroy(ProdiModel $prodi)
+    {
+        try {
+            $prodi->delete();
+
+            return response()->json([
+                'status' => true,
+                'message' => 'Data berhasil dihapus'
+            ]);
+        } catch (\Illuminate\Database\QueryException $e) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Data gagal dihapus karena masih terdapat tabel lain yang terkait dengan data ini'
+            ]);
+        }
     }
 }
