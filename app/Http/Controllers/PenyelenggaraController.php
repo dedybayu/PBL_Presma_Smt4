@@ -8,6 +8,8 @@ use App\Models\NegaraModel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Yajra\DataTables\DataTables;
+use PhpOffice\PhpSpreadsheet\IOFactory;
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
 
 class PenyelenggaraController extends Controller
 {
@@ -187,5 +189,112 @@ class PenyelenggaraController extends Controller
                 'message' => 'Data gagal dihapus karena masih terdapat tabel lain yang terkait dengan data ini'
             ]);
         }
+    }
+
+    public function import()
+    {
+        return view('admin.penyelenggara.import_penyelenggara');
+    }
+
+    public function import_ajax(Request $request)
+    {
+        if ($request->ajax() || $request->wantsJson()) {
+            $rules = [
+                'file_penyelenggara' => ['required', 'mimes:xlsx', 'max:1024']
+            ];
+
+            $validator = Validator::make($request->all(), $rules);
+            if ($validator->fails()) {
+                return response()->json([
+                    'status' => false,
+                    'message' => 'Validasi gagal saat upload file.',
+                    'msgField' => $validator->errors()
+                ]);
+            }
+
+            $file = $request->file('file_penyelenggara');
+            $reader = IOFactory::createReader('Xlsx');
+            $reader->setReadDataOnly(true);
+            $spreadsheet = $reader->load($file->getRealPath());
+            $sheet = $spreadsheet->getActiveSheet();
+            $data = $sheet->toArray(null, false, true, true);
+
+            $inserted = 0;
+
+            if (count($data) > 1) {
+                foreach ($data as $baris => $value) {
+                    if ($baris == 1) continue; // Header
+
+                    try {
+                        PenyelenggaraModel::create([
+                            'penyelenggara_nama' => trim($value['A']),
+                            'kota_id' => trim($value['B']) ?: null,
+                            'negara_id' => trim($value['C']) ?: null,
+                        ]);
+
+                        $inserted++;
+                    } catch (\Exception $e) {
+                        continue; // Skip error, lanjutkan
+                    }
+                }
+
+                return response()->json([
+                    'status' => true,
+                    'message' => "Import selesai. Total data disimpan: $inserted"
+                ]);
+            }
+
+            return response()->json([
+                'status' => false,
+                'message' => 'Tidak ada data pada file.'
+            ]);
+        }
+
+        return redirect('/');
+    }
+
+    public function export_excel()
+    {
+        $penyelenggaras = PenyelenggaraModel::with(['kota', 'negara'])->orderBy('penyelenggara_id')->get();
+
+        $spreadsheet = new Spreadsheet();
+        $sheet = $spreadsheet->getActiveSheet();
+
+        // Header
+        $sheet->setCellValue('A1', 'No');
+        $sheet->setCellValue('B1', 'Nama Penyelenggara');
+        $sheet->setCellValue('C1', 'Kota');
+        $sheet->setCellValue('D1', 'Negara');
+
+        $sheet->getStyle('A1:D1')->getFont()->setBold(true);
+
+        $baris = 2;
+        $no = 1;
+        foreach ($penyelenggaras as $p) {
+            $sheet->setCellValue("A$baris", $no++);
+            $sheet->setCellValue("B$baris", $p->penyelenggara_nama);
+            $sheet->setCellValue("C$baris", $p->kota->kota_nama ?? '-');
+            $sheet->setCellValue("D$baris", $p->negara->negara_nama ?? '-');
+            $baris++;
+        }
+
+        // Auto width
+        foreach (range('A', 'D') as $col) {
+            $sheet->getColumnDimension($col)->setAutoSize(true);
+        }
+
+        $filename = 'Data_Penyelenggara_' . date('Y-m-d_H-i-s') . '.xlsx';
+
+        if (ob_get_length()) {
+            ob_end_clean();
+        }
+
+        header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+        header("Content-Disposition: attachment; filename=\"$filename\"");
+        header('Cache-Control: max-age=0');
+
+        $writer = IOFactory::createWriter($spreadsheet, 'Xlsx');
+        $writer->save('php://output');
+        exit;
     }
 }

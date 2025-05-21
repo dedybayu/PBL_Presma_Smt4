@@ -15,6 +15,10 @@
                 <button onclick="modalAction('{{ url('/kelas/create') }}')" class="btn btn-sm btn-success mt-1">
                     <i class="fa fa-plus"></i> Tambah Kelas
                 </button>
+                <button onclick="modalAction('{{ url('/kelas/import') }}')" class="btn btn-sm btn-primary mt-1">
+                    <i class="fa fa-plus"></i> Import
+                </button>
+                <a href="{{ url('/kelas/export') }}" class="btn btn-sm btn-info mt-1"> <i class="fa fa-file-export"></i> Export</a>
             </div>
         </div>
 

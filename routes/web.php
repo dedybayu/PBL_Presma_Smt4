@@ -60,6 +60,9 @@ Route::middleware('auth')->group(function () {
             Route::put('/{kelas}', [KelasController::class, 'update'])->name('kelas.update');
             Route::get('/{kelas}/confirm-delete', [KelasController::class, 'confirmDelete'])->name('kelas.confirm-delete'); // jika ingin pakai konfirmasi hapus
             Route::delete('/{kelas}', [KelasController::class, 'destroy'])->name('kelas.destroy');
+            Route::get('/import', [KelasController::class, 'import']); 
+            Route::post('/import_ajax', [KelasController::class, 'import_ajax']);
+            Route::get('/export', [KelasController::class, 'export_excel']);
         });
         Route::prefix('dosen')->group(function () {
             Route::get('/', [DosenController::class, 'index'])->name('dosen.index');
@@ -105,6 +108,9 @@ Route::middleware('auth')->group(function () {
             Route::put('/{id}', [PenyelenggaraController::class, 'update'])->name('penyelenggara.update');
             Route::get('/{penyelenggara}/confirm-delete', [PenyelenggaraController::class, 'confirmDelete'])->name('penyelenggara.confirm-delete');
             Route::delete('/{penyelenggara}', [PenyelenggaraController::class, 'destroy'])->name('penyelenggara.destroy');
+            Route::get('/import', [PenyelenggaraController::class, 'import']); 
+            Route::post('/import_ajax', [PenyelenggaraController::class, 'import_ajax']);
+            Route::get('/export', [PenyelenggaraController::class, 'export_excel']);
         });
         Route::prefix('prestasi')->group(function () {
             Route::get('/', [PrestasiController::class, 'index'])->name('prestasi.index');
