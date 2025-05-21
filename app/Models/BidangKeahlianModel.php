@@ -10,7 +10,7 @@ class BidangKeahlianModel extends Model
     use HasFactory;
 
     protected $table = 'm_bidang_keahlian';
-    protected $primaryKey = 'id_bidang_keahlian';
+    protected $primaryKey = 'bidang_keahlian_id';
 
     protected $fillable = [
         'bidang_keahlian_kode',
