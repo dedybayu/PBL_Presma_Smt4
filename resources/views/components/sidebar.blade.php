@@ -59,13 +59,13 @@
                                 </i> Dosen
                             </a>
                         </li>
-                        <li>
+                        {{-- <li>
                             <a href="{{ route('admin.index') }}"
                                 class="{{ request()->routeIs('admin.index') ? 'mm-active' : '' }}">
                                 <i class="metismenu-icon">
                                 </i> Admin
                             </a>
-                        </li>
+                        </li> --}}
                     </ul>
                 </li>
                 <li>
