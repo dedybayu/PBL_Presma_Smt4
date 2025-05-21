@@ -92,9 +92,9 @@ class PrestasiController extends Controller
                     }
                 })
                 ->addColumn('aksi', function ($row) {
-                    $btn = '<button onclick="modalAction(\'' . url('/mahasiswa/' . $row->mahasiswa_id . '/show') . '\')" class="btn btn-info btn-sm"><i class="fa fa-eye"></i> Detail</button> ';
-                    $btn .= '<button onclick="modalAction(\'' . url('/mahasiswa/' . $row->mahasiswa_id . '/edit') . '\')" class="btn btn-sm btn-warning" title="Edit"><i class="fa fa-pen"></i> Edit</button> ';
-                    $btn .= '<button onclick="modalAction(\'' . url('/mahasiswa/' . $row->mahasiswa_id . '/confirm-delete') . '\')" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i> Hapus</button> ';
+                    $btn = '<button onclick="modalAction(\'' . url('/prestasi/' . $row->prestasi_id . '/show') . '\')" class="btn btn-info btn-sm"><i class="fa fa-eye"></i> Detail</button> ';
+                    $btn .= '<button onclick="modalAction(\'' . url('/prestasi/' . $row->prestasi_id . '/edit') . '\')" class="btn btn-sm btn-warning" title="Edit"><i class="fa fa-pen"></i> Edit</button> ';
+                    $btn .= '<button onclick="modalAction(\'' . url('/prestasi/' . $row->prestasi_id . '/confirm-delete') . '\')" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i> Hapus</button> ';
                     // return '<div class="">' . $btn . '</div>';
                     return $btn;
                 })
@@ -134,7 +134,7 @@ class PrestasiController extends Controller
      */
     public function show(PrestasiModel $prestasiModel)
     {
-        //
+        return 'show dipanggil';
     }
 
     /**
@@ -142,7 +142,7 @@ class PrestasiController extends Controller
      */
     public function edit(PrestasiModel $prestasiModel)
     {
-        //
+        return 'edit dipanggil';    
     }
 
     /**
@@ -156,6 +156,11 @@ class PrestasiController extends Controller
     /**
      * Remove the specified resource from storage.
      */
+
+    public function confirmDelete(PrestasiModel $prestasiModel)
+    {
+        return 'confirm delete dipanggil';
+    }
     public function destroy(PrestasiModel $prestasiModel)
     {
         //
