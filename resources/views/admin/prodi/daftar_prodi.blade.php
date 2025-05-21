@@ -21,6 +21,7 @@
                         <tr>
                             <th>No</th>
                             <th>Info</th>
+                            <th>Kode</th>
                             <th>Aksi</th>
                         </tr>
                     </thead>
@@ -62,6 +63,7 @@
                     columns: [
                         { data: "DT_RowIndex", className: "text-center", orderable: false, searchable: false },
                         { data: "info", orderable: false, searchable: true },
+                        { data: "kode", orderable: false, searchable: true },
                         { data: "aksi", className: "text-center", orderable: false, searchable: false }
                     ]
                 });

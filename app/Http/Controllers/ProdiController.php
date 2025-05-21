@@ -28,10 +28,10 @@ class ProdiController extends Controller
             return DataTables::of($prodi)
                 ->addIndexColumn()
                 ->addColumn('info', function ($row) {
-                    return '
-                        <strong>' . $row->prodi_nama . '</strong><br>
-                        <small>Kode: ' . $row->prodi_kode . '</small>
-                    ';
+                    return $row->prodi_nama;
+                })
+                ->addColumn('kode', function ($row) {
+                    return $row->prodi_kode;
                 })
                 ->addColumn('aksi', function ($row) {
                     return '
@@ -39,7 +39,7 @@ class ProdiController extends Controller
                         <button data-url="' . route('prodi.destroy', $row->prodi_id) . '" class="btn btn-danger btn-sm btn-delete">Hapus</button>
                     ';
                 })
-                ->rawColumns(['info', 'aksi'])
+                ->rawColumns(['info','kode', 'aksi'])
                 ->make(true);
         }
     }
