@@ -70,7 +70,7 @@
                 });
 
                 $('#bidangKeahlian_id').on('change', function () {
-                    databidangKeahlian.ajax.reload();
+                    dataBidangKeahlian.ajax.reload();
                 });
             });
         </script>
