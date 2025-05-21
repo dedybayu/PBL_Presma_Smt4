@@ -407,8 +407,7 @@ public function import_ajax(Request $request)
                         'email' => trim($value['F']),
                         'no_tlp' => trim($value['G']),
                         'alamat' => trim($value['H']),
-                        'prodi_id' => trim($value['I']),
-                        'kelas_id' => trim($value['J']),
+                        'kelas_id' => trim($value['I']),
                         'foto_profile' => null // Tidak bisa upload gambar via Excel
                     ]);
 
