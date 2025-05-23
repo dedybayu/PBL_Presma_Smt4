@@ -94,7 +94,7 @@
                         <div class="dropdown-menu-header mb-0">
                             <div class="dropdown-menu-header-inner bg-deep-blue">
                                 <div class="menu-header-image opacity-1"
-                                    style="background-image: url('../assets/images/dropdown-header/city3.jpg');"></div>
+                                    style="background-image: url('{{asset('assets/images/gdungjti2.png')}}');"></div>
                                 <div class="menu-header-content text-dark">
                                     <h5 class="menu-header-title">Notifikasi</h5>
                                     <h6 class="menu-header-subtitle">Kamu memiliki <b>5</b> pesan baru</h6>
@@ -295,7 +295,7 @@
                                     <div class="dropdown-menu-header">
                                         <div class="dropdown-menu-header-inner bg-info">
                                             <div class="menu-header-image opacity-2"
-                                                style="background-image: url('../assets/images/dropdown-header/city3.jpg');">
+                                                style="background-image: url('{{asset('assets/images/gdungjti2.png')}}');">
                                             </div>
                                             <div class="menu-header-content text-left">
                                                 <div class="widget-content p-0">
