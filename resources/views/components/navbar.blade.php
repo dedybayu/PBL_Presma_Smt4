@@ -36,9 +36,9 @@
             <div class="search-wrapper">
                 <div class="input-holder">
                     <input type="text" class="search-input" placeholder="Ketik untuk mencari">
-                    <button class="search-icon"><span></span></button>
+                    <button class="search-icon" onclick="cariTeksDiHalaman()" ><span></span></button>
                 </div>
-                <button class="close"></button>
+                <button class="close" onclick="resetHighlight()"></button>
             </div>
             <ul class="header-megamenu nav">
                 <li class="btn-group nav-item">
@@ -84,8 +84,8 @@
                     <button type="button" aria-haspopup="true" aria-expanded="false" data-toggle="dropdown"
                         class="p-0 mr-2 btn btn-link">
                         <span class="icon-wrapper icon-wrapper-alt rounded-circle">
-                            <span class="icon-wrapper-bg bg-danger"></span>
-                            <i class="icon text-danger icon-anim-pulse ion-android-notifications"></i>
+                            <span class="icon-wrapper-bg bg-primary"></span>
+                            <i class="icon text-primary ion-android-notifications"></i>
                             <span class="badge badge-dot badge-dot-sm badge-danger">Notifications</span>
                         </span>
                     </button>
@@ -128,10 +128,12 @@
                                                     class="vertical-time-simple vertical-without-time vertical-timeline vertical-timeline--one-column">
                                                     <div
                                                         class="vertical-timeline-item dot-danger vertical-timeline-element">
-                                                        <div><span
+                                                        <div>
+                                                            <span
                                                                 class="vertical-timeline-element-icon bounce-in"></span>
                                                             <div class="vertical-timeline-element-content bounce-in">
-                                                                <h4 class="timeline-title">Verifikasi Lomba Menolong Denis</h4><span
+                                                                <h4 class="timeline-title">Verifikasi Lomba Menolong
+                                                                    Denis</h4><span
                                                                     class="vertical-timeline-element-date"></span>
                                                             </div>
                                                         </div>

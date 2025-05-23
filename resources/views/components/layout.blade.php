@@ -39,6 +39,7 @@
     {{-- Custom CSS --}}
     <x-css>{{$css}}</x-css>
 
+
 </head>
 
 <body>
@@ -239,7 +240,62 @@
     <script src="{{ asset('assets/plugins/jquery-validation/jquery.validate.min.js') }}"></script>
     <script src="{{ asset('assets/plugins/jquery-validation/additional-methods.min.js') }}"></script>
 
+    {{-- CARI TEKS --}}
+
+
+
     <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const input = document.querySelector('.search-input');
+            input.addEventListener('keydown', function (event) {
+                if (event.key === "Enter") {
+                    event.preventDefault(); // mencegah form submit jika ada
+                    cariTeksDiHalaman();
+                }
+            });
+        });
+
+        function cariTeksDiHalaman() {
+            resetHighlight(); // hapus highlight sebelumnya
+
+            const input = document.querySelector('.search-input');
+            const keyword = input.value.trim();
+            if (!keyword) return;
+
+            const regex = new RegExp(`(${keyword})`, 'gi');
+
+            // Fungsi rekursif untuk cari dan highlight
+            const highlightText = (node) => {
+                if (node.nodeType === 3) { // text node
+                    if (regex.test(node.nodeValue)) {
+                        const span = document.createElement('span');
+                        span.innerHTML = node.nodeValue.replace(regex, '<mark class="highlight">$1</mark>');
+                        node.parentNode.replaceChild(span, node);
+                    }
+                } else if (node.nodeType === 1 && node.childNodes && !['SCRIPT', 'STYLE', 'MARK'].includes(node.tagName)) {
+                    Array.from(node.childNodes).forEach(highlightText);
+                }
+            };
+
+            highlightText(document.body);
+
+            // Scroll ke hasil pertama
+            const pertama = document.querySelector('.highlight');
+            if (pertama) {
+                pertama.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }
+        }
+
+        function resetHighlight() {
+            // Kembalikan teks dari <mark> ke teks biasa
+            const highlights = document.querySelectorAll('.highlight');
+            highlights.forEach(el => {
+                const text = document.createTextNode(el.textContent);
+                el.parentNode.replaceChild(text, el);
+            });
+        }
+
+
         // Untuk mengirimkan token Laravel CSRF pada setiap request ajax
         $.ajaxSetup({ headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') } });
 
