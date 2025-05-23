@@ -9,8 +9,8 @@ use App\Models\PrestasiModel;
 use App\Models\TingkatLombaModel;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
-use Storage;
-use Validator;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Validator;
 use Yajra\DataTables\DataTables;
 
 class PrestasiController extends Controller
