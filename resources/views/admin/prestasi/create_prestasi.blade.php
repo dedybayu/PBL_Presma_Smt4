@@ -48,6 +48,15 @@
                         @endforeach
                     </select>
                 </div>
+            </div>            
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label>Tanggal</label>
+                    <input value="" type="date" name="tanggal_perolehan" id="tanggal_perolehan" class="form-control" required>
+                    <small id="error-file_bukti_foto" class="error-text form-text text-danger"></small>
+                </div>
+            </div>
+            <div class="col-md-6">
             </div>
             <div class="col-md-6">
                 <div class="form-group">
@@ -103,13 +112,12 @@
             </div>
             <div class="col-md-12">
                 <div class="form-group">
-                <label>Proposal</label>
-                <input value="" type="file" name="file_" id="file_proposal" class="form-control"
-                    accept="pdf/*" required>
-                <small id="error-file_surat_undangan" class="error-text form-text text-danger"></small>
+                    <label>Proposal</label>
+                    <input value="" type="file" name="file_proposal" id="file_proposal" class="form-control" accept="application/pdf">
+                    <small id="error-file_surat_undangan" class="error-text form-text text-danger"></small>
+                </div>
             </div>
-            </div>
-            
+
         </div>
     </div>
     <div class="modal-footer">
@@ -181,19 +189,23 @@
                 },
                 file_sertifikat: {
                     required: true,
-                    extension: "jpg|jpeg|png|gif"
+                    extension: "jpg|jpeg|png"
                 },
                 file_bukti_foto: {
                     required: true,
-                    extension: "jpg|jpeg|png|gif"
+                    extension: "jpg|jpeg|png"
                 },
                 file_surat_tugas: {
                     required: true,
-                    extension: "jpg|jpeg|png|gif"
+                    extension: "jpg|jpeg|png"
                 },
                 file_surat_undangan: {
                     required: true,
-                    extension: "jpg|jpeg|png|gif"
+                    extension: "jpg|jpeg|png"
+                },
+                file_proposal: {
+                    required: false,
+                    extension: "pdf"
                 }
             },
 
@@ -231,7 +243,7 @@
                                 title: 'Berhasil',
                                 text: response.message
                             });
-                            dataprestasi.ajax.reload();
+                            dataPrestasi.ajax.reload();
                         } else {
                             $('.error-text').text('');
                             $.each(response.msgField, function (prefix, val) {
