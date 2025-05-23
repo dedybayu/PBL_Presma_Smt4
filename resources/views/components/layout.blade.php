@@ -9,7 +9,7 @@
     <link rel="icon" type="image/png" href="{{ asset('assets/images/presapp-logo.png') }}" />
 
     <title>PresApp</title>
-    
+
     <meta name="viewport"
         content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, shrink-to-fit=no" />
 
@@ -207,9 +207,10 @@
     <script src="{{ asset('assets/js/scripts-init/toastr.js')}}"></script>
 
     <!--SweetAlert2-->
-    {{-- <script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script>
+    {{--
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script>
     <script src="{{ asset('assets/js/scripts-init/sweet-alerts.js')}}"></script> --}}
-        <!-- Sweet alert2 -->
+    <!-- Sweet alert2 -->
 
     <script src="{{ asset('assets/plugins/sweetalert2/sweetalert2.min.js') }}"></script>
 
@@ -241,6 +242,18 @@
     <script>
         // Untuk mengirimkan token Laravel CSRF pada setiap request ajax
         $.ajaxSetup({ headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') } });
+
+        function modalAction(url) {
+            $("#modal-logout .modal-content").html("");
+            $.get(url, function (response) {
+                $("#modal-logout .modal-content").html(response);
+                $("#modal-logout").modal("show");
+            });
+        }
+
+        $('#modal-logout').on('hidden.bs.modal', function () {
+            $("#modal-logout .modal-content").html("");
+        });
     </script>
 
     {{-- Js Tambahan --}}

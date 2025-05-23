@@ -34,6 +34,9 @@ Route::post('/login', [AuthController::class, 'login'])->name('custom.login');
 
 Route::middleware('auth')->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index']);
+    Route::get('/logout', [AuthController::class, 'confirmLogout'])->name('logout.index');
+    Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+
 
     Route::middleware(['role:ADM,DOS'])->group(function () {
         Route::prefix('mahasiswa')->group(function () {
@@ -46,7 +49,7 @@ Route::middleware('auth')->group(function () {
             Route::put('/{mahasiswa}', [MahasiswaController::class, 'update'])->name('mahasiswa.update');
             Route::get('/{mahasiswa}/confirm-delete', [MahasiswaController::class, 'confirmDelete'])->name('mahasiswa.confirm-delete');
             Route::delete('/{mahasiswa}', [MahasiswaController::class, 'destroy'])->name('mahasiswa.destroy');
-            Route::get('/import', [MahasiswaController::class, 'import']); 
+            Route::get('/import', [MahasiswaController::class, 'import']);
             Route::post('/import_ajax', [MahasiswaController::class, 'import_ajax']);
             Route::get('/export', [MahasiswaController::class, 'export_excel']);
         });
@@ -60,7 +63,7 @@ Route::middleware('auth')->group(function () {
             Route::put('/{kelas}', [KelasController::class, 'update'])->name('kelas.update');
             Route::get('/{kelas}/confirm-delete', [KelasController::class, 'confirmDelete'])->name('kelas.confirm-delete'); // jika ingin pakai konfirmasi hapus
             Route::delete('/{kelas}', [KelasController::class, 'destroy'])->name('kelas.destroy');
-            Route::get('/import', [KelasController::class, 'import']); 
+            Route::get('/import', [KelasController::class, 'import']);
             Route::post('/import_ajax', [KelasController::class, 'import_ajax']);
             Route::get('/export', [KelasController::class, 'export_excel']);
         });
@@ -74,7 +77,7 @@ Route::middleware('auth')->group(function () {
             Route::put('/{dosen}', [DosenController::class, 'update'])->name('dosen.update');
             Route::get('/{dosen}/delete', [DosenController::class, 'delete'])->name('dosen.delete');
             Route::delete('/{dosen}', [DosenController::class, 'destroy'])->name('dosen.destroy');
-            Route::get('/import', [DosenController::class, 'import']); 
+            Route::get('/import', [DosenController::class, 'import']);
             Route::post('/import_ajax', [DosenController::class, 'import_ajax']);
             Route::get('/export', [DosenController::class, 'export_excel']);
         });
@@ -108,7 +111,7 @@ Route::middleware('auth')->group(function () {
             Route::put('/{id}', [PenyelenggaraController::class, 'update'])->name('penyelenggara.update');
             Route::get('/{penyelenggara}/confirm-delete', [PenyelenggaraController::class, 'confirmDelete'])->name('penyelenggara.confirm-delete');
             Route::delete('/{penyelenggara}', [PenyelenggaraController::class, 'destroy'])->name('penyelenggara.destroy');
-            Route::get('/import', [PenyelenggaraController::class, 'import']); 
+            Route::get('/import', [PenyelenggaraController::class, 'import']);
             Route::post('/import_ajax', [PenyelenggaraController::class, 'import_ajax']);
             Route::get('/export', [PenyelenggaraController::class, 'export_excel']);
         });
@@ -159,5 +162,5 @@ Route::middleware('auth')->group(function () {
 // });
 
 
-Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
-Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+// Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
+// Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
