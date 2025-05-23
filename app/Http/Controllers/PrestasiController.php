@@ -132,9 +132,13 @@ class PrestasiController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(PrestasiModel $prestasiModel)
+    public function show(PrestasiModel $prestasi)
     {
-        return 'show dipanggil';
+        $lomba = LombaModel::all();
+        $dosen = DosenModel::all();
+        $mahasiswa = MahasiswaModel::all();
+        return view('admin.prestasi.show_prestasi')->with(['prestasi' => $prestasi, 'lomba' => $lomba, 'dosen' => $dosen, 'mahasiswa' => $mahasiswa
+        ]);
     }
 
     /**
