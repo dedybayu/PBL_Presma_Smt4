@@ -69,11 +69,11 @@
                     </ul>
                 </li>
                 <li>
-                    <a href="#">
+                    <a href="#" class="{{ request()->routeIs('lomba.*', 'bidangKeahlian.*', 'penyelenggara.*') ? 'mm-active' : '' }}">
                         <i class="metismenu-icon pe-7s-note2"></i> Manajemen Data Lomba
                         <i class="metismenu-state-icon pe-7s-angle-down caret-left"></i>
                     </a>
-                    <ul>
+                    <ul class="{{ request()->routeIs('lomba.*', 'bidangKeahlian.*', 'penyelenggara.*') ? 'mm-show' : '' }}">
                         <li>
                             <a href="{{ route('lomba.index') }}"
                                 class="{{ request()->routeIs('lomba.index') ? 'mm-active' : '' }}">
@@ -98,11 +98,11 @@
                     </ul>
                 </li>
                 <li>
-                    <a href="#">
-                        <i class="metismenu-icon pe-7s-check"></i> Verifikasi Data
+                    <a href="#" class="{{ request()->routeIs('prestasi.*') ? 'mm-active' : '' }}">
+                        <i class="metismenu-icon pe-7s-check"></i> Data Prestasi
                         <i class="metismenu-state-icon pe-7s-angle-down caret-left"></i>
                     </a>
-                    <ul>
+                    <ul class="{{ request()->routeIs('prestasi.*') ? 'mm-show' : '' }}">
                         <li>
                             <a href="{{ route('prestasi.index') }}"
                                 class="{{ request()->routeIs('prestasi.index') ? 'mm-active' : '' }}">
@@ -110,13 +110,13 @@
                                 </i>Prestasi Mahasiswa
                             </a>
                         </li>
-                        <li>
+                        {{-- <li>
                             <a href="mailbox.html">
                                 <i class="metismenu-icon">
                                 </i>Data lomba
                             </a>
                             </a>
-                        </li>
+                        </li> --}}
                     </ul>
                 </li>
                 <li>

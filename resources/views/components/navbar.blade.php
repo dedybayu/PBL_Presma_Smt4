@@ -36,9 +36,9 @@
             <div class="search-wrapper">
                 <div class="input-holder">
                     <input type="text" class="search-input" placeholder="Ketik untuk mencari">
-                    <button class="search-icon"><span></span></button>
+                    <button class="search-icon" onclick="cariTeksDiHalaman()" ><span></span></button>
                 </div>
-                <button class="close"></button>
+                <button class="close" onclick="resetHighlight()"></button>
             </div>
             <ul class="header-megamenu nav">
                 <li class="btn-group nav-item">
@@ -84,8 +84,8 @@
                     <button type="button" aria-haspopup="true" aria-expanded="false" data-toggle="dropdown"
                         class="p-0 mr-2 btn btn-link">
                         <span class="icon-wrapper icon-wrapper-alt rounded-circle">
-                            <span class="icon-wrapper-bg bg-danger"></span>
-                            <i class="icon text-danger icon-anim-pulse ion-android-notifications"></i>
+                            <span class="icon-wrapper-bg bg-primary"></span>
+                            <i class="icon text-primary ion-android-notifications"></i>
                             <span class="badge badge-dot badge-dot-sm badge-danger">Notifications</span>
                         </span>
                     </button>
@@ -94,7 +94,7 @@
                         <div class="dropdown-menu-header mb-0">
                             <div class="dropdown-menu-header-inner bg-deep-blue">
                                 <div class="menu-header-image opacity-1"
-                                    style="background-image: url('../assets/images/dropdown-header/city3.jpg');"></div>
+                                    style="background-image: url('{{asset('assets/images/gdungjti2.png')}}');"></div>
                                 <div class="menu-header-content text-dark">
                                     <h5 class="menu-header-title">Notifikasi</h5>
                                     <h6 class="menu-header-subtitle">Kamu memiliki <b>5</b> pesan baru</h6>
@@ -128,10 +128,12 @@
                                                     class="vertical-time-simple vertical-without-time vertical-timeline vertical-timeline--one-column">
                                                     <div
                                                         class="vertical-timeline-item dot-danger vertical-timeline-element">
-                                                        <div><span
+                                                        <div>
+                                                            <span
                                                                 class="vertical-timeline-element-icon bounce-in"></span>
                                                             <div class="vertical-timeline-element-content bounce-in">
-                                                                <h4 class="timeline-title">Verifikasi Lomba Menolong Denis</h4><span
+                                                                <h4 class="timeline-title">Verifikasi Lomba Menolong
+                                                                    Denis</h4><span
                                                                     class="vertical-timeline-element-date"></span>
                                                             </div>
                                                         </div>
@@ -295,7 +297,7 @@
                                     <div class="dropdown-menu-header">
                                         <div class="dropdown-menu-header-inner bg-info">
                                             <div class="menu-header-image opacity-2"
-                                                style="background-image: url('../assets/images/dropdown-header/city3.jpg');">
+                                                style="background-image: url('{{asset('assets/images/gdungjti2.png')}}');">
                                             </div>
                                             <div class="menu-header-content text-left">
                                                 <div class="widget-content p-0">
@@ -311,7 +313,7 @@
                                                             </div>
                                                         </div>
                                                         <div class="widget-content-right mr-2">
-                                                            <button
+                                                            <button onclick="modalAction('{{ url('/logout') }}')"
                                                                 class="btn-pill btn-shadow btn-shine btn btn-focus">Logout
                                                             </button>
                                                         </div>

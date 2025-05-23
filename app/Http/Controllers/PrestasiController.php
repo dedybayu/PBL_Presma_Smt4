@@ -9,6 +9,8 @@ use App\Models\PrestasiModel;
 use App\Models\TingkatLombaModel;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Storage;
+use Validator;
 use Yajra\DataTables\DataTables;
 
 class PrestasiController extends Controller
@@ -126,7 +128,82 @@ class PrestasiController extends Controller
      */
     public function store(Request $request)
     {
-        dd($request);
+        if (request()->ajax() || request()->wantsJson()) {
+            $rules = [
+                'mahasiswa_id' => 'required',
+                'dosen_id' => 'required',
+                'lomba_id' => 'required',
+                'prestasi_nama' => 'required',
+                'nama_juara' => 'nullable',
+                'tanggal_perolehan' => 'required|date',
+                'file_sertifikat' => 'required|mimes:jpg,jpeg,png',
+                'file_bukti_foto' => 'required|mimes:jpg,jpeg,png',
+                'file_surat_tugas' => 'required|mimes:jpg,jpeg,png',
+                'file_surat_undangan' => 'required|mimes:jpg,jpeg,png',
+                'file_proposal' => 'required|mimes:pdf',
+            ];
+            $validator = Validator::make($request->all(), $rules);
+
+            if ($validator->fails()) {
+                return response()->json([
+                    'status' => false,
+                    'message' => 'Validasi gagal.',
+                    'errors' => $validator->errors()
+                ]);
+            }
+
+            $nim_mahasiswa = MahasiswaModel::findOrFail($request->mahasiswa_id)->nim;
+
+            // dd($request->file());
+            $imagePaths['file_sertifikat'] = self::saveFile($request, 'sertifikat', $nim_mahasiswa, 'file_sertifikat');
+            $imagePaths['file_bukti_foto'] = self::saveFile($request, 'bukti_foto', $nim_mahasiswa, 'file_bukti_foto');
+            $imagePaths['file_surat_tugas'] = self::saveFile($request, 'surat_tugas', $nim_mahasiswa, 'file_surat_tugas');
+            $imagePaths['file_surat_undangan'] = self::saveFile($request, 'surat_undangan', $nim_mahasiswa, 'file_surat_undangan');
+            $imagePaths['file_proposal'] = self::saveFile($request, 'proposal', $nim_mahasiswa, 'file_proposal');
+
+            // dd($imagePath);
+
+            try {
+                PrestasiModel::create([
+                    'mahasiswa_id' => $request->mahasiswa_id,
+                    // 'dosen_id' => '2222',
+                    'dosen_id' => $request->dosen_id,
+                    'lomba_id' => $request->lomba_id,
+                    'prestasi_nama' => $request->prestasi_nama,
+                    'nama_juara' => $request->nama_juara,
+                    'tanggal_perolehan' => $request->tanggal_perolehan,
+                    'file_sertifikat' => $imagePaths['file_sertifikat'],
+                    'file_bukti_foto' => $imagePaths['file_bukti_foto'],
+                    'file_surat_tugas' => $imagePaths['file_surat_tugas'],
+                    'file_surat_undangan' => $imagePaths['file_surat_undangan'],
+                    'file_proposal' => $imagePaths['file_proposal'],
+                    'poin' => 0,
+                    'status_verifikasi' => 0,
+                    'created_at' => now(),
+                    'updated_at' => now()                    
+                ]);
+
+                return response()->json([
+                    'status' => true,
+                    'message' => 'Data berhasil disimpan'
+                ]);
+            } catch (\Throwable $th) {
+                foreach ($imagePaths as $imagePath) {
+                    if ($imagePath) {
+                        Storage::disk('public')->delete($imagePath);
+                    }
+                }
+                return response()->json([
+                    'status' => false,
+                    'message' => 'Validasi gagal.',
+                    'errors' => $validator->errors()
+                ]);
+            }
+
+
+
+        }
+
     }
 
     /**
@@ -146,7 +223,7 @@ class PrestasiController extends Controller
      */
     public function edit(PrestasiModel $prestasiModel)
     {
-        return 'edit dipanggil';    
+        return 'edit dipanggil';
     }
 
     /**
@@ -169,4 +246,38 @@ class PrestasiController extends Controller
     {
         //
     }
+
+
+
+    //STATIC METHOD
+
+    private static function saveFile($requestFile, string $jenis, string $nim_mahasiswa, string $nama_variabel)
+    {
+        if ($requestFile->hasFile($nama_variabel)) {
+            // return response()->json(['error' => 'No file uploaded'], 400);
+            $file = $requestFile->file($nama_variabel);
+
+            if (!$file->isValid()) {
+                return response()->json(['error' => 'Invalid file'], 400);
+            }
+
+            // Nama file unik
+            $filename = time() . '_' . $file->getClientOriginalName();
+
+            // Pastikan folder penyimpanan ada
+            $destinationPath = storage_path('app/public/mahasiswa/' . $nim_mahasiswa . '/prestasi/' . $jenis . '/');
+            if (!file_exists($destinationPath)) {
+                mkdir($destinationPath, 0775, true);
+            }
+
+            // Pindahkan file
+            $file->move($destinationPath, $filename);
+
+            $imagePath = "mahasiswa/$nim_mahasiswa/prestasi/$jenis/$filename"; // Simpan path gambar
+        } else {
+            $imagePath = null;
+        }
+        return $imagePath;
+    }
+
 }
