@@ -27,19 +27,19 @@
         <table class="table table-sm table-bordered table-striped">
             <tr>
                 <th class="text-right col-3">Nama mahasiswa :</th>
-                <td class="col-9">{{ $prestasi->mahasiswa->nama }}</td>
+                <td class="col-9">{{ $prestasi->mahasiswa->nama ?? '-' }}</td>
             </tr>
             <tr>
                 <th class="text-right col-3">Nama dosen :</th>
-                <td class="col-9">{{ $prestasi->dosen->nama }}</td>
+                <td class="col-9">{{ $prestasi->dosen->nama ?? '-' }}</td>
             </tr>
             <tr>
                 <th class="text-right col-3">Nama prestasi :</th>
-                <td class="col-9">{{ $prestasi->prestasi_nama }}</td>
+                <td class="col-9">{{ $prestasi->prestasi_nama ?? '-'  }}</td>
             </tr>
             <tr>
                 <th class="text-right col-3">Nama lomba :</th>
-                <td class="col-9">{{ $prestasi->lomba->lomba_nama }}</td>
+                <td class="col-9">{{ $prestasi->lomba->lomba_nama ?? '-' }}</td>
             </tr>
             <tr>
                 <th class="text-right col-3">Juara :</th>

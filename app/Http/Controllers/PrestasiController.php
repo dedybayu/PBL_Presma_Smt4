@@ -301,15 +301,15 @@ class PrestasiController extends Controller
         ]);
     }
 
-    public function confirmDelete(PrestasiModel $prestasiModel)
+    public function confirmDelete(PrestasiModel $prestasi)
     {
-        return view('admin.prestasi.confirm_delete_prestasi')->with(['prestasi' => $prestasiModel]);
+        return view('admin.prestasi.confirm_delete_prestasi')->with(['prestasi' => $prestasi]);
     }
 
-    public function destroy(PrestasiModel $prestasiModel)
+    public function destroy(PrestasiModel $prestasi)
     {
         try {
-            $prestasiModel->delete();
+            $prestasi->delete();
 
             return response()->json([
                 'status' => true,
