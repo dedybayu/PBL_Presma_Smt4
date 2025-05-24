@@ -223,7 +223,18 @@ class PrestasiController extends Controller
      */
     public function edit(PrestasiModel $prestasiModel)
     {
-        return 'edit dipanggil';
+        $lomba = LombaModel::where('tanggal_selesai', '<', Carbon::now())
+            ->where('status_verifikasi', 1)
+            ->get();
+
+        $dosen = DosenModel::all();
+        $mahasiswa = MahasiswaModel::all();
+
+        return view('admin.prestasi.create_prestasi')->with([
+            'lomba' => $lomba,
+            'dosen' => $dosen,
+            'mahasiswa' => $mahasiswa
+        ]);
     }
 
     /**
@@ -231,20 +242,85 @@ class PrestasiController extends Controller
      */
     public function update(Request $request, PrestasiModel $prestasiModel)
     {
-        //
-    }
+        $rules = [
+            'mahasiswa_id' => 'required',
+                'dosen_id' => 'required',
+                'lomba_id' => 'required',
+                'prestasi_nama' => 'required',
+                'nama_juara' => 'nullable',
+                'tanggal_perolehan' => 'required|date',
+                'file_sertifikat' => 'required|mimes:jpg,jpeg,png',
+                'file_bukti_foto' => 'required|mimes:jpg,jpeg,png',
+                'file_surat_tugas' => 'required|mimes:jpg,jpeg,png',
+                'file_surat_undangan' => 'required|mimes:jpg,jpeg,png',
+                'file_proposal' => 'required|mimes:pdf',
+        ];
 
-    /**
-     * Remove the specified resource from storage.
-     */
+        $validator = Validator::make($request->all(), $rules);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Validasi gagal.',
+                'msgField' => $validator->errors()
+            ]);
+        }
+
+        $nim_mahasiswa = MahasiswaModel::findOrFail($request->mahasiswa_id)->nim;
+
+        $imagePaths['file_sertifikat'] = self::saveFile($request, 'sertifikat', $nim_mahasiswa, 'file_sertifikat');
+        $imagePaths['file_bukti_foto'] = self::saveFile($request, 'bukti_foto', $nim_mahasiswa, 'file_bukti_foto');
+        $imagePaths['file_surat_tugas'] = self::saveFile($request, 'surat_tugas', $nim_mahasiswa, 'file_surat_tugas');
+        $imagePaths['file_surat_undangan'] = self::saveFile($request, 'surat_undangan', $nim_mahasiswa, 'file_surat_undangan');
+        $imagePaths['file_proposal'] = self::saveFile($request, 'proposal', $nim_mahasiswa, 'file_proposal');
+
+        // dd($imagePath);
+
+        $prestasiModel->update([
+            'mahasiswa_id' => $request->mahasiswa_id,
+            // 'dosen_id' => '2222',
+            'dosen_id' => $request->dosen_id,
+            'lomba_id' => $request->lomba_id,
+            'prestasi_nama' => $request->prestasi_nama,
+            'nama_juara' => $request->nama_juara,
+            'tanggal_perolehan' => $request->tanggal_perolehan,
+            'file_sertifikat' => $imagePaths['file_sertifikat'],
+            'file_bukti_foto' => $imagePaths['file_bukti_foto'],
+            'file_surat_tugas' => $imagePaths['file_surat_tugas'],
+            'file_surat_undangan' => $imagePaths['file_surat_undangan'],
+            'file_proposal' => $imagePaths['file_proposal'],
+            'poin' => 0,
+            'status_verifikasi' => 0,
+            'created_at' => now(),
+            'updated_at' => now()   
+        ]);
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Data berhasil diupdate.'
+        ]);
+    }
 
     public function confirmDelete(PrestasiModel $prestasiModel)
     {
-        return 'confirm delete dipanggil';
+        return view('admin.prestasi.confirm_delete_prestasi')->with(['prestasi' => $prestasiModel]);
     }
+
     public function destroy(PrestasiModel $prestasiModel)
     {
-        //
+        try {
+            $prestasiModel->delete();
+
+            return response()->json([
+                'status' => true,
+                'message' => 'Data berhasil dihapus'
+            ]);
+        } catch (\Illuminate\Database\QueryException $e) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Data gagal dihapus karena masih terdapat tabel lain yang terkait dengan data ini'
+            ]);
+        }
     }
 
 
