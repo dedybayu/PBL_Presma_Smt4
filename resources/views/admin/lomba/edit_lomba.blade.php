@@ -9,7 +9,7 @@
         </button>
     </div>
 
-    <div class="modal-body">
+    <div class="modal-body" style="max-height: 70vh; overflow-y: auto;">
         <div class="form-group">
             <label>Kode Lomba</label>
             <input type="text" name="lomba_kode" id="lomba_kode" class="form-control"

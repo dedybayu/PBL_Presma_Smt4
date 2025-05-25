@@ -1,6 +1,6 @@
 <form action="{{ url('/lomba') }}" method="POST" id="form-tambah-lomba">
     @csrf
-    <div class="modal-header">
+    <div class="modal-header" style="max-height: 70vh; overflow-y: auto;">
         <h5 class="modal-title">Tambah Data lomba</h5>
         <button type="button" class="close" data-dismiss="modal">
             <span>&times;</span>
