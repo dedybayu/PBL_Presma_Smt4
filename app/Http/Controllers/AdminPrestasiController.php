@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use Yajra\DataTables\DataTables;
 
-class PrestasiController extends Controller
+class AdminPrestasiController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -95,9 +95,9 @@ class PrestasiController extends Controller
                 })
 
                 ->addColumn('aksi', function ($row) {
-                    $btn = '<button onclick="modalAction(\'' . url('/prestasi/' . $row->prestasi_id . '/show') . '\')" class="btn btn-info btn-sm"><i class="fa fa-eye"></i> Detail</button> ';
-                    $btn .= '<button onclick="modalAction(\'' . url('/prestasi/' . $row->prestasi_id . '/edit') . '\')" class="btn btn-sm btn-warning" title="Edit"><i class="fa fa-pen"></i> Edit</button> ';
-                    $btn .= '<button onclick="modalAction(\'' . url('/prestasi/' . $row->prestasi_id . '/confirm-delete') . '\')" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i> Hapus</button> ';
+                    $btn = '<button onclick="modalAction(\'' . url('/prestasi/' . $row->prestasi_id . '/show') . '\')" class="btn btn-info btn-sm mt-1 mb-1"><i class="fa fa-eye"></i> Detail</button> ';
+                    $btn .= '<button onclick="modalAction(\'' . url('/prestasi/' . $row->prestasi_id . '/edit') . '\')" class="btn btn-sm btn-warning mt-1 mb-1" title="Edit"><i class="fa fa-pen"></i> Edit</button> ';
+                    $btn .= '<button onclick="modalAction(\'' . url('/prestasi/' . $row->prestasi_id . '/confirm-delete') . '\')" class="btn btn-danger btn-sm mt-1 mb-1"><i class="fa fa-trash"></i> Hapus</button> ';
                     // return '<div class="">' . $btn . '</div>';
                     return $btn;
                 })
@@ -165,7 +165,7 @@ class PrestasiController extends Controller
             // dd($imagePath);
 
             try {
-                PrestasiModel::create([
+                $prestasi = PrestasiModel::create([
                     'mahasiswa_id' => $request->mahasiswa_id,
                     // 'dosen_id' => '2222',
                     'dosen_id' => $request->dosen_id,
@@ -184,6 +184,10 @@ class PrestasiController extends Controller
                     'updated_at' => now()
                 ]);
 
+                $poin = self::hitungPoin($prestasi);
+                $prestasi->poin = $poin;
+                $prestasi->save();
+
                 return response()->json([
                     'status' => true,
                     'message' => 'Data berhasil disimpan'
@@ -200,9 +204,6 @@ class PrestasiController extends Controller
                     'errors' => $validator->errors()
                 ]);
             }
-
-
-
         }
 
     }
@@ -246,8 +247,9 @@ class PrestasiController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, PrestasiModel $prestasiModel)
+public function update(Request $request, PrestasiModel $prestasi)
     {
+
         $rules = [
             'mahasiswa_id' => 'required',
             'dosen_id' => 'required',
@@ -255,11 +257,11 @@ class PrestasiController extends Controller
             'prestasi_nama' => 'required',
             'nama_juara' => 'nullable',
             'tanggal_perolehan' => 'required|date',
-            'file_sertifikat' => 'required|mimes:jpg,jpeg,png',
-            'file_bukti_foto' => 'required|mimes:jpg,jpeg,png',
-            'file_surat_tugas' => 'required|mimes:jpg,jpeg,png',
-            'file_surat_undangan' => 'required|mimes:jpg,jpeg,png',
-            'file_proposal' => 'required|mimes:pdf',
+            'file_sertifikat' => 'nullable|mimes:jpg,jpeg,png',
+            'file_bukti_foto' => 'nullable|mimes:jpg,jpeg,png',
+            'file_surat_tugas' => 'nullable|mimes:jpg,jpeg,png',
+            'file_surat_undangan' => 'nullable|mimes:jpg,jpeg,png',
+            'file_proposal' => 'nullable|mimes:pdf',
         ];
 
         $validator = Validator::make($request->all(), $rules);
@@ -272,34 +274,44 @@ class PrestasiController extends Controller
             ]);
         }
 
+        $prestasi->mahasiswa_id = $request->mahasiswa_id;
+        $prestasi->dosen_id = $request->dosen_id;
+        $prestasi->lomba_id = $request->lomba_id;
+        $prestasi->prestasi_nama = $request->prestasi_nama;
+        $prestasi->nama_juara = $request->nama_juara;
+        $prestasi->tanggal_perolehan = $request->tanggal_perolehan;
+
+
         $nim_mahasiswa = MahasiswaModel::findOrFail($request->mahasiswa_id)->nim;
 
-        $imagePaths['file_sertifikat'] = self::saveFile($request, 'sertifikat', $nim_mahasiswa, 'file_sertifikat');
-        $imagePaths['file_bukti_foto'] = self::saveFile($request, 'bukti_foto', $nim_mahasiswa, 'file_bukti_foto');
-        $imagePaths['file_surat_tugas'] = self::saveFile($request, 'surat_tugas', $nim_mahasiswa, 'file_surat_tugas');
-        $imagePaths['file_surat_undangan'] = self::saveFile($request, 'surat_undangan', $nim_mahasiswa, 'file_surat_undangan');
-        $imagePaths['file_proposal'] = self::saveFile($request, 'proposal', $nim_mahasiswa, 'file_proposal');
+        if ($request->hasFile('file_sertifikat')) {
+            self::deleteFile($prestasi->file_sertifikat);
+            $prestasi->file_sertifikat = self::saveFile($request, 'sertifikat', $nim_mahasiswa, 'file_sertifikat');
+        }
 
-        // dd($imagePath);
+        if ($request->hasFile('file_bukti_foto')) {
+            self::deleteFile($prestasi->file_bukti_foto);
+            $prestasi->file_bukti_foto = self::saveFile($request, 'bukti_foto', $nim_mahasiswa, 'file_bukti_foto');
+        }
 
-        $prestasiModel->update([
-            'mahasiswa_id' => $request->mahasiswa_id,
-            // 'dosen_id' => '2222',
-            'dosen_id' => $request->dosen_id,
-            'lomba_id' => $request->lomba_id,
-            'prestasi_nama' => $request->prestasi_nama,
-            'nama_juara' => $request->nama_juara,
-            'tanggal_perolehan' => $request->tanggal_perolehan,
-            'file_sertifikat' => $imagePaths['file_sertifikat'],
-            'file_bukti_foto' => $imagePaths['file_bukti_foto'],
-            'file_surat_tugas' => $imagePaths['file_surat_tugas'],
-            'file_surat_undangan' => $imagePaths['file_surat_undangan'],
-            'file_proposal' => $imagePaths['file_proposal'],
-            'poin' => 0,
-            'status_verifikasi' => 0,
-            'created_at' => now(),
-            'updated_at' => now()
-        ]);
+        if ($request->hasFile('file_surat_tugas')) {
+            self::deleteFile($prestasi->file_surat_tugas);
+            $prestasi->file_surat_tugas = self::saveFile($request, 'surat_tugas', $nim_mahasiswa, 'file_surat_tugas');
+        }
+
+        if ($request->hasFile('file_surat_undangan')) {
+            self::deleteFile($prestasi->file_surat_undangan);
+            $prestasi->file_surat_undangan = self::saveFile($request, 'surat_undangan', $nim_mahasiswa, 'file_surat_undangan');
+        }
+
+        if ($request->hasFile('file_proposal')) {
+            self::deleteFile($prestasi->file_proposal);
+            $prestasi->file_proposal = self::saveFile($request, 'proposal', $nim_mahasiswa, 'file_proposal');
+        }
+
+        $prestasi->status_verifikasi = 1;
+        $prestasi->updated_at = Carbon::now();
+        $prestasi->save();
 
         return response()->json([
             'status' => true,
@@ -375,5 +387,11 @@ class PrestasiController extends Controller
         }
     }
 
+    private static function hitungPoin(PrestasiModel $prestasi)
+    {
+        $poin = 5;
+
+        return $poin;
+    }
 
 }

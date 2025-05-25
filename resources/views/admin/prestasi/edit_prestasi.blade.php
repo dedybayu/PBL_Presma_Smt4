@@ -1,4 +1,4 @@
-<form action="{{ url('/prestasi/' . $prestasi->prestasi_id) }}" method="POST" id="form-edit-prestasi">
+<form action="{{ url('/prestasi/' . $prestasi->prestasi_id) }}" method="POST" enctype="multipart/form-data" id="form-edit-prestasi">
     @csrf
     @method('PUT')
 
@@ -339,26 +339,38 @@
                 }
             },
             submitHandler: function (form) {
+                var formData = new FormData(form);
                 $.ajax({
                     url: form.action,
                     type: form.method,
-                    data: $(form).serialize(),
+                    data: formData,
+                    processData: false,
+                    contentType: false,
                     success: function (response) {
                         if (response.status) {
                             $('#modal-prestasi').modal('hide');
-                            Swal.fire({ icon: 'success', title: 'Berhasil', text: response.message });
-                            dataprestasi.ajax.reload();
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Berhasil',
+                                text: response.message
+                            });
+                            dataPrestasi.ajax.reload();
                         } else {
-                            $('.text-danger').text('');
+                            $('.error-text').text('');
                             $.each(response.msgField, function (prefix, val) {
                                 $('#error-' + prefix).text(val[0]);
                             });
-                            Swal.fire({ icon: 'error', title: 'Terjadi Kesalahan', text: response.message });
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Terjadi Kesalahan',
+                                text: response.message
+                            });
                         }
                     }
                 });
                 return false;
             },
+            
             errorElement: 'span',
             errorPlacement: function (error, element) {
                 error.addClass('invalid-feedback');

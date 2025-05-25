@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdminPrestasiController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BidangKeahlianController;
 use App\Http\Controllers\DashboardController;
@@ -8,7 +9,6 @@ use App\Http\Controllers\MahasiswaController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\KelasController;
 use App\Http\Controllers\LombaController;
-use App\Http\Controllers\PrestasiController;
 use App\Http\Controllers\ProdiController;
 use App\Http\Controllers\PenyelenggaraController;
 use Illuminate\Support\Facades\Route;
@@ -116,15 +116,15 @@ Route::middleware('auth')->group(function () {
             Route::get('/export', [PenyelenggaraController::class, 'export_excel']);
         });
         Route::prefix('prestasi')->group(function () {
-            Route::get('/', [PrestasiController::class, 'index'])->name('prestasi.index');
-            Route::post('/list', [PrestasiController::class, 'list']);
-            Route::get('/{id}/show', [PrestasiController::class, 'show'])->name('prestasi.show');
-            Route::get('/create', [PrestasiController::class, 'create'])->name('prestasi.create');
-            Route::post('/', [PrestasiController::class, 'store'])->name('prestasi.store');
-            Route::get('/{prestasi}/edit', [PrestasiController::class, 'edit'])->name('prestasi.edit');
-            Route::put('/{prestasi}', [PrestasiController::class, 'update'])->name('prestasi.update');
-            Route::get('/{prestasi}/confirm-delete', [PrestasiController::class, 'confirmDelete'])->name('prestasi.confirm-delete');
-            Route::delete('/{prestasi}', [PrestasiController::class, 'destroy'])->name('prestasi.destroy');
+            Route::get('/', [AdminPrestasiController::class, 'index'])->name('prestasi.index');
+            Route::post('/list', [AdminPrestasiController::class, 'list']);
+            Route::get('/{id}/show', [AdminPrestasiController::class, 'show'])->name('prestasi.show');
+            Route::get('/create', [AdminPrestasiController::class, 'create'])->name('prestasi.create');
+            Route::post('/', [AdminPrestasiController::class, 'store'])->name('prestasi.store');
+            Route::get('/{prestasi}/edit', [AdminPrestasiController::class, 'edit'])->name('prestasi.edit');
+            Route::put('/{prestasi}', [AdminPrestasiController::class, 'update'])->name('prestasi.update');
+            Route::get('/{prestasi}/confirm-delete', [AdminPrestasiController::class, 'confirmDelete'])->name('prestasi.confirm-delete');
+            Route::delete('/{prestasi}', [AdminPrestasiController::class, 'destroy'])->name('prestasi.destroy');
         });
 
         Route::prefix('lomba')->group(function () {
