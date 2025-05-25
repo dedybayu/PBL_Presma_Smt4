@@ -9,7 +9,7 @@ class PrestasiModel extends Model
 {
     use HasFactory;
     protected $table = 't_prestasi';
-    protected $primaryKey = 'id_prestasi';
+    protected $primaryKey = 'prestasi_id';
     protected $fillable = [
         'mahasiswa_id',
         'dosen_id',

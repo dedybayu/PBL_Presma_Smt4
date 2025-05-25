@@ -226,7 +226,7 @@ class PrestasiController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(PrestasiModel $prestasiModel)
+    public function edit(PrestasiModel $prestasi)
     {
         $lomba = LombaModel::where('tanggal_selesai', '<', Carbon::now())
             ->where('status_verifikasi', 1)
@@ -235,7 +235,8 @@ class PrestasiController extends Controller
         $dosen = DosenModel::all();
         $mahasiswa = MahasiswaModel::all();
 
-        return view('admin.prestasi.create_prestasi')->with([
+        return view('admin.prestasi.edit_prestasi')->with([
+            'prestasi' => $prestasi,
             'lomba' => $lomba,
             'dosen' => $dosen,
             'mahasiswa' => $mahasiswa
