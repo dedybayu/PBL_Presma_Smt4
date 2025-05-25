@@ -32,9 +32,9 @@ class PenyelenggaraController extends Controller
                 $penyelenggaras->where('kota_id', $request->kota_id);
             }
 
-            if ($request->negara_id) {
-                $penyelenggaras->where('negara_id', $request->negara_id);
-            }
+            // if ($request->negara_id) {
+            //     $penyelenggaras->where('negara_id', $request->negara_id);
+            // }
 
             $penyelenggaras = $penyelenggaras->get();
 
@@ -47,7 +47,7 @@ class PenyelenggaraController extends Controller
                     return $row->kota->kota_nama ?? '-';
                 })
                 ->addColumn('negara', function ($row) {
-                    return $row->negara->negara_nama ?? '-';
+                    return $row->kota->provinsi->negara->negara_nama ?? '-';
                 })
                 ->addColumn('aksi', function ($row) {
                     $btn = '<button onclick="modalAction(\'' . url('/penyelenggara/' . $row->penyelenggara_id . '/show') . '\')" class="btn btn-info btn-sm"><i class="fa fa-eye"></i> Detail</button> ';
@@ -63,10 +63,10 @@ class PenyelenggaraController extends Controller
     public function create()
     {
         $kota = KotaModel::all();
-        $negara = NegaraModel::all();
+        // $negara = NegaraModel::all();
         return view('admin.penyelenggara.create_penyelenggara')->with([
             'kota' => $kota,
-            'negara' => $negara
+            // 'negara' => $negara
         ]);
     }
 
@@ -75,7 +75,7 @@ class PenyelenggaraController extends Controller
         $rules = [
             'penyelenggara_nama' => 'required|string|max:255',
             'kota_id' => 'required|exists:m_kota,kota_id',
-            'negara_id' => 'required|exists:m_negara,negara_id',
+            // 'negara_id' => 'required|exists:m_negara,negara_id',
         ];
 
         $validator = Validator::make($request->all(), $rules);
@@ -89,18 +89,18 @@ class PenyelenggaraController extends Controller
         }
 
         // Validasi kota hanya bisa dipilih jika negara Indonesia
-        if ($request->negara_id != 92 && $request->filled('kota_id')) {
-            return response()->json([
-                'status' => false,
-                'message' => 'Kota hanya boleh dipilih jika negara adalah Indonesia.',
-                'msgField' => ['kota_id' => ['Hanya untuk negara Indonesia']]
-            ]);
-        }
+        // if ($request->negara_id != 92 && $request->filled('kota_id')) {
+        //     return response()->json([
+        //         'status' => false,
+        //         'message' => 'Kota hanya boleh dipilih jika negara adalah Indonesia.',
+        //         'msgField' => ['kota_id' => ['Hanya untuk negara Indonesia']]
+        //     ]);
+        // }
 
         PenyelenggaraModel::create([
             'penyelenggara_nama' => $request->penyelenggara_nama,
             'kota_id' => $request->kota_id,
-            'negara_id' => $request->negara_id,
+            // 'negara_id' => $request->negara_id,
         ]);
 
         return response()->json([
@@ -135,7 +135,7 @@ class PenyelenggaraController extends Controller
         $rules = [
             'penyelenggara_nama' => 'required|string|max:255',
             'kota_id' => 'required|exists:m_kota,kota_id',
-            'negara_id' => 'required|exists:m_negara,negara_id',
+            // 'negara_id' => 'required|exists:m_negara,negara_id',
         ];
 
         $validator = Validator::make($request->all(), $rules);
@@ -149,18 +149,18 @@ class PenyelenggaraController extends Controller
         }
 
         // Validasi kota hanya bisa dipilih jika negara Indonesia
-        if ($request->negara_id != 92 && $request->filled('kota_id')) {
-            return response()->json([
-                'status' => false,
-                'message' => 'Kota hanya boleh dipilih jika negara adalah Indonesia.',
-                'msgField' => ['kota_id' => ['Hanya untuk negara Indonesia']]
-            ]);
-        }
+        // if ($request->negara_id != 92 && $request->filled('kota_id')) {
+        //     return response()->json([
+        //         'status' => false,
+        //         'message' => 'Kota hanya boleh dipilih jika negara adalah Indonesia.',
+        //         'msgField' => ['kota_id' => ['Hanya untuk negara Indonesia']]
+        //     ]);
+        // }
 
         $penyelenggara->update([
             'penyelenggara_nama' => $request->penyelenggara_nama,
             'kota_id' => $request->kota_id,
-            'negara_id' => $request->negara_id,
+            // 'negara_id' => $request->negara_id,
         ]);
 
         return response()->json([

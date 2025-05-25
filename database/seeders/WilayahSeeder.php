@@ -42,14 +42,61 @@ class WilayahSeeder extends Seeder
                     foreach ($kotas as $kotaData) {
                         // Simpan data kota/kabupaten
                         KotaModel::firstOrCreate([
-                            'kota_nama' => ucwords(strtolower($kotaData['name'])), 
+                            'kota_nama' => ucwords(strtolower($kotaData['name'])),
                             'provinsi_id' => $provinsi->provinsi_id,
                             'created_at' => now(),
                             'updated_at' => now(),
-                            ]);
+                        ]);
                     }
                 }
             }
         }
+
+        $response = Http::get('https://restcountries.com/v3.1/all?fields=name,cca2,capital');
+
+        if ($response->successful()) {
+            $countries = $response->json();
+
+            foreach ($countries as $country) {
+                if ($country['cca2'] === 'ID') {
+                    continue;
+                }
+                
+                $negara = NegaraModel::where('negara_kode', $country['cca2'])->first();
+
+                if ($negara) {
+                    $provNegara = ProvinsiModel::firstOrCreate(
+                        [
+                            'provinsi_nama' => ucwords(strtolower($country['name']['common'])),
+                            'negara_id' => $negara->negara_id,
+                        ],
+                        [
+                            'created_at' => now(),
+                            'updated_at' => now(),
+                        ]
+                    );
+
+                    // Ambil ibu kota jika tersedia
+                    $capitalName = isset($country['capital'][0]) ? ucwords(strtolower($country['capital'][0])) : null;
+
+                    if ($capitalName) {
+                        KotaModel::firstOrCreate(
+                            [
+                                'kota_nama' => $capitalName,
+                                'provinsi_id' => $provNegara->provinsi_id,
+                            ],
+                            [
+                                'created_at' => now(),
+                                'updated_at' => now(),
+                            ]
+                        );
+                    }
+                }
+            }
+        } else {
+            $this->command->error('Gagal mengambil data negara dari API.');
+        }
+
+
     }
 }

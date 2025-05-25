@@ -19,7 +19,7 @@ return new class extends Migration
             $table->timestamps();
 
             $table->foreign('kota_id')->references('kota_id')->on('m_kota');
-            $table->foreign('negara_id')->references('negara_id')->on('m_negara');
+            // $table->foreign('negara_id')->references('negara_id')->on('m_negara');
         });
     }
 

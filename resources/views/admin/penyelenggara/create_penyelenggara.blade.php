@@ -13,29 +13,34 @@
             <input type="text" name="penyelenggara_nama" id="penyelenggara_nama" class="form-control">
             <small id="error-penyelenggara_nama" class="text-danger"></small>
         </div>
-        
-        <div class="form-group">
-            <label for="negara_id">Negara</label>
-            <select name="negara_id" id="negara_id" class="form-control">
-                <option value="">- Pilih Negara -</option>
-                @foreach($negara as $n)
-                    <option value="{{ $n->negara_id }}">{{ $n->negara_nama }}</option>
-                @endforeach
-            </select>
-            <small id="error-negara_id" class="text-danger"></small>
-        </div>
 
         <div class="form-group">
             <label for="kota_id">Kota</label>
-            <small id="warning-kota-non-indonesia" class="text-warning d-none">( Kota hanya dapat dipilih jika negaranya Indonesia. )</small>
-            <select name="kota_id" id="kota_id" class="form-control" disabled>
-                <option value="">- Pilih Kota -</option>
+            <select name="kota_id" id="kota_id" class="form-control">
+                <option value="">- Pilih kota -</option>
                 @foreach($kota as $k)
-                    <option value="{{ $k->kota_id }}">{{ $k->kota_nama }}</option>
+                    @if ($k->provinsi->negara->negara_kode == 'ID')
+                        <option value="{{ $k->kota_id }}">{{ $k->kota_nama }}</option>
+                    @else
+                        <option value="{{ $k->kota_id }}">{{ $k->kota_nama }} ({{ $k->provinsi->negara->negara_nama }})</option>
+                    @endif
                 @endforeach
             </select>
             <small id="error-kota_id" class="text-danger"></small>
         </div>
+
+        {{-- <div class="form-group">
+            <label for="kota_id">Kota</label>
+            <small id="warning-kota-non-indonesia" class="text-warning d-none">( Kota hanya dapat dipilih jika negaranya
+                Indonesia. )</small>
+            <select name="kota_id" id="kota_id" class="form-control" disabled>
+                <option value="">- Pilih Kota -</option>
+                @foreach($kota as $k)
+                <option value="{{ $k->kota_id }}">{{ $k->kota_nama }}</option>
+                @endforeach
+            </select>
+            <small id="error-kota_id" class="text-danger"></small>
+        </div> --}}
     </div>
 
     <div class="modal-footer">
@@ -45,7 +50,21 @@
 </form>
 
 <script>
+    function initSelect2() {
+        $('#kota_id').select2({
+            theme: 'bootstrap-5',
+            width: '100%',
+            dropdownParent: $('#modal-penyelenggara')
+        });
+    }
+
     $(document).ready(function () {
+        initSelect2();
+
+        $('#modal-penyelenggara').on('shown.bs.modal', function () {
+            initSelect2();
+        });
+
         $("#form-tambah-penyelenggara").validate({
             rules: {
                 penyelenggara_nama: { required: true, minlength: 3, maxlength: 255 },
@@ -83,15 +102,15 @@
             }
         });
         // Aktifkan kota hanya jika negara Indonesia (negara_id = 92) dipilih
-        $('#negara_id').on('change', function () {
-            let negaraId = $(this).val();
-            if (negaraId == '92') {
-                $('#kota_id').prop('disabled', false);
-                $('#warning-kota-non-indonesia').addClass('d-none');
-            } else {
-                $('#kota_id').val('').prop('disabled', true);
-                $('#warning-kota-non-indonesia').removeClass('d-none');
-            }
-        });
+        // $('#negara_id').on('change', function () {
+        //     let negaraId = $(this).val();
+        //     if (negaraId == '92') {
+        //         $('#kota_id').prop('disabled', false);
+        //         $('#warning-kota-non-indonesia').addClass('d-none');
+        //     } else {
+        //         $('#kota_id').val('').prop('disabled', true);
+        //         $('#warning-kota-non-indonesia').removeClass('d-none');
+        //     }
+        // });
     });
 </script>
