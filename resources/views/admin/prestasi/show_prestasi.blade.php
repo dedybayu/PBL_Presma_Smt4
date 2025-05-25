@@ -23,8 +23,8 @@
             <span aria-hidden="true">&times;</span>
         </button>
     </div>
-    <div class="modal-body">
-                <table class="table table-sm table-bordered table-striped">
+    <div class="modal-body" style="max-height: 70vh; overflow-y: auto;">
+        <table class="table table-sm table-bordered table-striped">
             <tr>
                 <th class="text-right col-3">NIM :</th>
                 <td class="col-9">{{ $prestasi->mahasiswa->nim }}</td>
@@ -66,6 +66,93 @@
                 </td>
             </tr>
         </table>
+
+        <div class="row">
+            <div class="col-md-6 mt-2">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Foto Sertifikat</h5>
+                        <!-- Gambar Sertifikat -->
+                        <div
+                            style="position: relative; width: 100%; max-width: 600px; aspect-ratio: 16 / 9; overflow: hidden; background: #eee;">
+                            <a href="{{ asset('storage/' . $prestasi->file_sertifikat) }}" target="_blank">
+                                <img id="preview-sertifikat" src="{{ asset('storage/' . $prestasi->file_sertifikat) }}"
+                                    alt="Sertifikat"
+                                    style="width: 100%; height: 100%; object-fit: contain; display: block;">
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 mt-2">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Bukti Foto</h5>
+                        <!-- Gambar Bukti Foto -->
+                        <div
+                            style="position: relative; width: 100%; max-width: 600px; aspect-ratio: 16 / 9; overflow: hidden; background: #eee;">
+                            <a href="{{ asset('storage/' . $prestasi->file_bukti_foto) }}" target="_blank">
+                                <img id="preview-bukti-foto" src="{{ asset('storage/' . $prestasi->file_bukti_foto) }}"
+                                    alt="Bukti Foto"
+                                    style="width: 100%; height: 100%; object-fit: contain; display: block;">
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 mt-2">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Surat Tugas</h5>
+                        <!-- Gambar Surat Tugas -->
+                        <div
+                            style="position: relative; width: 100%; max-width: 600px; aspect-ratio: 16 / 9; overflow: hidden; background: #eee;">
+                            <a href="{{ asset('storage/' . $prestasi->file_surat_tugas) }}" target="_blank">
+                                <img id="preview-surat_tugas" src="{{ asset('storage/' . $prestasi->file_surat_tugas) }}"
+                                    alt="surat_tugas"
+                                    style="width: 100%; height: 100%; object-fit: contain; display: block;">
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 mt-2">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Surat Undangan</h5>
+                        <!-- Gambar Surat Undangan -->
+                        <div
+                            style="position: relative; width: 100%; max-width: 600px; aspect-ratio: 16 / 9; overflow: hidden; background: #eee;">
+                            <a href="{{ asset('storage/' . $prestasi->file_surat_undangan) }}" target="_blank">
+                                <img id="preview-surat_undangan" src="{{ asset('storage/' . $prestasi->file_surat_undangan) }}"
+                                    alt="surat_undangan"
+                                    style="width: 100%; height: 100%; object-fit: contain; display: block;">
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12 mt-5">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">File Proposal</h5>
+                        <div style="position: relative; width: 100%; height: 500px; border: 1px solid #ccc;">
+                            <iframe id="preview-proposal"
+                                src="{{ $prestasi->file_proposal ? asset('storage/' . $prestasi->file_proposal) : '' }}"
+                                width="100%" height="100%" style="border: none;"></iframe>
+
+                            @if (!$prestasi->file_proposal)
+                                <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+                                                                display: flex; align-items: center; justify-content: center;
+                                                                background-color: rgba(255, 255, 255, 0.85);">
+                                    <p id="no-proposal" style="color: #666; font-size: 18px;">Tidak ada proposal</p>
+                                </div>
+                            @endif
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
     <div class="modal-footer">
         <button type="button" data-dismiss="modal" class="btn btn-primary btn-sm">Close</button>
