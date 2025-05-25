@@ -85,14 +85,15 @@ class PrestasiController extends Controller
                     return $row->poin ?? '-';
                 })
                 ->addColumn('status_verifikasi', function ($row) {
-                    if ($row->status_verifikasi == 1) {
+                    if ($row->status_verifikasi === 1) {
                         return '<span class="badge bg-success" style="color: white;">Terverifikasi</span>';
-                    } else if ($row->status_verifikasi == 0) {
+                    } else if ($row->status_verifikasi === 0) {
                         return '<span class="badge bg-danger" style="color: white;">Ditolak</span>';
-                    } else {
-                        return '<span class="badge bg-warning"style="color: white;">Belum Diverifikasi</span>';
+                    } else if ($row->status_verifikasi === null) {
+                        return '<span class="badge bg-warning" style="color: white;">Belum Diverifikasi</span>';
                     }
                 })
+
                 ->addColumn('aksi', function ($row) {
                     $btn = '<button onclick="modalAction(\'' . url('/prestasi/' . $row->prestasi_id . '/show') . '\')" class="btn btn-info btn-sm"><i class="fa fa-eye"></i> Detail</button> ';
                     $btn .= '<button onclick="modalAction(\'' . url('/prestasi/' . $row->prestasi_id . '/edit') . '\')" class="btn btn-sm btn-warning" title="Edit"><i class="fa fa-pen"></i> Edit</button> ';
@@ -178,9 +179,9 @@ class PrestasiController extends Controller
                     'file_surat_undangan' => $imagePaths['file_surat_undangan'],
                     'file_proposal' => $imagePaths['file_proposal'],
                     'poin' => 0,
-                    'status_verifikasi' => 0,
+                    'status_verifikasi' => null,
                     'created_at' => now(),
-                    'updated_at' => now()                    
+                    'updated_at' => now()
                 ]);
 
                 return response()->json([
@@ -214,7 +215,11 @@ class PrestasiController extends Controller
         $lomba = LombaModel::all();
         $dosen = DosenModel::all();
         $mahasiswa = MahasiswaModel::all();
-        return view('admin.prestasi.show_prestasi')->with(['prestasi' => $prestasi, 'lomba' => $lomba, 'dosen' => $dosen, 'mahasiswa' => $mahasiswa
+        return view('admin.prestasi.show_prestasi')->with([
+            'prestasi' => $prestasi,
+            'lomba' => $lomba,
+            'dosen' => $dosen,
+            'mahasiswa' => $mahasiswa
         ]);
     }
 
@@ -244,16 +249,16 @@ class PrestasiController extends Controller
     {
         $rules = [
             'mahasiswa_id' => 'required',
-                'dosen_id' => 'required',
-                'lomba_id' => 'required',
-                'prestasi_nama' => 'required',
-                'nama_juara' => 'nullable',
-                'tanggal_perolehan' => 'required|date',
-                'file_sertifikat' => 'required|mimes:jpg,jpeg,png',
-                'file_bukti_foto' => 'required|mimes:jpg,jpeg,png',
-                'file_surat_tugas' => 'required|mimes:jpg,jpeg,png',
-                'file_surat_undangan' => 'required|mimes:jpg,jpeg,png',
-                'file_proposal' => 'required|mimes:pdf',
+            'dosen_id' => 'required',
+            'lomba_id' => 'required',
+            'prestasi_nama' => 'required',
+            'nama_juara' => 'nullable',
+            'tanggal_perolehan' => 'required|date',
+            'file_sertifikat' => 'required|mimes:jpg,jpeg,png',
+            'file_bukti_foto' => 'required|mimes:jpg,jpeg,png',
+            'file_surat_tugas' => 'required|mimes:jpg,jpeg,png',
+            'file_surat_undangan' => 'required|mimes:jpg,jpeg,png',
+            'file_proposal' => 'required|mimes:pdf',
         ];
 
         $validator = Validator::make($request->all(), $rules);
@@ -292,7 +297,7 @@ class PrestasiController extends Controller
             'poin' => 0,
             'status_verifikasi' => 0,
             'created_at' => now(),
-            'updated_at' => now()   
+            'updated_at' => now()
         ]);
 
         return response()->json([
@@ -309,6 +314,12 @@ class PrestasiController extends Controller
     public function destroy(PrestasiModel $prestasi)
     {
         try {
+            self::deleteFile($prestasi->file_sertifikat);
+            self::deleteFile($prestasi->file_bukti_foto);
+            self::deleteFile($prestasi->file_surat_tugas);
+            self::deleteFile($prestasi->file_surat_undangan);
+            self::deleteFile($prestasi->file_proposal);
+
             $prestasi->delete();
 
             return response()->json([
@@ -355,5 +366,13 @@ class PrestasiController extends Controller
         }
         return $imagePath;
     }
+
+    private static function deleteFile($path)
+    {
+        if ($path && Storage::disk('public')->exists($path)) {
+            Storage::disk('public')->delete($path);
+        }
+    }
+
 
 }
