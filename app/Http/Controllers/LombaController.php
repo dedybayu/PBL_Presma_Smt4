@@ -9,6 +9,7 @@ use App\Models\TingkatLombaModel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
+use PhpParser\Node\Stmt\TryCatch;
 use Yajra\DataTables\Facades\DataTables;
 
 class LombaController extends Controller
@@ -129,20 +130,26 @@ class LombaController extends Controller
             $imagePath = "lomba/foto-pamflet/$filename"; // Simpan path gambar
         }
 
-        $update_data =[
-            'lomba_kode' => $request->lomba_kode,
-            'lomba_nama' => $request->lomba_nama,
-            'lomba_deskripsi' => $request->lomba_deskripsi,
-            'tingkat_lomba_id' => $request->tingkat_lomba_id,
-            'bidang_keahlian_id' => $request->bidang_keahlian_id,
-            'penyelenggara_id' => $request->penyelenggara_id,
-            'tanggal_mulai' => $request->tanggal_mulai,
-            'tanggal_selesai' => $request->tanggal_selesai,
-            'foto_pamflet' => $imagePath,
-            'status_verifikasi' => $request->status_verifikasi
-        ];
-
-        LombaModel::create($update_data);
+        try {
+            $lomba = LombaModel::create([
+                'lomba_kode' => $request->lomba_kode,
+                'lomba_nama' => $request->lomba_nama,
+                'lomba_deskripsi' => $request->lomba_deskripsi,
+                'tingkat_lomba_id' => $request->tingkat_lomba_id,
+                'bidang_keahlian_id' => $request->bidang_keahlian_id,
+                'penyelenggara_id' => $request->penyelenggara_id,
+                'tanggal_mulai' => $request->tanggal_mulai,
+                'tanggal_selesai' => $request->tanggal_selesai,
+                'foto_pamflet' => $imagePath,
+                'status_verifikasi' => $request->status_verifikasi
+            ]);
+        } catch (\Throwable $e) {
+            if (isset($lomba)) {
+                $lomba->delete();
+            }
+            return response()->json(['status' => false, 'message' => 'Gagal menambahkan data baru: ' . $e->getMessage()], 500);
+        }
+       
 
         return response()->json([
             'status' => true,
