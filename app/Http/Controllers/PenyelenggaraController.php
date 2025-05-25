@@ -229,7 +229,6 @@ class PenyelenggaraController extends Controller
                         PenyelenggaraModel::create([
                             'penyelenggara_nama' => trim($value['A']),
                             'kota_id' => trim($value['B']) ?: null,
-                            'negara_id' => trim($value['C']) ?: null,
                         ]);
 
                         $inserted++;
@@ -255,7 +254,7 @@ class PenyelenggaraController extends Controller
 
     public function export_excel()
     {
-        $penyelenggaras = PenyelenggaraModel::with(['kota', 'negara'])->orderBy('penyelenggara_id')->get();
+        $penyelenggaras = PenyelenggaraModel::with(['kota'])->orderBy('penyelenggara_id')->get();
 
         $spreadsheet = new Spreadsheet();
         $sheet = $spreadsheet->getActiveSheet();
@@ -264,9 +263,8 @@ class PenyelenggaraController extends Controller
         $sheet->setCellValue('A1', 'No');
         $sheet->setCellValue('B1', 'Nama Penyelenggara');
         $sheet->setCellValue('C1', 'Kota');
-        $sheet->setCellValue('D1', 'Negara');
 
-        $sheet->getStyle('A1:D1')->getFont()->setBold(true);
+        $sheet->getStyle('A1:C1')->getFont()->setBold(true);
 
         $baris = 2;
         $no = 1;
@@ -274,12 +272,11 @@ class PenyelenggaraController extends Controller
             $sheet->setCellValue("A$baris", $no++);
             $sheet->setCellValue("B$baris", $p->penyelenggara_nama);
             $sheet->setCellValue("C$baris", $p->kota->kota_nama ?? '-');
-            $sheet->setCellValue("D$baris", $p->negara->negara_nama ?? '-');
             $baris++;
         }
 
         // Auto width
-        foreach (range('A', 'D') as $col) {
+        foreach (range('A', 'C') as $col) {
             $sheet->getColumnDimension($col)->setAutoSize(true);
         }
 

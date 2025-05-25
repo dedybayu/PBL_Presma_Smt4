@@ -37,10 +37,6 @@
                 <th class="text-right col-3">Kota :</th>
                 <td class="col-9">{{ $penyelenggara->kota->kota_nama ?? '-' }}</td>
             </tr>
-            <tr>
-                <th class="text-right col-3">Negara :</th>
-                <td class="col-9">{{ $penyelenggara->negara->negara_nama ?? '-' }}</td>
-            </tr>
         </table>
         <form action="{{ url('/penyelenggara/' . $penyelenggara->penyelenggara_id) }}" method="POST" id="form-delete">
             @csrf

@@ -38,16 +38,6 @@
                             </select>
                             <small class="form-text text-muted">Filter Kota</small>
                         </div>
-
-                        <div class="col-12 col-md-3 mb-2 mb-md-0">
-                            <select class="form-select" id="filter_negara_id" name="negara_id" style="width: 100%">
-                                <option value="">- Semua Negara -</option>
-                                @foreach($negara as $item)
-                                    <option value="{{ $item->negara_id }}">{{ $item->negara_nama }}</option>
-                                @endforeach
-                            </select>
-                            <small class="form-text text-muted">Filter Negara</small>
-                        </div>
                     </div>
                 </div>
             </div>
@@ -59,7 +49,6 @@
                             <th>No</th>
                             <th>Nama Penyelenggara</th>
                             <th>Kota</th>
-                            <th>Negara</th>
                             <th>Aksi</th>
                         </tr>
                     </thead>
@@ -84,7 +73,7 @@
 
             var dataPenyelenggara;
             $(document).ready(function() {
-                $('#filter_kota_id, #filter_negara_id').select2({
+                $('#filter_kota_id').select2({
                     theme: 'bootstrap-5',
                     placeholder: "- Semua -",
                     allowClear: true,
@@ -99,19 +88,17 @@
                         type: "POST",
                         data: function(d) {
                             d.kota_id = $('#filter_kota_id').val();
-                            d.negara_id = $('#filter_negara_id').val();
                         }
                     },
                     columns: [
                         { data: 'DT_RowIndex', className: "text-center", orderable: false, searchable: false },
                         { data: 'nama', orderable: true, searchable: true },
                         { data: 'kota', orderable: true, searchable: true },
-                        { data: 'negara', orderable: true, searchable: true },
                         { data: 'aksi', className: "text-center", orderable: false, searchable: false }
                     ]
                 });
 
-                $('#filter_kota_id, #filter_negara_id').on('change', function() {
+                $('#filter_kota_id').on('change', function() {
                     dataPenyelenggara.ajax.reload();
                 });
             });
