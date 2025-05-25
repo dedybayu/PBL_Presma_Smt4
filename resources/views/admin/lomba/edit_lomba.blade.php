@@ -77,13 +77,16 @@
                 value="{{ $lomba->tanggal_selesai }}" required>
             <small id="error-tanggal_selesai" class="error-text form-text text-danger"></small>
         </div>
-        <div class="mb-3 form-check">
-            {{-- Input hidden ini akan memastikan nilai 0 dikirim jika checkbox tidak dicentang --}}
-            <input type="hidden" name="status_verifikasi" value="0">
-            
-            <input type="checkbox" class="form-check-input" id="status_verifikasi" name="status_verifikasi" value="1"
-                   {{ old('status_verifikasi', $lomba->status_verifikasi) ? 'checked' : '' }}>
-            <label class="form-check-label" for="status_verifikasi">Status Verifikasi</label>
+        <div class="form-group"> 
+            <label for="status_verifikasi" class="form-label">
+                <i class="fas fa-check-circle me-2"></i> {{-- Example: A checkmark icon (Font Awesome Solid) with right margin --}}
+                Status Verifikasi
+            </label>
+            <select class="form-select" id="status_verifikasi" name="status_verifikasi"> 
+                <option value="1" {{ old('status_verifikasi', $lomba->status_verifikasi) == 1 ? 'selected' : '' }}>Terverifikasi</option>
+                <option value="0" {{ old('status_verifikasi', $lomba->status_verifikasi) == 0 ? 'selected' : '' }}>Ditolak</option>
+                <option value="2" {{ old('status_verifikasi', $lomba->status_verifikasi) == 2 ? 'selected' : '' }}>Menunggu Verifikasi</option>
+            </select>
             @error('status_verifikasi')
                 <div class="text-danger mt-1">{{ $message }}</div>
             @enderror

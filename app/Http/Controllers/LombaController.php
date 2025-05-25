@@ -172,7 +172,7 @@ class LombaController extends Controller
             'tanggal_mulai' => 'required|date|date_format:Y-m-d',
             'tanggal_selesai' => 'required|date|date_format:Y-m-d',
             'foto_pamflet' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-            'status_verifikasi' => 'boolean',
+            'status_verifikasi' => 'required|integer|in:0,1,2',
         ];
 
         $validator = Validator::make($request->all(), $rules);
@@ -185,7 +185,7 @@ class LombaController extends Controller
             ]);
         }
 
-        $dataToUpdate = $request->except(['foto_pamflet', 'status_verifikasi']); // Ambil semua data kecuali foto_pamflet
+        $dataToUpdate = $request->except(['foto_pamflet']); // Ambil semua data kecuali foto_pamflet
 
         // Penanganan unggahan gambar
         if ($request->hasFile('foto_pamflet')) {
@@ -214,7 +214,7 @@ class LombaController extends Controller
         // Anda perlu mekanisme tambahan (misalnya, checkbox "Hapus Gambar" di form).
 
         // Update the LombaModel instance
-        $dataToUpdate['status_verifikasi'] = $request->boolean('status_verifikasi');
+        $dataToUpdate['status_verifikasi'] = (int) $request->input('status_verifikasi');
         $lomba->update($dataToUpdate);
 
         return response()->json([
