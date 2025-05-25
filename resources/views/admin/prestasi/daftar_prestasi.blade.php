@@ -48,7 +48,8 @@
             </div>
 
             <div class="table-responsive">
-                <table class="table table-bordered table-sm table-striped table-hover" id="table-prestasi">
+                <table style="width: 100%;" id="table-prestasi" class="table table-hover table-striped table-bordered">
+                {{-- <table class="table table-bordered table-sm table-striped table-hover" id="table-prestasi"> --}}
                     <thead>
                         <tr>
                             <th>No</th>
