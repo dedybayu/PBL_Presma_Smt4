@@ -9,11 +9,6 @@
 
     <div class="modal-body">
         <div class="form-group">
-            <label>Pilih File</label>
-            <input type="file" name="foto_pamflet" id="foto_pamflet" class="formcontrol" required>
-            <small id="error-foto_pamflet" class="error-text form-text textdanger"></small>
-        </div>
-        <div class="form-group">
             <label for="lomba_kode">Kode Lomba</label>
             <input type="text" name="lomba_kode" id="lomba_kode" class="form-control">
             <small id="error-lomba_kode" class="text-danger"></small>
@@ -70,8 +65,15 @@
             <input type="date" name="tanggal_selesai" id="tanggal_selesai" class="form-control">
             <small id="error-tanggal_selesai" class="text-danger"></small>
         </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label>Foto pamflet</label>
+                <input value="" type="file" name="foto_pamflet" id="foto_pamflet" class="form-control"
+                    accept="image/*" required>
+                <small id="error-foto_pamflet" class="error-text form-text text-danger"></small>
+            </div>
+        </div>
     </div>
-
     <div class="modal-footer">
         <button type="button" class="btn btn-warning" data-dismiss="modal">Batal</button>
         <button type="submit" class="btn btn-primary">Simpan</button>

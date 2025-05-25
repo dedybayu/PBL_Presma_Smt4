@@ -64,7 +64,7 @@ class LombaController extends Controller
                     if ($row->status_verifikasi == 1) {
                         return '<span class="badge bg-success" style="color: white;">Terverifikasi</span>';
                     } else if ($row->status_verifikasi == 0) {
-                        return '<span class="badge bg-danger" style="color: white;">Pending</span>';
+                        return '<span class="badge bg-danger" style="color: white;">Ditolak</span>';
                     } else {
                         return '<span class="badge bg-warning"style="color: white;">Belum Diverifikasi</span>';
                     }
