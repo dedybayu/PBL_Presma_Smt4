@@ -86,11 +86,11 @@ class AdminPrestasiController extends Controller
                 })
                 ->addColumn('status_verifikasi', function ($row) {
                     if ($row->status_verifikasi === 1) {
-                        return '<span class="badge bg-success" style="color: white;">Terverifikasi</span>';
+                        return '<button onclick="modalAction(\'' . url('/prestasi/' . $row->prestasi_id . '/edit-verifikasi') . '\')" class="badge bg-success" style="color: white; border: none; outline: none; box-shadow: none;">Terverifikasi</button>';
                     } else if ($row->status_verifikasi === 0) {
-                        return '<span class="badge bg-danger" style="color: white;">Ditolak</span>';
+                        return '<button onclick="modalAction(\'' . url('/prestasi/' . $row->prestasi_id . '/edit-verifikasi') . '\')" class="badge bg-danger" style="color: white; border: none; outline: none; box-shadow: none;">Ditolak</button>';
                     } else if ($row->status_verifikasi === null) {
-                        return '<span class="badge bg-warning" style="color: white;">Belum Diverifikasi</span>';
+                        return '<button onclick="modalAction(\'' . url('/prestasi/' . $row->prestasi_id . '/edit-verifikasi') . '\')" class="badge bg-warning" style="color: white; border: none; outline: none; box-shadow: none;">Menunggu</button>';
                     }
                 })
 
@@ -234,15 +234,7 @@ class AdminPrestasiController extends Controller
      */
     public function show(PrestasiModel $prestasi)
     {
-        $lomba = LombaModel::all();
-        $dosen = DosenModel::all();
-        $mahasiswa = MahasiswaModel::all();
-        return view('admin.prestasi.show_prestasi')->with([
-            'prestasi' => $prestasi,
-            'lomba' => $lomba,
-            'dosen' => $dosen,
-            'mahasiswa' => $mahasiswa
-        ]);
+        return view('admin.prestasi.show_prestasi')->with(['prestasi' => $prestasi]);
     }
 
     /**
@@ -358,6 +350,20 @@ class AdminPrestasiController extends Controller
 
         $prestasi->poin = self::hitungPoin($prestasi);
 
+        $prestasi->save();
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Data berhasil diupdate.'
+        ]);
+    }
+
+    public function edit_verifikasi(PrestasiModel $prestasi){
+        return 'hello';    
+    }
+
+    public function update_verifikasi(Request $request, PrestasiModel $prestasi){
+        $prestasi->status_verifikasi = $request->status_verifikasi;
         $prestasi->save();
 
         return response()->json([

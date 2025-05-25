@@ -35,7 +35,7 @@
             </tr>
             <tr>
                 <th class="text-right col-3">Mahasiswa :</th>
-                <td class="col-9">{{ $prestasi->mahasiswa->mahasiswa_nama ?? '-' }}</td>
+                <td class="col-9">{{ $prestasi->mahasiswa->nama ?? '-' }}</td>
             </tr>
             <tr>
                 <th class="text-right col-3">Prestasi :</th>
@@ -51,15 +51,23 @@
             </tr>
             <tr>
                 <th class="text-right col-3">Tingkat :</th>
-                <td class="col-9">{{ $prestasi->tingkat->tingkat_lomba ?? '-' }}</td>
+                <td class="col-9">{{ $prestasi->lomba->tingkat->tingkat_lomba_nama ?? '-' }}</td>
             </tr>
             <tr>
                 <th class="text-right col-3">Poin :</th>
                 <td class="col-9">{{ $prestasi->poin ?? '-' }}</td>
             </tr>
             <tr>
-                <th class="text-right col-3">Status :</th>
-                <td class="col-9">{{ $prestasi->negara->status_verifikasi ?? '-' }}</td>
+                <th class="text-right col-3">Status Verifikasi :</th>
+                <td class="col-9">
+                    @if ($prestasi->status_verifikasi === 1)
+                        Terverifikasi
+                    @elseif ($prestasi->status_verifikasi === 0)
+                        Ditolak
+                    @else
+                        Menunggu Verifikasi
+                    @endif
+                </td>
             </tr>
         </table>
         <form action="{{ url('/prestasi/' . $prestasi->prestasi_id) }}" method="POST" id="form-delete">
@@ -84,10 +92,10 @@
                         success: function (response) {
                             if (response.status) {
                                 $('#modal-prestasi').modal('hide');
-                                Swal.fire({ 
-                                    icon: 'success', 
-                                    title: 'Berhasil', 
-                                    text: response.message 
+                                Swal.fire({
+                                    icon: 'success',
+                                    title: 'Berhasil',
+                                    text: response.message
                                 });
                                 dataPrestasi.ajax.reload();
                             } else {

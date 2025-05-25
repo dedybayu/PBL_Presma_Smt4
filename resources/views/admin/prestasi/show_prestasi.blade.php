@@ -24,38 +24,46 @@
         </button>
     </div>
     <div class="modal-body">
-        <table class="table table-sm table-bordered table-striped">
+                <table class="table table-sm table-bordered table-striped">
             <tr>
-                <th class="text-right col-3">Nama mahasiswa :</th>
+                <th class="text-right col-3">NIM :</th>
+                <td class="col-9">{{ $prestasi->mahasiswa->nim }}</td>
+            </tr>
+            <tr>
+                <th class="text-right col-3">Mahasiswa :</th>
                 <td class="col-9">{{ $prestasi->mahasiswa->nama ?? '-' }}</td>
             </tr>
             <tr>
-                <th class="text-right col-3">Nama dosen :</th>
-                <td class="col-9">{{ $prestasi->dosen->nama ?? '-' }}</td>
+                <th class="text-right col-3">Prestasi :</th>
+                <td class="col-9">{{ $prestasi->prestasi_nama ?? '-' }}</td>
             </tr>
             <tr>
-                <th class="text-right col-3">Nama prestasi :</th>
-                <td class="col-9">{{ $prestasi->prestasi_nama ?? '-'  }}</td>
-            </tr>
-            <tr>
-                <th class="text-right col-3">Nama lomba :</th>
+                <th class="text-right col-3">Lomba :</th>
                 <td class="col-9">{{ $prestasi->lomba->lomba_nama ?? '-' }}</td>
             </tr>
             <tr>
                 <th class="text-right col-3">Juara :</th>
-                <td class="col-9">{{ $prestasi->juara }}</td>
+                <td class="col-9">{{ $prestasi->nama_juara ?? '-' }}</td>
             </tr>
             <tr>
-                <th class="text-right col-3">Nama juara :</th>
-                <td class="col-9">{{ $prestasi->nama_juara }}</td>
+                <th class="text-right col-3">Tingkat :</th>
+                <td class="col-9">{{ $prestasi->lomba->tingkat->tingkat_lomba_nama ?? '-' }}</td>
             </tr>
             <tr>
-                <th class="text-right col-3">Tanggal lomba mulai :</th>
-                <td class="col-9">{{ $prestasi->tanggal_mulai }}</td>
+                <th class="text-right col-3">Poin :</th>
+                <td class="col-9">{{ $prestasi->poin ?? '-' }}</td>
             </tr>
             <tr>
-                <th class="text-right col-3">Tanggal lomba selesai:</th>
-                <td class="col-9">{{ $prestasi->tanggal_selesai }}</td>
+                <th class="text-right col-3">Status Verifikasi :</th>
+                <td class="col-9">
+                    @if ($prestasi->status_verifikasi === 1)
+                        Terverifikasi
+                    @elseif ($prestasi->status_verifikasi === 0)
+                        Ditolak
+                    @else
+                        Menunggu Verifikasi
+                    @endif
+                </td>
             </tr>
         </table>
     </div>

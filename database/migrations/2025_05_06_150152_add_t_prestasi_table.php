@@ -27,6 +27,7 @@ return new class extends Migration {
             $table->string('file_proposal')->nullable();
             $table->integer('poin')->nullable()->default(null);
             $table->boolean('status_verifikasi')->nullable()->default(null);
+            $table->string('message')->nullable();   
             $table->timestamps();
 
             $table->foreign('mahasiswa_id')->references('mahasiswa_id')->on('m_mahasiswa');

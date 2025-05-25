@@ -33,8 +33,8 @@
         <div class="app-sidebar__inner">
             <ul class="vertical-nav-menu">
                 <li class="app-sidebar__heading">Menu</li>
-                <li class="{{ request()->is('dashboard') ? 'sidebar-active mm-active' : '' }}">
-                    <a href="{{ url('dashboard') }}">
+                <li class="">
+                    <a href="{{ url('dashboard') }}" class="{{ request()->is('dashboard') ? 'mm-active' : '' }}">
                         <i class="metismenu-icon pe-7s-rocket"></i> Dashboard
                     </a>
                 </li>

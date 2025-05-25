@@ -118,11 +118,13 @@ Route::middleware('auth')->group(function () {
         Route::prefix('prestasi')->group(function () {
             Route::get('/', [AdminPrestasiController::class, 'index'])->name('prestasi.index');
             Route::post('/list', [AdminPrestasiController::class, 'list']);
-            Route::get('/{id}/show', [AdminPrestasiController::class, 'show'])->name('prestasi.show');
+            Route::get('/{prestasi}/show', [AdminPrestasiController::class, 'show'])->name('prestasi.show');
             Route::get('/create', [AdminPrestasiController::class, 'create'])->name('prestasi.create');
             Route::post('/', [AdminPrestasiController::class, 'store'])->name('prestasi.store');
             Route::get('/{prestasi}/edit', [AdminPrestasiController::class, 'edit'])->name('prestasi.edit');
             Route::put('/{prestasi}', [AdminPrestasiController::class, 'update'])->name('prestasi.update');
+            Route::get('/{prestasi}/edit-verifikasi', [AdminPrestasiController::class, 'edit_verifikasi'])->name('prestasi.edit_verifikasi');
+            Route::put('/{prestasi}/update-verifikasi', [AdminPrestasiController::class, 'update_verifikasi'])->name('prestasi.update_verifikasi');
             Route::get('/{prestasi}/confirm-delete', [AdminPrestasiController::class, 'confirmDelete'])->name('prestasi.confirm-delete');
             Route::delete('/{prestasi}', [AdminPrestasiController::class, 'destroy'])->name('prestasi.destroy');
         });
