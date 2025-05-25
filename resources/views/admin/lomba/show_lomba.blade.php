@@ -30,7 +30,7 @@
             <span aria-hidden="true">&times;</span>
         </button>
     </div>
-    <div class="modal-body">
+    <div class="modal-body" style="max-height: 70vh; overflow-y: auto;"> 
         <table class="table table-sm table-bordered table-striped">
             <tr>
                 <th class="text-right col-3">Kode lomba :</th>
