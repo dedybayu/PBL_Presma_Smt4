@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id('penyelenggara_id');
             $table->string('penyelenggara_nama');
             $table->unsignedBigInteger('kota_id')->nullable();
-            $table->unsignedBigInteger('negara_id')->nullable();
+            // $table->unsignedBigInteger('negara_id')->nullable();
             $table->timestamps();
 
             $table->foreign('kota_id')->references('kota_id')->on('m_kota');
