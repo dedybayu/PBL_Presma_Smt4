@@ -35,7 +35,7 @@
             </tr>
             <tr>
                 <th class="text-right col-4">Negara :</th>
-                <td class="col-8">{{ $penyelenggara->negara->negara_nama ?? '-' }}</td>
+                <td class="col-8">{{ $penyelenggara->kota->provinsi->negara->negara_nama ?? '-' }}</td>
             </tr>
         </table>
         <div class="modal-footer">
