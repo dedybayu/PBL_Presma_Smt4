@@ -153,6 +153,26 @@ class AdminPrestasiController extends Controller
                 ]);
             }
 
+            if ($request->juara == 4) {
+                // Validasi: nama_juara wajib jika juara == 4
+                $validator = Validator::make($request->all(), [
+                    'juara' => 'required',
+                    'nama_juara' => 'required|string|max:255',
+                ]);
+
+                if ($validator->fails()) {
+                    return response()->json([
+                        'status' => false,
+                        'message' => 'Validasi gagal.',
+                        'msgField' => $validator->errors()
+                    ]);
+                }
+
+                $nama_juara = $request->nama_juara;
+            } else {
+                $nama_juara = 'Juara ' . $request->juara;
+            }
+
             $nim_mahasiswa = MahasiswaModel::findOrFail($request->mahasiswa_id)->nim;
 
             // dd($request->file());
@@ -171,7 +191,8 @@ class AdminPrestasiController extends Controller
                     'dosen_id' => $request->dosen_id,
                     'lomba_id' => $request->lomba_id,
                     'prestasi_nama' => $request->prestasi_nama,
-                    'nama_juara' => $request->nama_juara,
+                    'juara' => $request->juara,
+                    'nama_juara' => $nama_juara,
                     'tanggal_perolehan' => $request->tanggal_perolehan,
                     'file_sertifikat' => $imagePaths['file_sertifikat'],
                     'file_bukti_foto' => $imagePaths['file_bukti_foto'],
@@ -179,7 +200,7 @@ class AdminPrestasiController extends Controller
                     'file_surat_undangan' => $imagePaths['file_surat_undangan'],
                     'file_proposal' => $imagePaths['file_proposal'],
                     'poin' => 0,
-                    'status_verifikasi' => null,
+                    'status_verifikasi' => 1,
                     'created_at' => now(),
                     'updated_at' => now()
                 ]);
@@ -247,7 +268,7 @@ class AdminPrestasiController extends Controller
     /**
      * Update the specified resource in storage.
      */
-public function update(Request $request, PrestasiModel $prestasi)
+    public function update(Request $request, PrestasiModel $prestasi)
     {
 
         $rules = [
@@ -255,6 +276,7 @@ public function update(Request $request, PrestasiModel $prestasi)
             'dosen_id' => 'required',
             'lomba_id' => 'required',
             'prestasi_nama' => 'required',
+            'juara' => 'required',
             'nama_juara' => 'nullable',
             'tanggal_perolehan' => 'required|date',
             'file_sertifikat' => 'nullable|mimes:jpg,jpeg,png',
@@ -274,11 +296,32 @@ public function update(Request $request, PrestasiModel $prestasi)
             ]);
         }
 
+        if ($request->juara == 4) {
+            // Validasi: nama_juara wajib jika juara == 4
+            $validator = Validator::make($request->all(), [
+                'juara' => 'required',
+                'nama_juara' => 'required|string|max:255',
+            ]);
+
+            if ($validator->fails()) {
+                return response()->json([
+                    'status' => false,
+                    'message' => 'Validasi gagal.',
+                    'msgField' => $validator->errors()
+                ]);
+            }
+
+            $prestasi->nama_juara = $request->nama_juara;
+        } else {
+            $prestasi->nama_juara = 'Juara ' . $request->juara;
+        }
+
+
+        $prestasi->juara = $request->juara;
         $prestasi->mahasiswa_id = $request->mahasiswa_id;
         $prestasi->dosen_id = $request->dosen_id;
         $prestasi->lomba_id = $request->lomba_id;
         $prestasi->prestasi_nama = $request->prestasi_nama;
-        $prestasi->nama_juara = $request->nama_juara;
         $prestasi->tanggal_perolehan = $request->tanggal_perolehan;
 
 
@@ -311,6 +354,10 @@ public function update(Request $request, PrestasiModel $prestasi)
 
         $prestasi->status_verifikasi = 1;
         $prestasi->updated_at = Carbon::now();
+        $prestasi->save();
+
+        $prestasi->poin = self::hitungPoin($prestasi);
+
         $prestasi->save();
 
         return response()->json([

@@ -1,4 +1,5 @@
-<form action="{{ url('/prestasi/' . $prestasi->prestasi_id) }}" method="POST" enctype="multipart/form-data" id="form-edit-prestasi">
+<form action="{{ url('/prestasi/' . $prestasi->prestasi_id) }}" method="POST" enctype="multipart/form-data"
+    id="form-edit-prestasi">
     @csrf
     @method('PUT')
 
@@ -216,10 +217,23 @@
                 <div class="card">
                     <div class="card-body">
                         <h5 class="card-title">File Proposal</h5>
-                        <embed id="preview-proposal" src="storage/{{ $prestasi->file_proposal }}" type="application/pdf"
-                            width="100%" height="500px" style="border: 1px solid #ccc;" />
+                        <div style="position: relative; width: 100%; height: 500px; border: 1px solid #ccc;">
+                            <iframe id="preview-proposal"
+                                src="{{ $prestasi->file_proposal ? asset('storage/' . $prestasi->file_proposal) : '' }}"
+                                width="100%" height="100%" style="border: none;"></iframe>
 
-                        <div class="form-group">
+                            @if (!$prestasi->file_proposal)
+                                <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+                                        display: flex; align-items: center; justify-content: center;
+                                        background-color: rgba(255, 255, 255, 0.85);">
+                                    <p id="no-proposal" style="color: #666; font-size: 18px;">Tidak ada proposal</p>
+                                </div>
+                            @endif
+                        </div>
+
+
+
+                        <div class="form-group mt-2">
                             <input type="file" name="file_proposal" id="file_proposal" class="d-none"
                                 accept="application/pdf" onchange="previewProposal(event)">
 
@@ -285,6 +299,12 @@
             const reader = new FileReader();
             reader.onload = function (e) {
                 embed.src = e.target.result;
+
+                // Hapus elemen "Tidak ada proposal" jika ada
+                const noProposalText = document.getElementById('no-proposal');
+                if (noProposalText) {
+                    noProposalText.parentElement.remove(); // atau gunakan noProposalText.remove();
+                }
             };
             reader.readAsDataURL(file);
 
@@ -295,6 +315,7 @@
             if (errorElement) errorElement.textContent = "File harus berupa PDF.";
         }
     }
+
     function toggleJuaraLainEdit() {
         const selected = document.getElementById('prestasi_juara').value;
         const juaraLainGroup = document.getElementById('juara_lain');
@@ -370,7 +391,7 @@
                 });
                 return false;
             },
-            
+
             errorElement: 'span',
             errorPlacement: function (error, element) {
                 error.addClass('invalid-feedback');

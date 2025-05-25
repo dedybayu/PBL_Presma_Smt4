@@ -16,25 +16,25 @@ class TingkatLombaSeeder extends Seeder
         TingkatLombaModel::insert([
             [
                 'tingkat_lomba_kode' => 'INT',
-                'tingkat_lomba_nama' => 'Tingkat Internasional',
+                'tingkat_lomba_nama' => 'Internasional',
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
             [
                 'tingkat_lomba_kode' => 'NAS',
-                'tingkat_lomba_nama' => 'Tingkat Nasional',
+                'tingkat_lomba_nama' => 'Nasional',
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
             [
                 'tingkat_lomba_kode' => 'PRO',
-                'tingkat_lomba_nama' => 'Tingkat Provinsi',
+                'tingkat_lomba_nama' => 'Provinsi',
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
             [
                 'tingkat_lomba_kode' => 'KAB',
-                'tingkat_lomba_nama' => 'Tingkat Kabupaten/Kota',
+                'tingkat_lomba_nama' => 'Kabupaten/Kota',
                 'created_at' => now(),
                 'updated_at' => now(),
             ]
