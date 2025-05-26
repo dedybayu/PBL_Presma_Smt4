@@ -72,7 +72,7 @@
                 <li>
                     <a href="#"
                         class="{{ request()->routeIs('kategoriBidangKeahlian.*','bidangKeahlian.*') ? 'mm-active' : '' }}">
-                        <i class="metismenu-icon pe-7s-note2"></i> Manajemen Bidang Keahlian
+                        <i class="metismenu-icon pe-7s-note2"></i> Bidang Keahlian
                         <i class="metismenu-state-icon pe-7s-angle-down caret-left"></i>
                     </a>
                     <ul
@@ -96,7 +96,7 @@
                 <li>
                     <a href="#"
                         class="{{ request()->routeIs('lomba.*', 'penyelenggara.*') ? 'mm-active' : '' }}">
-                        <i class="metismenu-icon pe-7s-note2"></i> Manajemen Data Lomba
+                        <i class="metismenu-icon pe-7s-note2"></i> Data Lomba
                         <i class="metismenu-state-icon pe-7s-angle-down caret-left"></i>
                     </a>
                     <ul
