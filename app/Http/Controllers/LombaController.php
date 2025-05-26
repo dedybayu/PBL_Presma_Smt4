@@ -42,17 +42,35 @@ class LombaController extends Controller
                 ->addColumn('info', function ($row) {
                     $image = $row->foto_pamflet ? asset('storage/' . $row->foto_pamflet) : asset('assets/images/user.png');
                     return '
-                    <div class="d-flex flex-column justify-content-center">
-                                <div style="font-weight: bold;">' . $row->lomba_nama . '</div>
-                                <div class="text-muted"><i class="fa fa-envelope me-1"></i> ' . $row->tingkat->tingkat_lomba_nama . '</div>
-                                <div class="text-muted"><i class="fa fa-info"></i> ' . $row->bidang->bidang_keahlian_nama . '</div>
-                                <div class="text-muted"><i class="fa fa-phone me-1"></i> ' . $row->penyelenggara->penyelenggara_nama . '</div>
-                            </div>
-                        </div>
+                    <div class="d-flex flex-column">
+    <div class="fw-bold text-truncate mb-1" style="max-width: 100%;">'
+        .$row->lomba_nama.
+    '</div>
+
+    <div class="text-muted text-truncate mb-1" style="max-width: 100%;">
+        <small>
+            <i class="fa fa-envelope me-1"> </i>' .$row->tingkat->tingkat_lomba_nama.
+        '</small>
+    </div>
+
+    <div class="text-muted text-truncate mb-1" style="max-width: 100%;">
+        <small>
+            <i class="fa fa-info me-1"> </i> '.$row->bidang->bidang_keahlian_nama.'
+        </small>
+    </div>
+
+    <div class="text-muted text-truncate mb-1" style="max-width: 100%;">
+        <small>
+            <i class="fa fa-building me-1"> </i>
+            '.$row->penyelenggara->penyelenggara_nama.'
+        </small>
+    </div>
+</div>
                     ';
                 })
                 ->addColumn('deskripsi', function ($row) {
-                    return collect(explode(' ', $row->lomba_deskripsi))->take(2)->implode(' ') . '...';
+                    // return collect(explode(' ', $row->lomba_deskripsi))->take(5)->implode(' ') . '...';
+                    return collect(explode(' ', $row->lomba_deskripsi))->take(3)->implode(' ') . '...';
                 })
                 ->addColumn('tanggal mulai', function ($row) {
                     return $row->tanggal_mulai ?? '-';
