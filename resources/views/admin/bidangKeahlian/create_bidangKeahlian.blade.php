@@ -19,6 +19,17 @@
             <input type="text" name="bidang_keahlian_nama" id="bidang_keahlian_nama" class="form-control">
             <small id="error-bidang_keahlian_nama" class="text-danger"></small>
         </div>
+
+        <div class="form-group">
+            <label for="kategori_bidang_keahlian_id">Kategori Bidang Keahlian</label>
+            <select name="kategori_bidang_keahlian_id" id="kategori_bidang_keahlian_id" class="form-control">
+                <option value="" disabled selected>- Pilih Kategori Bidang Keahlian -</option>
+                @foreach($kategoriBidangKeahlian as $item)
+                    <option value="{{ $item->kategori_bidang_keahlian_id }}">{{ $item->kategori_bidang_keahlian_nama }}
+                    </option>
+                @endforeach
+            </select>
+        </div>
     </div>
 
     <div class="modal-footer">
@@ -28,11 +39,26 @@
 </form>
 
 <script>
+    function initSelect2() {
+        $('#kategori_bidang_keahlian_id').select2({
+            theme: 'bootstrap-5',
+            width: '100%',
+            dropdownParent: $('#modal-bidangKeahlian')
+        });
+    }
+
     $(document).ready(function () {
+        initSelect2();
+
+        $('#modal-bidangKeahlian').on('shown.bs.modal', function () {
+            initSelect2();
+        });
+
         $("#form-tambah-bidangKeahlian").validate({
             rules: {
                 bidang_keahlian_kode: { required: true, minlength: 3, maxlength: 255 },
-                bidang_keahlian_nama: { required: true, minlength: 3, maxlength: 255 }
+                bidang_keahlian_nama: { required: true, minlength: 3, maxlength: 255 },
+                kategori_bidang_keahlian_id: { required: true }
             },
             submitHandler: function (form) {
                 $.ajax({
@@ -62,6 +88,18 @@
                     }
                 });
                 return false;
+            },
+
+            errorElement: 'span',
+            errorPlacement: function (error, element) {
+                error.addClass('invalid-feedback');
+                element.closest('.form-group').append(error);
+            },
+            highlight: function (element) {
+                $(element).addClass('is-invalid');
+            },
+            unhighlight: function (element) {
+                $(element).removeClass('is-invalid');
             }
         });
     });

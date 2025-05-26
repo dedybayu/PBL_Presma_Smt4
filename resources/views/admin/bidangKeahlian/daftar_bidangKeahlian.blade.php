@@ -25,8 +25,9 @@
                     <thead>
                         <tr>
                             <th>No</th>
-                            <th>Kode Bidang Keahlian</th>
-                            <th>Nama Bidang Keahlian</th>
+                            <th>Kode</th>
+                            <th>Nama</th>
+                            <th>Kategori</th>
                             <th>Aksi</th>
                         </tr>
                     </thead>
@@ -65,6 +66,7 @@
                         { data: 'DT_RowIndex', className: "text-center", orderable: false, searchable: false },
                         { data: 'bidang_keahlian_kode', orderable: true, searchable: true },
                         { data: 'bidang_keahlian_nama', orderable: true, searchable: true },
+                        { data: 'kategori', orderable: true, searchable: true },
                         { data: "aksi", className: "", orderable: false, searchable: false }
                     ]
                 });

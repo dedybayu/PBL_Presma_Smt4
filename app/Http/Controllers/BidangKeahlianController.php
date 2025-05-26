@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\BidangKeahlianModel;
+use App\Models\KategoriBidangKeahlianModel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Yajra\DataTables\DataTables;
@@ -18,42 +19,50 @@ class BidangKeahlianController extends Controller
     public function list(Request $request)
     {
         if ($request->ajax()) {
-            $bidangKeahlian = BidangKeahlianModel::select("bidang_keahlian_id", "bidang_keahlian_kode", "bidang_keahlian_nama");
+            $query = BidangKeahlianModel::with('kategoriBidangKeahlian');
 
             if ($request->bidang_keahlian_id) {
-                $bidangKeahlian->where('bidang_keahlian_id', $request->bidang_keahlian_id);
+                $query->where('bidang_keahlian_id', $request->bidang_keahlian_id);
             }
+
+            $bidangKeahlian = $query->get();
+
+            return DataTables::of($bidangKeahlian)
+                ->addIndexColumn()
+                ->addColumn('bidang_keahlian_kode', function ($row) {
+                    return $row->bidang_keahlian_kode;
+                })
+                ->addColumn('bidang_keahlian_nama', function ($row) {
+                    return $row->bidang_keahlian_nama;
+                })
+                ->addColumn('kategori', function ($row) {
+                    // pastikan relasi tersedia sebelum diakses
+                    return $row->kategoriBidangKeahlian->kategori_bidang_keahlian_nama ?? '-';
+                })
+                ->addColumn('aksi', function ($row) {
+                    $btn = '<button onclick="modalAction(\'' . url('/bidangKeahlian/' . $row->bidang_keahlian_id . '/show') . '\')" class="btn btn-info btn-sm"><i class="fa fa-eye"></i> Detail</button> ';
+                    $btn .= '<button onclick="modalAction(\'' . url('/bidangKeahlian/' . $row->bidang_keahlian_id . '/edit') . '\')" class="btn btn-sm btn-warning" title="Edit"><i class="fa fa-pen"></i> Edit</button> ';
+                    $btn .= '<button onclick="modalAction(\'' . url('/bidangKeahlian/' . $row->bidang_keahlian_id . '/delete') . '\')" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i> Hapus</button> ';
+                    return $btn;
+                })
+                ->rawColumns(['aksi'])
+                ->make(true);
         }
-        $bidangKeahlian = $bidangKeahlian->get();
-        return DataTables::of($bidangKeahlian)
-            ->addIndexColumn()
-            ->addColumn('bidang_keahlian_kode', function ($row) {
-                return $row->bidang_keahlian_kode;
-            })
-            ->addColumn('bidang_keahlian_nama', function ($row) {
-                return $row->bidang_keahlian_nama;
-            })
-            ->addColumn('aksi', function ($row) {
-                $btn = '<button onclick="modalAction(\'' . url('/bidangKeahlian/' . $row->bidang_keahlian_id . '/show') . '\')" class="btn btn-info btn-sm"><i class="fa fa-eye"></i> Detail</button> ';
-                $btn .= '<button onclick="modalAction(\'' . url('/bidangKeahlian/' . $row->bidang_keahlian_id . '/edit') . '\')" class="btn btn-sm btn-warning" title="Edit"><i class="fa fa-pen"></i> Edit</button> ';
-                $btn .= '<button onclick="modalAction(\'' . url('/bidangKeahlian/' . $row->bidang_keahlian_id . '/delete') . '\')" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i> Hapus</button> ';
-                // return '<div class="">' . $btn . '</div>';
-                return $btn;
-            })
-            ->rawColumns(['info', 'aksi']) // agar tombol HTML tidak di-escape
-            ->make(true);
     }
+
 
     public function create()
     {
-        return view("admin.bidangKeahlian.create_bidangKeahlian");
+        $kategoriBidangKeahlian = KategoriBidangKeahlianModel::all();
+        return view("admin.bidangKeahlian.create_bidangKeahlian")->with(["kategoriBidangKeahlian" => $kategoriBidangKeahlian]);
     }
 
     public function store(Request $request)
     {
         $rules = [
             'bidang_keahlian_kode' => 'required|string|max:255',
-            'bidang_keahlian_nama' => 'required|string|max:255'
+            'bidang_keahlian_nama' => 'required|string|max:255',
+            'kategori_bidang_keahlian_id' => 'required|exists:m_kategori_bidang_keahlian,kategori_bidang_keahlian_id',
         ];
 
         $validator = Validator::make($request->all(), $rules);
@@ -69,6 +78,7 @@ class BidangKeahlianController extends Controller
         BidangKeahlianModel::create([
             'bidang_keahlian_kode' => $request->bidang_keahlian_kode,
             'bidang_keahlian_nama' => $request->bidang_keahlian_nama,
+            'kategori_bidang_keahlian_id' => $request->kategori_bidang_keahlian_id
         ]);
 
         return response()->json([
@@ -85,7 +95,11 @@ class BidangKeahlianController extends Controller
 
     public function edit(BidangKeahlianModel $bidangKeahlian)
     {
-        return view('admin.bidangKeahlian.edit_bidangKeahlian')->with(['bidangKeahlian' => $bidangKeahlian]);
+        $kategoriBidangKeahlian = KategoriBidangKeahlianModel::all();
+        return view('admin.bidangKeahlian.edit_bidangKeahlian')->with([
+            'kategoriBidangKeahlian' => $kategoriBidangKeahlian, 
+            'bidangKeahlian' => $bidangKeahlian
+        ]);
     }
 
     public function update(Request $request, $id)
@@ -95,6 +109,7 @@ class BidangKeahlianController extends Controller
         $rules = [
             'bidang_keahlian_kode' => 'required|string|max:255',
             'bidang_keahlian_nama' => 'required|string|max:255',
+            'kategori_bidang_keahlian_id' => 'required|exists:m_kategori_bidang_keahlian,kategori_bidang_keahlian_id',
         ];
 
         $validator = Validator::make($request->all(), $rules);
@@ -110,6 +125,7 @@ class BidangKeahlianController extends Controller
         $bidangKeahlian->update([
             'bidang_keahlian_kode' => $request->bidang_keahlian_kode,
             'bidang_keahlian_nama' => $request->bidang_keahlian_nama,
+            'kategori_bidang_keahlian_id' => $request->kategori_bidang_keahlian_id
         ]);
 
         return response()->json([
