@@ -77,25 +77,6 @@
                 value="{{ $lomba->tanggal_selesai }}" required>
             <small id="error-tanggal_selesai" class="error-text form-text text-danger"></small>
         </div>
-        <div class="form-group">
-            <label for="status_verifikasi" class="form-label">
-                <i class="fas fa-check-circle me-2"></i> {{-- Example: A checkmark icon (Font Awesome Solid) with right margin --}}
-                Status Verifikasi
-            </label>
-            <select class="form-select" id="status_verifikasi" name="status_verifikasi">
-                <option value="1"
-                    {{ old('status_verifikasi', $lomba->status_verifikasi) == 1 ? 'selected' : '' }}>Terverifikasi
-                </option>
-                <option value="0"
-                    {{ old('status_verifikasi', $lomba->status_verifikasi) == 0 ? 'selected' : '' }}>Ditolak</option>
-                <option value="2"
-                    {{ old('status_verifikasi', $lomba->status_verifikasi) == 2 ? 'selected' : '' }}>Menunggu
-                    Verifikasi</option>
-            </select>
-            @error('status_verifikasi')
-                <div class="text-danger mt-1">{{ $message }}</div>
-            @enderror
-        </div>
         <div class="col-md-6">
             <div class="form-group">
                 <label>Status verifikasi</label>
