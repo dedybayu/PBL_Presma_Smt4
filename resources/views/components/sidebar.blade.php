@@ -3,7 +3,8 @@
         <div class="logo-src"></div>
         <div class="header__pane ml-auto">
             <div>
-                <button type="button" class="hamburger close-sidebar-btn hamburger--elastic" data-class="closed-sidebar">
+                <button type="button" class="hamburger close-sidebar-btn hamburger--elastic"
+                    data-class="closed-sidebar">
                     <span class="hamburger-box">
                         <span class="hamburger-inner"></span>
                     </span>
@@ -69,11 +70,37 @@
                     </ul>
                 </li>
                 <li>
-                    <a href="#" class="{{ request()->routeIs('lomba.*', 'bidangKeahlian.*', 'penyelenggara.*') ? 'mm-active' : '' }}">
+                    <a href="#"
+                        class="{{ request()->routeIs('kategoriBidangKeahlian.*','bidangKeahlian.*') ? 'mm-active' : '' }}">
+                        <i class="metismenu-icon pe-7s-note2"></i> Manajemen Bidang Keahlian
+                        <i class="metismenu-state-icon pe-7s-angle-down caret-left"></i>
+                    </a>
+                    <ul
+                        class="{{ request()->routeIs('kategoriBidangKeahlian.*','bidangKeahlian.*') ? 'mm-show' : '' }}">
+                        <li>
+                            <a href="{{ route('kategoriBidangKeahlian.index') }}"
+                                class="{{ request()->routeIs('kategoriBidangKeahlian.index') ? 'mm-active' : '' }}">
+                                <i class="metismenu-icon">
+                                </i>Kategori Bidang Keahlian
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{ route('bidangKeahlian.index') }}"
+                                class="{{ request()->routeIs('bidangKeahlian.index') ? 'mm-active' : '' }}">
+                                <i class="metismenu-icon">
+                                </i>Bidang Keahlian
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="#"
+                        class="{{ request()->routeIs('lomba.*', 'penyelenggara.*') ? 'mm-active' : '' }}">
                         <i class="metismenu-icon pe-7s-note2"></i> Manajemen Data Lomba
                         <i class="metismenu-state-icon pe-7s-angle-down caret-left"></i>
                     </a>
-                    <ul class="{{ request()->routeIs('lomba.*', 'bidangKeahlian.*', 'penyelenggara.*') ? 'mm-show' : '' }}">
+                    <ul
+                        class="{{ request()->routeIs('lomba.*', 'penyelenggara.*') ? 'mm-show' : '' }}">
                         <li>
                             <a href="{{ route('lomba.index') }}"
                                 class="{{ request()->routeIs('lomba.index') ? 'mm-active' : '' }}">
@@ -81,13 +108,13 @@
                                 </i>Daftar Lomba
                             </a>
                         </li>
-                        <li>
+                        {{-- <li>
                             <a href="{{ route('bidangKeahlian.index') }}"
                                 class="{{ request()->routeIs('bidangKeahlian.index') ? 'mm-active' : '' }}">
                                 <i class="metismenu-icon">
                                 </i>Daftar Bidang Keahlian
                             </a>
-                        </li>
+                        </li> --}}
                         <li>
                             <a href="{{ route('penyelenggara.index') }}"
                                 class="{{ request()->routeIs('penyelenggara.index') ? 'mm-active' : '' }}">
@@ -120,8 +147,7 @@
                     </ul>
                 </li>
                 <li>
-                    <a href="#"
-                        class="{{ request()->routeIs('periode.*', 'prodi.*', 'kelas.*') ? 'mm-active' : '' }}">
+                    <a href="#" class="{{ request()->routeIs('periode.*', 'prodi.*', 'kelas.*') ? 'mm-active' : '' }}">
                         <i class="metismenu-icon pe-7s-study"></i>Data Akademik
                         <i class="metismenu-state-icon pe-7s-angle-down caret-left"></i>
                     </a>

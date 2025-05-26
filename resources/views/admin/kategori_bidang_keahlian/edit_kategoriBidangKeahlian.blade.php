@@ -1,5 +1,5 @@
-<form action="{{ url('/bidangKeahlian/' . $bidangKeahlian->bidang_keahlian_id) }}" method="POST"
-    id="form-edit-bidangKeahlian">
+<form action="{{ url('/KategoriBidangKeahlian/' . $kategoriBidangKeahlian->kategori_bidang_keahlian_id) }}" method="POST"
+    id="form-edit-KategoriBidangKeahlian">
     @csrf
     @method('PUT')
 
@@ -13,28 +13,16 @@
     <div class="modal-body">
         <div class="form-group">
             <label>Kode Bidang Keahlian</label>
-            <input type="text" name="bidang_keahlian_kode" id="bidang_keahlian_kode" class="form-control"
-                value="{{ $bidangKeahlian->bidang_keahlian_kode }}">
-            <small id="error-bidang_keahlian_kode" class="text-danger"></small>
+            <input type="text" name="kategori_bidang_keahlian_kode" id="kategori_bidang_keahlian_kode" class="form-control"
+                value="{{ $kategoriBidangKeahlian->kategori_bidang_keahlian_kode }}">
+            <small id="error-kategori_bidang_keahlian_kode" class="text-danger"></small>
         </div>
 
         <div class="form-group">
             <label>Nama Bidang Keahlian</label>
-            <input type="text" name="bidang_keahlian_nama" id="bidang_keahlian_nama" class="form-control"
-                value="{{ $bidangKeahlian->bidang_keahlian_nama }}">
-            <small id="error-bidang_keahlian_nama" class="text-danger"></small>
-        </div>
-
-        <div class="form-group">
-            <label>Kategori Bidang Keahlian</label>
-            <select name="kategori_bidang_keahlian_id" id="kategori_bidang_keahlian_id" class="form-control">
-                <option value="" disabled>- Pilih Kategori Bidang Keahlian -</option>
-                @foreach($kategoriBidangKeahlian as $item)
-                    <option value="{{ $item->kategori_bidang_keahlian_id }}" {{ $item->kategori_bidang_keahlian_id == $bidangKeahlian->kategori_bidang_keahlian_id ? 'selected' : '' }}>
-                        {{ $item->kategori_bidang_keahlian_nama }}
-                    </option>
-                @endforeach
-            </select>
+            <input type="text" name="kategori_bidang_keahlian_nama" id="kategori_bidang_keahlian_nama" class="form-control"
+                value="{{ $kategoriBidangKeahlian->kategori_bidang_keahlian_nama }}">
+            <small id="error-kategori_bidang_keahlian_nama" class="text-danger"></small>
         </div>
     </div>
 
@@ -44,24 +32,11 @@
     </div>
 </form>
 <script>
-    function initSelect2() {
-        $('#kategori_bidang_keahlian_id').select2({
-            theme: 'bootstrap-5',
-            width: '100%',
-            dropdownParent: $('#modal-bidangKeahlian')
-        });
-    }
-
     $(document).ready(function () {
-        initSelect2();
-
-        $('#modal-bidangKeahlian').on('shown.bs.modal', function () {
-            initSelect2();
-        }); $("#form-edit-bidangKeahlian").validate({
+        $("#form-edit-KategoriBidangKeahlian").validate({
             rules: {
-                bidang_keahlian_kode: { required: true, minlength: 3, maxlength: 255 },
-                bidang_keahlian_nama: { required: true, minlength: 3, maxlength: 255 },
-                kategori_bidang_keahlian_id: { required: true }
+                kategori_bidang_keahlian_kode: { required: true, minlength: 2, maxlength: 255 },
+                kategori_bidang_keahlian_nama: { required: true, minlength: 2, maxlength: 255 }
             },
             submitHandler: function (form) {
                 $.ajax({
@@ -70,9 +45,9 @@
                     data: $(form).serialize(),
                     success: function (response) {
                         if (response.status) {
-                            $('#modal-bidangKeahlian').modal('hide');
+                            $('#modal-KategoriBidangKeahlian').modal('hide');
                             Swal.fire({ icon: 'success', title: 'Berhasil', text: response.message });
-                            dataBidangKeahlian.ajax.reload();
+                            dataKategoriBidangKeahlian.ajax.reload();
                         } else {
                             $('.text-danger').text('');
                             $.each(response.msgField, function (prefix, val) {

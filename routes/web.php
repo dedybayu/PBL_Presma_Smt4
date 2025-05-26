@@ -5,6 +5,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BidangKeahlianController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DosenController;
+use App\Http\Controllers\KategoriBidangKeahlianController;
 use App\Http\Controllers\MahasiswaController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\KelasController;
@@ -151,6 +152,17 @@ Route::middleware('auth')->group(function () {
             Route::put('/{bidangKeahlian}', [BidangKeahlianController::class, 'update'])->name('bidangKeahlian.update');
             Route::get('/{bidangKeahlian}/delete', [BidangKeahlianController::class, 'confirm'])->name('bidangKeahlian.delete');
             Route::delete('/{bidangKeahlian}', [BidangKeahlianController::class, 'destroy'])->name('bidangKeahlian.destroy');
+        });
+        Route::prefix('KategoriBidangKeahlian')->group(function () {
+            Route::get('/', [KategoriBidangKeahlianController::class, 'index'])->name('kategoriBidangKeahlian.index');
+            Route::post('/list', [KategoriBidangKeahlianController::class, 'list']);
+            Route::get('/{kategoriBidangKeahlian}/show', [KategoriBidangKeahlianController::class, 'show'])->name('kategoriBidangKeahlian.show');
+            Route::get('/create', [KategoriBidangKeahlianController::class, 'create'])->name('kategoriBidangKeahlian.create');
+            Route::post('/', [KategoriBidangKeahlianController::class, 'store'])->name('kategoriBidangKeahlian.store');
+            Route::get('/{kategoriBidangKeahlian}/edit', [KategoriBidangKeahlianController::class, 'edit'])->name('kategoriBidangKeahlian.edit');
+            Route::put('/{kategoriBidangKeahlian}', [KategoriBidangKeahlianController::class, 'update'])->name('kategoriBidangKeahlian.update');
+            Route::get('/{kategoriBidangKeahlian}/delete', [KategoriBidangKeahlianController::class, 'confirm'])->name('kategoriBidangKeahlian.delete');
+            Route::delete('/{kategoriBidangKeahlian}', [KategoriBidangKeahlianController::class, 'destroy'])->name('kategoriBidangKeahlian.destroy');
         });
     });
 });
