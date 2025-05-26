@@ -50,7 +50,8 @@
 
                                 <div class="col-md-7">
                                     <div class="card-body">
-                                        <h5 class="card-title">{{ $pres->prestasi_nama }}</h5>
+                                        <h5 class="card-title">
+                                            {{ \Illuminate\Support\Str::words($pres->prestasi_nama, 5, '...') }}</h5>
                                         <p class="card-text">Lomba: {{$pres->lomba->lomba_nama}}</p>
                                         <p class="card-text">Tingkat: {{$pres->lomba->tingkat->tingkat_lomba_nama}}</p>
                                         <p class="card-text">Penyelenggara:
