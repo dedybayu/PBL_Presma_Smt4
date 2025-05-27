@@ -10,16 +10,23 @@
         if ($role === 'MHS') {
             $nama = Auth::user()->mahasiswa->nama;
             $keterangan = Auth::user()->mahasiswa->nim;
-            $foto_profile = Auth::user()->mahasiswa->foto_profile;
+            $foto_profile = Auth::user()->mahasiswa->foto_profile
+                ? 'storage/' . Auth::user()->mahasiswa->foto_profile
+                : 'assets/images/user.png';
         } elseif ($role === 'ADM') {
             $nama = Auth::user()->admin->nama;
             $keterangan = Auth::user()->level->level_nama;
-            $foto_profile = Auth::user()->admin->foto_profile;
+            $foto_profile = Auth::user()->admin->foto_profile
+                ? 'storage/' . Auth::user()->admin->foto_profile
+                : 'assets/images/user.png';
         } elseif ($role === 'DOS') {
             $nama = Auth::user()->dosen->nama;
             $keterangan = Auth::user()->dosen->nidn;
-            $foto_profile = Auth::user()->dosen->foto_profile;
+            $foto_profile = Auth::user()->dosen->foto_profile
+                ? 'storage/' . Auth::user()->dosen->foto_profile
+                : 'assets/images/user.png';
         }
+
     }
 @endphp
 
@@ -315,7 +322,8 @@
                         <div class="widget-content-left">
                             <div class="btn-group">
                                 <a data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="p-0 btn">
-                                    <img width="42" height="42" class="rounded-circle" src="{{{asset('storage/' . $foto_profile)}}}" alt="" style="object-fit: cover;">
+                                    <img width="42" height="42" class="rounded-circle"
+                                        src="{{{asset($foto_profile)}}}" alt="" style="object-fit: cover;">
                                     <i class="fa fa-angle-down ml-2 opacity-8"></i>
                                 </a>
                                 <div tabindex="-1" role="menu" aria-hidden="true"
@@ -330,7 +338,8 @@
                                                     <div class="widget-content-wrapper">
                                                         <div class="widget-content-left mr-3">
                                                             <img width="42" height="42" class="rounded-circle"
-                                                                src="{{asset('storage/' . $foto_profile)}}" alt="" style="object-fit: cover;">
+                                                                src="{{asset($foto_profile)}}" alt=""
+                                                                style="object-fit: cover;">
                                                         </div>
                                                         <div class="widget-content-left">
                                                             <div class="widget-heading">
