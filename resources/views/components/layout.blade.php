@@ -312,7 +312,7 @@
         // Untuk mengirimkan token Laravel CSRF pada setiap request ajax
         $.ajaxSetup({ headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') } });
 
-        function modalAction(url) {
+        function modalLogoutAction(url) {
             $("#modal-logout .modal-content").html("");
             $.get(url, function (response) {
                 $("#modal-logout .modal-content").html(response);
