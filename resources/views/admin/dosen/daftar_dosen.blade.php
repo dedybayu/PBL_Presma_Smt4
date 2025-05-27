@@ -3,7 +3,9 @@
         <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
         <link href="https://cdn.jsdelivr.net/npm/select2-bootstrap-5-theme@1.1.1/dist/select2-bootstrap-5-theme.min.css"
             rel="stylesheet" />
-        {{-- <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.4.1/css/responsive.bootstrap5.min.css"> --}}
+        {{--
+        <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.4.1/css/responsive.bootstrap5.min.css">
+        --}}
 
     </x-slot:css>
     <x-slot:title>
@@ -21,7 +23,8 @@
                 <button onclick="modalAction('{{ url('/dosen/import') }}')" class="btn btn-sm btn-primary mt-1">
                     <i class="fa fa-plus"></i> Import
                 </button>
-                <a href="{{ url('/dosen/export') }}" class="btn btn-info mt-1"><i class="fa fa-file-excel"></i> Export</a>
+                <a href="{{ url('/dosen/export') }}" class="btn btn-info mt-1"><i class="fa fa-file-excel"></i>
+                    Export</a>
             </div>
         </div>
 
@@ -53,6 +56,17 @@
 
         </div>
     </div>
+
+    <x-slot:modal>
+        <div id="modal-dosen" class="modal fade animate shake" tabindex="-1" role="dialog" data-backdrop="static"
+            data-keyboard="false" aria-hidden="true">
+            <div class="modal-dialog modal-xl" role="document">
+                <div class="modal-content"></div>
+            </div>
+        </div>
+    </x-slot:modal>
+
+
     <x-slot:js>
         <script>
             function modalAction(url) {

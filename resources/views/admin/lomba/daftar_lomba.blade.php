@@ -35,10 +35,12 @@
                         <label class="col-12 col-md-1 control-label col-form-label">Filter:</label>
 
                         <div class="col-12 col-md-3 mb-2 mb-md-0">
-                            <select class="form-select" id="bidang_keahlian_id" name="bidang_keahlian_id" style="width: 100%">
+                            <select class="form-select" id="bidang_keahlian_id" name="bidang_keahlian_id"
+                                style="width: 100%">
                                 <option value="">- Semua -</option>
                                 @foreach($bidang as $item)
-                                    <option value="{{ $item->bidang_keahlian_id }}">{{ $item->bidang_keahlian_nama }}</option>
+                                    <option value="{{ $item->bidang_keahlian_id }}">{{ $item->bidang_keahlian_nama }}
+                                    </option>
                                 @endforeach
                             </select>
                             <small class="form-text text-muted">Filter bidang</small>
@@ -47,9 +49,9 @@
                             <select class="form-select" id="kelas_id" name="kelas_id" style="width: 100%">
                                 <option value="">- Semua -</option>
                                 @foreach($kelas as $item)
-                                    <option value="{{ $item->kelas_id }}" data-prodi-id="{{ $item->prodi_id }}">
-                                        {{ $item->kelas_nama }}
-                                    </option>
+                                <option value="{{ $item->kelas_id }}" data-prodi-id="{{ $item->prodi_id }}">
+                                    {{ $item->kelas_nama }}
+                                </option>
                                 @endforeach
                             </select>
                             <small class="form-text text-muted">Filter Kelas</small>
@@ -77,6 +79,16 @@
             </div>
         </div>
     </div>
+
+    <x-slot:modal>
+        <div id="modal-lomba" class="modal fade animate shake" tabindex="-1" role="dialog" data-backdrop="static"
+            data-keyboard="false" aria-hidden="true">
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content"></div>
+            </div>
+        </div>
+    </x-slot:modal>
+
     <x-slot:js>
         <script>
             function modalAction(url) {
@@ -118,7 +130,7 @@
                         type: "POST",
                         data: function (d) {
                             d.bidang_keahlian_id = $('#bidang_keahlian_id').val();
-                            
+
                         }
                     },
                     columns: [

@@ -134,7 +134,7 @@ class BidangKeahlianController extends Controller
         ]);
     }
 
-    public function confirmDelete(BidangKeahlianModel $bidangKeahlian)
+    public function confirm(BidangKeahlianModel $bidangKeahlian)
     {
         return view('admin.bidangKeahlian.confirm_delete_bidangKeahlian')->with(['bidangKeahlian' => $bidangKeahlian]);
     }

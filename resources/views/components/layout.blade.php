@@ -90,7 +90,7 @@
 
 
     {{-- Modal CRUD Container --}}
-    <x-modal></x-modal>
+    <x-modal>{{$modal}}</x-modal>
 
 
 

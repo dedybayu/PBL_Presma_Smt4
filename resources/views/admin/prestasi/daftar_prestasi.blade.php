@@ -35,7 +35,8 @@
                         <label class="col-12 col-md-1 control-label col-form-label">Filter:</label>
 
                         <div class="col-12 col-md-3 mb-2 mb-md-0">
-                            <select class="form-select" id="tingkat_lomba_id" name="tingkat_lomba_id" style="width: 100%">
+                            <select class="form-select" id="tingkat_lomba_id" name="tingkat_lomba_id"
+                                style="width: 100%">
                                 <option value="">- Semua -</option>
                                 @foreach($tingkat_lomba as $item)
                                     <option value="{{ $item->tingkat_lomba_id }}">{{ $item->tingkat_lomba_nama }}</option>
@@ -49,22 +50,23 @@
 
             <div class="table-responsive">
                 <table style="width: 100%;" id="table-prestasi" class="table table-hover table-striped table-bordered">
-                {{-- <table class="table table-bordered table-sm table-striped table-hover" id="table-prestasi"> --}}
-                    <thead>
-                        <tr>
-                            <th>No</th>
-                            <th>NIM</th>
-                            <th>Mahasiswa</th>
-                            <th>Prestasi</th>
-                            <th>Lomba</th>
-                            <th>Juara</th>
-                            <th>Tingkat</th>
-                            <th>Poin</th>
-                            <th>Status</th>
-                            <th>Aksi</th>
-                        </tr>
-                    </thead>
-                </table>
+                    {{-- <table class="table table-bordered table-sm table-striped table-hover" id="table-prestasi">
+                        --}}
+                        <thead>
+                            <tr>
+                                <th>No</th>
+                                <th>NIM</th>
+                                <th>Mahasiswa</th>
+                                <th>Prestasi</th>
+                                <th>Lomba</th>
+                                <th>Juara</th>
+                                <th>Tingkat</th>
+                                <th>Poin</th>
+                                <th>Status</th>
+                                <th>Aksi</th>
+                            </tr>
+                        </thead>
+                    </table>
             </div>
 
         </div>
@@ -72,7 +74,14 @@
 
 
 
-
+    <x-slot:modal>
+        <div id="modal-prestasi" class="modal fade animate shake" tabindex="-1" role="dialog" data-backdrop="static"
+            data-keyboard="false" aria-hidden="true">
+            <div class="modal-dialog modal-xl" role="document">
+                <div class="modal-content"></div>
+            </div>
+        </div>
+    </x-slot:modal>
 
     <x-slot:js>
         <script>

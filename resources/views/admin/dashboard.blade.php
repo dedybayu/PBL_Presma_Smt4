@@ -1,6 +1,10 @@
 <x-layout>
     <x-slot:css>
-        {{-- <style>.aaaa { color: red; }</style> --}}
+        {{-- <style>
+            .aaaa {
+                color: red;
+            }
+        </style> --}}
     </x-slot:css>
 
     <x-slot:title>
@@ -681,9 +685,11 @@
         </div>
     </div>
 
+    <x-slot:modal></x-slot:modal>
+
     <x-slot:js>
         <script>
-            $(document).ready(function() {
+            $(document).ready(function () {
                 $('.aaaa').css("color", "blue");
             });
         </script>

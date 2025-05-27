@@ -1,8 +1,11 @@
 <x-layout>
     <x-slot:css>
         <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
-        <link href="https://cdn.jsdelivr.net/npm/select2-bootstrap-5-theme@1.1.1/dist/select2-bootstrap-5-theme.min.css" rel="stylesheet" />
-        {{-- <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.4.1/css/responsive.bootstrap5.min.css"> --}}
+        <link href="https://cdn.jsdelivr.net/npm/select2-bootstrap-5-theme@1.1.1/dist/select2-bootstrap-5-theme.min.css"
+            rel="stylesheet" />
+        {{--
+        <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.4.1/css/responsive.bootstrap5.min.css">
+        --}}
     </x-slot:css>
 
     <x-slot:title>
@@ -13,7 +16,8 @@
         <div class="card-header-tab card-header">
             <h3 class="card-title">Daftar Bidang Keahlian</h3>
             <div class="btn-actions-pane-right text-capitalize">
-                <button onclick="modalAction('{{ url('/bidangKeahlian/create') }}')" class="btn btn-sm btn-success mt-1">
+                <button onclick="modalAction('{{ url('/bidangKeahlian/create') }}')"
+                    class="btn btn-sm btn-success mt-1">
                     <i class="fa fa-plus"></i> Tambah Bidang Keahlian
                 </button>
             </div>
@@ -36,29 +40,38 @@
         </div>
     </div>
 
+    <x-slot:modal>
+        <div id="modal-bidangKeahlian" class="modal fade animate shake" tabindex="-1" role="dialog"
+            data-backdrop="static" data-keyboard="false" aria-hidden="true">
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content"></div>
+            </div>
+        </div>
+    </x-slot:modal>
+
     <x-slot:js>
         <script>
             function modalAction(url) {
                 $("#modal-bidangKeahlian .modal-content").html("");
-                $.get(url, function(response) {
+                $.get(url, function (response) {
                     $("#modal-bidangKeahlian .modal-content").html(response);
                     $("#modal-bidangKeahlian").modal("show");
                 });
             }
 
-            $('#modal-bidangKeahlian').on('hidden.bs.modal', function() {
+            $('#modal-bidangKeahlian').on('hidden.bs.modal', function () {
                 $("#modal-bidangKeahlian .modal-content").html("");
             });
 
             var dataBidangKeahlian;
-            $(document).ready(function() {
+            $(document).ready(function () {
                 dataBidangKeahlian = $('#table-bidangKeahlian').DataTable({
                     serverSide: true,
                     ajax: {
                         url: "{{ url('bidangKeahlian/list') }}",
                         dataType: "json",
                         type: "POST",
-                        data: function(d) {
+                        data: function (d) {
                             d.bidang_id = $('#filter_bidang_id').val();
                         }
                     },

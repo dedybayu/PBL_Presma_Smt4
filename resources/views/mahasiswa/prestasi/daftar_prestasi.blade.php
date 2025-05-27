@@ -43,24 +43,39 @@
                                 <div class="col-md-5">
                                     <div
                                         style="position: relative; width: 100%; height: 100%; aspect-ratio: 1 / 1; border-radius: 16px 0 0 16px; overflow: hidden;">
-                                        <img src="{{ asset('storage/' . $pres->file_bukti_foto) }}" alt="Foto Prestasi"
-                                            style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; object-position: center;">
+                                        <a href="{{ route('mahasiswa.prestasi.show', $pres->prestasi_id) }}">
+                                            <img src="{{ asset('storage/' . $pres->file_bukti_foto) }}" alt="Foto Prestasi"
+                                                style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; object-position: center;">
+                                        </a>
+
                                     </div>
                                 </div>
 
                                 <div class="col-md-7">
                                     <div class="card-body">
                                         <h5 class="card-title">
-                                            {{ \Illuminate\Support\Str::words($pres->prestasi_nama, 5, '...') }}</h5>
+                                            {{ \Illuminate\Support\Str::words($pres->prestasi_nama, 5, '...') }}
+                                        </h5>
                                         <p class="card-text">Lomba: {{$pres->lomba->lomba_nama}}</p>
                                         <p class="card-text">Tingkat: {{$pres->lomba->tingkat->tingkat_lomba_nama}}</p>
                                         <p class="card-text">Penyelenggara:
                                             {{$pres->lomba->penyelenggara->penyelenggara_nama}}
                                         </p>
-                                        <p class="card-text"><small class="text-body-secondary">
-                                                {{ \Carbon\Carbon::parse($pres->created_at)->locale('id')->diffForHumans() }}
-                                            </small>
-                                        </p>
+
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <p class="card-text mb-0">
+                                                <small class="text-body-secondary">
+                                                    {{ \Carbon\Carbon::parse($pres->created_at)->locale('id')->diffForHumans() }}
+                                                </small>
+                                            </p>
+                                            <div class="d-flex">
+                                                <button class="btn btn-sm btn-warning mr-1"><i class="fa fa-edit"></i>
+                                                    Edit</button>
+                                                <button class="btn btn-sm btn-danger ml-1"><i class="fa fa-trash"></i>
+                                                    Hapus</button>
+                                            </div>
+                                        </div>
+
                                     </div>
                                 </div>
                             </div>
@@ -68,17 +83,10 @@
                     </div>
                 @endforeach
             </div>
-
-
-
-
         </div>
     </div>
 
-
-
-
-
+    <x-slot:modal></x-slot:modal>
     <x-slot:js>
         <script>
 

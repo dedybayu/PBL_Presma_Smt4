@@ -1,7 +1,8 @@
 <x-layout>
     <x-slot:css>
         <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
-        <link href="https://cdn.jsdelivr.net/npm/select2-bootstrap-5-theme@1.1.1/dist/select2-bootstrap-5-theme.min.css" rel="stylesheet" />
+        <link href="https://cdn.jsdelivr.net/npm/select2-bootstrap-5-theme@1.1.1/dist/select2-bootstrap-5-theme.min.css"
+            rel="stylesheet" />
     </x-slot:css>
 
     <x-slot:title>
@@ -18,7 +19,8 @@
                 <button onclick="modalAction('{{ url('/kelas/import') }}')" class="btn btn-sm btn-primary mt-1">
                     <i class="fa fa-plus"></i> Import
                 </button>
-                <a href="{{ url('/kelas/export') }}" class="btn btn-sm btn-info mt-1"> <i class="fa fa-file-export"></i> Export</a>
+                <a href="{{ url('/kelas/export') }}" class="btn btn-sm btn-info mt-1"> <i class="fa fa-file-export"></i>
+                    Export</a>
             </div>
         </div>
 
@@ -58,22 +60,31 @@
         </div>
     </div>
 
+    <x-slot:modal>
+        <div id="modal-kelas" class="modal fade animate shake" tabindex="-1" role="dialog" data-backdrop="static"
+            data-keyboard="false" aria-hidden="true">
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content"></div>
+            </div>
+        </div>
+    </x-slot:modal>
+    
     <x-slot:js>
         <script>
             function modalAction(url) {
                 $("#modal-kelas .modal-content").html("");
-                $.get(url, function(response) {
+                $.get(url, function (response) {
                     $("#modal-kelas .modal-content").html(response);
                     $("#modal-kelas").modal("show");
                 });
             }
 
-            $('#modal-kelas').on('hidden.bs.modal', function() {
+            $('#modal-kelas').on('hidden.bs.modal', function () {
                 $("#modal-kelas .modal-content").html("");
             });
 
             var dataKelas;
-            $(document).ready(function() {
+            $(document).ready(function () {
                 $('#filter_prodi_id').select2({
                     theme: 'bootstrap-5',
                     placeholder: "- Semua Prodi -",
@@ -87,7 +98,7 @@
                         url: "{{ url('kelas/list') }}",
                         dataType: "json",
                         type: "POST",
-                        data: function(d) {
+                        data: function (d) {
                             d.prodi_id = $('#filter_prodi_id').val();
                             d._token = "{{ csrf_token() }}";
                         }
@@ -101,7 +112,7 @@
                     ]
                 });
 
-                $('#filter_prodi_id').on('change', function() {
+                $('#filter_prodi_id').on('change', function () {
                     dataKelas.ajax.reload();
                 });
             });

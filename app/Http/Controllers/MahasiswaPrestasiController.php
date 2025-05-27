@@ -39,10 +39,15 @@ class MahasiswaPrestasiController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(PrestasiModel $prestasiModel)
+    public function show(PrestasiModel $prestasi)
     {
-        //
+        if ($prestasi->mahasiswa->user_id !== auth()->user()->user_id) {
+            abort(403, 'Anda tidak diizinkan mengakses prestasi ini.');
+        }
+        
+        return view('mahasiswa.prestasi.show_prestasi', compact('prestasi'));
     }
+
 
     /**
      * Show the form for editing the specified resource.

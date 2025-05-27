@@ -681,6 +681,7 @@
         </div>
     </div>
 
+    <x-slot:modal></x-slot:modal>
     <x-slot:js>
         <script>
             $(document).ready(function() {

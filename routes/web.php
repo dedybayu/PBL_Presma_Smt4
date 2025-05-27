@@ -172,8 +172,11 @@ Route::middleware('auth')->group(function () {
         Route::get('/', [DosenPrestasiController::class, 'index'])->name('dosen.prestasi.index');
     });
 
-    Route::middleware(['role:MHS'])->prefix('prestasiku')->group(function () {
-        Route::get('/', [MahasiswaPrestasiController::class, 'index'])->name('mahasiswa.prestasi.index');
+    Route::middleware(['role:MHS'])->group(function () {
+        Route::prefix('prestasiku')->name('mahasiswa.prestasi.')->group(function () {
+            Route::get('/', [MahasiswaPrestasiController::class, 'index'])->name('index');
+            Route::get('/{prestasi}', [MahasiswaPrestasiController::class, 'show'])->name('show');
+        });
     });
 
 

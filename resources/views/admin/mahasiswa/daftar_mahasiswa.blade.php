@@ -24,7 +24,8 @@
                 <button onclick="modalAction('{{ url('/mahasiswa/import') }}')" class="btn btn-sm btn-primary mt-1">
                     <i class="fa fa-plus"></i> Import
                 </button>
-                <a href="{{ url('/mahasiswa/export') }}" class="btn btn-info mt-1"><i class="fa fa-file-excel"></i> Export</a>
+                <a href="{{ url('/mahasiswa/export') }}" class="btn btn-info mt-1"><i class="fa fa-file-excel"></i>
+                    Export</a>
             </div>
         </div>
 
@@ -85,6 +86,14 @@
 
 
 
+    <x-slot:modal>
+        <div id="modal-mahasiswa" class="modal fade animate shake" tabindex="-1" role="dialog" data-backdrop="static"
+            data-keyboard="false" aria-hidden="true">
+            <div class="modal-dialog modal-xl" role="document">
+                <div class="modal-content"></div>
+            </div>
+        </div>
+    </x-slot:modal>
 
     <x-slot:js>
         <script>
