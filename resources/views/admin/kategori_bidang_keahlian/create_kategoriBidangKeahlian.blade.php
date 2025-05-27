@@ -1,4 +1,4 @@
-<form action="{{ url('/bidangKeahlian') }}" method="POST" id="form-tambah-bidangKeahlian">
+<form action="{{ url('/KategoriBidangKeahlian') }}" method="POST" id="form-tambah-KategoriBidangKeahlian">
     @csrf
     <div class="modal-header">
         <h5 class="modal-title">Tambah Data Bidang Keahlian</h5>
@@ -9,26 +9,15 @@
 
     <div class="modal-body">
         <div class="form-group">
-            <label for="bidang_keahlian_kode">Kode Bidang Keahlian</label>
-            <input type="text" name="bidang_keahlian_kode" id="bidang_keahlian_kode" class="form-control">
-            <small id="error-bidang_keahlian_kode" class="text-danger"></small>
+            <label for="kategori_bidang_keahlian_kode">Kode Bidang Keahlian</label>
+            <input type="text" name="kategori_bidang_keahlian_kode" id="kategori_bidang_keahlian_kode" class="form-control">
+            <small id="error-kategori_bidang_keahlian_kode" class="text-danger"></small>
         </div>
 
         <div class="form-group">
-            <label for="bidang_keahlian_nama">Nama Bidang Keahlian</label>
-            <input type="text" name="bidang_keahlian_nama" id="bidang_keahlian_nama" class="form-control">
-            <small id="error-bidang_keahlian_nama" class="text-danger"></small>
-        </div>
-
-        <div class="form-group">
-            <label for="kategori_bidang_keahlian_id">Kategori Bidang Keahlian</label>
-            <select name="kategori_bidang_keahlian_id" id="kategori_bidang_keahlian_id" class="form-control">
-                <option value="" disabled selected>- Pilih Kategori Bidang Keahlian -</option>
-                @foreach($kategoriBidangKeahlian as $item)
-                    <option value="{{ $item->kategori_bidang_keahlian_id }}">{{ $item->kategori_bidang_keahlian_nama }}
-                    </option>
-                @endforeach
-            </select>
+            <label for="kategori_bidang_keahlian_nama">Nama Bidang Keahlian</label>
+            <input type="text" name="kategori_bidang_keahlian_nama" id="kategori_bidang_keahlian_nama" class="form-control">
+            <small id="error-kategori_bidang_keahlian_nama" class="text-danger"></small>
         </div>
     </div>
 
@@ -39,26 +28,12 @@
 </form>
 
 <script>
-    function initSelect2() {
-        $('#kategori_bidang_keahlian_id').select2({
-            theme: 'bootstrap-5',
-            width: '100%',
-            dropdownParent: $('#modal-bidangKeahlian')
-        });
-    }
-
     $(document).ready(function () {
-        initSelect2();
 
-        $('#modal-bidangKeahlian').on('shown.bs.modal', function () {
-            initSelect2();
-        });
-
-        $("#form-tambah-bidangKeahlian").validate({
+        $("#form-tambah-KategoriBidangKeahlian").validate({
             rules: {
-                bidang_keahlian_kode: { required: true, minlength: 3, maxlength: 255 },
-                bidang_keahlian_nama: { required: true, minlength: 3, maxlength: 255 },
-                kategori_bidang_keahlian_id: { required: true }
+                kategori_bidang_keahlian_kode: { required: true, minlength: 3, maxlength: 255 },
+                kategori_bidang_keahlian_nama: { required: true, minlength: 3, maxlength: 255 },
             },
             submitHandler: function (form) {
                 $.ajax({
@@ -67,13 +42,13 @@
                     data: $(form).serialize(),
                     success: function (response) {
                         if (response.status) {
-                            $('#modal-bidangKeahlian').modal('hide');
+                            $('#modal-KategoriBidangKeahlian').modal('hide');
                             Swal.fire({
                                 icon: 'success',
                                 title: 'Berhasil',
                                 text: response.message,
                             });
-                            dataBidangKeahlian.ajax.reload();
+                            dataKategoriBidangKeahlian.ajax.reload();
                         } else {
                             $('.text-danger').text('');
                             $.each(response.msgField, function (key, val) {

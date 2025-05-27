@@ -13,7 +13,7 @@
         <div class="card-header-tab card-header">
             <h3 class="card-title">Daftar Bidang Keahlian</h3>
             <div class="btn-actions-pane-right text-capitalize">
-                <button onclick="modalAction('{{ url('/bidangKeahlian/create') }}')" class="btn btn-sm btn-success mt-1">
+                <button onclick="modalAction('{{ url('/KategoriBidangKeahlian/create') }}')" class="btn btn-sm btn-success mt-1">
                     <i class="fa fa-plus"></i> Tambah Bidang Keahlian
                 </button>
             </div>
@@ -21,13 +21,12 @@
 
         <div class="card-body">
             <div class="table-responsive">
-                <table class="table table-bordered table-sm table-striped table-hover" id="table-bidangKeahlian">
+                <table class="table table-bordered table-sm table-striped table-hover" id="table-KategoriBidangKeahlian">
                     <thead>
                         <tr>
                             <th>No</th>
                             <th>Kode</th>
                             <th>Nama</th>
-                            <th>Kategori</th>
                             <th>Aksi</th>
                         </tr>
                     </thead>
@@ -39,23 +38,23 @@
     <x-slot:js>
         <script>
             function modalAction(url) {
-                $("#modal-bidangKeahlian .modal-content").html("");
+                $("#modal-KategoriBidangKeahlian .modal-content").html("");
                 $.get(url, function(response) {
-                    $("#modal-bidangKeahlian .modal-content").html(response);
-                    $("#modal-bidangKeahlian").modal("show");
+                    $("#modal-KategoriBidangKeahlian .modal-content").html(response);
+                    $("#modal-KategoriBidangKeahlian").modal("show");
                 });
             }
 
-            $('#modal-bidangKeahlian').on('hidden.bs.modal', function() {
-                $("#modal-bidangKeahlian .modal-content").html("");
+            $('#modal-KategoriBidangKeahlian').on('hidden.bs.modal', function() {
+                $("#modal-KategoriBidangKeahlian .modal-content").html("");
             });
 
-            var dataBidangKeahlian;
+            var dataKategoriBidangKeahlian;
             $(document).ready(function() {
-                dataBidangKeahlian = $('#table-bidangKeahlian').DataTable({
+                dataKategoriBidangKeahlian = $('#table-KategoriBidangKeahlian').DataTable({
                     serverSide: true,
                     ajax: {
-                        url: "{{ url('bidangKeahlian/list') }}",
+                        url: "{{ url('KategoriBidangKeahlian/list') }}",
                         dataType: "json",
                         type: "POST",
                         data: function(d) {
@@ -64,15 +63,14 @@
                     },
                     columns: [
                         { data: 'DT_RowIndex', className: "text-center", orderable: false, searchable: false },
-                        { data: 'bidang_keahlian_kode', orderable: true, searchable: true },
-                        { data: 'bidang_keahlian_nama', orderable: true, searchable: true },
-                        { data: 'kategori', orderable: true, searchable: true },
+                        { data: 'kategori_bidang_keahlian_kode', orderable: true, searchable: true },
+                        { data: 'kategori_bidang_keahlian_nama', orderable: true, searchable: true },
                         { data: "aksi", className: "", orderable: false, searchable: false }
                     ]
                 });
 
-                $('#bidangKeahlian_id').on('change', function () {
-                    dataBidangKeahlian.ajax.reload();
+                $('#KategoriBidangKeahlian_id').on('change', function () {
+                    dataKategoriBidangKeahlian.ajax.reload();
                 });
             });
         </script>

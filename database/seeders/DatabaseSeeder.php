@@ -34,7 +34,8 @@ class DatabaseSeeder extends Seeder
             MinatMahasiswaSeeder::class,
             KeahlianMahasiswaSeeder::class,
             LombaSeeder::class,
-            PrestasiSeeder::class
+            PrestasiSeeder::class,
+            OrganisasiSeeder::class,
         ]);
     }
 }
