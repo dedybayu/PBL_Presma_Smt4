@@ -118,7 +118,7 @@
                     processData: false,
                     contentType: false,
                     success: function (response) {
-                        if (response.status) {
+                        if (response.status) { 
                             $('#modal-lomba').modal('hide');
                             Swal.fire({
                                 icon: 'success',
