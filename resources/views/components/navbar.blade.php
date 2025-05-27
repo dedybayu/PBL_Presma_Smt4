@@ -313,7 +313,7 @@
                                                             </div>
                                                         </div>
                                                         <div class="widget-content-right mr-2">
-                                                            <button onclick="modalAction('{{ url('/logout') }}')"
+                                                            <button onclick="modalLogoutAction('{{ url('/logout') }}')"
                                                                 class="btn-pill btn-shadow btn-shine btn btn-focus">Logout
                                                             </button>
                                                         </div>
