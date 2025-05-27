@@ -62,8 +62,8 @@
                                                 </small>
                                             </p>
                                             <div class="d-flex">
-                                                <button class="btn btn-sm btn-warning mr-1"><i class="fa fa-edit"></i>
-                                                    Edit</button>
+                                                <a href="{{ route('mahasiswa.prestasi.edit', $pres->prestasi_id) }}" class="btn btn-sm btn-warning mr-1"><i class="fa fa-edit"></i>
+                                                    Edit</a>
                                                 <button class="btn btn-sm btn-danger ml-1"><i class="fa fa-trash"></i>
                                                     Hapus</button>
                                             </div>

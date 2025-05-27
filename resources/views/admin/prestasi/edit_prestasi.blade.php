@@ -222,8 +222,8 @@
 
                             @if (!$prestasi->file_proposal)
                                 <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-                                        display: flex; align-items: center; justify-content: center;
-                                        background-color: rgba(255, 255, 255, 0.85);">
+                                                    display: flex; align-items: center; justify-content: center;
+                                                    background-color: rgba(255, 255, 255, 0.85);">
                                     <p id="no-proposal" style="color: #666; font-size: 18px;">Tidak ada proposal</p>
                                 </div>
                             @endif
@@ -249,8 +249,6 @@
 
 
         </div>
-    </div>
-
     </div>
 
     <div class="modal-footer">

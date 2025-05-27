@@ -176,6 +176,8 @@ Route::middleware('auth')->group(function () {
         Route::prefix('prestasiku')->name('mahasiswa.prestasi.')->group(function () {
             Route::get('/', [MahasiswaPrestasiController::class, 'index'])->name('index');
             Route::get('/{prestasi}', [MahasiswaPrestasiController::class, 'show'])->name('show');
+            Route::get('/{prestasi}/edit', [MahasiswaPrestasiController::class, 'edit'])->name('edit');
+            Route::put('/{prestasi}', [MahasiswaPrestasiController::class, 'update'])->name('update');
         });
     });
 
