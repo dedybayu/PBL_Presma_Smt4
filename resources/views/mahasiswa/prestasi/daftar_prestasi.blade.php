@@ -62,9 +62,12 @@
                                                 </small>
                                             </p>
                                             <div class="d-flex">
-                                                <a href="{{ route('mahasiswa.prestasi.edit', $pres->prestasi_id) }}" class="btn btn-sm btn-warning mr-1"><i class="fa fa-edit"></i>
+                                                <a href="{{ route('mahasiswa.prestasi.edit', $pres->prestasi_id) }}"
+                                                    class="btn btn-sm btn-warning mr-1"><i class="fa fa-edit"></i>
                                                     Edit</a>
-                                                <button class="btn btn-sm btn-danger ml-1"><i class="fa fa-trash"></i>
+                                                <button
+                                                    onclick="modalDelete('{{ route('mahasiswa.prestasi.confirm', $pres->prestasi_id) }}')"
+                                                    class="btn btn-sm btn-danger ml-1"><i class="fa fa-trash"></i>
                                                     Hapus</button>
                                             </div>
                                         </div>
@@ -91,12 +94,83 @@
                 @endforeach
             </div>
         </div>
+
+        <div class="d-flex justify-content-end mt-4 mr-4">
+            {{ $prestasi->links() }}
+        </div>
+
     </div>
 
-    <x-slot:modal></x-slot:modal>
+    <x-slot:modal>
+        <div id="modal-delete" class="modal fade animate shake" tabindex="-1" role="dialog" data-backdrop="static"
+            data-keyboard="false" aria-hidden="true">
+            <div class="modal-dialog modal-xs" role="document">
+                <div class="modal-content"></div>
+            </div>
+        </div>
+    </x-slot:modal>
     <x-slot:js>
         <script>
+            function modalDelete(url) {
+                // Kosongkan modal sebelum memuat konten baru
+                $("#modal-delete .modal-content").html("");
 
+                // Panggil modal melalui AJAX
+                $.get(url, function (response) {
+                    $("#modal-delete .modal-content").html(response);
+                    $("#modal-delete").modal("show");
+                });
+            }
+
+            // Bersihkan isi modal setelah ditutup
+            $('#modal-delete').on('hidden.bs.modal', function () {
+                $("#modal-delete .modal-content").html("");
+            });
+
+            var dataPrestasi
+            $(document).ready(function () {
+                $('#tingkat_lomba_id').select2({
+                    theme: 'bootstrap-5',
+                    placeholder: "- Semua -",
+                    allowClear: true,
+                    width: '100%' // Gunakan width penuh
+                });
+
+
+
+                dataPrestasi = $('#table-prestasi').DataTable({
+                    serverSide: true,
+                    // responsive: true, // <-- ini penting
+
+                    ajax: {
+                        url: "{{ url('prestasi/list') }}",
+                        dataType: "json",
+                        type: "POST",
+                        data: function (d) {
+                            d.tingkat_lomba_id = $('#tingkat_lomba_id').val();
+                            // d.kelas_id = $('#kelas_id').val();
+                        }
+                    },
+                    columns: [
+                        { data: "DT_RowIndex", className: "text-center", orderable: false, searchable: false },
+                        { data: "nim", className: "", orderable: true, searchable: true },
+                        { data: "mahasiswa", className: "", orderable: true, searchable: true },
+                        { data: "prestasi_nama", className: "", orderable: true, searchable: true },
+                        { data: "lomba", className: "", orderable: false, searchable: true },
+                        { data: "juara", className: "", orderable: false, searchable: true },
+                        { data: "tingkat", className: "", orderable: false, searchable: true },
+                        { data: "poin", className: "", orderable: false, searchable: true },
+                        { data: "status_verifikasi", className: "", orderable: false, searchable: true },
+                        { data: "aksi", className: "", orderable: false, searchable: false }
+                    ]
+                });
+
+
+                $('#tingkat_lomba_id').on('change', function () {
+                    dataPrestasi.ajax.reload();
+                });
+
+            });
         </script>
     </x-slot:js>
 </x-layout>

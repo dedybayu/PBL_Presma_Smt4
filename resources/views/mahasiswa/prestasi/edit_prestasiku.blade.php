@@ -18,7 +18,7 @@
     </x-slot:css>
 
     <x-slot:title>
-        Prestasi: {{$prestasi->prestasi_nama}}
+        Edit Prestasi: {{$prestasi->prestasi_nama}}
     </x-slot:title>
 
     <div class="mb-3 card">
@@ -56,22 +56,6 @@
                             <small id="error-lomba_id" class="text-danger"></small>
                         </div>
                     </div>
-
-                    {{-- <div class="col-md-6">
-                        <div class="form-group">
-                            <label>Mahasiswa</label>
-                            <select name="mahasiswa_id" id="prestasi_mahasiswa" class="form-control">
-                                <option value="">-- Pilih Mahasiswa --</option>
-                                @foreach($mahasiswa as $m)
-                                <option value="{{ $m->mahasiswa_id }}" {{ $prestasi->mahasiswa_id == $m->mahasiswa_id ?
-                                    'selected' : '' }}>
-                                    ({{ $m->nim }}) {{ $m->nama }}
-                                </option>
-                                @endforeach
-                            </select>
-                            <small id="error-mahasiswa_id" class="text-danger"></small>
-                        </div>
-                    </div> --}}
 
                     <div class="col-md-6">
                         <div class="form-group">

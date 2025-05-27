@@ -13,6 +13,9 @@ class AuthController extends Controller
 {
     public function showLogin()
     {
+        if (Auth::check()) {
+            return redirect()->route('dashboard'); // ganti 'dashboard' dengan nama route Anda
+        }
         return view('login');
     }
 
@@ -56,7 +59,8 @@ class AuthController extends Controller
         ;
     }
 
-    public function confirmLogout(){ 
+    public function confirmLogout()
+    {
         // return 'hallo';
         return view('logout');
     }

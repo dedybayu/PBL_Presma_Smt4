@@ -17,6 +17,16 @@
         Prestasi: {{$prestasi->prestasi_nama}}
     </x-slot:title>
 
+    @php
+        if ($prestasi->status_verifikasi == '1') {
+            $bgColor = 'rgba(0, 255, 85, 0.144)'; // Hijau
+        } elseif ($prestasi->status_verifikasi == '0') {
+            $bgColor = 'rgba(255, 0, 0, 0.144)'; // Merah
+        } else {
+            $bgColor = 'rgba(255, 251, 0, 0.144)'; // Kuning
+        }
+    @endphp
+
     <div class="mb-3 card">
         <div class="card-header-tab card-header">
             <h3 class="card-title"><i class="fa fa-trophy"> {{$prestasi->prestasi_nama}}</i>
@@ -91,7 +101,7 @@
                             <div
                                 style="position: relative; width: 100%; max-width: 600px; aspect-ratio: 16 / 9; overflow: hidden; background: #eee;">
                                 <img id="preview-sertifikat" src="{{ asset('storage/' . $prestasi->file_bukti_foto) }}"
-                                    alt="Sertifikat" class="img-click-preview"
+                                    alt="Bukti Foto" class="img-click-preview"
                                     style="width: 100%; height: 100%; object-fit: contain; display: block;">
                             </div>
                         </div>
@@ -104,7 +114,7 @@
                             <div
                                 style="position: relative; width: 100%; max-width: 600px; aspect-ratio: 16 / 9; overflow: hidden; background: #eee;">
                                 <img id="preview-sertifikat" src="{{ asset('storage/' . $prestasi->file_surat_tugas) }}"
-                                    alt="Sertifikat" class="img-click-preview"
+                                    alt="Surat Tugas" class="img-click-preview"
                                     style="width: 100%; height: 100%; object-fit: contain; display: block;">
                             </div>
                         </div>
@@ -117,7 +127,7 @@
                             <div
                                 style="position: relative; width: 100%; max-width: 600px; aspect-ratio: 16 / 9; overflow: hidden; background: #eee;">
                                 <img id="preview-sertifikat" class="img-click-preview"
-                                    src="{{ asset('storage/' . $prestasi->file_surat_undangan) }}" alt="Sertifikat"
+                                    src="{{ asset('storage/' . $prestasi->file_surat_undangan) }}" alt="Surat Undangan"
                                     style="width: 100%; height: 100%; object-fit: contain; display: block;">
                             </div>
                         </div>
@@ -134,9 +144,7 @@
 
                                 @if (!$prestasi->file_proposal)
                                     <div
-                                        style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-                                                                                        display: flex; align-items: center; justify-content: center;
-                                                                                        background-color: rgba(255, 255, 255, 0.85);">
+                                        style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; background-color: rgba(255, 255, 255, 0.85);">
                                         <p id="no-proposal" style="color: #666; font-size: 18px;">Tidak ada proposal</p>
                                     </div>
                                 @endif
@@ -144,42 +152,59 @@
                         </div>
                     </div>
                 </div>
-            </div>
-        </div>
-    </div>
 
+                <div class="col-md-12 mb-2">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">Pesan Dari Admin</h5>
+                            <div class="card" style="background-color: {{ $bgColor }}">
+                                <div class="card-body">
+                                    <p class="card-text mb-0"
+                                        style="{{ empty(trim($prestasi->message)) ? 'font-style: italic; color: #6c757d;' : '' }}">
+                                        {{ empty(trim($prestasi->message)) ? 'Tidak ada pesan' : $prestasi->message }}
+                                    </p>
 
-    <x-slot:modal>
-        <div class="modal fade" id="modalPreview" tabindex="-1" aria-labelledby="modalPreviewLabel" aria-hidden="true">
-            <div class="modal-dialog modal-xl ">
-                <div class="modal-content bg-white p-3 rounded-3">
-                    <div class="modal-body text-center p-0">
-                        <img id="modalPreviewImg" src="" alt="Preview"
-                            style="max-width: 100%; max-height: 90vh; object-fit: contain;">
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-    </x-slot:modal>
+
+
+        <x-slot:modal>
+            <div class="modal fade" id="modalPreview" tabindex="-1" aria-labelledby="modalPreviewLabel"
+                aria-hidden="true">
+                <div class="modal-dialog modal-xl ">
+                    <div class="modal-content bg-white p-3 rounded-3">
+                        <div class="modal-body text-center p-0">
+                            <img id="modalPreviewImg" src="" alt="Preview"
+                                style="max-width: 100%; max-height: 90vh; object-fit: contain;">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </x-slot:modal>
 
 
 
-    <x-slot:js>
-        <script>
-            document.addEventListener('DOMContentLoaded', function () {
-                const previewImgs = document.querySelectorAll('.img-click-preview');
-                const modalImg = document.getElementById('modalPreviewImg');
-                const modal = new bootstrap.Modal(document.getElementById('modalPreview'));
+        <x-slot:js>
+            <script>
+                document.addEventListener('DOMContentLoaded', function () {
+                    const previewImgs = document.querySelectorAll('.img-click-preview');
+                    const modalImg = document.getElementById('modalPreviewImg');
+                    const modal = new bootstrap.Modal(document.getElementById('modalPreview'));
 
-                previewImgs.forEach(img => {
-                    img.addEventListener('click', function () {
-                        modalImg.src = this.src;
-                        modal.show();
+                    previewImgs.forEach(img => {
+                        img.addEventListener('click', function () {
+                            modalImg.src = this.src;
+                            modal.show();
+                        });
                     });
                 });
-            });
-        </script>
-    </x-slot:js>
+            </script>
+        </x-slot:js>
 
 
 </x-layout>

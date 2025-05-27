@@ -178,6 +178,8 @@ Route::middleware('auth')->group(function () {
             Route::get('/{prestasi}', [MahasiswaPrestasiController::class, 'show'])->name('show');
             Route::get('/{prestasi}/edit', [MahasiswaPrestasiController::class, 'edit'])->name('edit');
             Route::put('/{prestasi}', [MahasiswaPrestasiController::class, 'update'])->name('update');
+            Route::get('/{prestasi}/confirm', [MahasiswaPrestasiController::class, 'confirm'])->name('confirm');
+            Route::delete('/{prestasi}', [MahasiswaPrestasiController::class, 'destroy'])->name('destroy');
         });
     });
 
