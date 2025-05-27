@@ -66,4 +66,5 @@ class MahasiswaModel extends Model
     {
         return $this->hasMany(MahasiswaOrganisasiModel::class, 'mahasiswa_id', 'mahasiswa_id');
     }
+
 }

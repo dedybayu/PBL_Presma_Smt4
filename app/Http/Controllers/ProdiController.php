@@ -24,30 +24,25 @@ class ProdiController extends Controller
     public function list(Request $request)
     {
         if ($request->ajax()) {
-            $prodi = ProdiModel::select("prodi_id", "prodi_nama", "prodi_kode");
 
-            if ($request->prodi_id) {
-                $prodi->where('prodi_id', $request->prodi_id);
-            }
+            $prodi = ProdiModel::select('prodi_id', 'prodi_kode', 'prodi_nama');
+            return DataTables::of($prodi)
+                ->addIndexColumn()
+                ->addColumn('info', function ($row) {
+                    return $row->prodi_nama;
+                })
+                ->addColumn('kode', function ($row) {
+                    return $row->prodi_kode;
+                })
+                ->addColumn('aksi', function ($row) {
+                    return '
+                        <a href="' . route('prodi.edit', $row->prodi_id) . '" class="btn btn-warning btn-sm">Edit</a>
+                        <button data-url="' . route('prodi.destroy', $row->prodi_id) . '" class="btn btn-danger btn-sm btn-delete">Hapus</button>
+                    ';
+                })
+                ->rawColumns(['info', 'aksi'])
+                ->make(true);
         }
-        $prodi = $prodi->get();
-        return DataTables::of($prodi)
-            ->addIndexColumn()
-            ->addColumn('info', function ($row) {
-                return $row->prodi_nama;
-            })
-            ->addColumn('kode', function ($row) {
-                return $row->prodi_kode;
-            })
-            ->addColumn('aksi', function ($row) {
-                $btn = '<button onclick="modalAction(\'' . url('/prodi/' . $row->prodi_id . '/show') . '\')" class="btn btn-info btn-sm"><i class="fa fa-eye"></i> Detail</button> ';
-                $btn .= '<button onclick="modalAction(\'' . url('/prodi/' . $row->prodi_id . '/edit') . '\')" class="btn btn-sm btn-warning" title="Edit"><i class="fa fa-pen"></i> Edit</button> ';
-                $btn .= '<button onclick="modalAction(\'' . url('/prodi/' . $row->prodi_id . '/delete') . '\')" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i> Hapus</button> ';
-                // return '<div class="">' . $btn . '</div>';
-                return $btn;
-            })
-            ->rawColumns(['info', 'aksi']) // agar tombol HTML tidak di-escape
-            ->make(true);
     }
 
     public function create()
