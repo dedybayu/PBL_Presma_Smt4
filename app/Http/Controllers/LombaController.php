@@ -43,29 +43,29 @@ class LombaController extends Controller
                     $image = $row->foto_pamflet ? asset('storage/' . $row->foto_pamflet) : asset('assets/images/user.png');
                     return '
                     <div class="d-flex flex-column">
-    <div class="fw-bold text-truncate mb-1" style="max-width: 100%;">'
-        .$row->lomba_nama.
-    '</div>
+                        <div class="fw-bold text-truncate mb-1" style="max-width: 100%;">'
+                            .$row->lomba_nama.
+                        '</div>
 
-    <div class="text-muted text-truncate mb-1" style="max-width: 100%;">
-        <small>
-            <i class="fa fa-envelope me-1"> </i>' .$row->tingkat->tingkat_lomba_nama.
-        '</small>
-    </div>
+                        <div class="text-muted text-truncate mb-1" style="max-width: 100%;">
+                            <small>
+                                <i class="fa fa-envelope me-1"> </i>' .$row->tingkat->tingkat_lomba_nama.
+                            '</small>
+                        </div>
 
-    <div class="text-muted text-truncate mb-1" style="max-width: 100%;">
-        <small>
-            <i class="fa fa-info me-1"> </i> '.$row->bidang->bidang_keahlian_nama.'
-        </small>
-    </div>
+                        <div class="text-muted text-truncate mb-1" style="max-width: 100%;">
+                            <small>
+                                <i class="fa fa-info me-1"> </i> '.$row->bidang->bidang_keahlian_nama.'
+                            </small>
+                        </div>
 
-    <div class="text-muted text-truncate mb-1" style="max-width: 100%;">
-        <small>
-            <i class="fa fa-building me-1"> </i>
-            '.$row->penyelenggara->penyelenggara_nama.'
-        </small>
-    </div>
-</div>
+                        <div class="text-muted text-truncate mb-1" style="max-width: 100%;">
+                            <small>
+                                <i class="fa fa-building me-1"> </i>
+                                '.$row->penyelenggara->penyelenggara_nama.'
+                            </small>
+                        </div>
+                    </div>
                     ';
                 })
                 ->addColumn('deskripsi', function ($row) {

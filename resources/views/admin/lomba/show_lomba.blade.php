@@ -31,6 +31,23 @@
         </button>
     </div>
     <div class="modal-body" style="max-height: 70vh; overflow-y: auto;"> 
+        <div class="row">
+            <div class="col-md-12 mt-2">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Foto Pamflet</h5>
+                        <div
+                            style="position: relative; width: 100%; max-width: 100%; aspect-ratio: 16 / 9; overflow: hidden; background: #eee;">
+                            <a href="{{ asset('storage/' . $lomba->foto_pamflet) }}" target="_blank">
+                                <img id="preview-pamflet" src="{{ asset('storage/' . $lomba->foto_pamflet) }}"
+                                    alt="Pamflet"
+                                    style="width: 100%; height: 100%; object-fit: contain; display: block;">
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
         <table class="table table-sm table-bordered table-striped">
             <tr>
                 <th class="text-right col-3">Kode lomba :</th>
@@ -61,23 +78,6 @@
                 <td class="col-9">{{ $lomba->tanggal_selesai }}</td>
             </tr>
         </table>
-        <div class="row">
-            <div class="col-md-6 mt-2">
-                <div class="card">
-                    <div class="card-body">
-                        <h5 class="card-title">Foto Sertifikat</h5>
-                        <div
-                            style="position: relative; width: 100%; max-width: 600px; aspect-ratio: 16 / 9; overflow: hidden; background: #eee;">
-                            <a href="{{ asset('storage/' . $lomba->foto_pamflet) }}" target="_blank">
-                                <img id="preview-pamflet" src="{{ asset('storage/' . $lomba->foto_pamflet) }}"
-                                    alt="Pamflet"
-                                    style="width: 100%; height: 100%; object-fit: contain; display: block;">
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
     </div> {{-- End of modal-body --}}
 
     {{-- The modal-footer should be directly inside modal-content, after modal-body --}}

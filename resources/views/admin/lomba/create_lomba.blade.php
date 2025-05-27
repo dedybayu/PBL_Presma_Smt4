@@ -1,4 +1,4 @@
-<form action="{{ url('/lomba') }}" method="POST" id="form-tambah-lomba">
+<form action="{{ url('/lomba') }}" method="POST" id="form-tambah-lomba" enctype="multipart/form-data">
     @csrf
     <div class="modal-header" style="max-height: 70vh; overflow-y: auto;">
         <h5 class="modal-title">Tambah Data lomba</h5>
@@ -110,27 +110,30 @@
                 status_verifikasi: { required: true },
             },
             submitHandler: function (form) {
+                var formData = new FormData(form);
                 $.ajax({
                     url: form.action,
                     type: form.method,
-                    data: $(form).serialize(),
+                    data: formData,
+                    processData: false,
+                    contentType: false,
                     success: function (response) {
                         if (response.status) {
                             $('#modal-lomba').modal('hide');
                             Swal.fire({
                                 icon: 'success',
                                 title: 'Berhasil',
-                                text: response.message,
+                                text: response.message
                             });
                             dataLomba.ajax.reload();
                         } else {
-                            $('.text-danger').text('');
-                            $.each(response.msgField, function (key, val) {
-                                $('#error-' + key).text(val[0]);
+                            $('.error-text').text('');
+                            $.each(response.msgField, function (prefix, val) {
+                                $('#error-' + prefix).text(val[0]);
                             });
                             Swal.fire({
                                 icon: 'error',
-                                title: 'Gagal',
+                                title: 'Terjadi Kesalahan',
                                 text: response.message
                             });
                         }

@@ -1,4 +1,4 @@
-<form action="{{ url('/lomba/' . $lomba->lomba_id) }}" method="POST" id="form-edit-lomba">
+<form action="{{ url('/lomba/' . $lomba->lomba_id) }}" method="POST" id="form-edit-lomba" enctype="multipart/form-data">
     @csrf
     @method('PUT')
 
@@ -12,14 +12,14 @@
     <div class="modal-body" style="max-height: 70vh; overflow-y: auto;">
         <div class="form-group">
             <label>Kode Lomba</label>
-            <input type="text" name="lomba_kode" id="lomba_kode" class="form-control"
-                value="{{ $lomba->lomba_kode }}" required>
+            <input type="text" name="lomba_kode" id="lomba_kode" class="form-control" value="{{ $lomba->lomba_kode }}"
+                required>
             <small id="error-lomba_kode" class="error-text form-text text-danger"></small>
         </div>
         <div class="form-group">
             <label>Nama Lomba</label>
-            <input type="text" name="lomba_nama" id="lomba_nama" class="form-control"
-                value="{{ $lomba->lomba_nama }}" required>
+            <input type="text" name="lomba_nama" id="lomba_nama" class="form-control" value="{{ $lomba->lomba_nama }}"
+                required>
             <small id="error-lomba_nama" class="error-text form-text text-danger"></small>
         </div>
         <div class="form-group">
@@ -33,8 +33,7 @@
             <select name="tingkat_lomba_id" id="tingkat_lomba_id" class="form-control" required>
                 <option value="">-- Pilih tingkat --</option>
                 @foreach ($tingkat as $k)
-                    <option value="{{ $k->tingkat_lomba_id }}"
-                        {{ $lomba->tingkat_lomba_id == $k->tingkat_lomba_id ? 'selected' : '' }}>
+                    <option value="{{ $k->tingkat_lomba_id }}" {{ $lomba->tingkat_lomba_id == $k->tingkat_lomba_id ? 'selected' : '' }}>
                         {{ $k->tingkat_lomba_nama }}
                     </option>
                 @endforeach
@@ -46,8 +45,7 @@
             <select class="form-select" id="bidang_keahlian_id_edit" name="bidang_keahlian_id" style="width: 100%">
                 <option value="" disabled>- Pilih bidang -</option>
                 @foreach ($bidang as $item)
-                    <option value="{{ $item->bidang_keahlian_id }}"
-                        {{ old('bidang_kelas_id', $lomba->bidang_keahlian_id) == $item->bidang_keahlian_id ? 'selected' : '' }}>
+                    <option value="{{ $item->bidang_keahlian_id }}" {{ old('bidang_kelas_id', $lomba->bidang_keahlian_id) == $item->bidang_keahlian_id ? 'selected' : '' }}>
                         {{ $item->bidang_keahlian_nama }}
                     </option>
                 @endforeach
@@ -58,8 +56,7 @@
             <select class="form-select" id="penyelenggara_id" name="penyelenggara_id" style="width: 100%">
                 <option value="" disabled>- Pilih penyelenggara -</option>
                 @foreach ($penyelenggara as $item)
-                    <option value="{{ $item->penyelenggara_id }}"
-                        {{ old('penyelenggara_id', $lomba->penyelenggara_id) == $item->penyelenggara_id ? 'selected' : '' }}>
+                    <option value="{{ $item->penyelenggara_id }}" {{ old('penyelenggara_id', $lomba->penyelenggara_id) == $item->penyelenggara_id ? 'selected' : '' }}>
                         {{ $item->penyelenggara_nama }}
                     </option>
                 @endforeach
@@ -105,8 +102,8 @@
             dropdownParent: $('#modal-lomba') // ⬅️ INI PENTING!
         });
     }
-    $(document).ready(function() {
-        $('#modal-lomba').on('shown.bs.modal', function() {
+    $(document).ready(function () {
+        $('#modal-lomba').on('shown.bs.modal', function () {
             initSelect2();
         });
 
@@ -141,12 +138,15 @@
                     required: true
                 },
             },
-            submitHandler: function(form) {
+            submitHandler: function (form) {
+                var formData = new FormData(form);
                 $.ajax({
                     url: form.action,
                     type: form.method,
-                    data: $(form).serialize(),
-                    success: function(response) {
+                    data: formData,
+                    processData: false,
+                    contentType: false,
+                    success: function (response) {
                         if (response.status) {
                             $('#modal-lomba').modal('hide');
                             Swal.fire({
@@ -157,7 +157,7 @@
                             dataLomba.ajax.reload();
                         } else {
                             $('.error-text').text('');
-                            $.each(response.msgField, function(prefix, val) {
+                            $.each(response.msgField, function (prefix, val) {
                                 $('#error-' + prefix).text(val[0]);
                             });
                             Swal.fire({
@@ -171,14 +171,14 @@
                 return false;
             },
             errorElement: 'span',
-            errorPlacement: function(error, element) {
+            errorPlacement: function (error, element) {
                 error.addClass('invalid-feedback');
                 element.closest('.form-group').append(error);
             },
-            highlight: function(element) {
+            highlight: function (element) {
                 $(element).addClass('is-invalid');
             },
-            unhighlight: function(element) {
+            unhighlight: function (element) {
                 $(element).removeClass('is-invalid');
             }
         });
