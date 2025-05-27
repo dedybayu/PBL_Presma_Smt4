@@ -165,7 +165,7 @@
                         <div class="card-body">
                             <h5 class="card-title">Verifikasi Prestasi</h5>
                             <div class="row">
-                                <div class="col-md-4 mt-2" style="background-color: blue">
+                                <div class="col-md-4 mt-2">
                                     <div class="form-group">
                                         <label>Status Verifikasi</label>
                                         <select name="status_verifikasi" id="prestasi_status_verifikasi" class="form-control">
@@ -185,7 +185,7 @@
                                             class="error-text form-text text-danger"></small>
                                     </div>
                                 </div>
-                                <div class="col-md-8 mt-2" style="background-color: red">
+                                <div class="col-md-8 mt-2">
                                     <div class="form-group">
                                         <label for="message">Pesan Untuk Mahasiswa</label>
                                         <textarea name="message" id="message" rows="4" class="form-control"
