@@ -58,6 +58,10 @@
                 <td class="col-9">{{ $lomba->lomba_nama }}</td>
             </tr>
             <tr>
+                <th class="text-right col-3">deskripsi lomba :</th>
+                <td class="col-9">{{ $lomba->lomba_deskripsi }}</td>
+            </tr>
+            <tr>
                 <th class="text-right col-3">tingkat lomba :</th>
                 <td class="col-9">{{ $lomba->tingkat->tingkat_lomba_nama }}</td>
             </tr>
