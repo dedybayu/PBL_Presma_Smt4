@@ -9,7 +9,8 @@
 
     </x-slot:css>
     <x-slot:title>
-        Daftar prestasi
+        Daftar Prestasi
+        <div class="page-title-subheading">Semua prestasi terbaikmu tampil disini</div>
     </x-slot:title>
 
     <div class="mb-3 card">
@@ -42,7 +43,7 @@
                             <div class="row g-0">
                                 <div class="col-md-5">
                                     <div
-                                        style="position: relative; width: 100%; height: 100%; aspect-ratio: 1 / 1; border-radius: 16px 0 0 16px; overflow: hidden;">
+                                        style="position: relative; width: 100%; height: 100%; aspect-ratio: 1 / 1; border-radius: 16px 16px 16px 16px; overflow: hidden;">
                                         <a href="{{ route('mahasiswa.prestasi.show', $pres->prestasi_id) }}">
                                             <img src="{{ asset('storage/' . $pres->file_bukti_foto) }}" alt="Foto Prestasi"
                                                 style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; object-position: center;">
@@ -52,17 +53,9 @@
                                 </div>
 
                                 <div class="col-md-7">
-                                    <div class="card-body">
-                                        <h5 class="card-title">
-                                            {{ \Illuminate\Support\Str::words($pres->prestasi_nama, 5, '...') }}
-                                        </h5>
-                                        <p class="card-text">Lomba: {{$pres->lomba->lomba_nama}}</p>
-                                        <p class="card-text">Tingkat: {{$pres->lomba->tingkat->tingkat_lomba_nama}}</p>
-                                        <p class="card-text">Penyelenggara:
-                                            {{$pres->lomba->penyelenggara->penyelenggara_nama}}
-                                        </p>
-
-                                        <div class="d-flex justify-content-between align-items-center">
+                                    <div class="card-body d-flex flex-column">
+                                        <div
+                                            class="d-flex justify-content-between align-items-center mt-auto mb-3 pb-2 border-bottom">
                                             <p class="card-text mb-0">
                                                 <small class="text-body-secondary">
                                                     {{ \Carbon\Carbon::parse($pres->created_at)->locale('id')->diffForHumans() }}
@@ -75,6 +68,20 @@
                                                     Hapus</button>
                                             </div>
                                         </div>
+
+                                        <a href="{{ route('mahasiswa.prestasi.show', $pres->prestasi_id) }}">
+                                            <h5 class="card-title">
+                                                {{ \Illuminate\Support\Str::words($pres->prestasi_nama, 5, '...') }}
+                                            </h5>
+                                        </a>
+
+                                        <p class="card-text">Lomba: {{$pres->lomba->lomba_nama}}</p>
+                                        <p class="card-text">Tingkat: {{$pres->lomba->tingkat->tingkat_lomba_nama}}</p>
+                                        <p class="card-text">Penyelenggara:
+                                            {{$pres->lomba->penyelenggara->penyelenggara_nama}}
+                                        </p>
+
+
 
                                     </div>
                                 </div>

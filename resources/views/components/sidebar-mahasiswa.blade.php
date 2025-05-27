@@ -42,7 +42,7 @@
                 </li>
                 <li class="">
                     <a href="{{ route('mahasiswa.prestasi.index') }}"
-                                class="{{ request()->routeIs('mahasiswa.prestasi.index') ? 'mm-active' : '' }}">
+                                class="{{ request()->routeIs('mahasiswa.prestasi.*' ) ? 'mm-active' : '' }}">
                         <i class="metismenu-icon pe-7s-rocket"></i> Prestasi Gua
                     </a>
                 </li>

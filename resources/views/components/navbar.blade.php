@@ -1,4 +1,30 @@
 <!--Header START-->
+@php
+    $nama = ''; // Default
+    $keterangan = ''; // Default
+    $foto_profile = ''; // Default foto profile
+
+    if (Auth::check()) {
+        $role = Auth::user()->getRole();
+
+        if ($role === 'MHS') {
+            $nama = Auth::user()->mahasiswa->nama;
+            $keterangan = Auth::user()->mahasiswa->nim;
+            $foto_profile = Auth::user()->mahasiswa->foto_profile;
+        } elseif ($role === 'ADM') {
+            $nama = Auth::user()->admin->nama;
+            $keterangan = Auth::user()->level->level_nama;
+            $foto_profile = Auth::user()->admin->foto_profile;
+        } elseif ($role === 'DOS') {
+            $nama = Auth::user()->dosen->nama;
+            $keterangan = Auth::user()->dosen->nidn;
+            $foto_profile = Auth::user()->dosen->foto_profile;
+        }
+    }
+@endphp
+
+
+
 <div class="app-header header-shadow" style="background-color: rgb(147, 200, 243);">
     <div class="app-header__logo">
         <div class="logo-src"></div>
@@ -36,7 +62,7 @@
             <div class="search-wrapper">
                 <div class="input-holder">
                     <input type="text" class="search-input" placeholder="Ketik untuk mencari">
-                    <button class="search-icon" onclick="cariTeksDiHalaman()" ><span></span></button>
+                    <button class="search-icon" onclick="cariTeksDiHalaman()"><span></span></button>
                 </div>
                 <button class="close" onclick="resetHighlight()"></button>
             </div>
@@ -289,7 +315,7 @@
                         <div class="widget-content-left">
                             <div class="btn-group">
                                 <a data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="p-0 btn">
-                                    <img width="42" class="rounded-circle" src="../assets/images/misel.png" alt="">
+                                    <img width="42" height="42" class="rounded-circle" src="{{{asset('storage/' . $foto_profile)}}}" alt="" style="object-fit: cover;">
                                     <i class="fa fa-angle-down ml-2 opacity-8"></i>
                                 </a>
                                 <div tabindex="-1" role="menu" aria-hidden="true"
@@ -303,13 +329,14 @@
                                                 <div class="widget-content p-0">
                                                     <div class="widget-content-wrapper">
                                                         <div class="widget-content-left mr-3">
-                                                            <img width="42" class="rounded-circle"
-                                                                src="../assets/images/misel.png" alt="">
+                                                            <img width="42" height="42" class="rounded-circle"
+                                                                src="{{asset('storage/' . $foto_profile)}}" alt="" style="object-fit: cover;">
                                                         </div>
                                                         <div class="widget-content-left">
-                                                            <div class="widget-heading">Michelle Dorani
+                                                            <div class="widget-heading">
+                                                                {{$nama}}
                                                             </div>
-                                                            <div class="widget-subheading opacity-8">TI-2B
+                                                            <div class="widget-subheading opacity-8">{{$keterangan}}
                                                             </div>
                                                         </div>
                                                         <div class="widget-content-right mr-2">
@@ -345,10 +372,10 @@
                         </div>
                         <div class="widget-content-left  ml-3 header-user-info">
                             <div class="widget-heading">
-                                Michelle Dorani
+                                {{$nama}}
                             </div>
                             <div class="widget-subheading">
-                                Admin
+                                {{$keterangan}}
                             </div>
                         </div>
                     </div>
