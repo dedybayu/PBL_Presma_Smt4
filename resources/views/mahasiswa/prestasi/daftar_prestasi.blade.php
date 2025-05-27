@@ -34,7 +34,7 @@
                         } elseif ($pres->status_verifikasi == '0') {
                             $bgColor = 'rgba(255, 0, 0, 0.144)'; // Merah
                         } else {
-                            $bgColor = 'rgba(255, 251, 0, 0.144)'; // Kuning
+                            $bgColor = 'rgba(255, 255, 0, 0.144)'; // Kuning
                         }
                     @endphp
                     <div class="col-md-6">

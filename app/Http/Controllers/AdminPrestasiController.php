@@ -358,18 +358,33 @@ class AdminPrestasiController extends Controller
         ]);
     }
 
-    public function edit_verifikasi(PrestasiModel $prestasi){
-        return 'hello';    
+    public function edit_verifikasi(PrestasiModel $prestasi)
+    {
+        return view('admin.prestasi.edit_verifikasi_prestasi')->with(['prestasi' => $prestasi]);
     }
 
-    public function update_verifikasi(Request $request, PrestasiModel $prestasi){
-        $prestasi->status_verifikasi = $request->status_verifikasi;
-        $prestasi->save();
+    public function update_verifikasi(Request $request, PrestasiModel $prestasi)
+    {
+        // dd($request);
+        try {
+            $prestasi->status_verifikasi = $request->status_verifikasi;
+            $prestasi->message = $request->message;
 
-        return response()->json([
-            'status' => true,
-            'message' => 'Data berhasil diupdate.'
-        ]);
+
+            $prestasi->save();
+
+            return response()->json([
+                'status' => true,
+                'message' => 'Data berhasil diupdate.'
+            ]);
+        } catch (\Throwable $th) {
+
+            return response()->json([
+                'status' => false,
+                'message' => $th->getMessage()
+            ]);
+        }
+
     }
 
     public function confirmDelete(PrestasiModel $prestasi)

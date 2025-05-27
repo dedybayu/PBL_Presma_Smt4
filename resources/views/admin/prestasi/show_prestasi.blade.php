@@ -17,6 +17,15 @@
         </div>
     </div>
 @else
+    @php
+        if ($prestasi->status_verifikasi == '1') {
+            $bgColor = 'rgba(0, 255, 85, 0.144)'; // Hijau
+        } elseif ($prestasi->status_verifikasi == '0') {
+            $bgColor = 'rgba(255, 0, 0, 0.144)'; // Merah
+        } else {
+            $bgColor = 'rgba(255, 251, 0, 0.144)'; // Kuning
+        }
+    @endphp
     <div class="modal-header">
         <h5 class="modal-title">Data prestasi</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -124,15 +133,15 @@
                         <div
                             style="position: relative; width: 100%; max-width: 600px; aspect-ratio: 16 / 9; overflow: hidden; background: #eee;">
                             <a href="{{ asset('storage/' . $prestasi->file_surat_undangan) }}" target="_blank">
-                                <img id="preview-surat_undangan" src="{{ asset('storage/' . $prestasi->file_surat_undangan) }}"
-                                    alt="surat_undangan"
+                                <img id="preview-surat_undangan"
+                                    src="{{ asset('storage/' . $prestasi->file_surat_undangan) }}" alt="surat_undangan"
                                     style="width: 100%; height: 100%; object-fit: contain; display: block;">
                             </a>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="col-md-12 mt-5">
+            <div class="col-md-12 mt-3">
                 <div class="card">
                     <div class="card-body">
                         <h5 class="card-title">File Proposal</h5>
@@ -142,12 +151,27 @@
                                 width="100%" height="100%" style="border: none;"></iframe>
 
                             @if (!$prestasi->file_proposal)
-                                <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-                                                                display: flex; align-items: center; justify-content: center;
-                                                                background-color: rgba(255, 255, 255, 0.85);">
+                                <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; background-color: rgba(255, 255, 255, 0.85);">
                                     <p id="no-proposal" style="color: #666; font-size: 18px;">Tidak ada proposal</p>
                                 </div>
                             @endif
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-12 mt-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Pesan Dari Admin</h5>
+                        <div class="card" style="background-color: {{ $bgColor }}">
+                            <div class="card-body">
+                                <p class="card-text mb-0"
+                                    style="{{ empty(trim($prestasi->message)) ? 'font-style: italic; color: #6c757d;' : '' }}">
+                                    {{ empty(trim($prestasi->message)) ? 'Tidak ada pesan' : $prestasi->message }}
+                                </p>
+
+                            </div>
                         </div>
                     </div>
                 </div>
