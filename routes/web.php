@@ -173,6 +173,7 @@ Route::middleware('auth')->group(function () {
         Route::get('/', [DosenPrestasiController::class, 'index'])->name('dosen.prestasi.index');
         Route::get('/mahasiswa_bimbingan',[DosenBimbinganController::class, 'index'])->name('index');
         Route::post('/mahasiswa_bimbingan/list',[DosenBimbinganController::class, 'list']);
+        Route::get('/mahasiswa_bimbingan/{id}/show',[DosenBimbinganController::class, 'show']);
     });
 
     Route::middleware(['role:MHS'])->group(function () {
