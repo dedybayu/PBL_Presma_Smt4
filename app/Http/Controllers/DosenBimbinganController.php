@@ -10,7 +10,8 @@ use Yajra\DataTables\Facades\DataTables;
 
 class DosenBimbinganController extends Controller
 {
-    public function index(){
+    public function index()
+    {
         $kelas = KelasModel::all();
         $prodi = ProdiModel::all();
         return view('dosen.daftar_mahasiswa')->with([
@@ -21,19 +22,23 @@ class DosenBimbinganController extends Controller
     public function list(Request $request)
     {
         if ($request->ajax()) {
-            $mahasiswas = MahasiswaModel::with('kelas');
+        $dosenId = auth()->user()->dosen->dosen_id;
 
-            if ($request->prodi_id) {
-                $mahasiswas->whereHas('kelas', function ($query) use ($request) {
-                    $query->where('prodi_id', $request->prodi_id);
+        // Query builder, belum dieksekusi
+        $mahasiswas = MahasiswaModel::whereHas('prestasi', function ($query) use ($dosenId) {
+                $query->where('dosen_id', $dosenId);
+            })
+            ->when($request->prodi_id, function ($query) use ($request) {
+                $query->whereHas('kelas', function ($q) use ($request) {
+                    $q->where('prodi_id', $request->prodi_id);
                 });
-            }
-
-            if ($request->kelas_id) {
-                $mahasiswas->where('kelas_id', $request->kelas_id);
-            }
-
-            $mahasiswas = $mahasiswas->get();
+            })
+            ->when($request->kelas_id, function ($query) use ($request) {
+                $query->where('kelas_id', $request->kelas_id);
+            })
+            ->with('kelas')
+            ->distinct('mahasiswa_id') // hindari duplikat mahasiswa
+            ->get();
 
 
             return DataTables::of($mahasiswas)
