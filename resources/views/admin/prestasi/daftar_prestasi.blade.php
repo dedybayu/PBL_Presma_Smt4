@@ -50,23 +50,21 @@
 
             <div class="table-responsive">
                 <table style="width: 100%;" id="table-prestasi" class="table table-hover table-striped table-bordered">
-                    {{-- <table class="table table-bordered table-sm table-striped table-hover" id="table-prestasi">
-                        --}}
-                        <thead>
-                            <tr>
-                                <th>No</th>
-                                <th>NIM</th>
-                                <th>Mahasiswa</th>
-                                <th>Prestasi</th>
-                                <th>Lomba</th>
-                                <th>Juara</th>
-                                <th>Tingkat</th>
-                                <th>Poin</th>
-                                <th>Status</th>
-                                <th>Aksi</th>
-                            </tr>
-                        </thead>
-                    </table>
+                    <thead>
+                        <tr>
+                            <th>No</th>
+                            <th>NIM</th>
+                            <th>Mahasiswa</th>
+                            <th>Prestasi</th>
+                            <th>Lomba</th>
+                            <th>Juara</th>
+                            <th>Tingkat</th>
+                            <th>Poin</th>
+                            <th>Status</th>
+                            <th>Aksi</th>
+                        </tr>
+                    </thead>
+                </table>
             </div>
 
         </div>

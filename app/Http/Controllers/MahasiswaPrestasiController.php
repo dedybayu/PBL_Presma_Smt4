@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\DosenModel;
 use App\Models\LombaModel;
 use App\Models\PrestasiModel;
+use App\Models\TingkatLombaModel;
 use Auth;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -19,17 +20,54 @@ class MahasiswaPrestasiController extends Controller
     public function index()
     {
         $mahasiswaId = auth()->user()->mahasiswa->mahasiswa_id;
+        $search = request('search');
 
-        // Ambil data dengan pagination
+        $tingkatLombaId = request('tingkat_lomba_id');
+        $statusVerifikasiInput = request('status_verifikasi');
+
         $prestasi = PrestasiModel::where('mahasiswa_id', $mahasiswaId)
-            ->with(['lomba.tingkat', 'lomba.penyelenggara']) // jika relasi ini digunakan di Blade
+            ->when($search, function ($query, $search) {
+                $query->where('prestasi_nama', 'like', "%{$search}%")
+                    ->orWhereHas('lomba', function ($q) use ($search) {
+                        $q->where('lomba_nama', 'like', "%{$search}%")
+                            ->orWhereHas('penyelenggara', function ($q2) use ($search) {
+                                $q2->where('penyelenggara_nama', 'like', "%{$search}%");
+                            });
+                    });
+            })
+            ->when(request('tingkat_lomba_id'), function ($query, $tingkatLombaId) {
+                $query->whereHas('lomba', function ($q) use ($tingkatLombaId) {
+                    $q->where('tingkat_lomba_id', $tingkatLombaId);
+                });
+            })
+            ->when($statusVerifikasiInput !== null && $statusVerifikasiInput !== '', function ($query) use ($statusVerifikasiInput) {
+                if ($statusVerifikasiInput === '2') {
+                    $query->whereNull('status_verifikasi');
+                } else {
+                    $query->where('status_verifikasi', $statusVerifikasiInput);
+                }
+            })
+            ->with(['lomba.tingkat', 'lomba.penyelenggara'])
             ->orderByDesc('created_at')
-            ->paginate(2); // batasi 8 per halaman
+            ->paginate(6)
+            ->appends([
+                'search' => $search,
+                'tingkat_lomba_id' => request('tingkat_lomba_id'),
+                'status_verifikasi' => $statusVerifikasiInput,
+            ]);
 
-        return view('mahasiswa.prestasi.daftar_prestasi', [
-            'prestasi' => $prestasi
+
+
+
+
+
+        $tingkat_lomba = TingkatLombaModel::all();
+        return view('mahasiswa.prestasi.daftar_prestasi')->with([
+            'prestasi' => $prestasi,
+            'tingkat_lomba' => $tingkat_lomba
         ]);
     }
+
 
 
     /**
