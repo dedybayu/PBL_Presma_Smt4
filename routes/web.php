@@ -9,6 +9,7 @@ use App\Http\Controllers\DosenPrestasiController;
 use App\Http\Controllers\KategoriBidangKeahlianController;
 use App\Http\Controllers\MahasiswaController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\DosenBimbinganController;
 use App\Http\Controllers\KelasController;
 use App\Http\Controllers\LombaController;
 use App\Http\Controllers\MahasiswaPrestasiController;
@@ -170,6 +171,8 @@ Route::middleware('auth')->group(function () {
 
     Route::middleware(['role:DOS'])->prefix('prestasi-bimbingan')->group(function () {
         Route::get('/', [DosenPrestasiController::class, 'index'])->name('dosen.prestasi.index');
+        Route::get('/mahasiswa_bimbingan',[DosenBimbinganController::class, 'index'])->name('index');
+        Route::post('/mahasiswa_bimbingan/list',[DosenBimbinganController::class, 'list']);
     });
 
     Route::middleware(['role:MHS'])->group(function () {

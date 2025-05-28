@@ -3,8 +3,7 @@
         <div class="logo-src"></div>
         <div class="header__pane ml-auto">
             <div>
-                <button type="button" class="hamburger close-sidebar-btn hamburger--elastic"
-                    data-class="closed-sidebar">
+                <button type="button" class="hamburger close-sidebar-btn hamburger--elastic" data-class="closed-sidebar">
                     <span class="hamburger-box">
                         <span class="hamburger-inner"></span>
                     </span>
@@ -35,23 +34,25 @@
             <ul class="vertical-nav-menu">
                 <li class="app-sidebar__heading">Menu</li>
                 <li class="">
-                    <a href="{{ route('dashboard') }}"
-                                class="{{ request()->routeIs('dashboard') ? 'mm-active' : '' }}">
+                    <a href="{{ route('dashboard') }}" class="{{ request()->routeIs('dashboard') ? 'mm-active' : '' }}">
                         <i class="metismenu-icon pe-7s-rocket"></i> Dashboard
                     </a>
                 </li>
                 <li class="">
-                    <a href=""
-                                class="">
+                    <a href="" class="">
                         <i class="metismenu-icon pe-7s-rocket"></i> Prestasi Mahasiswaku
                     </a>
                 </li>
                 <li class="">
-                    <a href=""
-                                class="">
+                    <a href="" class="">
                         <i class="metismenu-icon pe-7s-rocket"></i> Lomba
                     </a>
                 </li>
+                <li class="">
+                    <a href="{{ route('index') }}" class="{{ request()->routeIs('index') ? 'mm-active' : '' }}">
+                        <i class="metismenu-icon pe-7s-users"></i> Data Bimbingan
+                    </a>
+                </li> 
             </ul>
         </div>
     </div>
