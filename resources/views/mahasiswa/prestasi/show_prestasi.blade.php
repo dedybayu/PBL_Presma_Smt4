@@ -169,6 +169,10 @@
                         </div>
                     </div>
                 </div>
+                <div class="mt-5 d-flex justify-content-end ">
+                    <button type="button" class="btn btn-warning mr-2" data-dismiss="modal">Batal</button>
+                    <button type="submit" class="btn btn-primary ml-2">Simpan</button>
+                </div>
             </div>
         </div>
 

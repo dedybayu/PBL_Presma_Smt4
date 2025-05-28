@@ -50,4 +50,9 @@ class LombaModel extends Model
     {
         return $this->hasMany(RekomendasiMahasiswaLomba::class, 'lomba_id', 'lomba_id');
     }
+
+    public function user()
+    {
+        return $this->belongsTo(UserModel::class, 'user_id', 'user_id');
+    }
 }

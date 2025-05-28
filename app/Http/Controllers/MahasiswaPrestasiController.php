@@ -24,7 +24,7 @@ class MahasiswaPrestasiController extends Controller
         $prestasi = PrestasiModel::where('mahasiswa_id', $mahasiswaId)
             ->with(['lomba.tingkat', 'lomba.penyelenggara']) // jika relasi ini digunakan di Blade
             ->orderByDesc('created_at')
-            ->paginate(6); // batasi 8 per halaman
+            ->paginate(2); // batasi 8 per halaman
 
         return view('mahasiswa.prestasi.daftar_prestasi', [
             'prestasi' => $prestasi
