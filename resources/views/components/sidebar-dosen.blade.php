@@ -41,9 +41,15 @@
                     </a>
                 </li>
                 <li class="">
-                    <a href="{{ route('prestasi-mahasiswa') }}"
-                                class="{{ request()->routeIs('prestasi-mahasiswa') ? 'mm-active' : '' }}">
+                    <a href=""
+                                class="">
                         <i class="metismenu-icon pe-7s-rocket"></i> Prestasi Mahasiswaku
+                    </a>
+                </li>
+                <li class="">
+                    <a href="{{ route('lomba') }}"
+                                class="{{ request()->routeIs('lomba') ? 'mm-active' : '' }}">
+                        <i class="metismenu-icon pe-7s-rocket"></i> Lomba
                     </a>
                 </li>
             </ul>
