@@ -47,8 +47,8 @@
                     </a>
                 </li>
                 <li class="">
-                    <a href="{{ route('lomba') }}"
-                                class="{{ request()->routeIs('lomba') ? 'mm-active' : '' }}">
+                    <a href=""
+                                class="">
                         <i class="metismenu-icon pe-7s-rocket"></i> Lomba
                     </a>
                 </li>
