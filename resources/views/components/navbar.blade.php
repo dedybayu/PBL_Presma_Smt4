@@ -68,48 +68,12 @@
         <div class="app-header-left">
             <div class="search-wrapper">
                 <div class="input-holder">
-                    <input type="text" class="search-input" placeholder="Ketik untuk mencari">
+                    <input type="text" class="search-input" placeholder="Cari di halaman">
                     <button class="search-icon" onclick="cariTeksDiHalaman()"><span></span></button>
                 </div>
                 <button class="close" onclick="resetHighlight()"></button>
             </div>
-            <ul class="header-megamenu nav">
-                <li class="btn-group nav-item">
-                    <a class="nav-link" data-toggle="dropdown" aria-expanded="false">
-                        <span class="badge badge-pill badge-danger ml-0 mr-2">4</span> Pengaturan
-                        <i class="fa fa-angle-down ml-2 opacity-5"></i>
-                    </a>
-                    <div tabindex="-1" role="menu" aria-hidden="true" class="rm-pointers dropdown-menu">
-                        <div class="dropdown-menu-header">
-                            <div class="dropdown-menu-header-inner bg-secondary">
-                                <div class="menu-header-image opacity-5"
-                                    style="background-image: url('../assets/images/dropdown-header/abstract2.jpg');">
-                                </div>
-                                <div class="menu-header-content">
-                                    <h5 class="menu-header-title">Pengaturan</h5>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="scroll-area-xs">
-                            <div class="scrollbar-container">
-                                <h6 tabindex="-1" class="dropdown-header">Menu Pengaturan</h6>
-                                <button type="button" tabindex="0" class="dropdown-item">Tampilan</button>
-                                <button type="button" tabindex="0" class="dropdown-item">Pertanyaan</button>
-                                <button type="button" tabindex="0" class="dropdown-item">Akun</button>
-                                <div tabindex="-1" class="dropdown-divider"></div>
-                                <button type="button" tabindex="0" class="dropdown-item">Products</button>
-                                <button type="button" tabindex="0" class="dropdown-item">Rollup Queries</button>
-                            </div>
-                        </div>
-                        <ul class="nav flex-column">
-                            <li class="nav-item-divider nav-item"></li>
-                            <li class="nav-item-btn nav-item">
-                                <button class="btn-wide btn-shadow btn btn-danger btn-sm">Cancel</button>
-                            </li>
-                        </ul>
-                    </div>
-                </li>
-            </ul>
+
         </div>
         <div class="app-header-right">
             <div class="header-dots">

@@ -57,7 +57,7 @@
                                         Ditolak
                                     </option>
                                 </select>
-                                <small class="form-text text-muted">Filter Tingkat Lomba</small>
+                                <small class="form-text text-muted">Filter Status Verifikasi</small>
                             </div>
                         </div>
                     </div>
@@ -108,7 +108,7 @@
                                                 class="d-flex justify-content-between align-items-center mt-auto mb-3 pb-2 border-bottom">
                                                 <p class="card-text mb-0">
                                                     <small class="text-body-secondary">
-                                                        {{ \Carbon\Carbon::parse($pres->created_at)->locale('id')->diffForHumans() }}
+                                                        {{ \Carbon\Carbon::parse($pres->updated_at)->locale('id')->diffForHumans() }}
                                                     </small>
                                                 </p>
                                                 <div class="d-flex">

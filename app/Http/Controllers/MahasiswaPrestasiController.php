@@ -48,18 +48,13 @@ class MahasiswaPrestasiController extends Controller
                 }
             })
             ->with(['lomba.tingkat', 'lomba.penyelenggara'])
-            ->orderByDesc('created_at')
+            ->orderByDesc('updated_at')
             ->paginate(6)
             ->appends([
                 'search' => $search,
                 'tingkat_lomba_id' => request('tingkat_lomba_id'),
                 'status_verifikasi' => $statusVerifikasiInput,
             ]);
-
-
-
-
-
 
         $tingkat_lomba = TingkatLombaModel::all();
         return view('mahasiswa.prestasi.daftar_prestasi')->with([
