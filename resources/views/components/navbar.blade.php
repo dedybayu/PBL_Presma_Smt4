@@ -57,7 +57,9 @@
     </div>
     <div class="app-header__menu">
         <span>
-            <button type="button" class="btn-icon btn-icon-only btn btn-primary btn-sm mobile-toggle-header-nav">
+            <button type="button"
+                class="btn-icon btn-icon-only btn btn-primary btn-sm mobile-toggle-header-nav"
+                style="background-color: transparent; color: #3f6ad8; border: none;">
                 <span class="btn-icon-wrapper">
                     <i class="fa fa-ellipsis-v fa-w-6"></i>
                 </span>

@@ -69,7 +69,8 @@
 
 
 
-            <div class="row">
+            <hr>
+            <div class="row mt-4">
                 @if ($prestasi->count())
                     @foreach ($prestasi as $pres)
                         @php
