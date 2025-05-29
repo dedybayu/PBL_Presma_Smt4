@@ -12,6 +12,7 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\DosenBimbinganController;
 use App\Http\Controllers\KelasController;
 use App\Http\Controllers\LombaController;
+use App\Http\Controllers\MahasiswaDosenLombaController;
 use App\Http\Controllers\MahasiswaPrestasiController;
 use App\Http\Controllers\ProdiController;
 use App\Http\Controllers\PenyelenggaraController;
@@ -175,6 +176,11 @@ Route::middleware('auth')->group(function () {
             Route::post('/list', [DosenBimbinganController::class, 'list']);
             Route::get('/{id}/show', [DosenBimbinganController::class, 'show']);
         });
+
+        Route::prefix('prestasi-bimbingan')->name('dosen.prestasi.')->group(function () {
+            Route::get('/', [DosenPrestasiController::class, 'index'])->name('index');
+            Route::get('/{prestasi}', [DosenPrestasiController::class, 'show'])->name('show');
+        });
     });
 
 
@@ -189,6 +195,16 @@ Route::middleware('auth')->group(function () {
         });
     });
 
+    Route::middleware(['role:MHS,DOS'])->group(function () {
+        Route::prefix('daftar-lomba')->name('daftar-lomba.')->group(function () {
+            Route::get('/', [MahasiswaDosenLombaController::class, 'index'])->name('index');
+            Route::get('/{lomba}', [MahasiswaDosenLombaController::class, 'show'])->name('show');
+            Route::get('/{lomba}/edit', [MahasiswaDosenLombaController::class, 'edit'])->name('edit');
+            Route::put('/{lomba}', [MahasiswaDosenLombaController::class, 'update'])->name('update');
+            Route::get('/{lomba}/confirm', [MahasiswaDosenLombaController::class, 'confirm'])->name('confirm');
+            Route::delete('/{lomba}', [MahasiswaDosenLombaController::class, 'destroy'])->name('destroy');
+        });
+    });
 
 });
 

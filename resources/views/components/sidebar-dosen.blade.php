@@ -44,13 +44,13 @@
                     </a>
                 </li>
                 <li class="">
-                    <a href="" class="">
+                    <a href="{{ route('daftar-lomba.index') }}" class="">
                         <i class="metismenu-icon pe-7s-rocket"></i> Lomba
                     </a>
                 </li>
                 <li class="">
                     <a href="{{ route('dosen.mahasiswa.index') }}" class="{{ request()->routeIs('dosen.mahasiswa.index') ? 'mm-active' : '' }}">
-                        <i class="metismenu-icon pe-7s-users"></i> Data Bimbingan
+                        <i class="metismenu-icon pe-7s-users"></i> Mahasiswa Bimbingan
                     </a>
                 </li> 
             </ul>

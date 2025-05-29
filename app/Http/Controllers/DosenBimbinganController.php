@@ -14,7 +14,7 @@ class DosenBimbinganController extends Controller
     {
         $kelas = KelasModel::all();
         $prodi = ProdiModel::all();
-        return view('dosen.daftar_mahasiswa')->with([
+        return view('dosen.mahasiswa-bimbingan.daftar_mahasiswa')->with([
             'kelas' => $kelas,
             'prodi' => $prodi
         ]);
@@ -87,6 +87,6 @@ class DosenBimbinganController extends Controller
         $mahasiswa = MahasiswaModel::find($id);
         // $kelas = KelasModel::select('kelas_id', 'kelas_nama');
         // $prodi = ProdiModel::select('prodi_id', 'prodi_nama');
-        return view('dosen.show_mahasiswa')->with(['mahasiswa' => $mahasiswa]);
+        return view('dosen.mahasiswa-bimbingan.show_mahasiswa')->with(['mahasiswa' => $mahasiswa]);
     }
 }
