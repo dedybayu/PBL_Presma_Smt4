@@ -177,6 +177,8 @@ Route::middleware('auth')->group(function () {
             Route::get('/{id}/show', [DosenBimbinganController::class, 'show']);
         });
 
+        Route::get('semua-prestasi', [DosenPrestasiController::class, 'allPrestasi'])->name('dosen.prestasi.allPrestasi');
+
         Route::prefix('prestasi-bimbingan')->name('dosen.prestasi.')->group(function () {
             Route::get('/', [DosenPrestasiController::class, 'index'])->name('index');
             Route::get('/{prestasi}', [DosenPrestasiController::class, 'show'])->name('show');

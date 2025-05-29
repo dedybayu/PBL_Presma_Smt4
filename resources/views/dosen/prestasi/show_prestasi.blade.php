@@ -169,16 +169,6 @@
                         </div>
                     </div>
                 </div>
-
-            </div>
-            <div class="d-flex justify-content-between mt-3">
-                <button type="button" class="btn btn-primary mr-2" data-dismiss="modal"><i class="fa fa-arrow-left"></i>
-                    Kembali</button>
-                <button onclick="modalDelete('{{ route('mahasiswa.prestasi.confirm', $prestasi->prestasi_id) }}')"
-                    type="button" class="btn btn-danger mr-2" data-dismiss="modal"><i class="fa fa-trash"></i>
-                    Hapus</button>
-                <button type="button" class="btn btn-success mr-2" data-dismiss="modal"><i class="fa fa-edit"></i>
-                    Edit</button>
             </div>
         </div>
 
@@ -195,34 +185,12 @@
                     </div>
                 </div>
             </div>
-            <div id="modal-delete" class="modal fade animate shake" tabindex="-1" role="dialog" data-backdrop="static"
-                data-keyboard="false" aria-hidden="true">
-                <div class="modal-dialog modal-xs" role="document">
-                    <div class="modal-content"></div>
-                </div>
-            </div>
         </x-slot:modal>
 
 
 
         <x-slot:js>
             <script>
-                function modalDelete(url) {
-                    // Kosongkan modal sebelum memuat konten baru
-                    $("#modal-delete .modal-content").html("");
-
-                    // Panggil modal melalui AJAX
-                    $.get(url, function (response) {
-                        $("#modal-delete .modal-content").html(response);
-                        $("#modal-delete").modal("show");
-                    });
-                }
-
-                // Bersihkan isi modal setelah ditutup
-                $('#modal-delete').on('hidden.bs.modal', function () {
-                    $("#modal-delete .modal-content").html("");
-                });
-
                 document.addEventListener('DOMContentLoaded', function () {
                     const previewImgs = document.querySelectorAll('.img-click-preview');
                     const modalImg = document.getElementById('modalPreviewImg');

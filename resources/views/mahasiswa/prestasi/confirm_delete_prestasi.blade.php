@@ -90,9 +90,10 @@
                                     text: response.message
                                 }).then((result) => {
                                     if (result.isConfirmed) {
-                                        location.reload(); // reload halaman setelah klik OK
+                                        window.location.href = '/prestasiku'; // redirect ke halaman prestasiku
                                     }
                                 });
+
 
                             } else {
                                 $('.error-text').text('');
