@@ -176,35 +176,35 @@ class MahasiswaPrestasiController extends Controller
         $nim_mahasiswa = $mhs->nim;
 
         if ($request->hasFile('file_sertifikat')) {
-            self::deleteFile($prestasi->file_sertifikat);
-            $prestasi->file_sertifikat = self::saveFile($request, 'sertifikat', $nim_mahasiswa, 'file_sertifikat');
+            FileController::deleteFile($prestasi->file_sertifikat);
+            $prestasi->file_sertifikat = FileController::saveFile($request, 'sertifikat', $nim_mahasiswa, 'file_sertifikat');
         }
 
         if ($request->hasFile('file_bukti_foto')) {
-            self::deleteFile($prestasi->file_bukti_foto);
-            $prestasi->file_bukti_foto = self::saveFile($request, 'bukti_foto', $nim_mahasiswa, 'file_bukti_foto');
+            FileController::deleteFile($prestasi->file_bukti_foto);
+            $prestasi->file_bukti_foto = FileController::saveFile($request, 'bukti_foto', $nim_mahasiswa, 'file_bukti_foto');
         }
 
         if ($request->hasFile('file_surat_tugas')) {
-            self::deleteFile($prestasi->file_surat_tugas);
-            $prestasi->file_surat_tugas = self::saveFile($request, 'surat_tugas', $nim_mahasiswa, 'file_surat_tugas');
+            FileController::deleteFile($prestasi->file_surat_tugas);
+            $prestasi->file_surat_tugas = FileController::saveFile($request, 'surat_tugas', $nim_mahasiswa, 'file_surat_tugas');
         }
 
         if ($request->hasFile('file_surat_undangan')) {
-            self::deleteFile($prestasi->file_surat_undangan);
-            $prestasi->file_surat_undangan = self::saveFile($request, 'surat_undangan', $nim_mahasiswa, 'file_surat_undangan');
+            FileController::deleteFile($prestasi->file_surat_undangan);
+            $prestasi->file_surat_undangan = FileController::saveFile($request, 'surat_undangan', $nim_mahasiswa, 'file_surat_undangan');
         }
 
         if ($request->hasFile('file_proposal')) {
-            self::deleteFile($prestasi->file_proposal);
-            $prestasi->file_proposal = self::saveFile($request, 'proposal', $nim_mahasiswa, 'file_proposal');
+            FileController::deleteFile($prestasi->file_proposal);
+            $prestasi->file_proposal = FileController::saveFile($request, 'proposal', $nim_mahasiswa, 'file_proposal');
         }
 
         $prestasi->status_verifikasi = null;
         $prestasi->updated_at = Carbon::now();
         $prestasi->save();
 
-        $prestasi->poin = self::hitungPoin($prestasi);
+        $prestasi->poin = PoinPrestasiController::hitungPoin($prestasi);
 
         $prestasi->save();
 
@@ -225,11 +225,11 @@ class MahasiswaPrestasiController extends Controller
     public function destroy(PrestasiModel $prestasi)
     {
         try {
-            self::deleteFile($prestasi->file_sertifikat);
-            self::deleteFile($prestasi->file_bukti_foto);
-            self::deleteFile($prestasi->file_surat_tugas);
-            self::deleteFile($prestasi->file_surat_undangan);
-            self::deleteFile($prestasi->file_proposal);
+            FileController::deleteFile($prestasi->file_sertifikat);
+            FileController::deleteFile($prestasi->file_bukti_foto);
+            FileController::deleteFile($prestasi->file_surat_tugas);
+            FileController::deleteFile($prestasi->file_surat_undangan);
+            FileController::deleteFile($prestasi->file_proposal);
 
             $prestasi->delete();
 
@@ -243,52 +243,6 @@ class MahasiswaPrestasiController extends Controller
                 'message' => 'Data gagal dihapus karena masih terdapat tabel lain yang terkait dengan data ini'
             ]);
         }
-    }
-
-
-    //STATIC METHOD
-
-    private static function saveFile($requestFile, string $jenis, string $nim_mahasiswa, string $nama_variabel)
-    {
-        if ($requestFile->hasFile($nama_variabel)) {
-            // return response()->json(['error' => 'No file uploaded'], 400);
-            $file = $requestFile->file($nama_variabel);
-
-            if (!$file->isValid()) {
-                return response()->json(['error' => 'Invalid file'], 400);
-            }
-
-            // Nama file unik
-            $filename = time() . '_' . $file->getClientOriginalName();
-
-            // Pastikan folder penyimpanan ada
-            $destinationPath = storage_path('app/public/mahasiswa/' . $nim_mahasiswa . '/prestasi/' . $jenis . '/');
-            if (!file_exists($destinationPath)) {
-                mkdir($destinationPath, 0775, true);
-            }
-
-            // Pindahkan file
-            $file->move($destinationPath, $filename);
-
-            $imagePath = "mahasiswa/$nim_mahasiswa/prestasi/$jenis/$filename"; // Simpan path gambar
-        } else {
-            $imagePath = null;
-        }
-        return $imagePath;
-    }
-
-    private static function deleteFile($path)
-    {
-        if ($path && Storage::disk('public')->exists($path)) {
-            Storage::disk('public')->delete($path);
-        }
-    }
-
-    private static function hitungPoin(PrestasiModel $prestasi)
-    {
-        $poin = 5;
-
-        return $poin;
     }
 
 }
