@@ -39,6 +39,7 @@ Route::post('/login', [AuthController::class, 'login'])->name('custom.login');
 
 Route::middleware('auth')->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+    Route::get('dashboard/data', [DashboardController::class, 'getDashboardData'])->name('dashboard.data');
     Route::get('/logout', [AuthController::class, 'confirmLogout'])->name('logout.index');
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 

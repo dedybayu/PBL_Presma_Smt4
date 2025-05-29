@@ -2,14 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\LombaModel;
+use App\Models\PrestasiModel;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Http\Request;
 
 class DashboardController extends Controller
 {
     public function index()
     {
-        // Cek apakah user sudah login
         if (!Auth::check()) {
             return redirect('/login')->with('loginError', 'Silakan login terlebih dahulu.');
         }
@@ -23,9 +23,36 @@ class DashboardController extends Controller
             case 'DOS':
                 return view('dosen.dashboard');
             case 'ADM':
-                return view('admin.dashboard');
+                $data = $this->getDashboardData();
+                return view('admin.dashboard', $data);
             default:
                 return redirect('/login')->with('loginError', 'Level tidak dikenali. Silakan login kembali.');
         }
+    }
+
+    public function getDashboardData()
+    {
+        // Statistik Lomba
+        $totalLomba = LombaModel::count();
+        $lombaVerifikasi = LombaModel::where('status_verifikasi', 1)->count(); // Terverifikasi
+        $lombaPending = LombaModel::where('status_verifikasi', 2)->count();    // Pending (Menunggu)
+        $lombaDitolak = LombaModel::where('status_verifikasi', 0)->count();    // Ditolak
+
+        // Statistik Prestasi
+        $totalPrestasi = PrestasiModel::count();
+        $prestasiVerifikasi = PrestasiModel::where('status_verifikasi', 1)->count(); // Terverifikasi
+        $prestasiPending = PrestasiModel::where('status_verifikasi', null)->count(); // Menunggu
+        $prestasiDitolak = PrestasiModel::where('status_verifikasi', 0)->count();    // Ditolak
+
+        return [
+            'totalLomba' => $totalLomba,
+            'lombaVerifikasi' => $lombaVerifikasi,
+            'lombaPending' => $lombaPending,
+            'lombaDitolak' => $lombaDitolak,
+            'totalPrestasi' => $totalPrestasi,
+            'prestasiVerifikasi' => $prestasiVerifikasi,
+            'prestasiPending' => $prestasiPending,
+            'prestasiDitolak' => $prestasiDitolak,
+        ];
     }
 }
