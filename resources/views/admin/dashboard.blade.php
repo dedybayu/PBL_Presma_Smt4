@@ -151,28 +151,52 @@
         </div>
     </div>
 
-    {{-- Untuk Grafik --}}
-    <!-- Grafik Prestasi per Tingkat -->
-    {{-- <div class="row">
-        <div class="col-md-12">
+    <div class="row">
+        <!-- Bar Chart Prestasi per Tingkat -->
+        <div class="col-md-12"><!-- 6 for set -->
             <div class="card mb-3">
                 <div class="card-header-tab card-header">
                     <div class="card-header-title font-size-lg text-capitalize fw-normal">
-                        Grafik Prestasi Berdasarkan Tingkat Lomba
+                        Data Prestasi Tingkat Lomba
                     </div>
                 </div>
-                <div class="card-body">
-                    <canvas id="grafik-prestasi" height="100"></canvas>
+                <div class="card-body d-flex justify-content-center">
+                    <canvas id="chartPrestasiTingkat" width="500" height="500"></canvas>
                 </div>
             </div>
         </div>
-    </div> --}}
+
+        <!-- Diagram lagi -->
+        
+    </div>
 
     <x-slot:modal>
         <!-- Tambahkan modal di sini -->
     </x-slot:modal>
 
     <x-slot:js>
-       <!-- Tambahkan js di sini -->
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+        <script>
+        const ctxPrestasiTingkat = document.getElementById('chartPrestasiTingkat').getContext('2d');
+        const chartPrestasiTingkat = new Chart(ctxPrestasiTingkat, {
+            type: 'pie',
+            data: {
+                labels: {!! json_encode($prestasiPerTingkat->pluck('tingkat_lomba_nama')) !!},
+                datasets: [{
+                    label: 'Jumlah Prestasi per Tingkat',
+                    data: {!! json_encode($prestasiPerTingkat->pluck('total_prestasi')) !!},
+                    backgroundColor: [
+                        '#007bff', '#28a745', '#ffc107', '#dc3545',
+                        '#17a2b8', '#6f42c1', '#fd7e14', '#20c997'
+                    ],
+                    borderColor: '#fff',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: false
+            }
+        });
+    </script>
     </x-slot:js>
 </x-layout>

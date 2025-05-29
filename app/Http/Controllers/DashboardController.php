@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\LombaModel;
 use App\Models\PrestasiModel;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 
 class DashboardController extends Controller
@@ -44,7 +45,15 @@ class DashboardController extends Controller
         $prestasiPending = PrestasiModel::where('status_verifikasi', null)->count(); // Menunggu
         $prestasiDitolak = PrestasiModel::where('status_verifikasi', 0)->count();    // Ditolak
 
+        $prestasiPerTingkat = DB::table('m_tingkat_lomba as tingkat')
+            ->leftJoin('m_lomba as lomba', 'tingkat.tingkat_lomba_id', '=', 'lomba.tingkat_lomba_id')
+            ->leftJoin('t_prestasi as prestasi', 'lomba.lomba_id', '=', 'prestasi.lomba_id')
+            ->select('tingkat.tingkat_lomba_id', 'tingkat.tingkat_lomba_nama', DB::raw('COUNT(prestasi.prestasi_id) as total_prestasi'))
+            ->groupBy('tingkat.tingkat_lomba_id', 'tingkat.tingkat_lomba_nama')
+            ->get();
+
         return [
+            'prestasiPerTingkat' => $prestasiPerTingkat,
             'totalLomba' => $totalLomba,
             'lombaVerifikasi' => $lombaVerifikasi,
             'lombaPending' => $lombaPending,
