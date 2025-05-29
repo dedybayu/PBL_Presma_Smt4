@@ -199,7 +199,7 @@ Route::middleware('auth')->group(function () {
     });
 
     Route::middleware(['role:MHS,DOS'])->group(function () {
-        Route::prefix('daftar-lomba')->name('daftar-lomba.')->group(function () {
+        Route::prefix('daftar_lomba')->name('daftar_lomba.')->group(function () {
             Route::get('/', [MahasiswaDosenLombaController::class, 'index'])->name('index');
             Route::get('/{lomba}', [MahasiswaDosenLombaController::class, 'show'])->name('show');
             Route::get('/{lomba}/edit', [MahasiswaDosenLombaController::class, 'edit'])->name('edit');

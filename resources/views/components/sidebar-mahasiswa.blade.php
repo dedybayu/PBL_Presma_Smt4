@@ -46,6 +46,12 @@
                         <i class="metismenu-icon pe-7s-rocket"></i> Prestasi Gua
                     </a>
                 </li>
+                <li class="">
+                    <a href="{{ route('daftar_lomba.index') }}"
+                                class="{{ request()->routeIs('daftar_lomba.*' ) ? 'mm-active' : '' }}">
+                        <i class="metismenu-icon pe-7s-rocket"></i> Daftar Lomba
+                    </a>
+                </li>
             </ul>
         </div>
     </div>
