@@ -1,12 +1,21 @@
 <?php
 
+use App\Http\Controllers\AdminPrestasiController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\BidangKeahlianController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DosenController;
+use App\Http\Controllers\DosenPrestasiController;
+use App\Http\Controllers\KategoriBidangKeahlianController;
 use App\Http\Controllers\MahasiswaController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\DosenBimbinganController;
 use App\Http\Controllers\KelasController;
+use App\Http\Controllers\LombaController;
+use App\Http\Controllers\MahasiswaDosenLombaController;
+use App\Http\Controllers\MahasiswaPrestasiController;
 use App\Http\Controllers\ProdiController;
+use App\Http\Controllers\PenyelenggaraController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -29,9 +38,12 @@ Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
 Route::post('/login', [AuthController::class, 'login'])->name('custom.login');
 
 Route::middleware('auth')->group(function () {
-    Route::get('/dashboard', [DashboardController::class, 'index']);
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+    Route::get('/logout', [AuthController::class, 'confirmLogout'])->name('logout.index');
+    Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
-    Route::middleware(['role:ADM,DOS'])->group(function () {
+
+    Route::middleware(['role:ADM'])->group(function () {
         Route::prefix('mahasiswa')->group(function () {
             Route::get('/', [MahasiswaController::class, 'index'])->name('mahasiswa.index');
             Route::post('/list', [MahasiswaController::class, 'list']);
@@ -42,26 +54,37 @@ Route::middleware('auth')->group(function () {
             Route::put('/{mahasiswa}', [MahasiswaController::class, 'update'])->name('mahasiswa.update');
             Route::get('/{mahasiswa}/confirm-delete', [MahasiswaController::class, 'confirmDelete'])->name('mahasiswa.confirm-delete');
             Route::delete('/{mahasiswa}', [MahasiswaController::class, 'destroy'])->name('mahasiswa.destroy');
+            Route::get('/import', [MahasiswaController::class, 'import']);
+            Route::post('/import_ajax', [MahasiswaController::class, 'import_ajax']);
+            Route::get('/export', [MahasiswaController::class, 'export_excel']);
         });
         Route::prefix('kelas')->group(function () {
             Route::get('/', [KelasController::class, 'index'])->name('kelas.index');
-            Route::post('/list', [KelasController::class, 'list']);
-            Route::get('/{id}/show', [KelasController::class, 'show'])->name('kelas.show');
+            Route::post('/list', [KelasController::class, 'list'])->name('kelas.list');
             Route::get('/create', [KelasController::class, 'create'])->name('kelas.create');
             Route::post('/', [KelasController::class, 'store'])->name('kelas.store');
+            Route::get('/{kelas}/show', [KelasController::class, 'show'])->name('kelas.show');
             Route::get('/{kelas}/edit', [KelasController::class, 'edit'])->name('kelas.edit');
             Route::put('/{kelas}', [KelasController::class, 'update'])->name('kelas.update');
+            Route::get('/{kelas}/confirm-delete', [KelasController::class, 'confirmDelete'])->name('kelas.confirm-delete'); // jika ingin pakai konfirmasi hapus
             Route::delete('/{kelas}', [KelasController::class, 'destroy'])->name('kelas.destroy');
+            Route::get('/import', [KelasController::class, 'import']);
+            Route::post('/import_ajax', [KelasController::class, 'import_ajax']);
+            Route::get('/export', [KelasController::class, 'export_excel']);
         });
         Route::prefix('dosen')->group(function () {
             Route::get('/', [DosenController::class, 'index'])->name('dosen.index');
             Route::post('/list', [DosenController::class, 'list']);
-            Route::get('/{id}/show', [DosenController::class, 'show'])->name('dosen.show');
+            Route::get('/{dosen}/show', [DosenController::class, 'show'])->name('dosen.show');
             Route::get('/create', [DosenController::class, 'create'])->name('dosen.create');
             Route::post('/', [DosenController::class, 'store'])->name('dosen.store');
-            Route::get('/{id}/edit', [DosenController::class, 'edit'])->name('dosen.edit');
-            Route::put('/{id}/update', [DosenController::class, 'update'])->name('dosen.update');
-            Route::delete('/{id}', [DosenController::class, 'destroy'])->name('dosen.destroy');
+            Route::get('/{dosen}/edit', [DosenController::class, 'edit'])->name('dosen.edit');
+            Route::put('/{dosen}', [DosenController::class, 'update'])->name('dosen.update');
+            Route::get('/{dosen}/delete', [DosenController::class, 'delete'])->name('dosen.delete');
+            Route::delete('/{dosen}', [DosenController::class, 'destroy'])->name('dosen.destroy');
+            Route::get('/import', [DosenController::class, 'import']);
+            Route::post('/import_ajax', [DosenController::class, 'import_ajax']);
+            Route::get('/export', [DosenController::class, 'export_excel']);
         });
         Route::prefix('admin')->group(function () {
             Route::get('/', [AdminController::class, 'index'])->name('admin.index');
@@ -75,13 +98,114 @@ Route::middleware('auth')->group(function () {
         Route::prefix('prodi')->group(function () {
             Route::get('/', [ProdiController::class, 'index'])->name('prodi.index');
             Route::post('/list', [ProdiController::class, 'list'])->name('prodi.list');
+            Route::get('/{prodi}/show', [ProdiController::class, 'show'])->name('prodi.show');
             Route::get('/create', [ProdiController::class, 'create'])->name('prodi.create');
             Route::post('/', [ProdiController::class, 'store'])->name('prodi.store');
-            Route::get('/{id}/edit', [ProdiController::class, 'edit'])->name('prodi.edit');
-            Route::put('/{id}', [ProdiController::class, 'update'])->name('prodi.update');
-            Route::delete('/{id}', [ProdiController::class, 'destroy'])->name('prodi.destroy');
+            Route::get('/{prodi}/edit', [ProdiController::class, 'edit'])->name('prodi.edit');
+            Route::put('/{prodi}', [ProdiController::class, 'update'])->name('prodi.update');
+            Route::get('/{prodi}/delete', [ProdiController::class, 'confirm'])->name('prodi.delete');
+            Route::delete('/{prodi}', [ProdiController::class, 'destroy'])->name('prodi.destroy');
+        });
+        Route::prefix('penyelenggara')->group(function () {
+            Route::get('/', [PenyelenggaraController::class, 'index'])->name('penyelenggara.index');
+            Route::post('/list', [PenyelenggaraController::class, 'list'])->name('penyelenggara.list');
+            Route::get('/create', [PenyelenggaraController::class, 'create'])->name('penyelenggara.create');
+            Route::post('/', [PenyelenggaraController::class, 'store'])->name('penyelenggara.store');
+            Route::get('/{id}/show', [PenyelenggaraController::class, 'show'])->name('penyelenggara.show');
+            Route::get('/{id}/edit', [PenyelenggaraController::class, 'edit'])->name('penyelenggara.edit');
+            Route::put('/{id}', [PenyelenggaraController::class, 'update'])->name('penyelenggara.update');
+            Route::get('/{penyelenggara}/confirm-delete', [PenyelenggaraController::class, 'confirmDelete'])->name('penyelenggara.confirm-delete');
+            Route::delete('/{penyelenggara}', [PenyelenggaraController::class, 'destroy'])->name('penyelenggara.destroy');
+            Route::get('/import', [PenyelenggaraController::class, 'import']);
+            Route::post('/import_ajax', [PenyelenggaraController::class, 'import_ajax']);
+            Route::get('/export', [PenyelenggaraController::class, 'export_excel']);
+        });
+        Route::prefix('prestasi')->group(function () {
+            Route::get('/', [AdminPrestasiController::class, 'index'])->name('prestasi.index');
+            Route::post('/list', [AdminPrestasiController::class, 'list']);
+            Route::get('/{prestasi}/show', [AdminPrestasiController::class, 'show'])->name('prestasi.show');
+            Route::get('/create', [AdminPrestasiController::class, 'create'])->name('prestasi.create');
+            Route::post('/', [AdminPrestasiController::class, 'store'])->name('prestasi.store');
+            Route::get('/{prestasi}/edit', [AdminPrestasiController::class, 'edit'])->name('prestasi.edit');
+            Route::put('/{prestasi}', [AdminPrestasiController::class, 'update'])->name('prestasi.update');
+            Route::get('/{prestasi}/edit-verifikasi', [AdminPrestasiController::class, 'edit_verifikasi'])->name('prestasi.edit_verifikasi');
+            Route::put('/{prestasi}/update-verifikasi', [AdminPrestasiController::class, 'update_verifikasi'])->name('prestasi.update_verifikasi');
+            Route::get('/{prestasi}/confirm-delete', [AdminPrestasiController::class, 'confirmDelete'])->name('prestasi.confirm-delete');
+            Route::delete('/{prestasi}', [AdminPrestasiController::class, 'destroy'])->name('prestasi.destroy');
+        });
+
+        Route::prefix('lomba')->group(function () {
+            Route::get('/', [LombaController::class, 'index'])->name('lomba.index');
+            Route::post('/list', [LombaController::class, 'list']);
+            Route::get('/{lomba}/show', [LombaController::class, 'show'])->name('lomba.show');
+            Route::get('/create', [LombaController::class, 'create'])->name('lomba.create');
+            Route::post('/', [LombaController::class, 'store'])->name('lomba.store');
+            Route::get('/{lomba}/edit', [LombaController::class, 'edit'])->name('lomba.edit');
+            Route::put('/{lomba}', [LombaController::class, 'update'])->name('lomba.update');
+            Route::get('/{lomba}/delete', [LombaController::class, 'confirm'])->name('lomba.delete');
+            Route::delete('/{lomba}', [LombaController::class, 'destroy'])->name('lomba.destroy');
+        });
+
+        Route::prefix('bidangKeahlian')->group(function () {
+            Route::get('/', [BidangKeahlianController::class, 'index'])->name('bidangKeahlian.index');
+            Route::post('/list', [BidangKeahlianController::class, 'list']);
+            Route::get('/{bidangKeahlian}/show', [BidangKeahlianController::class, 'show'])->name('bidangKeahlian.show');
+            Route::get('/create', [BidangKeahlianController::class, 'create'])->name('bidangKeahlian.create');
+            Route::post('/', [BidangKeahlianController::class, 'store'])->name('bidangKeahlian.store');
+            Route::get('/{bidangKeahlian}/edit', [BidangKeahlianController::class, 'edit'])->name('bidangKeahlian.edit');
+            Route::put('/{bidangKeahlian}', [BidangKeahlianController::class, 'update'])->name('bidangKeahlian.update');
+            Route::get('/{bidangKeahlian}/delete', [BidangKeahlianController::class, 'confirm'])->name('bidangKeahlian.delete');
+            Route::delete('/{bidangKeahlian}', [BidangKeahlianController::class, 'destroy'])->name('bidangKeahlian.destroy');
+        });
+        Route::prefix('KategoriBidangKeahlian')->group(function () {
+            Route::get('/', [KategoriBidangKeahlianController::class, 'index'])->name('kategoriBidangKeahlian.index');
+            Route::post('/list', [KategoriBidangKeahlianController::class, 'list']);
+            Route::get('/{kategoriBidangKeahlian}/show', [KategoriBidangKeahlianController::class, 'show'])->name('kategoriBidangKeahlian.show');
+            Route::get('/create', [KategoriBidangKeahlianController::class, 'create'])->name('kategoriBidangKeahlian.create');
+            Route::post('/', [KategoriBidangKeahlianController::class, 'store'])->name('kategoriBidangKeahlian.store');
+            Route::get('/{kategoriBidangKeahlian}/edit', [KategoriBidangKeahlianController::class, 'edit'])->name('kategoriBidangKeahlian.edit');
+            Route::put('/{kategoriBidangKeahlian}', [KategoriBidangKeahlianController::class, 'update'])->name('kategoriBidangKeahlian.update');
+            Route::get('/{kategoriBidangKeahlian}/delete', [KategoriBidangKeahlianController::class, 'confirm'])->name('kategoriBidangKeahlian.delete');
+            Route::delete('/{kategoriBidangKeahlian}', [KategoriBidangKeahlianController::class, 'destroy'])->name('kategoriBidangKeahlian.destroy');
         });
     });
+
+    Route::middleware(['role:DOS'])->group(function () {
+        Route::prefix('mahasiswa-bimbingan')->name('dosen.mahasiswa.')->group(function () {
+            Route::get('/', [DosenBimbinganController::class, 'index'])->name('index');
+            Route::post('/list', [DosenBimbinganController::class, 'list']);
+            Route::get('/{id}/show', [DosenBimbinganController::class, 'show']);
+        });
+
+        Route::prefix('prestasi-bimbingan')->name('dosen.prestasi.')->group(function () {
+            Route::get('/', [DosenPrestasiController::class, 'index'])->name('index');
+            Route::get('/{prestasi}', [DosenPrestasiController::class, 'show'])->name('show');
+        });
+    });
+
+
+    Route::middleware(['role:MHS'])->group(function () {
+        Route::prefix('prestasiku')->name('mahasiswa.prestasi.')->group(function () {
+            Route::get('/', [MahasiswaPrestasiController::class, 'index'])->name('index');
+            Route::get('/{prestasi}', [MahasiswaPrestasiController::class, 'show'])->name('show');
+            Route::get('/{prestasi}/edit', [MahasiswaPrestasiController::class, 'edit'])->name('edit');
+            Route::put('/{prestasi}', [MahasiswaPrestasiController::class, 'update'])->name('update');
+            Route::get('/{prestasi}/confirm', [MahasiswaPrestasiController::class, 'confirm'])->name('confirm');
+            Route::delete('/{prestasi}', [MahasiswaPrestasiController::class, 'destroy'])->name('destroy');
+        });
+    });
+
+    Route::middleware(['role:MHS,DOS'])->group(function () {
+        Route::prefix('daftar-lomba')->name('daftar-lomba.')->group(function () {
+            Route::get('/', [MahasiswaDosenLombaController::class, 'index'])->name('index');
+            Route::get('/{lomba}', [MahasiswaDosenLombaController::class, 'show'])->name('show');
+            Route::get('/{lomba}/edit', [MahasiswaDosenLombaController::class, 'edit'])->name('edit');
+            Route::put('/{lomba}', [MahasiswaDosenLombaController::class, 'update'])->name('update');
+            Route::get('/{lomba}/confirm', [MahasiswaDosenLombaController::class, 'confirm'])->name('confirm');
+            Route::delete('/{lomba}', [MahasiswaDosenLombaController::class, 'destroy'])->name('destroy');
+        });
+    });
+
 });
 
 
@@ -93,5 +217,5 @@ Route::middleware('auth')->group(function () {
 // });
 
 
-Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
-Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+// Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
+// Route::post('/logout', [AuthController::class, 'logout'])->name('logout');

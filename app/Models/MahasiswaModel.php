@@ -42,4 +42,29 @@ class MahasiswaModel extends Model
         return $this->belongsTo(UserModel::class, 'user_id', 'user_id');
     }
 
+    public function prestasi()
+    {
+        return $this->hasMany(PrestasiModel::class, 'mahasiswa_id', 'mahasiswa_id');
+    }
+
+    public function rekomendasi()
+    {
+        return $this->hasMany(RekomendasiMahasiswaLomba::class, 'mahasiswa_id', 'mahasiswa_id');
+    }
+
+    public function minat()
+    {
+        return $this->hasMany(MinatMahasiswaModel::class, 'mahasiswa_id', 'mahasiswa_id');
+    }
+
+    public function keahlian()
+    {
+        return $this->hasMany(KeahlianMahasiswaModel::class, 'mahasiswa_id', 'mahasiswa_id');
+    }
+
+    public function organisasi()
+    {
+        return $this->hasMany(MahasiswaOrganisasiModel::class, 'mahasiswa_id', 'mahasiswa_id');
+    }
+
 }

@@ -3,11 +3,15 @@
 namespace App\Http\Controllers;
 
 use App\Models\KelasModel;
+use App\Models\LevelModel;
 use App\Models\MahasiswaModel;
 use App\Models\ProdiModel;
 use App\Models\UserModel;
 use Illuminate\Http\Request;
-use Validator;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Validator;
+use PhpOffice\PhpSpreadsheet\IOFactory;
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use Yajra\DataTables\DataTables;
 
 class MahasiswaController extends Controller
@@ -49,9 +53,9 @@ class MahasiswaController extends Controller
                     return $row->nim;
                 })
                 ->addColumn('info', function ($row) {
-                    $image = $row->image ? asset('storage/' . $row->foto_profile) : asset('img/user.png');
-                    $image = asset('assets/images/user.png');
-
+                    $image = $row->foto_profile ? asset('storage/' . $row->foto_profile) : asset('assets/images/user.png');
+                    // $image = asset('assets/images/user.png');
+    
                     return '
                         <div class="d-flex align-items-center text-start">
                             <img 
@@ -67,7 +71,6 @@ class MahasiswaController extends Controller
                             </div>
                         </div>
                     ';
-
                 })
                 ->addColumn('kelas', function ($row) {
                     return $row->kelas->kelas_nama ?? '-';
@@ -85,14 +88,15 @@ class MahasiswaController extends Controller
                 ->rawColumns(['info', 'aksi']) // agar tombol HTML tidak di-escape
                 ->make(true);
         }
-
     }
     /**
      * Show the form for creating a new resource.
      */
     public function create()
     {
-        //
+        $kelas = KelasModel::select('kelas_id', 'kelas_nama', 'prodi_id')->get();
+        $prodi = ProdiModel::select('prodi_id', 'prodi_nama')->get();
+        return view('admin.mahasiswa.create_mahasiswa')->with(['kelas' => $kelas, 'prodi' => $prodi]);
     }
 
     /**
@@ -100,7 +104,95 @@ class MahasiswaController extends Controller
      */
     public function store(Request $request)
     {
+        // dd($request->file('foto_profile'));
 
+        // dd($request);
+        if ($request->ajax() || $request->wantsJson()) {
+            // dd($request);
+            // dd($request->file('foto_profile'));
+
+            $rules = [
+                'username' => 'required|max:20|unique:m_user,username',
+                'nama' => 'required|max:100',
+                'email' => 'required|email|unique:m_mahasiswa,email',
+                'no_tlp' => 'nullable|max:20',
+                'nim' => 'required|unique:m_mahasiswa,nim',
+                'prodi_id' => 'required',
+                'kelas_id' => 'required',
+                'alamat' => 'nullable',
+                'foto_profile' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+                'password' => 'nullable|min:6|max:20'
+            ];
+            $validator = Validator::make($request->all(), $rules);
+
+            if ($validator->fails()) {
+                return response()->json([
+                    'status' => false,
+                    'message' => 'Validasi gagal.',
+                    'msgField' => $validator->errors()
+                ]);
+            }
+            if ($request->hasFile('foto_profile')) {
+                // return response()->json(['error' => 'No file uploaded'], 400);
+                $file = $request->file('foto_profile');
+
+                if (!$file->isValid()) {
+                    return response()->json(['error' => 'Invalid file'], 400);
+                }
+
+                // Nama file unik
+                $filename = time() . '_' . $file->getClientOriginalName();
+
+                // Pastikan folder penyimpanan ada
+                $destinationPath = storage_path('app/public/mahasiswa/profile-pictures');
+                if (!file_exists($destinationPath)) {
+                    mkdir($destinationPath, 0775, true);
+                }
+
+                // Hapus file lama jika ada
+                $oldImage = $mahasiswa->foto_profile ?? null; // Ambil path file lama dari database
+
+                if ($oldImage) {
+                    Storage::disk('public')->delete($oldImage);
+                }
+
+                // Pindahkan file
+                $file->move($destinationPath, $filename);
+
+                $imagePath = "mahasiswa/profile-pictures/$filename"; // Simpan path gambar
+            } else {
+                $imagePath = null;
+                // return  'dijalankan';
+            }
+            // dd($imagePath);
+
+            try {
+            $data_user = [
+                'username' => $request->username,
+                'password' => $request->password,
+                'level_' => LevelModel::where('level_kode', 'MHS')->first()->level_id
+            ];
+            $userId = UserModel::create($data_user)->user_id;
+
+            $data_mahasiswa = [
+                'user_id' => $userId,
+                'prodi_id' => $request->prodi_id,
+                'kelas_id' => $request->kelas_id,
+                'nim' => $request->nim,
+                'nama' => $request->nama,
+                'email' => $request->email,
+                'no_tlp' => $request->no_tlp,
+                'alamat' => $request->alamat,
+                'tahun_angkatan' => $request->tahun_angkatan,
+                'foto_profile' => $imagePath
+            ];
+
+            $mahasiswa = MahasiswaModel::create($data_mahasiswa);
+            return response()->json(['status' => true, 'message' => 'Data Mahasiswa berhasil ditambahkan']);
+            } catch (\Exception $e) {
+                return response()->json(['status' => false, 'message' => 'Terjadi kesalahan pada server']);
+            }
+        }
     }
 
     /**
@@ -132,6 +224,9 @@ class MahasiswaController extends Controller
     public function update(Request $request, MahasiswaModel $mahasiswa)
     {
         if ($request->ajax() || $request->wantsJson()) {
+            // dd($request);
+            // dd($request->file('foto_profile'));
+
             $rules = [
                 'username' => 'required|max:20|unique:m_user,username,' . $mahasiswa->user->user_id . ',user_id',
                 'nama' => 'required|max:100',
@@ -146,8 +241,40 @@ class MahasiswaController extends Controller
                     'msgField' => $validator->errors()
                 ]);
             }
+            if ($request->hasFile('foto_profile')) {
+                // return response()->json(['error' => 'No file uploaded'], 400);
+                $file = $request->file('foto_profile');
 
+                if (!$file->isValid()) {
+                    return response()->json(['error' => 'Invalid file'], 400);
+                }
 
+                // Nama file unik
+                $filename = time() . '_' . $file->getClientOriginalName();
+
+                // Pastikan folder penyimpanan ada
+                $destinationPath = storage_path('app/public/mahasiswa/profile-pictures');
+                if (!file_exists($destinationPath)) {
+                    mkdir($destinationPath, 0775, true);
+                }
+
+                // Hapus file lama jika ada
+                $oldImage = $mahasiswa->foto_profile ?? null; // Ambil path file lama dari database
+
+                if ($oldImage) {
+                    Storage::disk('public')->delete($oldImage);
+                }
+
+                // Pindahkan file
+                $file->move($destinationPath, $filename);
+
+                $imagePath = "mahasiswa/profile-pictures/$filename"; // Simpan path gambar
+            } else {
+                $imagePath = null;
+                // return  'dijalankan';
+            }
+
+            // return 'aaaa'.$imagePath;
 
             $check = UserModel::find($mahasiswa->user->user_id);
             if ($check) {
@@ -163,13 +290,25 @@ class MahasiswaController extends Controller
                 }
                 $check->update($data_user);
 
+                if ($request->input('remove_picture') == "1") {
+                    // Hapus gambar lama jika ada
+                    if ($mahasiswa->foto_profile) {
+                        $oldImage = $mahasiswa->foto_profile; // Ambil path file lama dari database
+                        if ($oldImage) {
+                            Storage::disk('public')->delete($oldImage);
+                        }
+                    }
+                    $imagePath = null; // Set kolom di database jadi null
+                }
+
                 $data_mahasiswa = [
                     'nim' => $request->nim,
                     'nama' => $request->nama,
                     'email' => $request->email,
                     'no_tlp' => $request->no_tlp,
                     'alamat' => $request->alamat,
-                    'tahun_angkatan' => $request->tahun_angkatan
+                    'tahun_angkatan' => $request->tahun_angkatan,
+                    'foto_profile' => $imagePath
                 ];
                 $mahasiswa->update($data_mahasiswa);
                 return response()->json(['status' => true, 'message' => 'Data berhasil diupdate']);
@@ -195,7 +334,14 @@ class MahasiswaController extends Controller
         // return $mahasiswa;
         if ($mahasiswa) {
             try {
+                $oldImage = $mahasiswa->foto_profile; // Ambil path file lama dari database
+                if ($oldImage) {
+                    Storage::disk('public')->delete($oldImage);
+                }
+
+                $userId = $mahasiswa->user_id;
                 $mahasiswa->delete();
+                UserModel::where('user_id', $userId)->delete();
                 return response()->json([
                     'status' => true,
                     'message' => 'Data berhasil dihapus'
@@ -207,6 +353,143 @@ class MahasiswaController extends Controller
                 ]);
             }
         }
-
     }
+
+    
+    public function import()
+{
+    return view('admin.mahasiswa.import_mahasiswa');
+}
+
+public function import_ajax(Request $request)
+{
+    if ($request->ajax() || $request->wantsJson()) {
+        $rules = [
+            'file_mahasiswa' => ['required', 'mimes:xlsx', 'max:1024']
+        ];
+
+        $validator = Validator::make($request->all(), $rules);
+        if ($validator->fails()) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Validasi gagal saat upload file.',
+                'msgField' => $validator->errors()
+            ]);
+        }
+
+        $file = $request->file('file_mahasiswa');
+        $reader = IOFactory::createReader('Xlsx');
+        $reader->setReadDataOnly(true);
+        $spreadsheet = $reader->load($file->getRealPath());
+        $sheet = $spreadsheet->getActiveSheet();
+        $data = $sheet->toArray(null, false, true, true);
+
+        $inserted = 0;
+        $levelId = \App\Models\LevelModel::where('level_kode', 'MHS')->value('level_id');
+
+        if (count($data) > 1) {
+            foreach ($data as $baris => $value) {
+                if ($baris == 1) continue; // Header
+
+                try {
+                    $user = UserModel::create([
+                        'username' => trim($value['A']),
+                        'password' => bcrypt(trim($value['B'])),
+                        'level_id' => 1,
+                        'created_at' => now()
+                    ]);
+
+                    MahasiswaModel::create([
+                        'user_id' => $user->user_id,
+                        'tahun_angkatan' => trim($value['C']),
+                        'nim' => trim($value['D']),
+                        'nama' => trim($value['E']),
+                        'email' => trim($value['F']),
+                        'no_tlp' => trim($value['G']),
+                        'alamat' => trim($value['H']),
+                        'kelas_id' => trim($value['I']),
+                        'foto_profile' => null // Tidak bisa upload gambar via Excel
+                    ]);
+
+                    $inserted++;
+                } catch (\Exception $e) {
+                    continue; // Skip error, lanjut baris berikutnya
+                }
+            }
+
+            return response()->json([
+                'status' => true,
+                'message' => "Import selesai. Total data disimpan: $inserted"
+            ]);
+        }
+
+        return response()->json([
+            'status' => false,
+            'message' => 'Tidak ada data pada file.'
+        ]);
+    }
+
+    return redirect('/');
+}
+
+public function export_excel()
+{
+    $mahasiswa = MahasiswaModel::with(['user', 'kelas'])->orderBy('mahasiswa_id')->get();
+
+    $spreadsheet = new Spreadsheet();
+    $sheet = $spreadsheet->getActiveSheet();
+
+    // Header
+    $sheet->setCellValue('A1', 'No');
+    $sheet->setCellValue('B1', 'Username');
+    $sheet->setCellValue('C1', 'Password'); // tidak diekspor, hanya dummy
+    $sheet->setCellValue('D1', 'NIM');
+    $sheet->setCellValue('E1', 'Nama');
+    $sheet->setCellValue('F1', 'Email');
+    $sheet->setCellValue('G1', 'No Telepon');
+    $sheet->setCellValue('H1', 'Alamat');
+    $sheet->setCellValue('I1', 'Tahun Angkatan');
+    $sheet->setCellValue('J1', 'Kelas');
+
+    $sheet->getStyle('A1:K1')->getFont()->setBold(true);
+
+    $baris = 2;
+    $no = 1;
+    foreach ($mahasiswa as $m) {
+        $sheet->setCellValue("A$baris", $no++);
+        $sheet->setCellValue("B$baris", $m->user->username ?? '-');
+        $sheet->setCellValue("C$baris", '********'); // Password disembunyikan
+        $sheet->setCellValue("D$baris", $m->nim);
+        $sheet->setCellValue("E$baris", $m->nama);
+        $sheet->setCellValue("F$baris", $m->email);
+        $sheet->setCellValue("G$baris", $m->no_tlp);
+        $sheet->setCellValue("H$baris", $m->alamat);
+        $sheet->setCellValue("I$baris", $m->tahun_angkatan);
+        $sheet->setCellValue("J$baris", $m->kelas->kelas_nama ?? '-');
+        $baris++;
+    }
+
+    // Auto width
+    foreach (range('A', 'K') as $col) {
+        $sheet->getColumnDimension($col)->setAutoSize(true);
+    }
+
+    $filename = 'Data_Mahasiswa_' . date('Y-m-d_H-i-s') . '.xlsx';
+
+    // Bersihkan output buffer
+    if (ob_get_length()) {
+        ob_end_clean();
+    }
+
+    // Header untuk download
+    header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+    header("Content-Disposition: attachment; filename=\"$filename\"");
+    header('Cache-Control: max-age=0');
+
+    // Simpan file ke output
+    $writer = \PhpOffice\PhpSpreadsheet\IOFactory::createWriter($spreadsheet, 'Xlsx');
+    $writer->save('php://output');
+    exit;
+}
+
 }

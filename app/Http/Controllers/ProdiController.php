@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\ProdiModel;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 use Yajra\DataTables\DataTables;
 
 class ProdiController extends Controller
@@ -28,10 +29,10 @@ class ProdiController extends Controller
             return DataTables::of($prodi)
                 ->addIndexColumn()
                 ->addColumn('info', function ($row) {
-                    return '
-                        <strong>' . $row->prodi_nama . '</strong><br>
-                        <small>Kode: ' . $row->prodi_kode . '</small>
-                    ';
+                    return $row->prodi_nama;
+                })
+                ->addColumn('kode', function ($row) {
+                    return $row->prodi_kode;
                 })
                 ->addColumn('aksi', function ($row) {
                     return '
@@ -44,51 +45,99 @@ class ProdiController extends Controller
         }
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
-
+        return view("admin.prodi.create_prodi");
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store()
+    public function store(Request $request)
     {
-       
+        $rules = [
+            'prodi_nama' => 'required|string|max:255',
+            'prodi_kode' => 'required|string|max:255'
+        ];
+
+        $validator = Validator::make($request->all(), $rules);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Validasi gagal.',
+                'msgField' => $validator->errors()
+            ]);
+        }
+
+        ProdiModel::create([
+            'prodi_nama' => $request->prodi_nama,
+            'prodi_kode' => $request->prodi_kode,
+        ]);
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Data berhasil disimpan.'
+        ]);
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show()
+    public function show($id)
     {
-        
+        $prodi = ProdiModel::find($id);
+        return view('admin.prodi.show_prodi')->with(['prodi' => $prodi]);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit()
+    public function edit(ProdiModel $prodi)
     {
-        
+        return view('admin.prodi.edit_prodi')->with(['prodi' => $prodi]);
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update()
+    public function update(Request $request, $id)
     {
+        $prodi = ProdiModel::findOrFail($id);
 
+        $rules = [
+            'prodi_nama' => 'required|string|max:255',
+            'prodi_kode' => 'required|string|max:255',
+        ];
+
+        $validator = Validator::make($request->all(), $rules);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Validasi gagal.',
+                'msgField' => $validator->errors()
+            ]);
+        }
+
+        $prodi->update([
+            'prodi_nama' => $request->prodi_nama,
+            'prodi_kode' => $request->prodi_kode,
+        ]);
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Data berhasil diupdate.'
+        ]);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy()
+    public function confirmDelete(ProdiModel $prodi)
     {
+        return view('admin.prodi.confirm_delete_prodi')->with(['prodi' => $prodi]);
+    }
 
+    public function destroy(ProdiModel $prodi)
+    {
+        try {
+            $prodi->delete();
+
+            return response()->json([
+                'status' => true,
+                'message' => 'Data berhasil dihapus'
+            ]);
+        } catch (\Illuminate\Database\QueryException $e) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Data gagal dihapus karena masih terdapat tabel lain yang terkait dengan data ini'
+            ]);
+        }
     }
 }

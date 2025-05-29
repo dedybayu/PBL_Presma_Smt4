@@ -34,13 +34,14 @@
         <div class="app-sidebar__inner">
             <ul class="vertical-nav-menu">
                 <li class="app-sidebar__heading">Menu</li>
-                <li class="{{ request()->is('dashboard') ? 'sidebar-active mm-active' : '' }}">
-                    <a href="{{ url('dashboard') }}">
+                <li class="">
+                    <a href="{{ url('dashboard') }}" class="{{ request()->is('dashboard') ? 'mm-active' : '' }}">
                         <i class="metismenu-icon pe-7s-rocket"></i> Dashboard
                     </a>
                 </li>
                 <li class="">
-                    <a href="#" class="{{ request()->routeIs('mahasiswa.*', 'dosen.*', 'admin.*') ? 'mm-active' : '' }}">
+                    <a href="#"
+                        class="{{ request()->routeIs('mahasiswa.*', 'dosen.*', 'admin.*') ? 'mm-active' : '' }}">
                         <i class="metismenu-icon pe-7s-users"></i> Manajemen Pengguna
                         <i class="metismenu-state-icon pe-7s-angle-down caret-left"></i>
                     </a>
@@ -53,57 +54,96 @@
                             </a>
                         </li>
                         <li>
-                            <a href="{{ route('dosen.index') }}" class="{{ request()->routeIs('dosen.index') ? 'mm-active' : '' }}">
+                            <a href="{{ route('dosen.index') }}"
+                                class="{{ request()->routeIs('dosen.index') ? 'mm-active' : '' }}">
                                 <i class="metismenu-icon">
                                 </i> Dosen
                             </a>
                         </li>
-                        <li>
-                            <a href="{{ route('admin.index') }}" class="{{ request()->routeIs('admin.index') ? 'mm-active' : '' }}">
+                        {{-- <li>
+                            <a href="{{ route('admin.index') }}"
+                                class="{{ request()->routeIs('admin.index') ? 'mm-active' : '' }}">
                                 <i class="metismenu-icon">
                                 </i> Admin
+                            </a>
+                        </li> --}}
+                    </ul>
+                </li>
+                <li>
+                    <a href="#"
+                        class="{{ request()->routeIs('kategoriBidangKeahlian.*','bidangKeahlian.*') ? 'mm-active' : '' }}">
+                        <i class="metismenu-icon pe-7s-note2"></i> Bidang Keahlian
+                        <i class="metismenu-state-icon pe-7s-angle-down caret-left"></i>
+                    </a>
+                    <ul
+                        class="{{ request()->routeIs('kategoriBidangKeahlian.*','bidangKeahlian.*') ? 'mm-show' : '' }}">
+                        <li>
+                            <a href="{{ route('kategoriBidangKeahlian.index') }}"
+                                class="{{ request()->routeIs('kategoriBidangKeahlian.index') ? 'mm-active' : '' }}">
+                                <i class="metismenu-icon">
+                                </i>Kategori Bidang Keahlian
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{ route('bidangKeahlian.index') }}"
+                                class="{{ request()->routeIs('bidangKeahlian.index') ? 'mm-active' : '' }}">
+                                <i class="metismenu-icon">
+                                </i>Bidang Keahlian
                             </a>
                         </li>
                     </ul>
                 </li>
                 <li>
-                    <a href="#">
-                        <i class="metismenu-icon pe-7s-note2"></i> Manajemen Data Lomba
+                    <a href="#"
+                        class="{{ request()->routeIs('lomba.*', 'penyelenggara.*') ? 'mm-active' : '' }}">
+                        <i class="metismenu-icon pe-7s-note2"></i> Data Lomba
                         <i class="metismenu-state-icon pe-7s-angle-down caret-left"></i>
                     </a>
-                    <ul>
+                    <ul
+                        class="{{ request()->routeIs('lomba.*', 'penyelenggara.*') ? 'mm-show' : '' }}">
                         <li>
-                            <a href="mailbox.html">
+                            <a href="{{ route('lomba.index') }}"
+                                class="{{ request()->routeIs('lomba.index') ? 'mm-active' : '' }}">
                                 <i class="metismenu-icon">
                                 </i>Daftar Lomba
                             </a>
                         </li>
-                        <li>
-                            <a href="mailbox.html">
+                        {{-- <li>
+                            <a href="{{ route('bidangKeahlian.index') }}"
+                                class="{{ request()->routeIs('bidangKeahlian.index') ? 'mm-active' : '' }}">
                                 <i class="metismenu-icon">
-                                </i>Kategori Lomba
+                                </i>Daftar Bidang Keahlian
+                            </a>
+                        </li> --}}
+                        <li>
+                            <a href="{{ route('penyelenggara.index') }}"
+                                class="{{ request()->routeIs('penyelenggara.index') ? 'mm-active' : '' }}">
+                                <i class="metismenu-icon">
+                                </i> Daftar Penyelenggara
                             </a>
                         </li>
                     </ul>
                 </li>
                 <li>
-                    <a href="#">
-                        <i class="metismenu-icon pe-7s-check"></i> Verifikasi Data
+                    <a href="#" class="{{ request()->routeIs('prestasi.*') ? 'mm-active' : '' }}">
+                        <i class="metismenu-icon pe-7s-check"></i> Data Prestasi
                         <i class="metismenu-state-icon pe-7s-angle-down caret-left"></i>
                     </a>
-                    <ul>
+                    <ul class="{{ request()->routeIs('prestasi.*') ? 'mm-show' : '' }}">
                         <li>
-                            <a href="mailbox.html">
+                            <a href="{{ route('prestasi.index') }}"
+                                class="{{ request()->routeIs('prestasi.index') ? 'mm-active' : '' }}">
                                 <i class="metismenu-icon">
                                 </i>Prestasi Mahasiswa
                             </a>
                         </li>
-                        <li>
-                            <a href="chat.html">
+                        {{-- <li>
+                            <a href="mailbox.html">
                                 <i class="metismenu-icon">
-                                </i>Data Lomba
+                                </i>Data lomba
                             </a>
-                        </li>
+                            </a>
+                        </li> --}}
                     </ul>
                 </li>
                 <li>
@@ -119,7 +159,8 @@
                             </a>
                         </li>
                         <li>
-                            <a href="{{ route('prodi.index') }}" class="{{ request()->routeIs('prodi.index') ? 'mm-active' : '' }}">
+                            <a href="{{ route('prodi.index') }}"
+                                class="{{ request()->routeIs('prodi.index') ? 'mm-active' : '' }}">
                                 <i class="metismenu-icon">
                                 </i> Program Studi
                             </a>

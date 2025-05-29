@@ -3,7 +3,9 @@
         <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
         <link href="https://cdn.jsdelivr.net/npm/select2-bootstrap-5-theme@1.1.1/dist/select2-bootstrap-5-theme.min.css"
             rel="stylesheet" />
-        {{-- <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.4.1/css/responsive.bootstrap5.min.css"> --}}
+        {{--
+        <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.4.1/css/responsive.bootstrap5.min.css">
+        --}}
 
     </x-slot:css>
     <x-slot:title>
@@ -13,6 +15,17 @@
     <div class="card">
         <div class="card-header">
             <h3 class="card-title">Daftar Dosen</h3>
+            <div class="btn-actions-pane-right text-capitalize">
+                {{-- <button class="btn-wide btn-outline-2x mr-md-2 btn btn-outline-focus btn-sm">View All</button> --}}
+                <button onclick="modalAction('{{ url('/dosen/create') }}')" class="btn btn-sm btn-success mt-1">
+                    <i class="fa fa-plus"></i> Tambah
+                </button>
+                <button onclick="modalAction('{{ url('/dosen/import') }}')" class="btn btn-sm btn-primary mt-1">
+                    <i class="fa fa-plus"></i> Import
+                </button>
+                <a href="{{ url('/dosen/export') }}" class="btn btn-info mt-1"><i class="fa fa-file-excel"></i>
+                    Export</a>
+            </div>
         </div>
 
         <div class="card-body">
@@ -44,23 +57,32 @@
         </div>
     </div>
 
+    <x-slot:modal>
+        <div id="modal-dosen" class="modal fade animate shake" tabindex="-1" role="dialog" data-backdrop="static"
+            data-keyboard="false" aria-hidden="true">
+            <div class="modal-dialog modal-xl" role="document">
+                <div class="modal-content"></div>
+            </div>
+        </div>
+    </x-slot:modal>
+
 
     <x-slot:js>
         <script>
             function modalAction(url) {
                 // Kosongkan modal sebelum memuat konten baru
-                $("#modal-crud .modal-content").html("");
+                $("#modal-dosen .modal-content").html("");
 
                 // Panggil modal melalui AJAX
                 $.get(url, function (response) {
-                    $("#modal-crud .modal-content").html(response);
-                    $("#modal-crud").modal("show");
+                    $("#modal-dosen .modal-content").html(response);
+                    $("#modal-dosen").modal("show");
                 });
             }
 
             // Bersihkan isi modal setelah ditutup
-            $('#modal-crud').on('hidden.bs.modal', function () {
-                $("#modal-crud .modal-content").html("");
+            $('#modal-dosen').on('hidden.bs.modal', function () {
+                $("#modal-dosen .modal-content").html("");
             });
 
 

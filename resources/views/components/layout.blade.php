@@ -3,10 +3,13 @@
 
 <head>
     <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta http-equiv="Content-Language" content="en">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>ArchitectUI HTML Demo</title>
+    <link rel="icon" type="image/png" href="{{ asset('assets/images/presapp-logo.png') }}" />
+
+    <title>PresApp</title>
+
     <meta name="viewport"
         content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, shrink-to-fit=no" />
 
@@ -20,7 +23,9 @@
         href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
 
     <!-- Font Awesome -->
+
     <link rel="stylesheet" href="{{ asset('assets/plugins/fontawesome-free/css/all.min.css') }}">
+
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
 
@@ -28,6 +33,11 @@
     <link rel="stylesheet" href="../assets/css/base.min.css"> --}}
     <link rel="stylesheet" href="{{ asset('assets/css/base.min.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
+    {{--
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    --}}
+
 
     {{-- Sweet Alert --}}
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@sweetalert2/theme-bootstrap-4/bootstrap-4.min.css">
@@ -35,6 +45,7 @@
 
     {{-- Custom CSS --}}
     <x-css>{{$css}}</x-css>
+
 
 </head>
 
@@ -49,7 +60,13 @@
 
         {{-- <x-main></x-main> --}}
         <div class="app-main" style="background-color: rgb(225, 242, 255);">
-            <x-sidebar></x-sidebar>
+            @if (Auth::check() && in_array(Auth::user()->getRole(), ['ADM']))
+                <x-sidebar-admin></x-sidebar-admin>
+            @elseif (Auth::check() && in_array(Auth::user()->getRole(), ['MHS']))
+                <x-sidebar-mahasiswa></x-sidebar-mahasiswa>
+            @elseif (Auth::check() && in_array(Auth::user()->getRole(), ['DOS']))
+                <x-sidebar-dosen></x-sidebar-dosen>
+            @endif
 
             <div class="app-main__outer">
 
@@ -73,7 +90,7 @@
 
 
     {{-- Modal CRUD Container --}}
-    <x-modal></x-modal>
+    <x-modal>{{$modal}}</x-modal>
 
 
 
@@ -204,9 +221,10 @@
     <script src="{{ asset('assets/js/scripts-init/toastr.js')}}"></script>
 
     <!--SweetAlert2-->
-    {{-- <script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script>
+    {{--
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script>
     <script src="{{ asset('assets/js/scripts-init/sweet-alerts.js')}}"></script> --}}
-        <!-- Sweet alert2 -->
+    <!-- Sweet alert2 -->
 
     <script src="{{ asset('assets/plugins/sweetalert2/sweetalert2.min.js') }}"></script>
 
@@ -235,9 +253,76 @@
     <script src="{{ asset('assets/plugins/jquery-validation/jquery.validate.min.js') }}"></script>
     <script src="{{ asset('assets/plugins/jquery-validation/additional-methods.min.js') }}"></script>
 
+    {{-- CARI TEKS --}}
+
+
+
     <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const input = document.querySelector('.search-input');
+            input.addEventListener('keydown', function (event) {
+                if (event.key === "Enter") {
+                    event.preventDefault(); // mencegah form submit jika ada
+                    cariTeksDiHalaman();
+                }
+            });
+        });
+
+        function cariTeksDiHalaman() {
+            resetHighlight(); // hapus highlight sebelumnya
+
+            const input = document.querySelector('.search-input');
+            const keyword = input.value.trim();
+            if (!keyword) return;
+
+            const regex = new RegExp(`(${keyword})`, 'gi');
+
+            // Fungsi rekursif untuk cari dan highlight
+            const highlightText = (node) => {
+                if (node.nodeType === 3) { // text node
+                    if (regex.test(node.nodeValue)) {
+                        const span = document.createElement('span');
+                        span.innerHTML = node.nodeValue.replace(regex, '<mark class="highlight">$1</mark>');
+                        node.parentNode.replaceChild(span, node);
+                    }
+                } else if (node.nodeType === 1 && node.childNodes && !['SCRIPT', 'STYLE', 'MARK'].includes(node.tagName)) {
+                    Array.from(node.childNodes).forEach(highlightText);
+                }
+            };
+
+            highlightText(document.body);
+
+            // Scroll ke hasil pertama
+            const pertama = document.querySelector('.highlight');
+            if (pertama) {
+                pertama.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }
+        }
+
+        function resetHighlight() {
+            // Kembalikan teks dari <mark> ke teks biasa
+            const highlights = document.querySelectorAll('.highlight');
+            highlights.forEach(el => {
+                const text = document.createTextNode(el.textContent);
+                el.parentNode.replaceChild(text, el);
+            });
+        }
+
+
         // Untuk mengirimkan token Laravel CSRF pada setiap request ajax
         $.ajaxSetup({ headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') } });
+
+        function modalLogoutAction(url) {
+            $("#modal-logout .modal-content").html("");
+            $.get(url, function (response) {
+                $("#modal-logout .modal-content").html(response);
+                $("#modal-logout").modal("show");
+            });
+        }
+
+        $('#modal-logout').on('hidden.bs.modal', function () {
+            $("#modal-logout .modal-content").html("");
+        });
     </script>
 
     {{-- Js Tambahan --}}

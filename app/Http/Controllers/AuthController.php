@@ -13,6 +13,9 @@ class AuthController extends Controller
 {
     public function showLogin()
     {
+        if (Auth::check()) {
+            return redirect()->route('dashboard'); // ganti 'dashboard' dengan nama route Anda
+        }
         return view('login');
     }
 
@@ -54,6 +57,12 @@ class AuthController extends Controller
             ->with(['loginError' => 'Login gagal, periksa kembali NIM/NIDN/Username dan password Anda.'])
             ->withInput();
         ;
+    }
+
+    public function confirmLogout()
+    {
+        // return 'hallo';
+        return view('logout');
     }
 
     public function logout(Request $request)

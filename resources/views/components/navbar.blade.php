@@ -1,4 +1,37 @@
 <!--Header START-->
+@php
+    $nama = ''; // Default
+    $keterangan = ''; // Default
+    $foto_profile = ''; // Default foto profile
+
+    if (Auth::check()) {
+        $role = Auth::user()->getRole();
+
+        if ($role === 'MHS') {
+            $nama = Auth::user()->mahasiswa->nama;
+            $keterangan = Auth::user()->mahasiswa->nim;
+            $foto_profile = Auth::user()->mahasiswa->foto_profile
+                ? 'storage/' . Auth::user()->mahasiswa->foto_profile
+                : 'assets/images/user.png';
+        } elseif ($role === 'ADM') {
+            $nama = Auth::user()->admin->nama;
+            $keterangan = Auth::user()->level->level_nama;
+            $foto_profile = Auth::user()->admin->foto_profile
+                ? 'storage/' . Auth::user()->admin->foto_profile
+                : 'assets/images/user.png';
+        } elseif ($role === 'DOS') {
+            $nama = Auth::user()->dosen->nama;
+            $keterangan = Auth::user()->dosen->nidn;
+            $foto_profile = Auth::user()->dosen->foto_profile
+                ? 'storage/' . Auth::user()->dosen->foto_profile
+                : 'assets/images/user.png';
+        }
+
+    }
+@endphp
+
+
+
 <div class="app-header header-shadow" style="background-color: rgb(147, 200, 243);">
     <div class="app-header__logo">
         <div class="logo-src"></div>
@@ -35,48 +68,12 @@
         <div class="app-header-left">
             <div class="search-wrapper">
                 <div class="input-holder">
-                    <input type="text" class="search-input" placeholder="Ketik untuk mencari">
-                    <button class="search-icon"><span></span></button>
+                    <input type="text" class="search-input" placeholder="Cari di halaman">
+                    <button class="search-icon" onclick="cariTeksDiHalaman()"><span></span></button>
                 </div>
-                <button class="close"></button>
+                <button class="close" onclick="resetHighlight()"></button>
             </div>
-            <ul class="header-megamenu nav">
-                <li class="btn-group nav-item">
-                    <a class="nav-link" data-toggle="dropdown" aria-expanded="false">
-                        <span class="badge badge-pill badge-danger ml-0 mr-2">4</span> Pengaturan
-                        <i class="fa fa-angle-down ml-2 opacity-5"></i>
-                    </a>
-                    <div tabindex="-1" role="menu" aria-hidden="true" class="rm-pointers dropdown-menu">
-                        <div class="dropdown-menu-header">
-                            <div class="dropdown-menu-header-inner bg-secondary">
-                                <div class="menu-header-image opacity-5"
-                                    style="background-image: url('../assets/images/dropdown-header/abstract2.jpg');">
-                                </div>
-                                <div class="menu-header-content">
-                                    <h5 class="menu-header-title">Pengaturan</h5>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="scroll-area-xs">
-                            <div class="scrollbar-container">
-                                <h6 tabindex="-1" class="dropdown-header">Menu Pengaturan</h6>
-                                <button type="button" tabindex="0" class="dropdown-item">Tampilan</button>
-                                <button type="button" tabindex="0" class="dropdown-item">Pertanyaan</button>
-                                <button type="button" tabindex="0" class="dropdown-item">Akun</button>
-                                <div tabindex="-1" class="dropdown-divider"></div>
-                                <button type="button" tabindex="0" class="dropdown-item">Products</button>
-                                <button type="button" tabindex="0" class="dropdown-item">Rollup Queries</button>
-                            </div>
-                        </div>
-                        <ul class="nav flex-column">
-                            <li class="nav-item-divider nav-item"></li>
-                            <li class="nav-item-btn nav-item">
-                                <button class="btn-wide btn-shadow btn btn-danger btn-sm">Cancel</button>
-                            </li>
-                        </ul>
-                    </div>
-                </li>
-            </ul>
+
         </div>
         <div class="app-header-right">
             <div class="header-dots">
@@ -84,8 +81,8 @@
                     <button type="button" aria-haspopup="true" aria-expanded="false" data-toggle="dropdown"
                         class="p-0 mr-2 btn btn-link">
                         <span class="icon-wrapper icon-wrapper-alt rounded-circle">
-                            <span class="icon-wrapper-bg bg-danger"></span>
-                            <i class="icon text-danger icon-anim-pulse ion-android-notifications"></i>
+                            <span class="icon-wrapper-bg bg-primary"></span>
+                            <i class="icon text-primary ion-android-notifications"></i>
                             <span class="badge badge-dot badge-dot-sm badge-danger">Notifications</span>
                         </span>
                     </button>
@@ -94,7 +91,7 @@
                         <div class="dropdown-menu-header mb-0">
                             <div class="dropdown-menu-header-inner bg-deep-blue">
                                 <div class="menu-header-image opacity-1"
-                                    style="background-image: url('../assets/images/dropdown-header/city3.jpg');"></div>
+                                    style="background-image: url('{{asset('assets/images/gdungjti2.png')}}');"></div>
                                 <div class="menu-header-content text-dark">
                                     <h5 class="menu-header-title">Notifikasi</h5>
                                     <h6 class="menu-header-subtitle">Kamu memiliki <b>5</b> pesan baru</h6>
@@ -128,10 +125,12 @@
                                                     class="vertical-time-simple vertical-without-time vertical-timeline vertical-timeline--one-column">
                                                     <div
                                                         class="vertical-timeline-item dot-danger vertical-timeline-element">
-                                                        <div><span
+                                                        <div>
+                                                            <span
                                                                 class="vertical-timeline-element-icon bounce-in"></span>
                                                             <div class="vertical-timeline-element-content bounce-in">
-                                                                <h4 class="timeline-title">Verifikasi Lomba Menolong Denis</h4><span
+                                                                <h4 class="timeline-title">Verifikasi Lomba Menolong
+                                                                    Denis</h4><span
                                                                     class="vertical-timeline-element-date"></span>
                                                             </div>
                                                         </div>
@@ -287,7 +286,8 @@
                         <div class="widget-content-left">
                             <div class="btn-group">
                                 <a data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="p-0 btn">
-                                    <img width="42" class="rounded-circle" src="../assets/images/misel.png" alt="">
+                                    <img width="42" height="42" class="rounded-circle"
+                                        src="{{{asset($foto_profile)}}}" alt="" style="object-fit: cover;">
                                     <i class="fa fa-angle-down ml-2 opacity-8"></i>
                                 </a>
                                 <div tabindex="-1" role="menu" aria-hidden="true"
@@ -295,23 +295,25 @@
                                     <div class="dropdown-menu-header">
                                         <div class="dropdown-menu-header-inner bg-info">
                                             <div class="menu-header-image opacity-2"
-                                                style="background-image: url('../assets/images/dropdown-header/city3.jpg');">
+                                                style="background-image: url('{{asset('assets/images/gdungjti2.png')}}');">
                                             </div>
                                             <div class="menu-header-content text-left">
                                                 <div class="widget-content p-0">
                                                     <div class="widget-content-wrapper">
                                                         <div class="widget-content-left mr-3">
-                                                            <img width="42" class="rounded-circle"
-                                                                src="../assets/images/misel.png" alt="">
+                                                            <img width="42" height="42" class="rounded-circle"
+                                                                src="{{asset($foto_profile)}}" alt=""
+                                                                style="object-fit: cover;">
                                                         </div>
                                                         <div class="widget-content-left">
-                                                            <div class="widget-heading">Michelle Dorani
+                                                            <div class="widget-heading">
+                                                                {{$nama}}
                                                             </div>
-                                                            <div class="widget-subheading opacity-8">TI-2B
+                                                            <div class="widget-subheading opacity-8">{{$keterangan}}
                                                             </div>
                                                         </div>
                                                         <div class="widget-content-right mr-2">
-                                                            <button
+                                                            <button onclick="modalLogoutAction('{{ url('/logout') }}')"
                                                                 class="btn-pill btn-shadow btn-shine btn btn-focus">Logout
                                                             </button>
                                                         </div>
@@ -343,10 +345,10 @@
                         </div>
                         <div class="widget-content-left  ml-3 header-user-info">
                             <div class="widget-heading">
-                                Michelle Dorani
+                                {{$nama}}
                             </div>
                             <div class="widget-subheading">
-                                Admin
+                                {{$keterangan}}
                             </div>
                         </div>
                     </div>

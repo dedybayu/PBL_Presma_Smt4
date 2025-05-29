@@ -29,6 +29,11 @@ class UserModel extends Authenticatable
         return $this->belongsTo(LevelModel::class, 'level_id', 'level_id');
     }
 
+    public function lomba()
+    {
+        return $this->hasMany(LombaModel::class, 'user_id', 'user_id');
+    }
+
     public function mahasiswa()
     {
         return $this->hasOne(MahasiswaModel::class, 'user_id', 'user_id');

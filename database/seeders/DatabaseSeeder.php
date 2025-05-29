@@ -27,7 +27,15 @@ class DatabaseSeeder extends Seeder
             LevelSeeder::class,
             MahasiswaSeeder::class,
             DosenSeeder::class,
-            AdminSeeder::class
+            AdminSeeder::class,
+            BidangKeahlianSeeder::class,
+            PenyelenggaraSeeder::class,
+            TingkatLombaSeeder::class,
+            MinatMahasiswaSeeder::class,
+            KeahlianMahasiswaSeeder::class,
+            LombaSeeder::class,
+            PrestasiSeeder::class,
+            OrganisasiSeeder::class,
         ]);
     }
 }

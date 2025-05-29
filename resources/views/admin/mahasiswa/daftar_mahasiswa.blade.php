@@ -12,12 +12,25 @@
         Daftar Mahasiswa
     </x-slot:title>
 
-    <div class="card">
-        <div class="card-header">
-            <h3 class="card-title">Daftar Mahasiswa</h3>
+    <div class="mb-3 card">
+        <div class="card-header-tab card-header">
+            <h3 class="card-title"> Portfolio Performance
+            </h3>
+            <div class="btn-actions-pane-right text-capitalize">
+                {{-- <button class="btn-wide btn-outline-2x mr-md-2 btn btn-outline-focus btn-sm">View All</button> --}}
+                <button onclick="modalAction('{{ url('/mahasiswa/create') }}')" class="btn btn-sm btn-success mt-1">
+                    <i class="fa fa-plus"></i> Tambah Ajax
+                </button>
+                <button onclick="modalAction('{{ url('/mahasiswa/import') }}')" class="btn btn-sm btn-primary mt-1">
+                    <i class="fa fa-plus"></i> Import
+                </button>
+                <a href="{{ url('/mahasiswa/export') }}" class="btn btn-info mt-1"><i class="fa fa-file-excel"></i>
+                    Export</a>
+            </div>
         </div>
 
         <div class="card-body">
+
 
             {{-- Filter --}}
             {{-- Filter --}}
@@ -39,7 +52,9 @@
                             <select class="form-select" id="kelas_id" name="kelas_id" style="width: 100%">
                                 <option value="">- Semua -</option>
                                 @foreach($kelas as $item)
-                                    <option value="{{ $item->kelas_id }}">{{ $item->kelas_nama }}</option>
+                                    <option value="{{ $item->kelas_id }}" data-prodi-id="{{ $item->prodi_id }}">
+                                        {{ $item->kelas_nama }}
+                                    </option>
                                 @endforeach
                             </select>
                             <small class="form-text text-muted">Filter Kelas</small>
@@ -71,6 +86,14 @@
 
 
 
+    <x-slot:modal>
+        <div id="modal-mahasiswa" class="modal fade animate shake" tabindex="-1" role="dialog" data-backdrop="static"
+            data-keyboard="false" aria-hidden="true">
+            <div class="modal-dialog modal-xl" role="document">
+                <div class="modal-content"></div>
+            </div>
+        </div>
+    </x-slot:modal>
 
     <x-slot:js>
         <script>
@@ -92,6 +115,8 @@
 
             var dataMahasiswa
             $(document).ready(function () {
+                handleKelasFilterByProdi('#prodi_id', '#kelas_id');
+
                 $('#prodi_id, #kelas_id').select2({
                     theme: 'bootstrap-5',
                     placeholder: "- Semua -",
@@ -130,6 +155,41 @@
                 });
 
             });
+
+            function handleKelasFilterByProdi(prodiSelector, kelasSelector) {
+                const $prodi = $(prodiSelector);
+                const $kelas = $(kelasSelector);
+
+                const allOptions = $kelas.find('option').clone(); // simpan semua opsi awal
+
+                $kelas.prop('disabled', true);
+
+                $prodi.on('change', function () {
+                    const selectedProdiId = $(this).val();
+
+                    if (selectedProdiId) {
+                        // Filter opsi sesuai prodi
+                        const filteredOptions = allOptions.filter(function () {
+                            const prodiId = $(this).data('prodi-id');
+                            return !prodiId || prodiId == selectedProdiId || $(this).val() === ""; // biarkan option kosong tetap ada
+                        });
+
+                        $kelas.empty().append(filteredOptions); // update opsi
+                        $kelas.prop('disabled', false).val('');
+
+                        // Refresh Select2
+                        if ($kelas.hasClass("select2-hidden-accessible")) {
+                            $kelas.trigger('change.select2');
+                        }
+                    } else {
+                        $kelas.prop('disabled', true).val('');
+
+                        if ($kelas.hasClass("select2-hidden-accessible")) {
+                            $kelas.trigger('change.select2');
+                        }
+                    }
+                });
+            }
         </script>
     </x-slot:js>
 </x-layout>

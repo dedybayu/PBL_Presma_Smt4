@@ -15,7 +15,10 @@ return new class extends Migration
             $table->id('bidang_keahlian_id');
             $table->string('bidang_keahlian_kode')->unique();
             $table->string('bidang_keahlian_nama');
+            $table->unsignedBigInteger('kategori_bidang_keahlian_id');
             $table->timestamps();
+            
+            $table->foreign('kategori_bidang_keahlian_id')->references('kategori_bidang_keahlian_id')->on('m_kategori_bidang_keahlian');
         });
     }
 
@@ -24,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('m_minat');
+        Schema::dropIfExists('m_bidang_keahlian');
     }
 };
