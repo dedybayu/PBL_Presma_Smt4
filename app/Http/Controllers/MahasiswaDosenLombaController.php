@@ -11,6 +11,11 @@ class MahasiswaDosenLombaController extends Controller
 {
     public function index(Request $request)
     {
+        $user = auth()->user();
+
+        $mahasiswaId = optional($user->mahasiswa)->mahasiswa_id;
+        $dosenId = optional($user->dosen)->dosen_id;
+
         $search = $request->search;
         $tingkatLombaId = $request->tingkat_lomba_id;
         $statusVerifikasi = $request->status_verifikasi;
@@ -39,6 +44,7 @@ class MahasiswaDosenLombaController extends Controller
 
         return view('daftar_lomba.daftar_lomba', compact('lomba', 'tingkat_lomba'));
     }
+
 
     public function show($id)
     {
