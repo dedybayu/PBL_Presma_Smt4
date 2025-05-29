@@ -169,12 +169,14 @@ Route::middleware('auth')->group(function () {
         });
     });
 
-    Route::middleware(['role:DOS'])->prefix('prestasi-bimbingan')->group(function () {
-        Route::get('/', [DosenPrestasiController::class, 'index'])->name('dosen.prestasi.index');
-        Route::get('/mahasiswa_bimbingan',[DosenBimbinganController::class, 'index'])->name('index');
-        Route::post('/mahasiswa_bimbingan/list',[DosenBimbinganController::class, 'list']);
-        Route::get('/mahasiswa_bimbingan/{id}/show',[DosenBimbinganController::class, 'show']);
+    Route::middleware(['role:DOS'])->group(function () {
+        Route::prefix('mahasiswa-bimbingan')->name('dosen.mahasiswa.')->group(function () {
+            Route::get('/', [DosenBimbinganController::class, 'index'])->name('index');
+            Route::post('/list', [DosenBimbinganController::class, 'list']);
+            Route::get('/{id}/show', [DosenBimbinganController::class, 'show']);
+        });
     });
+
 
     Route::middleware(['role:MHS'])->group(function () {
         Route::prefix('prestasiku')->name('mahasiswa.prestasi.')->group(function () {

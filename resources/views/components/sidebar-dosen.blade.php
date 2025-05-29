@@ -49,7 +49,7 @@
                     </a>
                 </li>
                 <li class="">
-                    <a href="{{ route('index') }}" class="{{ request()->routeIs('index') ? 'mm-active' : '' }}">
+                    <a href="{{ route('dosen.mahasiswa.index') }}" class="{{ request()->routeIs('dosen.mahasiswa.index') ? 'mm-active' : '' }}">
                         <i class="metismenu-icon pe-7s-users"></i> Data Bimbingan
                     </a>
                 </li> 

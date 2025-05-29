@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\PrestasiModel;
+use App\Models\TingkatLombaModel;
 use Illuminate\Http\Request;
 
 class DosenPrestasiController extends Controller
@@ -12,8 +13,50 @@ class DosenPrestasiController extends Controller
      */
     public function index()
     {
-        //
+        $dosenId = auth()->user()->dosen->dosen_id;
+        $search = request('search');
+
+        $tingkatLombaId = request('tingkat_lomba_id');
+        $statusVerifikasiInput = request('status_verifikasi');
+
+        $prestasi = PrestasiModel::where('dosen_id', $dosenId)
+            ->when($search, function ($query, $search) {
+                $query->where('prestasi_nama', 'like', "%{$search}%")
+                    ->orWhereHas('lomba', function ($q) use ($search) {
+                        $q->where('lomba_nama', 'like', "%{$search}%")
+                            ->orWhereHas('penyelenggara', function ($q2) use ($search) {
+                                $q2->where('penyelenggara_nama', 'like', "%{$search}%");
+                            });
+                    });
+            })
+            ->when(request('tingkat_lomba_id'), function ($query, $tingkatLombaId) {
+                $query->whereHas('lomba', function ($q) use ($tingkatLombaId) {
+                    $q->where('tingkat_lomba_id', $tingkatLombaId);
+                });
+            })
+            ->when($statusVerifikasiInput !== null && $statusVerifikasiInput !== '', function ($query) use ($statusVerifikasiInput) {
+                if ($statusVerifikasiInput === '2') {
+                    $query->whereNull('status_verifikasi');
+                } else {
+                    $query->where('status_verifikasi', $statusVerifikasiInput);
+                }
+            })
+            ->with(['lomba.tingkat', 'lomba.penyelenggara'])
+            ->orderByDesc('updated_at')
+            ->paginate(6)
+            ->appends([
+                'search' => $search,
+                'tingkat_lomba_id' => request('tingkat_lomba_id'),
+                'status_verifikasi' => $statusVerifikasiInput,
+            ]);
+
+        $tingkat_lomba = TingkatLombaModel::all();
+        return view('dosen.daftar_prestasi')->with([
+            'prestasi' => $prestasi,
+            'tingkat_lomba' => $tingkat_lomba
+        ]);
     }
+
 
     /**
      * Show the form for creating a new resource.
