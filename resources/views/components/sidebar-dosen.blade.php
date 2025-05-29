@@ -39,8 +39,13 @@
                     </a>
                 </li>
                 <li class="">
-                    <a href="" class="">
-                        <i class="metismenu-icon pe-7s-rocket"></i> Prestasi Mahasiswaku
+                    <a href="{{route('dosen.prestasi.allPrestasi')}}" class="{{ request()->routeIs('dosen.prestasi.allPrestasi') ? 'mm-active' : '' }}">
+                        <i class="metismenu-icon pe-7s-rocket"></i> Semua Prestasi
+                    </a>
+                </li>
+                <li class="">
+                    <a href="{{route('dosen.prestasi.index')}}" class="{{ request()->routeIs('dosen.prestasi.index') ? 'mm-active' : '' }}">
+                        <i class="metismenu-icon pe-7s-rocket"></i> Prestasi Bimbingan
                     </a>
                 </li>
                 <li class="">

@@ -51,12 +51,57 @@ class DosenPrestasiController extends Controller
             ]);
 
         $tingkat_lomba = TingkatLombaModel::all();
-        return view('dosen.daftar_prestasi')->with([
+        return view('dosen.prestasi.daftar_prestasi')->with([
             'prestasi' => $prestasi,
-            'tingkat_lomba' => $tingkat_lomba
+            'tingkat_lomba' => $tingkat_lomba,
+            'dosbim' => false
         ]);
     }
 
+    public function allPrestasi()
+    {
+        $search = request('search');
+
+        $tingkatLombaId = request('tingkat_lomba_id');
+        $statusVerifikasiInput = request('status_verifikasi');
+
+        $prestasi = PrestasiModel::when($search, function ($query, $search) {
+            $query->where('prestasi_nama', 'like', "%{$search}%")
+                ->orWhereHas('lomba', function ($q) use ($search) {
+                    $q->where('lomba_nama', 'like', "%{$search}%")
+                        ->orWhereHas('penyelenggara', function ($q2) use ($search) {
+                            $q2->where('penyelenggara_nama', 'like', "%{$search}%");
+                        });
+                });
+        })
+            ->when(request('tingkat_lomba_id'), function ($query, $tingkatLombaId) {
+                $query->whereHas('lomba', function ($q) use ($tingkatLombaId) {
+                    $q->where('tingkat_lomba_id', $tingkatLombaId);
+                });
+            })
+            ->when($statusVerifikasiInput !== null && $statusVerifikasiInput !== '', function ($query) use ($statusVerifikasiInput) {
+                if ($statusVerifikasiInput === '2') {
+                    $query->whereNull('status_verifikasi');
+                } else {
+                    $query->where('status_verifikasi', $statusVerifikasiInput);
+                }
+            })
+            ->with(['lomba.tingkat', 'lomba.penyelenggara'])
+            ->orderByDesc('updated_at')
+            ->paginate(6)
+            ->appends([
+                'search' => $search,
+                'tingkat_lomba_id' => request('tingkat_lomba_id'),
+                'status_verifikasi' => $statusVerifikasiInput,
+            ]);
+
+        $tingkat_lomba = TingkatLombaModel::all();
+        return view('dosen.prestasi.daftar_prestasi')->with([
+            'prestasi' => $prestasi,
+            'tingkat_lomba' => $tingkat_lomba,
+            'dosbim' => true
+        ]);
+    }
 
     /**
      * Show the form for creating a new resource.
@@ -77,9 +122,9 @@ class DosenPrestasiController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(PrestasiModel $prestasiModel)
+    public function show(PrestasiModel $prestasi)
     {
-        //
+        return view('dosen.prestasi.show_prestasi', compact('prestasi'));
     }
 
     /**

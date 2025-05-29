@@ -10,23 +10,17 @@
     </x-slot:css>
     <x-slot:title>
         Daftar Prestasi
-        <div class="page-title-subheading">Semua prestasi terbaikmu tampil disini</div>
+        <div class="page-title-subheading">Semua prestasi terbaik mahasiswa bimbingan anda tampil disini</div>
     </x-slot:title>
 
     <div class="mb-3 card">
         <div class="card-header-tab card-header">
-            <h3 class="card-title mt-2 mb-2"> Daftar Prestasi <i class="fa fa-trophy"></i>
+            <h3 class="card-title"> Daftar Prestasi <i class="fa fa-trophy"></i>
             </h3>
-            <div class="btn-actions-pane-right text-capitalize">
-                {{-- <button class="btn-wide btn-outline-2x mr-md-2 btn btn-outline-focus btn-sm">View All</button> --}}
-                <button onclick="modalAction('{{ url('/prestasi/create') }}')" class="btn btn-sm btn-success mt-2 mb-2">
-                    <i class="fa fa-plus"></i> Tambah
-                </button>
-            </div>
         </div>
 
         <div class="card-body">
-            <form method="GET" action="{{ url('prestasiku') }}" class="mb-3">
+            <form method="GET" action="{{ url('prestasi-bimbingan') }}" class="mb-3">
                 <div class="row">
                     <div class="col-md-8">
                         <div class="form-group row">
@@ -34,11 +28,11 @@
                                 <select class="form-select" id="tingkat_lomba_id" name="tingkat_lomba_id"
                                     style="width: 100%">
                                     <option value="">- Semua -</option>
-                                    @foreach($tingkat_lomba as $item)
-                                        <option value="{{ $item->tingkat_lomba_id }}" {{ request('tingkat_lomba_id') == $item->tingkat_lomba_id ? 'selected' : '' }}>
+                                    @foreach ($tingkat_lomba as $item)
+                                        <option value="{{ $item->tingkat_lomba_id }}"
+                                            {{ request('tingkat_lomba_id') == $item->tingkat_lomba_id ? 'selected' : '' }}>
                                             {{ $item->tingkat_lomba_nama }}
                                         </option>
-
                                     @endforeach
                                 </select>
                                 <small class="form-text text-muted">Filter Tingkat Lomba</small>
@@ -76,7 +70,7 @@
 
 
             <div class="row">
-                @if($prestasi->count())
+                @if ($prestasi->count())
                     @foreach ($prestasi as $pres)
                         @php
                             if ($pres->status_verifikasi == '1') {
@@ -94,8 +88,9 @@
                                     <div class="col-md-5">
                                         <div
                                             style="position: relative; width: 100%; height: 100%; aspect-ratio: 1 / 1; border-radius: 16px 16px 16px 16px; overflow: hidden;">
-                                            <a href="{{ route('mahasiswa.prestasi.show', $pres->prestasi_id) }}">
-                                                <img src="{{ asset('storage/' . $pres->file_bukti_foto) }}" alt="Foto Prestasi"
+                                            <a href="{{ route('dosen.prestasi.show', $pres->prestasi_id) }}">
+                                                <img src="{{ asset('storage/' . $pres->file_bukti_foto) }}"
+                                                    alt="Foto Prestasi"
                                                     style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; object-position: center;">
                                             </a>
 
@@ -104,54 +99,65 @@
 
                                     <div class="col-md-7">
                                         <div class="card-body d-flex flex-column">
-                                            <div
-                                                class="d-flex justify-content-between align-items-center mt-auto mb-3 pb-2 border-bottom">
-                                                <p class="card-text mb-0">
-                                                    <small class="text-body-secondary">
-                                                        {{ \Carbon\Carbon::parse($pres->updated_at)->locale('id')->diffForHumans() }}
-                                                    </small>
-                                                </p>
-                                                <div class="d-flex">
-                                                    <a href="{{ route('mahasiswa.prestasi.edit', $pres->prestasi_id) }}"
-                                                        class="btn btn-sm btn-warning mr-1"><i class="fa fa-edit"></i>
-                                                        Edit</a>
-                                                    <button
-                                                        onclick="modalDelete('{{ route('mahasiswa.prestasi.confirm', $pres->prestasi_id) }}')"
-                                                        class="btn btn-sm btn-danger ml-1"><i class="fa fa-trash"></i>
-                                                        Hapus</button>
-                                                </div>
-                                            </div>
-
-                                            <a href="{{ route('mahasiswa.prestasi.show', $pres->prestasi_id) }}">
+                                            <a href="{{ route('dosen.prestasi.show', $pres->prestasi_id) }}">
                                                 <h5 class="card-title">
                                                     {{ \Illuminate\Support\Str::words($pres->prestasi_nama, 5, '...') }}
                                                 </h5>
                                             </a>
+
                                             <table class="mb-0" style="font-size: 14px;">
                                                 <tr>
-                                                    <th style="padding: 4px 8px; white-space: nowrap; width: 1%;">Lomba</th>
+                                                    <th style="padding: 4px 8px; white-space: nowrap; width: 1%;">
+                                                        Mahasiswa</th>
+                                                    <td style="padding: 4px 4px; width: 1%;">:</td>
+                                                    <td style="padding: 4px 8px;">{{ $pres->mahasiswa->nama }}</td>
+                                                </tr>
+                                                @if ($dosbim == true)
+                                                    <tr>
+                                                        <th style="padding: 4px 8px; white-space: nowrap; width: 1%;">
+                                                            Dosen Pembimbing</th>
+                                                        <td style="padding: 4px 4px; width: 1%;">:</td>
+                                                        <td style="padding: 4px 8px;">{{ $pres->dosen->nama }}</td>
+                                                    </tr>
+                                                @endif
+                                                <tr>
+                                                    <th style="padding: 4px 8px; white-space: nowrap; width: 1%;">Lomba
+                                                    </th>
                                                     <td style="padding: 4px 4px;">:</td>
                                                     <td style="padding: 4px 8px;">{{ $pres->lomba->lomba_nama }}</td>
                                                 </tr>
                                                 <tr>
-                                                    <th style="padding: 4px 8px; white-space: nowrap; width: 1%;">Juara</th>
+                                                    <th style="padding: 4px 8px; white-space: nowrap; width: 1%;">Juara
+                                                    </th>
                                                     <td style="padding: 4px 4px;">:</td>
                                                     <td style="padding: 4px 8px;">{{ $pres->nama_juara }}</td>
                                                 </tr>
                                                 <tr>
-                                                    <th style="padding: 4px 8px; white-space: nowrap; width: 1%;">Tingkat</th>
+                                                    <th style="padding: 4px 8px; white-space: nowrap; width: 1%;">
+                                                        Tingkat</th>
                                                     <td style="padding: 4px 4px;">:</td>
                                                     <td style="padding: 4px 8px;">
                                                         {{ $pres->lomba->tingkat->tingkat_lomba_nama }}</td>
                                                 </tr>
                                                 <tr>
-                                                    <th style="padding: 4px 8px; white-space: nowrap; width: 1%;">Penyelenggara
+                                                    <th style="padding: 4px 8px; white-space: nowrap; width: 1%;">
+                                                        Penyelenggara
                                                     </th>
                                                     <td style="padding: 4px 4px;">:</td>
                                                     <td style="padding: 4px 8px;">
                                                         {{ $pres->lomba->penyelenggara->penyelenggara_nama }}</td>
                                                 </tr>
                                             </table>
+
+
+                                            <div
+                                                class="d-flex justify-content-between align-items-center mt-3 pb-2 border-top">
+                                                <p class="card-text mb-0">
+                                                    <small class="text-body-secondary">
+                                                        {{ \Carbon\Carbon::parse($pres->updated_at)->locale('id')->diffForHumans() }}
+                                                    </small>
+                                                </p>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -165,13 +171,13 @@
                 @endif
 
 
+                <div class="d-flex justify-content-end mt-4 mr-4">
+                    {{ $prestasi->links() }}
+                </div>
 
             </div>
         </div>
 
-        <div class="d-flex justify-content-end mt-4 mr-4">
-            {{ $prestasi->links() }}
-        </div>
 
     </div>
 
@@ -190,19 +196,19 @@
                 $("#modal-delete .modal-content").html("");
 
                 // Panggil modal melalui AJAX
-                $.get(url, function (response) {
+                $.get(url, function(response) {
                     $("#modal-delete .modal-content").html(response);
                     $("#modal-delete").modal("show");
                 });
             }
 
             // Bersihkan isi modal setelah ditutup
-            $('#modal-delete').on('hidden.bs.modal', function () {
+            $('#modal-delete').on('hidden.bs.modal', function() {
                 $("#modal-delete .modal-content").html("");
             });
 
             var dataPrestasi
-            $(document).ready(function () {
+            $(document).ready(function() {
                 $('#tingkat_lomba_id, #status_verifikasi').select2({
                     theme: 'bootstrap-5',
                     placeholder: "- Semua -",
@@ -210,7 +216,7 @@
                     width: '100%' // Gunakan width penuh
                 });
 
-                $('#tingkat_lomba_id, #status_verifikasi').on('change', function () {
+                $('#tingkat_lomba_id, #status_verifikasi').on('change', function() {
                     $(this).closest('form').submit();
                 });
             });
