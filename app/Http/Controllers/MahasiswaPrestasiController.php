@@ -152,7 +152,7 @@ class MahasiswaPrestasiController extends Controller
                     'file_surat_undangan' => $imagePaths['file_surat_undangan'],
                     'file_proposal' => $imagePaths['file_proposal'],
                     'poin' => 0,
-                    'status_verifikasi' => 1,
+                    'status_verifikasi' => null,
                     'created_at' => now(),
                     'updated_at' => now()
                 ]);
