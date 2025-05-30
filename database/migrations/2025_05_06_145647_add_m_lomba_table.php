@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('lomba_kode')->unique();
             $table->string('lomba_nama');
             $table->string('lomba_deskripsi');
-            $table->string('lomba_link_website');
+            $table->string('link_website');
             $table->unsignedBigInteger('tingkat_lomba_id');
             $table->unsignedBigInteger('bidang_keahlian_id');
             $table->unsignedBigInteger('penyelenggara_id');

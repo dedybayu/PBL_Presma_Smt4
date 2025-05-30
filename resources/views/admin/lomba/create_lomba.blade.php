@@ -24,10 +24,15 @@
             <small id="error-lomba_deskripsi" class="text-danger"></small>
         </div>
         <div class="form-group">
+            <label for="link_website">Link Website Lomba</label>
+            <input type="text" name="link_website" id="link_website" class="form-control">
+            <small id="error-link_website" class="text-danger"></small>
+        </div>
+        <div class="form-group">
             <label for="tingkat_lomba_id">Tingkat Lomba</label>
             <select name="tingkat_lomba_id" id="tingkat_lomba_id" class="form-control">
                 <option value="">- Pilih tingkat -</option>
-                @foreach($tingkat as $k)
+                @foreach ($tingkat as $k)
                     <option value="{{ $k->tingkat_lomba_id }}">{{ $k->tingkat_lomba_nama }}</option>
                 @endforeach
             </select>
@@ -37,7 +42,7 @@
             <label>Bidang</label>
             <select class="form-select" id="bidang_keahlian_id_create" name="bidang_keahlian_id" style="width: 100%">
                 <option value="" disabled selected>- Pilih bidang -</option>
-                @foreach($bidang as $item)
+                @foreach ($bidang as $item)
                     <option value="{{ $item->bidang_keahlian_id }}">
                         {{ $item->bidang_keahlian_nama }}
                     </option>
@@ -48,7 +53,7 @@
             <label>Penyelenggara</label>
             <select class="form-select" id="penyelenggara_id" name="penyelenggara_id" style="width: 100%">
                 <option value="" disabled selected>- Pilih penyelenggara -</option>
-                @foreach($penyelenggara as $item)
+                @foreach ($penyelenggara as $item)
                     <option value="{{ $item->penyelenggara_id }}">
                         {{ $item->penyelenggara_nama }}
                     </option>
@@ -91,25 +96,45 @@
         });
     }
 
-    $(document).ready(function () {
+    $(document).ready(function() {
         initSelect2();
         // Inisialisasi Select2 saat modal dibuka
-        $('#modal-lomba').on('shown.bs.modal', function () {
+        $('#modal-lomba').on('shown.bs.modal', function() {
             initSelect2();
         });
 
         $("#form-tambah-lomba").validate({
             rules: {
-                lomba_kode: { required: true, minlength: 3, maxlength: 255 },
-                lomba_nama: { required: true, minlength: 3, maxlength: 255 },
-                tingkat_lomba_id: { required: true },
-                bidang_keahlian_id: { required: true },
-                penyelenggara_id: { required: true },
-                tanggal_mulai: { required: true },
-                tanggal_selesai: { required: true },
-                status_verifikasi: { required: true },
+                lomba_kode: {
+                    required: true,
+                    minlength: 3,
+                    maxlength: 255
+                },
+                lomba_nama: {
+                    required: true,
+                    minlength: 3,
+                    maxlength: 255
+                },
+                tingkat_lomba_id: {
+                    required: true
+                },
+                bidang_keahlian_id: {
+                    required: true
+                },
+                penyelenggara_id: {
+                    required: true
+                },
+                tanggal_mulai: {
+                    required: true
+                },
+                tanggal_selesai: {
+                    required: true
+                },
+                status_verifikasi: {
+                    required: true
+                },
             },
-            submitHandler: function (form) {
+            submitHandler: function(form) {
                 var formData = new FormData(form);
                 $.ajax({
                     url: form.action,
@@ -117,8 +142,8 @@
                     data: formData,
                     processData: false,
                     contentType: false,
-                    success: function (response) {
-                        if (response.status) { 
+                    success: function(response) {
+                        if (response.status) {
                             $('#modal-lomba').modal('hide');
                             Swal.fire({
                                 icon: 'success',
@@ -128,7 +153,7 @@
                             dataLomba.ajax.reload();
                         } else {
                             $('.error-text').text('');
-                            $.each(response.msgField, function (prefix, val) {
+                            $.each(response.msgField, function(prefix, val) {
                                 $('#error-' + prefix).text(val[0]);
                             });
                             Swal.fire({
@@ -143,14 +168,14 @@
             },
 
             errorElement: 'span',
-            errorPlacement: function (error, element) {
+            errorPlacement: function(error, element) {
                 error.addClass('invalid-feedback');
                 element.closest('.form-group').append(error);
             },
-            highlight: function (element) {
+            highlight: function(element) {
                 $(element).addClass('is-invalid');
             },
-            unhighlight: function (element) {
+            unhighlight: function(element) {
                 $(element).removeClass('is-invalid');
             }
         });
