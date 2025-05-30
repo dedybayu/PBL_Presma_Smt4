@@ -6,6 +6,7 @@ use App\Models\LombaModel;
 use App\Models\PrestasiModel;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
+use Carbon\Carbon;
 
 class DashboardController extends Controller
 {
@@ -58,7 +59,29 @@ class DashboardController extends Controller
             ->groupBy('tingkat.tingkat_lomba_id', 'tingkat.tingkat_lomba_nama')
             ->get();
 
+        $jadwalLombaPerBulan = DB::table('m_lomba')
+            ->selectRaw("DATE_FORMAT(tanggal_mulai, '%Y-%m') as bulan, COUNT(*) as total")
+            ->groupByRaw("DATE_FORMAT(tanggal_mulai, '%Y-%m')")
+            ->orderByRaw("DATE_FORMAT(tanggal_mulai, '%Y-%m')")
+            ->get();
+
+            // Format agar bulannya lebih user-friendly, contoh: "Mei 2025"
+        $jadwalLombaPerBulanFormatted = $jadwalLombaPerBulan->map(function ($item) {
+            $item->bulan_format = Carbon::createFromFormat('Y-m', $item->bulan)->translatedFormat('F Y');
+            return $item;
+        });
+
+        $topMahasiswaPrestasi = DB::table('t_prestasi')
+            ->join('m_mahasiswa as mahasiswa', 't_prestasi.mahasiswa_id', '=', 'mahasiswa.mahasiswa_id')
+            ->select('mahasiswa.nama', DB::raw('COUNT(t_prestasi.prestasi_id) as total_prestasi'))
+            ->groupBy('mahasiswa.mahasiswa_id', 'mahasiswa.nama')
+            ->orderByDesc('total_prestasi')
+            ->limit(10)
+            ->get();
+
         return [
+            'topMahasiswaPrestasi' => $topMahasiswaPrestasi,
+            'jadwalLombaPerBulan' => $jadwalLombaPerBulanFormatted,
             'prestasiPerTingkat' => $prestasiPerTingkat,
             'lombaPerTingkat' => $lombaPerTingkat,
             'totalLomba' => $totalLomba,
