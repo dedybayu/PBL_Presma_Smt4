@@ -97,11 +97,13 @@
                                         <div
                                             style="position: relative; width: 100%; height: 100%; aspect-ratio: 1 / 1; border-radius: 16px 0 0 16px; overflow: hidden;">
                                             @if ($lmb->foto_pamflet)
-                                                <img src="{{ asset('storage/' . $lmb->foto_pamflet) }}"
-                                                    alt="Poster Lomba"
-                                                    style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover;">
+                                                <img src="{{ file_exists(public_path('storage/' . $lmb->foto_pamflet)) ? asset('storage/' . $lmb->foto_pamflet) : asset('assets/images/image-dummy.png') }}"
+                                                    alt="Pamflet Lomba"
+                                                alt="Poster Lomba"
+                                                style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover;">
                                             @else
-                                                <img src="{{ asset('images/default-lomba.jpg') }}" alt="Poster Default"
+                                                <img src="{{ asset('assets/images/image-dummy.png') }}"
+                                                    alt="Poster Default"
                                                     style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover;">
                                             @endif
                                         </div>

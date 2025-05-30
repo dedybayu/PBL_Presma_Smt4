@@ -14,7 +14,7 @@
     </x-slot:css>
 
     <x-slot:title>
-        Prestasi: {{$prestasi->prestasi_nama}}
+        Prestasi: {{ $prestasi->prestasi_nama }}
     </x-slot:title>
 
     @php
@@ -29,7 +29,7 @@
 
     <div class="mb-3 card">
         <div class="card-header-tab card-header">
-            <h3 class="card-title"><i class="fa fa-trophy"> {{$prestasi->prestasi_nama}}</i>
+            <h3 class="card-title"><i class="fa fa-trophy"> {{ $prestasi->prestasi_nama }}</i>
             </h3>
         </div>
 
@@ -87,8 +87,8 @@
                             <h5 class="card-title">Sertifikat</h5>
                             <div
                                 style="position: relative; width: 100%; max-width: 600px; aspect-ratio: 16 / 9; overflow: hidden; background: #eee;">
-                                <img src="{{ asset('storage/' . $prestasi->file_sertifikat) }}" alt="Sertifikat"
-                                    class="img-click-preview"
+                                <img src="{{ file_exists(public_path('storage/' . $prestasi->file_sertifikat)) ? asset('storage/' . $prestasi->file_sertifikat) : asset('assets/images/broken-image.png') }}"
+                                    alt="Sertifikat" class="img-click-preview"
                                     style="width: 100%; height: 100%; object-fit: contain; display: block; cursor: pointer;">
                             </div>
                         </div>
@@ -100,7 +100,8 @@
                             <h5 class="card-title">Bukti Foto</h5>
                             <div
                                 style="position: relative; width: 100%; max-width: 600px; aspect-ratio: 16 / 9; overflow: hidden; background: #eee;">
-                                <img id="preview-sertifikat" src="{{ asset('storage/' . $prestasi->file_bukti_foto) }}"
+                                <img id="preview-sertifikat"
+                                    src="{{ file_exists(public_path('storage/' . $prestasi->file_bukti_foto)) ? asset('storage/' . $prestasi->file_bukti_foto) : asset('assets/images/broken-image.png') }}"
                                     alt="Bukti Foto" class="img-click-preview"
                                     style="width: 100%; height: 100%; object-fit: contain; display: block;">
                             </div>
@@ -113,7 +114,8 @@
                             <h5 class="card-title">Surat Tugas</h5>
                             <div
                                 style="position: relative; width: 100%; max-width: 600px; aspect-ratio: 16 / 9; overflow: hidden; background: #eee;">
-                                <img id="preview-sertifikat" src="{{ asset('storage/' . $prestasi->file_surat_tugas) }}"
+                                <img id="preview-sertifikat"
+                                    src="{{ file_exists(public_path('storage/' . $prestasi->file_surat_tugas)) ? asset('storage/' . $prestasi->file_surat_tugas) : asset('assets/images/broken-image.png') }}"
                                     alt="Surat Tugas" class="img-click-preview"
                                     style="width: 100%; height: 100%; object-fit: contain; display: block;">
                             </div>
@@ -127,7 +129,8 @@
                             <div
                                 style="position: relative; width: 100%; max-width: 600px; aspect-ratio: 16 / 9; overflow: hidden; background: #eee;">
                                 <img id="preview-sertifikat" class="img-click-preview"
-                                    src="{{ asset('storage/' . $prestasi->file_surat_undangan) }}" alt="Surat Undangan"
+                                    src="{{ file_exists(public_path('storage/' . $prestasi->file_surat_undangan)) ? asset('storage/' . $prestasi->file_surat_undangan) : asset('assets/images/broken-image.png') }}"
+                                    alt="Surat Undangan"
                                     style="width: 100%; height: 100%; object-fit: contain; display: block;">
                             </div>
                         </div>
@@ -139,7 +142,7 @@
                             <h5 class="card-title">File Proposal</h5>
                             <div style="position: relative; width: 100%; height: 500px; border: 1px solid #ccc;">
                                 <iframe id="preview-proposal"
-                                    src="{{ $prestasi->file_proposal ? asset('storage/' . $prestasi->file_proposal) : '' }}"
+                                    src="{{ $prestasi->file_proposal && file_exists(public_path('storage/' . $prestasi->file_proposal)) ? asset('storage/' . $prestasi->file_proposal) : '' }}"
                                     width="100%" height="100%" style="border: none;"></iframe>
 
                                 @if (!$prestasi->file_proposal)
@@ -148,7 +151,14 @@
                                         <p id="no-proposal" style="color: #666; font-size: 18px;">Tidak ada proposal</p>
                                     </div>
                                 @endif
+                                @if (!file_exists(public_path('storage/' . $prestasi->file_proposal)))
+                                    <div
+                                        style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; background-color: rgba(255, 255, 255, 0.85);">
+                                        <p id="no-proposal" style="color: #666; font-size: 18px;">File proposal tidak ditemukan</p>
+                                    </div>
+                                @endif
                             </div>
+
                         </div>
                     </div>
                 </div>
@@ -172,7 +182,8 @@
 
             </div>
             <div class="d-flex justify-content-between mt-3">
-                <button type="button" class="btn btn-primary mr-2" data-dismiss="modal"><i class="fa fa-arrow-left"></i>
+                <button type="button" class="btn btn-primary mr-2" data-dismiss="modal"><i
+                        class="fa fa-arrow-left"></i>
                     Kembali</button>
                 <button onclick="modalDelete('{{ route('mahasiswa.prestasi.confirm', $prestasi->prestasi_id) }}')"
                     type="button" class="btn btn-danger mr-2" data-dismiss="modal"><i class="fa fa-trash"></i>
@@ -195,8 +206,8 @@
                     </div>
                 </div>
             </div>
-            <div id="modal-delete" class="modal fade animate shake" tabindex="-1" role="dialog" data-backdrop="static"
-                data-keyboard="false" aria-hidden="true">
+            <div id="modal-delete" class="modal fade animate shake" tabindex="-1" role="dialog"
+                data-backdrop="static" data-keyboard="false" aria-hidden="true">
                 <div class="modal-dialog modal-xs" role="document">
                     <div class="modal-content"></div>
                 </div>
@@ -212,24 +223,24 @@
                     $("#modal-delete .modal-content").html("");
 
                     // Panggil modal melalui AJAX
-                    $.get(url, function (response) {
+                    $.get(url, function(response) {
                         $("#modal-delete .modal-content").html(response);
                         $("#modal-delete").modal("show");
                     });
                 }
 
                 // Bersihkan isi modal setelah ditutup
-                $('#modal-delete').on('hidden.bs.modal', function () {
+                $('#modal-delete').on('hidden.bs.modal', function() {
                     $("#modal-delete .modal-content").html("");
                 });
 
-                document.addEventListener('DOMContentLoaded', function () {
+                document.addEventListener('DOMContentLoaded', function() {
                     const previewImgs = document.querySelectorAll('.img-click-preview');
                     const modalImg = document.getElementById('modalPreviewImg');
                     const modal = new bootstrap.Modal(document.getElementById('modalPreview'));
 
                     previewImgs.forEach(img => {
-                        img.addEventListener('click', function () {
+                        img.addEventListener('click', function() {
                             modalImg.src = this.src;
                             modal.show();
                         });

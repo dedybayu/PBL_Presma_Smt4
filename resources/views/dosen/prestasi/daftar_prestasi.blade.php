@@ -90,7 +90,8 @@
                                         <div
                                             style="position: relative; width: 100%; height: 100%; aspect-ratio: 1 / 1; border-radius: 16px 16px 16px 16px; overflow: hidden;">
                                             <a href="{{ route('dosen.prestasi.show', $pres->prestasi_id) }}">
-                                                <img src="{{ asset('storage/' . $pres->file_bukti_foto) }}"
+                                                {{-- <img src="{{ asset('storage/' . $pres->file_bukti_foto) }}" --}}
+                                                <img src="{{ file_exists(public_path('storage/' . $pres->file_bukti_foto)) ? asset('storage/' . $pres->file_bukti_foto) : asset('assets/images/broken-image.png') }}" alt="Foto Lomba"
                                                     alt="Foto Prestasi"
                                                     style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; object-position: center;">
                                             </a>
