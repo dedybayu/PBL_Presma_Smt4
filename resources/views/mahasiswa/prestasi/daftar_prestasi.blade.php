@@ -19,9 +19,12 @@
             </h3>
             <div class="btn-actions-pane-right text-capitalize">
                 {{-- <button class="btn-wide btn-outline-2x mr-md-2 btn btn-outline-focus btn-sm">View All</button> --}}
-                <button onclick="modalAction('{{ url('/prestasi/create') }}')" class="btn btn-sm btn-success mt-2 mb-2">
-                    <i class="fa fa-plus"></i> Tambah
-                </button>
+                <a href="{{ route('mahasiswa.prestasi.create') }}">
+                    <button class="btn btn-sm btn-success mt-2 mb-2">
+                        <i class="fa fa-plus"></i> Tambah
+                    </button>
+                </a>
+
             </div>
         </div>
 
@@ -34,11 +37,11 @@
                                 <select class="form-select" id="tingkat_lomba_id" name="tingkat_lomba_id"
                                     style="width: 100%">
                                     <option value="">- Semua -</option>
-                                    @foreach($tingkat_lomba as $item)
-                                        <option value="{{ $item->tingkat_lomba_id }}" {{ request('tingkat_lomba_id') == $item->tingkat_lomba_id ? 'selected' : '' }}>
+                                    @foreach ($tingkat_lomba as $item)
+                                        <option value="{{ $item->tingkat_lomba_id }}"
+                                            {{ request('tingkat_lomba_id') == $item->tingkat_lomba_id ? 'selected' : '' }}>
                                             {{ $item->tingkat_lomba_nama }}
                                         </option>
-
                                     @endforeach
                                 </select>
                                 <small class="form-text text-muted">Filter Tingkat Lomba</small>
@@ -77,7 +80,7 @@
 
             <hr>
             <div class="row mt-4">
-                @if($prestasi->count())
+                @if ($prestasi->count())
                     @foreach ($prestasi as $pres)
                         @php
                             if ($pres->status_verifikasi == '1') {
@@ -96,7 +99,8 @@
                                         <div
                                             style="position: relative; width: 100%; height: 100%; aspect-ratio: 1 / 1; border-radius: 16px 16px 16px 16px; overflow: hidden;">
                                             <a href="{{ route('mahasiswa.prestasi.show', $pres->prestasi_id) }}">
-                                                <img src="{{ file_exists(public_path('storage/' . $pres->file_bukti_foto)) ? asset('storage/' . $pres->file_bukti_foto) : asset('assets/images/broken-image.png') }}" alt="Foto Lomba"
+                                                <img src="{{ file_exists(public_path('storage/' . $pres->file_bukti_foto)) ? asset('storage/' . $pres->file_bukti_foto) : asset('assets/images/broken-image.png') }}"
+                                                    alt="Foto Lomba"
                                                     style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; object-position: center;">
                                             </a>
 
@@ -130,23 +134,27 @@
                                             </a>
                                             <table class="mb-0" style="font-size: 14px;">
                                                 <tr>
-                                                    <th style="padding: 4px 8px; white-space: nowrap; width: 1%;">Lomba</th>
+                                                    <th style="padding: 4px 8px; white-space: nowrap; width: 1%;">Lomba
+                                                    </th>
                                                     <td style="padding: 4px 4px;">:</td>
                                                     <td style="padding: 4px 8px;">{{ $pres->lomba->lomba_nama }}</td>
                                                 </tr>
                                                 <tr>
-                                                    <th style="padding: 4px 8px; white-space: nowrap; width: 1%;">Juara</th>
+                                                    <th style="padding: 4px 8px; white-space: nowrap; width: 1%;">Juara
+                                                    </th>
                                                     <td style="padding: 4px 4px;">:</td>
                                                     <td style="padding: 4px 8px;">{{ $pres->nama_juara }}</td>
                                                 </tr>
                                                 <tr>
-                                                    <th style="padding: 4px 8px; white-space: nowrap; width: 1%;">Tingkat</th>
+                                                    <th style="padding: 4px 8px; white-space: nowrap; width: 1%;">
+                                                        Tingkat</th>
                                                     <td style="padding: 4px 4px;">:</td>
                                                     <td style="padding: 4px 8px;">
                                                         {{ $pres->lomba->tingkat->tingkat_lomba_nama }}</td>
                                                 </tr>
                                                 <tr>
-                                                    <th style="padding: 4px 8px; white-space: nowrap; width: 1%;">Penyelenggara
+                                                    <th style="padding: 4px 8px; white-space: nowrap; width: 1%;">
+                                                        Penyelenggara
                                                     </th>
                                                     <td style="padding: 4px 4px;">:</td>
                                                     <td style="padding: 4px 8px;">
@@ -191,19 +199,19 @@
                 $("#modal-delete .modal-content").html("");
 
                 // Panggil modal melalui AJAX
-                $.get(url, function (response) {
+                $.get(url, function(response) {
                     $("#modal-delete .modal-content").html(response);
                     $("#modal-delete").modal("show");
                 });
             }
 
             // Bersihkan isi modal setelah ditutup
-            $('#modal-delete').on('hidden.bs.modal', function () {
+            $('#modal-delete').on('hidden.bs.modal', function() {
                 $("#modal-delete .modal-content").html("");
             });
 
             var dataPrestasi
-            $(document).ready(function () {
+            $(document).ready(function() {
                 $('#tingkat_lomba_id, #status_verifikasi').select2({
                     theme: 'bootstrap-5',
                     placeholder: "- Semua -",
@@ -211,7 +219,7 @@
                     width: '100%' // Gunakan width penuh
                 });
 
-                $('#tingkat_lomba_id, #status_verifikasi').on('change', function () {
+                $('#tingkat_lomba_id, #status_verifikasi').on('change', function() {
                     $(this).closest('form').submit();
                 });
             });
