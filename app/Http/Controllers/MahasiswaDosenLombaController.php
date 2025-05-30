@@ -5,9 +5,10 @@ namespace App\Http\Controllers;
 use App\Models\BidangKeahlianModel;
 use App\Models\LombaModel;
 use App\Models\TingkatLombaModel;
-use App\Models\UserModel;
+use App\Models\PenyelenggaraModel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
 
 class MahasiswaDosenLombaController extends Controller
 {
@@ -67,15 +68,81 @@ class MahasiswaDosenLombaController extends Controller
      */
     public function create()
     {
-        //
+        $tingkat = TingkatLombaModel::all();
+        $bidang = BidangKeahlianModel::all();
+        $penyelenggara = PenyelenggaraModel::all();
+        return view('daftar_lomba.create_lomba')->with(['tingkat' => $tingkat, 'bidang' => $bidang, 'penyelenggara' => $penyelenggara]);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        //
+        $rules = [
+            'lomba_kode' => 'required|string|max:255',
+            'lomba_nama' => 'required|string|max:255',
+            'lomba_deskripsi' => 'required|string|max:255',
+            'link_website' => 'required|string|max:255',
+            'tingkat_lomba_id' => 'required|exists:m_tingkat_lomba,tingkat_lomba_id',
+            'bidang_keahlian_id' => 'required|exists:m_bidang_keahlian,bidang_keahlian_id',
+            'penyelenggara_id' => 'required|exists:m_penyelenggara,penyelenggara_id',
+            'tanggal_mulai' => 'required|date|date_format:Y-m-d',
+            'tanggal_selesai' => 'required|date|date_format:Y-m-d',
+            'foto_pamflet' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+        ];
+
+        $validator = Validator::make($request->all(), $rules);
+        if ($validator->fails()) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Validasi gagal.',
+                'msgField' => $validator->errors()
+            ]);
+        }
+
+        $imagePath = null;
+        if ($request->hasFile('foto_pamflet')) {
+            $file = $request->file('foto_pamflet');
+    
+            if (!$file->isValid()) {
+                return response()->json(['error' => 'Invalid file'], 400);
+            }
+    
+            $filename = time() . '_' . $file->getClientOriginalName();
+            $destinationPath = storage_path('app/public/lomba/foto-pamflet');
+            if (!file_exists($destinationPath)) {
+                mkdir($destinationPath, 0775, true);
+            }
+    
+            $file->move($destinationPath, $filename);
+            $imagePath = "lomba/foto-pamflet/$filename"; // Simpan path gambar
+        }
+
+        try {
+            $lomba = LombaModel::create([
+                'lomba_kode' => $request->lomba_kode,
+                'lomba_nama' => $request->lomba_nama,
+                'lomba_deskripsi' => $request->lomba_deskripsi,
+                'link_website' => $request->link_website,
+                'tingkat_lomba_id' => $request->tingkat_lomba_id,
+                'bidang_keahlian_id' => $request->bidang_keahlian_id,
+                'penyelenggara_id' => $request->penyelenggara_id,
+                'tanggal_mulai' => $request->tanggal_mulai,
+                'tanggal_selesai' => $request->tanggal_selesai,
+                'foto_pamflet' => $imagePath,
+                'user_id' => auth()->user()->user_id,
+                'status_verifikasi' => 2
+            ]);
+        } catch (\Throwable $e) {
+            if (isset($lomba)) {
+                $lomba->delete();
+            }
+            return response()->json(['status' => false, 'message' => 'Gagal menambahkan data baru: ' . $e->getMessage()], 500);
+        }
+       
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Data berhasil disimpan.'
+        ]);
     }
 
     /**
@@ -94,6 +161,13 @@ class MahasiswaDosenLombaController extends Controller
         //
     }
 
+    public function confirm(LombaModel $lomba)
+    {
+        $tingkat = TingkatLombaModel::all();
+        $bidang = BidangKeahlianModel::all();
+        $penyelenggara = PenyelenggaraModel::all();
+        return view('daftar_lombaconfirm_lomba')->with(['lomba' => $lomba, 'tingkat' => $tingkat, 'bidang' => $bidang, 'penyelenggara' => $penyelenggara]);
+    }
     /**
      * Remove the specified resource from storage.
      */
