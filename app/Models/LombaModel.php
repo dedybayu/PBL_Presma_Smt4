@@ -25,6 +25,7 @@ class LombaModel extends Model
         'tanggal_selesai',
         'foto_pamflet',
         'status_verifikasi',
+        'user_id'
     ];
 
     public function penyelenggara()
