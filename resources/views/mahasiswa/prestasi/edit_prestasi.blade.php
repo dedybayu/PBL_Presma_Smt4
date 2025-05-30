@@ -276,7 +276,9 @@
 
                 </div>
                 <div class="mt-5 d-flex justify-content-end ">
-                    <button type="button" class="btn btn-warning mr-2" data-dismiss="modal">Batal</button>
+                    <a href="{{ route('mahasiswa.prestasi.index') }}">
+                        <button type="button" class="btn btn-warning mr-2" data-dismiss="modal">Batal</button>
+                    </a> 
                     <button type="submit" class="btn btn-primary ml-2">Simpan</button>
                 </div>
 

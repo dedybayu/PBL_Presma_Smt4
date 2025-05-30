@@ -116,8 +116,8 @@
                                 </div>
                                 <div class="form-group mt-2">
                                     <!-- Sertifikat -->
-                                    <input type="file" name="file_sertifikat" id="file_sertifikat" class="form-control"
-                                        accept="image/*" onchange="previewImage(event)"
+                                    <input type="file" name="file_sertifikat" id="file_sertifikat"
+                                        class="form-control" accept="image/*" onchange="previewImage(event)"
                                         data-target="preview-sertifikat">
 
                                     <small id="error-file_sertifikat" class="error-text form-text text-danger"></small>
@@ -140,8 +140,9 @@
 
                                 <div class="form-group mt-2">
                                     <!-- Bukti Foto -->
-                                    <input type="file" name="file_bukti_foto" id="file_bukti_foto" class="form-control"
-                                        accept="image/*" onchange="previewImage(event)" data-target="preview-bukti">
+                                    <input type="file" name="file_bukti_foto" id="file_bukti_foto"
+                                        class="form-control" accept="image/*" onchange="previewImage(event)"
+                                        data-target="preview-bukti">
 
                                     <small id="error-file_bukti_foto"
                                         class="error-text form-text text-danger"></small>
@@ -216,8 +217,9 @@
 
 
                                 <div class="form-group mt-2">
-                                    <input type="file" name="file_proposal" id="file_proposal" class="form-control"
-                                        accept="application/pdf" onchange="previewProposal(event)">
+                                    <input type="file" name="file_proposal" id="file_proposal"
+                                        class="form-control" accept="application/pdf"
+                                        onchange="previewProposal(event)">
 
                                     <small id="error-file_proposal" class="error-text form-text text-danger"></small>
                                 </div>
@@ -229,7 +231,9 @@
 
                 </div>
                 <div class="mt-5 d-flex justify-content-end ">
-                    <button type="button" class="btn btn-warning mr-2" data-dismiss="modal">Batal</button>
+                    <a href="{{ route('mahasiswa.prestasi.index') }}">
+                        <button type="button" class="btn btn-warning mr-2" data-dismiss="modal">Batal</button>
+                    </a>
                     <button type="submit" class="btn btn-primary ml-2">Simpan</button>
                 </div>
 
