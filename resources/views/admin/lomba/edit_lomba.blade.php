@@ -94,7 +94,7 @@
                     <div
                         style="position: relative; width: 100%; max-width: 600px; aspect-ratio: 16 / 9; overflow: hidden; background: #eee;">
                         <img id="preview-pamflet" src="{{ asset('storage/' . $lomba->foto_pamflet) }}"
-                            alt="Sertifikat"
+                            alt="Pamflet"
                             style="width: 100%; height: 100%; object-fit: contain; display: block;">
                     </div>
                     <div class="form-group mt-2">
@@ -105,7 +105,7 @@
                         <!-- Custom upload button -->
                         <button type="button" class="btn btn-primary"
                             onclick="document.getElementById('foto_pamflet').click()"><i
-                                class="fa fa-upload"></i> Ganti Sertifikat</button>
+                                class="fa fa-upload"></i> Ganti foto</button>
 
                         <small class="form-text text-muted">Abaikan jika tidak ingin diubah</small>
                         <small id="error-foto_pamflet" class="error-text form-text text-danger"></small>
@@ -120,6 +120,27 @@
 </form>
 
 <script>
+    function previewImage(event) {
+        const fileInput = event.target;
+        const targetId = fileInput.getAttribute('data-target');
+        const image = document.getElementById(targetId);
+        const file = fileInput.files[0];
+
+        if (file && file.type.startsWith('image/')) {
+            const reader = new FileReader();
+            reader.onload = function (e) {
+                image.src = e.target.result;
+            };
+            reader.readAsDataURL(file);
+
+            // Kosongkan pesan error jika valid
+            const errorElement = fileInput.nextElementSibling?.nextElementSibling;
+            if (errorElement) errorElement.textContent = '';
+        } else {
+            const errorElement = fileInput.nextElementSibling?.nextElementSibling;
+            if (errorElement) errorElement.textContent = "File bukan gambar yang valid.";
+        }
+    }
     function initSelect2() {
         // Hanya inisialisasi jika belum di-init
         $('#bidang_keahlian_id_edit, #penyelenggara_id').select2({
