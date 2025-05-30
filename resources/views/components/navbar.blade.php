@@ -327,7 +327,11 @@
                                     <div class="scroll-area-xs" style="height: 150px;">
                                         <div class="scrollbar-container ps">
                                             <ul class="nav flex-column">
-                                                <li class="nav-item-header nav-item">Aktivitas
+                                                <li class="nav-item-header nav-item">Menu
+                                                </li>
+                                                <li class="nav-item">
+                                                    <a href="{{route('profile')}}" class="nav-link">Profil Saya
+                                                    </a>
                                                 </li>
                                                 <li class="nav-item">
                                                     <a href="javascript:void(0);" class="nav-link">Pesan

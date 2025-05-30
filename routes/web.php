@@ -1,11 +1,13 @@
 <?php
 
 use App\Http\Controllers\AdminPrestasiController;
+use App\Http\Controllers\AdminProfileController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BidangKeahlianController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DosenController;
 use App\Http\Controllers\DosenPrestasiController;
+use App\Http\Controllers\DosenProfileController;
 use App\Http\Controllers\KategoriBidangKeahlianController;
 use App\Http\Controllers\MahasiswaController;
 use App\Http\Controllers\AdminController;
@@ -15,6 +17,7 @@ use App\Http\Controllers\KelasController;
 use App\Http\Controllers\LombaController;
 use App\Http\Controllers\MahasiswaDosenLombaController;
 use App\Http\Controllers\MahasiswaPrestasiController;
+use App\Http\Controllers\MahasiswaProfileController;
 use App\Http\Controllers\ProdiController;
 use App\Http\Controllers\PenyelenggaraController;
 use Illuminate\Support\Facades\Route;
@@ -218,6 +221,43 @@ Route::middleware('auth')->group(function () {
             Route::delete('/{lomba}', [MahasiswaDosenLombaController::class, 'destroy'])->name('destroy');
         });
     });
+
+
+
+
+
+
+    //PROFILE PROFILE PROFILE
+    
+    Route::get('/profile', function () {
+        if (auth()->user()->hasRole('MHS')) {
+            return redirect()->action([MahasiswaProfileController::class, 'index']);
+        } elseif (auth()->user()->hasRole('DOS')) {
+            return redirect()->action([DosenProfileController::class, 'index']);
+        } elseif (auth()->user()->hasRole('ADM')) {
+            return redirect()->action([AdminProfileController::class, 'index']);
+        }
+        abort(403); // Role tidak dikenal
+    })->name('profile');
+
+    Route::middleware('role:MHS')->group(function () {
+        Route::get('/profile/mahasiswa', [MahasiswaProfileController::class, 'index'])->name('profile.mahasiswa');
+        Route::get('/profile/mahasiswa/edit', [MahasiswaProfileController::class, 'edit'])->name('profile.mahasiswa.edit');
+        Route::post('/profile/mahasiswa/update', [MahasiswaProfileController::class, 'update'])->name('profile.mahasiswa.update');
+    });
+
+    Route::middleware('role:DOS')->group(function () {
+        Route::get('/profile/dosen', [DosenProfileController::class, 'index'])->name('profile.dosen');
+        Route::get('/profile/dosen/edit', [DosenProfileController::class, 'edit'])->name('profile.dosen.edit');
+        Route::post('/profile/dosen/update', [DosenProfileController::class, 'update'])->name('profile.dosen.update');
+    });
+
+    Route::middleware('role:ADM')->group(function () {
+        Route::get('/profile/admin', [AdminProfileController::class, 'index'])->name('profile.admin');
+        Route::get('/profile/admin/edit', [AdminProfileController::class, 'edit'])->name('profile.admin.edit');
+        Route::post('/profile/admin/update', [AdminProfileController::class, 'update'])->name('profile.admin.update');
+    });
+
 
 });
 
