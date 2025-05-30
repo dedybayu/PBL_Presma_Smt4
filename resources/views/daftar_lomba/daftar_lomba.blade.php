@@ -192,9 +192,9 @@
     </div>
 
     <x-slot:modal>
-        <div id="modal-delete" class="modal fade animate shake" tabindex="-1" role="dialog" data-backdrop="static"
+        <div id="modal-lomba" class="modal fade animate shake" tabindex="-1" role="dialog" data-backdrop="static"
             data-keyboard="false" aria-hidden="true">
-            <div class="modal-dialog modal-xs" role="document">
+            <div class="modal-dialog modal-lg" role="document">
                 <div class="modal-content"></div>
             </div>
         </div>
@@ -202,34 +202,102 @@
 
     <x-slot:js>
         <script>
-            function modalDelete(url) {
+            function modalAction(url) {
                 // Kosongkan modal sebelum memuat konten baru
-                $("#modal-delete .modal-content").html("");
+                $("#modal-lomba .modal-content").html("");
 
                 // Panggil modal melalui AJAX
-                $.get(url, function(response) {
-                    $("#modal-delete .modal-content").html(response);
-                    $("#modal-delete").modal("show");
+                $.get(url, function (response) {
+                    $("#modal-lomba .modal-content").html(response);
+                    $("#modal-lomba").modal("show");
                 });
             }
 
             // Bersihkan isi modal setelah ditutup
-            $('#modal-delete').on('hidden.bs.modal', function() {
-                $("#modal-delete .modal-content").html("");
+            $('#modal-lomba').on('hidden.bs.modal', function () {
+                $("#modal-lomba .modal-content").html("");
             });
 
-            $(document).ready(function() {
-                $('#tingkat_lomba_id, #status_verifikasi, #bidang_keahlian_id').select2({
+            var dataLomba
+            $(document).ready(function () {
+                // handleKelasFilterByBidang('#bidang_keahlian_id');
+
+                $('#bidang_keahlian_id').select2({
                     theme: 'bootstrap-5',
                     placeholder: "- Semua -",
                     allowClear: true,
                     width: '100%' // Gunakan width penuh
                 });
 
-                $('#tingkat_lomba_id, #status_verifikasi, #bidang_keahlian_id').on('change', function() {
-                    $(this).closest('form').submit();
+
+
+                dataLomba = $('#table-lomba').DataTable({
+                    serverSide: true,
+                    // responsive: true, // <-- ini penting
+
+                    ajax: {
+                        url: "{{ url('lomba/list') }}",
+                        dataType: "json",
+                        type: "POST",
+                        data: function (d) {
+                            d.bidang_keahlian_id = $('#bidang_keahlian_id').val();
+
+                        }
+                    },
+                    columns: [
+                        { data: "DT_RowIndex", className: "text-center", orderable: false, searchable: false },
+                        { data: "lomba_kode", className: "", orderable: true, searchable: true },
+                        { data: "info", className: "", orderable: true, searchable: true },
+                        { data: "deskripsi", className: "", orderable: true, searchable: true },
+                        { data: "link", className: "", orderable: true, searchable: true },
+                        { data: "tanggal_mulai", className: "", orderable: true, searchable: true },
+                        { data: "tanggal_selesai", className: "", orderable: false, searchable: true },
+                        { data: "status_verifikasi", className: "", orderable: false, searchable: true },
+                        { data: "aksi", className: "", orderable: false, searchable: false }
+                    ]
                 });
+
+
+                $('#bidang_keahlian_id').on('change', function () {
+                    dataLomba.ajax.reload();
+                });
+
             });
+
+            // function handleKelasFilterByP(prodiSelector, kelasSelector) {
+            //     const $prodi = $(prodiSelector);
+            //     const $kelas = $(kelasSelector);
+
+            //     const allOptions = $kelas.find('option').clone(); // simpan semua opsi awal
+
+            //     $kelas.prop('disabled', true);
+
+            //     $prodi.on('change', function () {
+            //         const selectedProdiId = $(this).val();
+
+            //         if (selectedProdiId) {
+            //             // Filter opsi sesuai prodi
+            //             const filteredOptions = allOptions.filter(function () {
+            //                 const prodiId = $(this).data('prodi-id');
+            //                 return !prodiId || prodiId == selectedProdiId || $(this).val() === ""; // biarkan option kosong tetap ada
+            //             });
+
+            //             $kelas.empty().append(filteredOptions); // update opsi
+            //             $kelas.prop('disabled', false).val('');
+
+            //             // Refresh Select2
+            //             if ($kelas.hasClass("select2-hidden-accessible")) {
+            //                 $kelas.trigger('change.select2');
+            //             }
+            //         } else {
+            //             $kelas.prop('disabled', true).val('');
+
+            //             if ($kelas.hasClass("select2-hidden-accessible")) {
+            //                 $kelas.trigger('change.select2');
+            //             }
+            //         }
+            //     });
+            // }
         </script>
     </x-slot:js>
 
