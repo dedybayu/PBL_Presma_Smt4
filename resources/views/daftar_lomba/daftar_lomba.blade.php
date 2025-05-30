@@ -222,7 +222,7 @@
             $(document).ready(function () {
                 // handleKelasFilterByBidang('#bidang_keahlian_id');
 
-                $('#bidang_keahlian_id').select2({
+                $('#bidang_keahlian_id, #tingkat_lomba_id, #status_verifikasi').select2({
                     theme: 'bootstrap-5',
                     placeholder: "- Semua -",
                     allowClear: true,
