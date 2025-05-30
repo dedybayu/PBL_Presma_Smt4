@@ -72,6 +72,10 @@ class LombaController extends Controller
                     // return collect(explode(' ', $row->lomba_deskripsi))->take(5)->implode(' ') . '...';
                     return collect(explode(' ', $row->lomba_deskripsi))->take(3)->implode(' ') . '...';
                 })
+                ->addColumn('link', function ($row) {
+                    // return collect(explode(' ', $row->lomba_deskripsi))->take(5)->implode(' ') . '...';
+                    return collect(explode(' ', $row->link_website))->take(3)->implode(' ') . '...';
+                })
                 ->addColumn('tanggal mulai', function ($row) {
                     return $row->tanggal_mulai ?? '-';
                 })
@@ -162,7 +166,7 @@ class LombaController extends Controller
                 'tanggal_selesai' => $request->tanggal_selesai,
                 'foto_pamflet' => $imagePath,
                 'user_id' => auth()->user()->user_id,
-                'status_verifikasi' => true
+                'status_verifikasi' => 2
             ]);
         } catch (\Throwable $e) {
             if (isset($lomba)) {
