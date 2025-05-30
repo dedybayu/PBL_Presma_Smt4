@@ -70,7 +70,12 @@ class MahasiswaPrestasiController extends Controller
      */
     public function create()
     {
-        //
+        $lomba = LombaModel::all();
+        $dosen = DosenModel::all();
+        return view('mahasiswa.prestasi.create_prestasi')->with([
+            'lomba' => $lomba,
+            'dosen' => $dosen
+        ]);
     }
 
     /**
@@ -78,7 +83,102 @@ class MahasiswaPrestasiController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        if (request()->ajax() || request()->wantsJson()) {
+            $rules = [
+                'dosen_id' => 'required',
+                'lomba_id' => 'required',
+                'prestasi_nama' => 'required',
+                'nama_juara' => 'nullable',
+                'tanggal_perolehan' => 'required|date',
+                'file_sertifikat' => 'required|mimes:jpg,jpeg,png|max:2048',
+                'file_bukti_foto' => 'required|mimes:jpg,jpeg,png|max:2048',
+                'file_surat_tugas' => 'required|mimes:jpg,jpeg,png|max:2048',
+                'file_surat_undangan' => 'required|mimes:jpg,jpeg,png|max:2048',
+                'file_proposal' => 'required|mimes:pdf|max:4096',
+            ];
+            $validator = Validator::make($request->all(), $rules);
+
+            if ($validator->fails()) {
+                return response()->json([
+                    'status' => false,
+                    'message' => 'Validasi gagal.',
+                    'errors' => $validator->errors()
+                ]);
+            }
+
+            if ($request->juara == 4) {
+                // Validasi: nama_juara wajib jika juara == 4
+                $validator = Validator::make($request->all(), [
+                    'juara' => 'required',
+                    'nama_juara' => 'required|string|max:255',
+                ]);
+
+                if ($validator->fails()) {
+                    return response()->json([
+                        'status' => false,
+                        'message' => 'Validasi gagal.',
+                        'msgField' => $validator->errors()
+                    ]);
+                }
+
+                $nama_juara = $request->nama_juara;
+            } else {
+                $nama_juara = 'Juara ' . $request->juara;
+            }
+            $mhs = Auth::user()->mahasiswa;
+            $nim_mahasiswa = $mhs->nim;
+
+            // dd($request->file());
+            $imagePaths['file_sertifikat'] = FileController::saveFile($request, 'sertifikat', $nim_mahasiswa, 'file_sertifikat');
+            $imagePaths['file_bukti_foto'] = FileController::saveFile($request, 'bukti_foto', $nim_mahasiswa, 'file_bukti_foto');
+            $imagePaths['file_surat_tugas'] = FileController::saveFile($request, 'surat_tugas', $nim_mahasiswa, 'file_surat_tugas');
+            $imagePaths['file_surat_undangan'] = FileController::saveFile($request, 'surat_undangan', $nim_mahasiswa, 'file_surat_undangan');
+            $imagePaths['file_proposal'] = FileController::saveFile($request, 'proposal', $nim_mahasiswa, 'file_proposal');
+
+            // dd($imagePath);
+
+            try {
+                $prestasi = PrestasiModel::create([
+                    'mahasiswa_id' => $mhs->mahasiswa_id,
+                    'dosen_id' => $request->dosen_id,
+                    'lomba_id' => $request->lomba_id,
+                    'prestasi_nama' => $request->prestasi_nama,
+                    'juara' => $request->juara,
+                    'nama_juara' => $nama_juara,
+                    'tanggal_perolehan' => $request->tanggal_perolehan,
+                    'file_sertifikat' => $imagePaths['file_sertifikat'],
+                    'file_bukti_foto' => $imagePaths['file_bukti_foto'],
+                    'file_surat_tugas' => $imagePaths['file_surat_tugas'],
+                    'file_surat_undangan' => $imagePaths['file_surat_undangan'],
+                    'file_proposal' => $imagePaths['file_proposal'],
+                    'poin' => 0,
+                    'status_verifikasi' => 1,
+                    'created_at' => now(),
+                    'updated_at' => now()
+                ]);
+
+                $poin = PoinPrestasiController::hitungPoin($prestasi);
+                $prestasi->poin = $poin;
+                $prestasi->save();
+
+                return response()->json([
+                    'status' => true,
+                    'message' => 'Data berhasil disimpan'
+                ]);
+            } catch (\Throwable $th) {
+                foreach ($imagePaths as $imagePath) {
+                    if ($imagePath) {
+                        Storage::disk('public')->delete($imagePath);
+                    }
+                }
+
+                return response()->json([
+                    'status' => false,
+                    'message' => 'Validasi gagal.',
+                    'errors' => $validator->errors()
+                ]);
+            }
+        }
     }
 
     /**
@@ -104,7 +204,7 @@ class MahasiswaPrestasiController extends Controller
         }
         $lomba = LombaModel::all();
         $dosen = DosenModel::all();
-        return view('mahasiswa.prestasi.edit_prestasiku')->with([
+        return view('mahasiswa.prestasi.edit_prestasi')->with([
             'prestasi' => $prestasi,
             'lomba' => $lomba,
             'dosen' => $dosen
@@ -126,11 +226,11 @@ class MahasiswaPrestasiController extends Controller
             'juara' => 'required',
             'nama_juara' => 'nullable',
             'tanggal_perolehan' => 'required|date',
-            'file_sertifikat' => 'nullable|mimes:jpg,jpeg,png',
-            'file_bukti_foto' => 'nullable|mimes:jpg,jpeg,png',
-            'file_surat_tugas' => 'nullable|mimes:jpg,jpeg,png',
-            'file_surat_undangan' => 'nullable|mimes:jpg,jpeg,png',
-            'file_proposal' => 'nullable|mimes:pdf',
+            'file_sertifikat' => 'nullable|mimes:jpg,jpeg,png|max:2048',
+            'file_bukti_foto' => 'nullable|mimes:jpg,jpeg,png|max:2048',
+            'file_surat_tugas' => 'nullable|mimes:jpg,jpeg,png|max:2048',
+            'file_surat_undangan' => 'nullable|mimes:jpg,jpeg,png|max:2048',
+            'file_proposal' => 'nullable|mimes:pdf|max:4096',
         ];
 
         $validator = Validator::make($request->all(), $rules);
