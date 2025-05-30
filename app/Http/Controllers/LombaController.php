@@ -152,7 +152,7 @@ class LombaController extends Controller
             $file->move($destinationPath, $filename);
             $imagePath = "lomba/foto-pamflet/$filename"; // Simpan path gambar
         }
-
+        
         try {
             $lomba = LombaModel::create([
                 'lomba_kode' => $request->lomba_kode,
