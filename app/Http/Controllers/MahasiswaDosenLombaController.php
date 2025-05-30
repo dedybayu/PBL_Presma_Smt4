@@ -148,18 +148,99 @@ class MahasiswaDosenLombaController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(LombaModel $lombaModel)
+    public function edit($id)
     {
-        //
+        $user = auth()->user();
+        $mahasiswaId = optional($user->mahasiswa)->mahasiswa_id;
+        $dosenId = optional($user->dosen)->dosen_id;
+
+        $lomba = LombaModel::findOrFail($id);
+
+        if ($lomba->user_id !== $user->user_id) {
+            abort(403, 'Anda tidak memiliki izin untuk mengedit data ini.');
+        }
+
+        $tingkat = TingkatLombaModel::all();
+        $bidang = BidangKeahlianModel::all();
+        $penyelenggara = PenyelenggaraModel::all();
+
+        return view('daftar_lomba.edit_lomba', compact('lomba', 'tingkat', 'bidang', 'penyelenggara'));
     }
+
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, LombaModel $lombaModel)
+    public function update(Request $request, $id)
     {
-        //
+        $user = auth()->user();
+        $mahasiswaId = optional($user->mahasiswa)->mahasiswa_id;
+        $dosenId = optional($user->dosen)->dosen_id;
+
+        $lomba = LombaModel::findOrFail($id);
+
+        if ($lomba->user_id !== $user->user_id) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Anda tidak memiliki izin untuk memperbarui data ini.'
+            ], 403);
+        }
+
+        $rules = [
+            'lomba_kode' => 'required|string|max:255',
+            'lomba_nama' => 'required|string|max:255',
+            'lomba_deskripsi' => 'required|string|max:255',
+            'link_website' => 'required|string|max:255',
+            'tingkat_lomba_id' => 'required|exists:m_tingkat_lomba,tingkat_lomba_id',
+            'bidang_keahlian_id' => 'required|exists:m_bidang_keahlian,bidang_keahlian_id',
+            'penyelenggara_id' => 'required|exists:m_penyelenggara,penyelenggara_id',
+            'tanggal_mulai' => 'required|date|date_format:Y-m-d',
+            'tanggal_selesai' => 'required|date|date_format:Y-m-d',
+            'foto_pamflet' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+        ];
+
+        $validator = Validator::make($request->all(), $rules);
+        if ($validator->fails()) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Validasi gagal.',
+                'msgField' => $validator->errors()
+            ]);
+        }
+
+        $imagePath = $lomba->foto_pamflet;
+        if ($request->hasFile('foto_pamflet')) {
+            $file = $request->file('foto_pamflet');
+            if ($file->isValid()) {
+                $filename = time() . '_' . $file->getClientOriginalName();
+                $destinationPath = storage_path('app/public/lomba/foto-pamflet');
+                if (!file_exists($destinationPath)) {
+                    mkdir($destinationPath, 0775, true);
+                }
+                $file->move($destinationPath, $filename);
+                $imagePath = "lomba/foto-pamflet/$filename";
+            }
+        }
+
+        $lomba->update([
+            'lomba_kode' => $request->lomba_kode,
+            'lomba_nama' => $request->lomba_nama,
+            'lomba_deskripsi' => $request->lomba_deskripsi,
+            'link_website' => $request->link_website,
+            'tingkat_lomba_id' => $request->tingkat_lomba_id,
+            'bidang_keahlian_id' => $request->bidang_keahlian_id,
+            'penyelenggara_id' => $request->penyelenggara_id,
+            'tanggal_mulai' => $request->tanggal_mulai,
+            'tanggal_selesai' => $request->tanggal_selesai,
+            'foto_pamflet' => $imagePath
+        ]);
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Data berhasil diperbarui.'
+        ]);
     }
+
 
     public function confirm(LombaModel $lomba)
     {
@@ -171,8 +252,37 @@ class MahasiswaDosenLombaController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(LombaModel $lombaModel)
+    public function destroy($id)
     {
-        //
+        $user = auth()->user();
+        $mahasiswaId = optional($user->mahasiswa)->mahasiswa_id;
+        $dosenId = optional($user->dosen)->dosen_id;
+
+        $lomba = LombaModel::findOrFail($id);
+
+        if ($lomba->user_id !== $user->user_id) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Anda tidak memiliki izin untuk menghapus data ini.'
+            ], 403);
+        }
+
+        try {
+            if ($lomba->foto_pamflet && file_exists(storage_path("app/public/{$lomba->foto_pamflet}"))) {
+                unlink(storage_path("app/public/{$lomba->foto_pamflet}"));
+            }
+
+            $lomba->delete();
+
+            return response()->json([
+                'status' => true,
+                'message' => 'Data berhasil dihapus.'
+            ]);
+        } catch (\Throwable $e) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Gagal menghapus data: ' . $e->getMessage()
+            ], 500);
+        }
     }
 }
