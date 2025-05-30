@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\BidangKeahlianModel;
 use App\Models\LombaModel;
 use App\Models\TingkatLombaModel;
+use App\Models\UserModel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -56,10 +57,10 @@ class MahasiswaDosenLombaController extends Controller
 
 
     public function show($id)
-    {
-        $lomba = LombaModel::with(['penyelenggara', 'tingkat', 'bidang'])->findOrFail($id);
-        return view('daftar_lomba.show_lomba', compact('lomba'));
-    }
+{
+    $lomba = LombaModel::with(['penyelenggara', 'tingkat', 'bidang'])->findOrFail($id);
+    return view('daftar_lomba.show_lomba', compact('lomba'));
+}
 
     /**
      * Show the form for creating a new resource.

@@ -134,7 +134,7 @@
 
                                             </div>
 
-                                            <a href="{{ route('lomba.show', $lmb->lomba_id) }}">
+                                            <a href="{{ route('daftar_lomba.show', $lmb->lomba_id) }}">
                                                 <h5 class="card-title">{{ $lmb->lomba_nama }}</h5>
                                             </a>
 
