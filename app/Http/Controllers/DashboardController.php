@@ -52,8 +52,15 @@ class DashboardController extends Controller
             ->groupBy('tingkat.tingkat_lomba_id', 'tingkat.tingkat_lomba_nama')
             ->get();
 
+        $lombaPerTingkat = DB::table('m_tingkat_lomba as tingkat')
+            ->leftJoin('m_lomba as lomba', 'tingkat.tingkat_lomba_id', '=', 'lomba.tingkat_lomba_id')
+            ->select('tingkat.tingkat_lomba_id', 'tingkat.tingkat_lomba_nama', DB::raw('COUNT(lomba.lomba_id) as total_lomba'))
+            ->groupBy('tingkat.tingkat_lomba_id', 'tingkat.tingkat_lomba_nama')
+            ->get();
+
         return [
             'prestasiPerTingkat' => $prestasiPerTingkat,
+            'lombaPerTingkat' => $lombaPerTingkat,
             'totalLomba' => $totalLomba,
             'lombaVerifikasi' => $lombaVerifikasi,
             'lombaPending' => $lombaPending,
