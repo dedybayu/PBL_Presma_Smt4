@@ -49,7 +49,7 @@
                     </a>
                 </li>
                 <li class="">
-                    <a href="{{ route('dosen.lomba.index') }}" class="">
+                    <a href="{{ route('daftar_lomba.index') }}" class="{{ request()->routeIs('daftar.lomba.index') }}" class="">
                         <i class="metismenu-icon pe-7s-rocket"></i> Lomba
                     </a>
                 </li>

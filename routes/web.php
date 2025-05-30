@@ -186,10 +186,10 @@ Route::middleware('auth')->group(function () {
             Route::get('/{prestasi}', [DosenPrestasiController::class, 'show'])->name('show');
         });
 
-        Route::prefix('prestasi-lomba')->name('dosen.lomba.')->group(function () {
-            Route::get('/', [DosenLombaController::class, 'index'])->name('index');
-            Route::get('/{prestasi}', [DosenLombaController::class, 'show'])->name('show');
-        });
+        // Route::prefix('prestasi-lomba')->name('dosen.lomba.')->group(function () {
+        //     Route::get('/', [DosenLombaController::class, 'index'])->name('index');
+        //     Route::get('/{prestasi}', [DosenLombaController::class, 'show'])->name('show');
+        // });
     });
 
 

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\BidangKeahlianModel;
 use App\Models\LombaModel;
 use App\Models\TingkatLombaModel;
 use Illuminate\Http\Request;
@@ -18,6 +19,7 @@ class MahasiswaDosenLombaController extends Controller
 
         $search = $request->search;
         $tingkatLombaId = $request->tingkat_lomba_id;
+        $bidangKeahlianId = $request->bidang_keahlian_id;
         $statusVerifikasi = $request->status_verifikasi;
 
         $query = LombaModel::with(['penyelenggara', 'tingkat', 'bidang']);
@@ -39,10 +41,17 @@ class MahasiswaDosenLombaController extends Controller
             $query->where('status_verifikasi', $statusVerifikasi);
         }
 
+        if ($bidangKeahlianId) {
+            $query->whereHas('bidang', function ($q) use ($bidangKeahlianId) {
+                $q->where('bidang_keahlian_id', $bidangKeahlianId);
+            });
+        }
+
         $lomba = $query->orderBy('tanggal_selesai', 'desc')->paginate(10);
         $tingkat_lomba = TingkatLombaModel::all();
+        $bidang_keahlian = BidangKeahlianModel::all();
 
-        return view('daftar_lomba.daftar_lomba', compact('lomba', 'tingkat_lomba'));
+        return view('daftar_lomba.daftar_lomba', compact('lomba', 'tingkat_lomba', 'bidang_keahlian'));
     }
 
 
