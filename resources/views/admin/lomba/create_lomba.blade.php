@@ -7,7 +7,7 @@
         </button>
     </div>
 
-    <div class="modal-body">
+    <div class="modal-body" style="max-height: 70vh; overflow-y: auto;">
         <div class="form-group">
             <label for="lomba_kode">Kode Lomba</label>
             <input type="text" name="lomba_kode" id="lomba_kode" class="form-control">
@@ -70,12 +70,28 @@
             <input type="date" name="tanggal_selesai" id="tanggal_selesai" class="form-control">
             <small id="error-tanggal_selesai" class="text-danger"></small>
         </div>
-        <div class="col-md-6">
-            <div class="form-group">
-                <label>Foto pamflet</label>
-                <input value="" type="file" name="foto_pamflet" id="foto_pamflet" class="form-control"
-                    accept="image/*" required>
-                <small id="error-foto_pamflet" class="error-text form-text text-danger"></small>
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Foto Pamflet</h5>
+                <!-- Gambar  -->
+                <div
+                    style="position: relative; width: 100%; max-width: auto; aspect-ratio: 16 / 9; overflow: hidden; background: #eee;">
+                    <img id="preview-pamflet" src="{{ asset('assets/images/image-dummy.png') }}" alt="Pamflet"
+                        style="width: 100%; height: 100%; object-fit: contain; display: block;">
+                </div>
+                <div class="form-group mt-2">
+                    <!-- Foto preview-pamflet -->
+                    <input type="file" name="foto_pamflet" id="foto_pamflet" class="d-none" accept="image/*"
+                        onchange="previewImage(event)" data-target="preview-pamflet">
+
+                    <!-- Custom upload button -->
+                    <button type="button" class="btn btn-primary"
+                        onclick="document.getElementById('foto_pamflet').click()"><i class="fa fa-upload"></i>
+                        Upload Foto Pamflet</button>
+
+                    <small class="form-text text-muted">Abaikan jika tidak ingin diubah</small>
+                    <small id="error-foto_pamflet" class="error-text form-text text-danger"></small>
+                </div>
             </div>
         </div>
     </div>
@@ -86,6 +102,28 @@
 </form>
 
 <script>
+    function previewImage(event) {
+        const fileInput = event.target;
+        const targetId = fileInput.getAttribute('data-target');
+        const image = document.getElementById(targetId);
+        const file = fileInput.files[0];
+
+        if (file && file.type.startsWith('image/')) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                image.src = e.target.result;
+            };
+            reader.readAsDataURL(file);
+
+            // Kosongkan pesan error jika valid
+            const errorElement = fileInput.nextElementSibling?.nextElementSibling;
+            if (errorElement) errorElement.textContent = '';
+        } else {
+            const errorElement = fileInput.nextElementSibling?.nextElementSibling;
+            if (errorElement) errorElement.textContent = "File bukan gambar yang valid.";
+        }
+    }
+
     function initSelect2() {
         // Hanya inisialisasi jika belum di-init
         $('#bidang_keahlian_id_create, #penyelenggara_id').select2({

@@ -161,7 +161,8 @@ class LombaController extends Controller
                 'tanggal_mulai' => $request->tanggal_mulai,
                 'tanggal_selesai' => $request->tanggal_selesai,
                 'foto_pamflet' => $imagePath,
-                'status_verifikasi' => $request->status_verifikasi
+                'user_id' => auth()->user()->user_id,
+                'status_verifikasi' => true
             ]);
         } catch (\Throwable $e) {
             if (isset($lomba)) {

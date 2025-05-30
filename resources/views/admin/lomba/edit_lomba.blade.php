@@ -83,42 +83,38 @@
                 value="{{ $lomba->tanggal_selesai }}" required>
             <small id="error-tanggal_selesai" class="error-text form-text text-danger"></small>
         </div>
-        <div class="col-md-6">
-            <div class="form-group">
-                <label>Status verifikasi</label>
-                <select name="status_verifikasi" id="status_verifikasi" class="form-control">
-                    <option value="" disabled>- Pilih status -</option>
-                    <option value="1" {{ $lomba->status_verifikasi == 1 ? 'selected' : '' }}>Terverifikasi
-                    </option>
-                    <option value="2" {{ $lomba->status_verifikasi == 2 ? 'selected' : '' }}>Menunggu</option>
-                    <option value="0" {{ $lomba->status_verifikasi == 0 ? 'selected' : '' }}>Ditolak</option>
-                </select>
-                <small id="error-status_verifikasi" class="error-text form-text text-danger"></small>
-            </div>
+        <div class="form-group">
+            <label>Status verifikasi</label>
+            <select name="status_verifikasi" id="status_verifikasi" class="form-control">
+                <option value="" disabled>- Pilih status -</option>
+                <option value="1" {{ $lomba->status_verifikasi == 1 ? 'selected' : '' }}>Terverifikasi
+                </option>
+                <option value="2" {{ $lomba->status_verifikasi == 2 ? 'selected' : '' }}>Menunggu</option>
+                <option value="0" {{ $lomba->status_verifikasi == 0 ? 'selected' : '' }}>Ditolak</option>
+            </select>
+            <small id="error-status_verifikasi" class="error-text form-text text-danger"></small>
         </div>
-        <div class="col-md-6 mt-2">
-            <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title">Foto Pamflet</h5>
-                    <!-- Gambar Sertifikat -->
-                    <div
-                        style="position: relative; width: 100%; max-width: 600px; aspect-ratio: 16 / 9; overflow: hidden; background: #eee;">
-                        <img id="preview-pamflet" src="{{ asset('storage/' . $lomba->foto_pamflet) }}" alt="Pamflet"
-                            style="width: 100%; height: 100%; object-fit: contain; display: block;">
-                    </div>
-                    <div class="form-group mt-2">
-                        <!-- Sertifikat -->
-                        <input type="file" name="foto_pamflet" id="foto_pamflet" class="d-none" accept="image/*"
-                            onchange="previewImage(event)" data-target="preview-pamflet">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Foto Pamflet</h5>
+                <!-- Gambar  -->
+                <div
+                    style="position: relative; width: 100%; max-width: auto; aspect-ratio: 16 / 9; overflow: hidden; background: #eee;">
+                    <img id="preview-pamflet" src="{{ asset('storage/' . $lomba->foto_pamflet) }}" alt="Pamflet"
+                        style="width: 100%; height: 100%; object-fit: contain; display: block;">
+                </div>
+                <div class="form-group mt-2">
+                    <!-- Foto preview-pamflet -->
+                    <input type="file" name="foto_pamflet" id="foto_pamflet" class="d-none" accept="image/*"
+                        onchange="previewImage(event)" data-target="preview-pamflet">
 
-                        <!-- Custom upload button -->
-                        <button type="button" class="btn btn-primary"
-                            onclick="document.getElementById('foto_pamflet').click()"><i class="fa fa-upload"></i>
-                            Ganti foto</button>
+                    <!-- Custom upload button -->
+                    <button type="button" class="btn btn-primary"
+                        onclick="document.getElementById('foto_pamflet').click()"><i class="fa fa-upload"></i>
+                        Ganti foto</button>
 
-                        <small class="form-text text-muted">Abaikan jika tidak ingin diubah</small>
-                        <small id="error-foto_pamflet" class="error-text form-text text-danger"></small>
-                    </div>
+                    <small class="form-text text-muted">Abaikan jika tidak ingin diubah</small>
+                    <small id="error-foto_pamflet" class="error-text form-text text-danger"></small>
                 </div>
             </div>
         </div>
