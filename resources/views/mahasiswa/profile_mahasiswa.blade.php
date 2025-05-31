@@ -30,71 +30,7 @@
             <div class="tab-content">
                 <div class="tab-pane active" id="tab-eg115-0" role="tabpanel">
                     <div class="tab-profile ">
-
-                        {{-- PROFILE --}}
-                        <div class="bg-light" style="height: 250px; overflow: hidden;">
-                            <img src="{{ asset('assets/images/gdungjti2.png') }}" class="w-100 h-100 object-fit-cover"
-                                style="object-fit: cover;">
-                        </div>
-
-                        <div class="text-center mt-n5">
-                            <img src="{{ asset(auth()->user()->mahasiswa->foto_profile ? 'storage/' . auth()->user()->mahasiswa->foto_profile : 'assets/images/user.png') }}"
-                                class="rounded-circle border border-primary shadow bg-white"
-                                style="width: 150px; height: 150px; object-fit: cover;">
-                            <div class="d-flex justify-content-center align-items-center mt-2">
-                                <h4 class="mb-0 me-2">{{ auth()->user()->mahasiswa->nama }}</h4>
-                            </div>
-                            <p class="text-muted mt-2">{{ auth()->user()->mahasiswa->nim }}</p>
-                            <span class="badge bg-info text-dark mb-3">Mahasiswa</span>
-                        </div>
-
-                        <div class="card-body">
-                            <div class="row">
-                                <div class="mb-3 col-md-6">
-                                    <label class="form-label">Nama Mahasiswa</label>
-                                    <div type="text" class="form-control" style="background-color: #e9ecef">
-                                        {{ auth()->user()->mahasiswa->nama }}</div>
-                                </div>
-                                <div class="mb-3 col-md-6">
-                                    <label class="form-label">NIM Mahasiswa</label>
-                                    <div type="text" class="form-control" style="background-color: #e9ecef">
-                                        {{ auth()->user()->mahasiswa->nim }}</div>
-                                </div>
-                                <div class="mb-3 col-md-6">
-                                    <label class="form-label">Username</label>
-                                    <div type="text" class="form-control" style="background-color: #e9ecef">
-                                        {{ auth()->user()->username }}</div>
-                                </div>
-                                <div class="mb-3 col-md-6">
-                                    <label class="form-label">Email</label>
-                                    <div type="text" class="form-control" style="background-color: #e9ecef">
-                                        {{ auth()->user()->mahasiswa->email }}</div>
-                                </div>
-                                <div class="mb-3 col-md-6">
-                                    <label class="form-label">Kelas</label>
-                                    <div type="text" class="form-control" style="background-color: #e9ecef">
-                                        {{ auth()->user()->mahasiswa->kelas->kelas_nama }}</div>
-                                </div>
-                                <div class="mb-3 col-md-6">
-                                    <label class="form-label">Angkatan</label>
-                                    <div type="text" class="form-control" style="background-color: #e9ecef">
-                                        {{ auth()->user()->mahasiswa->tahun_angkatan }}</div>
-                                </div>
-                                <div class="mb-3 col-md-12">
-                                    <label class="form-label">Alamat</label>
-                                    <div type="text" class="form-control" style="background-color: #e9ecef">
-                                        {{ auth()->user()->mahasiswa->alamat }}</div>
-                                </div>
-                            </div>
-
-                            <div class="d-flex justify-content-end">
-                                <button class="btn btn-success" onclick="editProfile()"><i class="fa fa-edit"></i>
-                                    Edit</button>
-                            </div>
-
-                        </div>
-                        {{-- /PROFILE --}}
-
+                        <x-profile.mahasiswa.profile_mahasiswa></x-profile.mahasiswa.profile_mahasiswa>
                     </div>
 
                 </div>
@@ -131,18 +67,33 @@
         </div>
     </x-slot:modal>
 
-    <template id="template-edit-profile">
-        <h1>Edit Profile</h1>
 
-        <div class="d-flex justify-content-between">
-            <button class="btn btn-warning" onclick="cancelEditProfile()">Batal</button>
-            <button class="btn btn-success" onclick><i class="fa fa-save"></i> Simpan</button>
-        </div>
+
+
+
+    <template id="template-edit-profile">
+        <x-profile.mahasiswa.edit_profile_mahasiswa></x-profile.mahasiswa.edit_profile_mahasiswa>
     </template>
 
 
     <x-slot:js>
         <script>
+            function previewImage(event) {
+                var reader = new FileReader();
+                reader.onload = function() {
+                    var output = document.getElementById('profileImage');
+                    output.src = reader.result;
+                }
+                reader.readAsDataURL(event.target.files[0]);
+                document.getElementById('remove_picture').value = "0";
+            }
+
+            function removeImage() {
+                document.getElementById('profileImage').src = '/../assets/images/user.png';
+                document.getElementById('foto_profile').value = '';
+                document.getElementById('remove_picture').value = "1";
+            }
+
             // Simpan isi awal .tab-profile
             let originalProfileContent;
 
@@ -160,28 +111,31 @@
                 // Hapus isi lama
                 container.innerHTML = '';
                 container.appendChild(clone);
+
+                // Dapatkan token dari meta tag
+                const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+
+                // Tambahkan input CSRF baru (jika belum ada atau untuk memastikan fresh)
+                const form = document.getElementById('form-edit-profile');
+                let csrfInput = form.querySelector('input[name="_token"]');
+
+                if (csrfInput) {
+                    csrfInput.value = csrfToken; // Perbarui jika sudah ada
+                } else {
+                    // Tambahkan jika tidak ada
+                    csrfInput = document.createElement('input');
+                    csrfInput.setAttribute('type', 'hidden');
+                    csrfInput.setAttribute('name', '_token');
+                    csrfInput.setAttribute('value', csrfToken);
+                    form.prepend(csrfInput);
+                }
             }
+
 
             function cancelEditProfile() {
                 const container = document.querySelector('.tab-profile');
                 container.innerHTML = originalProfileContent;
             }
-
-            function modalDelete(url) {
-                // Kosongkan modal sebelum memuat konten baru
-                $("#modal-delete .modal-content").html("");
-
-                // Panggil modal melalui AJAX
-                $.get(url, function(response) {
-                    $("#modal-delete .modal-content").html(response);
-                    $("#modal-delete").modal("show");
-                });
-            }
-
-            // Bersihkan isi modal setelah ditutup
-            $('#modal-delete').on('hidden.bs.modal', function() {
-                $("#modal-delete .modal-content").html("");
-            });
 
             var dataPrestasi
             $(document).ready(function() {
@@ -194,6 +148,19 @@
 
                 $('#tingkat_lomba_id, #status_verifikasi').on('change', function() {
                     $(this).closest('form').submit();
+                });
+            });
+
+            $(document).ready(function() {
+                // Cek jika ada hash di URL (misal: #tab-eg115-0)
+                var hash = window.location.hash;
+                if (hash) {
+                    $('.nav a[href="' + hash + '"]').tab('show');
+                }
+
+                // Optional: update hash saat tab diklik
+                $('.nav a[data-toggle="tab"]').on('shown.bs.tab', function(e) {
+                    history.replaceState(null, null, $(e.target).attr('href'));
                 });
             });
         </script>
