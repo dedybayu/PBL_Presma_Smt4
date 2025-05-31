@@ -1,6 +1,12 @@
 <x-layout>
     <x-slot:css>
         <style>
+            .chart-container {
+                position: relative;
+                width: 100%;
+                height: 400px; /* Atur sesuai kebutuhan */
+            }
+
             .bg-bronze {
                 background-color: #b87333 !important;
                 color: #fff !important;
@@ -226,7 +232,9 @@
                     </div>
                 </div>
                 <div class="card-body d-flex justify-content-center">
-                    <canvas id="chartLombaTingkat" width="500" height="500"></canvas>
+                    <div class="chart-container">
+                        <canvas id="chartLombaTingkat"></canvas>
+                    </div>
                 </div>
             </div>
         </div>
@@ -240,7 +248,9 @@
                     </div>
                 </div>
                 <div class="card-body d-flex justify-content-center">
-                    <canvas id="chartPrestasiTingkat" width="500" height="500"></canvas>
+                    <div class="chart-container">
+                        <canvas id="chartPrestasiTingkat"></canvas>
+                    </div>
                 </div>
             </div>
         </div>
@@ -270,7 +280,8 @@
                     }]
                 },
                 options: {
-                    responsive: false
+                    responsive: true,
+                    maintainAspectRatio: false
                 }
             });
 
@@ -291,7 +302,8 @@
                     }]
                 },
                 options: {
-                    responsive: false
+                    responsive: true,
+                    maintainAspectRatio: false
                 }
             });
 
@@ -309,7 +321,8 @@
                     }]
                 },
                 options: {
-                    responsive: false,
+                    responsive: true,
+                    maintainAspectRatio: false
                 }
             });
         </script>
