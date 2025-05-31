@@ -270,7 +270,8 @@
                     }]
                 },
                 options: {
-                    responsive: false
+                    responsive: true,
+                    maintainAspectRatio: false
                 }
             });
 
@@ -291,7 +292,8 @@
                     }]
                 },
                 options: {
-                    responsive: false
+                    responsive: true,
+                    maintainAspectRatio: false
                 }
             });
 
@@ -309,7 +311,8 @@
                     }]
                 },
                 options: {
-                    responsive: false,
+                    responsive: true,
+                    maintainAspectRatio: false
                 }
             });
         </script>
