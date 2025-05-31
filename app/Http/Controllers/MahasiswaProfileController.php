@@ -2,12 +2,16 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\KeahlianMahasiswaModel;
 use App\Models\KelasModel;
 use App\Models\MahasiswaModel;
+use App\Models\MahasiswaOrganisasiModel;
+use App\Models\MinatMahasiswaModel;
 use App\Models\UserModel;
 use Illuminate\Http\Request;
 use Storage;
 use Validator;
+use Yajra\DataTables\DataTables;
 
 class MahasiswaProfileController extends Controller
 {
@@ -17,11 +21,73 @@ class MahasiswaProfileController extends Controller
     public function index()
     {
         $kelas = KelasModel::all();
-        return view('mahasiswa.profile_mahasiswa')->with([
+        return view('mahasiswa.profile.profile_mahasiswa')->with([
             'kelas' => $kelas
         ]);
     }
 
+    public function list_minat(Request $request)
+    {
+        if ($request->ajax()) {
+            $minatMahasiswa = MinatMahasiswaModel::where('mahasiswa_id', auth()->user()->mahasiswa->mahasiswa_id)->with('bidang_keahlian')->get();
+
+            // $kategoriBidangKeahlian = $query->get();
+
+            return DataTables::of($minatMahasiswa)
+                ->addIndexColumn()
+                ->addColumn('bidang_keahlian_nama', function ($row) {
+                    return $row->bidang_keahlian->bidang_keahlian_nama;
+                })
+                ->addColumn('aksi', function ($row) {
+                    $btn = '<button onclick="modalProfile(\'' . url('/profile/mahasiswa/minat/' . $row->minat_mahasiswa_id. '/delete') . '\')" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i> Hapus</button> ';
+                    return $btn;
+                })
+                ->rawColumns(['aksi'])
+                ->make(true);
+        }
+    }
+    public function list_organisasi(Request $request)
+    {
+        if ($request->ajax()) {
+            $organisasiMahasiswa = MahasiswaOrganisasiModel::where('mahasiswa_id', auth()->user()->mahasiswa->mahasiswa_id)->with('organisasi')->get();
+
+            // $kategoriBidangKeahlian = $query->get();
+
+            return DataTables::of($organisasiMahasiswa)
+                ->addIndexColumn()
+                ->addColumn('organisasi_nama', function ($row) {
+                    return $row->organisasi->organisasi_nama;
+                })
+                ->addColumn('aksi', function ($row) {
+                    $btn = '<button onclick="modalProfile(\'' . url('/profile/mahasiswa/organisasi/' . $row->mahasiswa_organisasi_id. '/delete') . '\')" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i> Hapus</button> ';
+                    return $btn;
+                })
+                ->rawColumns(['aksi'])
+                ->make(true);
+        }
+    }
+
+    public function list_keahlian(Request $request)
+    {
+        if ($request->ajax()) {
+            $keahlianMahasiswa = KeahlianMahasiswaModel::where('mahasiswa_id', auth()->user()->mahasiswa->mahasiswa_id)->with('bidang_keahlian')->get();
+
+            // $kategoriBidangKeahlian = $query->get();
+
+            return DataTables::of($keahlianMahasiswa)
+                ->addIndexColumn()
+                ->addColumn('bidang_keahlian_nama', function ($row) {
+                    return $row->bidang_keahlian->bidang_keahlian_nama;
+                })
+                ->addColumn('aksi', function ($row) {
+                    $btn = '<button onclick="modalProfile(\'' . url('/profile/mahasiswa/keahlian/' . $row->keahlian_mahasiswa_id . '/show') . '\')" class="btn btn-info btn-sm"><i class="fa fa-eye"></i> Detail</button> ';
+                    $btn .= '<button onclick="modalProfile(\'' . url('/profile/mahasiswa/keahlian/' . $row->keahlian_mahasiswa_id . '/edit') . '\')" class="btn btn-sm btn-warning" title="Edit"><i class="fa fa-pen"></i> Edit</button> ';
+                    $btn .= '<button onclick="modalProfile(\'' . url('/profile/mahasiswa/keahlian/' . $row->keahlian_mahasiswa_id . '/delete') . '\')" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i> Hapus</button> ';                    return $btn;
+                })
+                ->rawColumns(['aksi'])
+                ->make(true);
+        }
+    }
     /**
      * Show the form for creating a new resource.
      */
@@ -90,7 +156,7 @@ class MahasiswaProfileController extends Controller
                 $filename = time() . '_' . $file->getClientOriginalName();
 
                 // Pastikan folder penyimpanan ada
-                $destinationPath = storage_path('app/public/mahasiswa/'. $mahasiswa->nim.'/profile-pictures');
+                $destinationPath = storage_path('app/public/mahasiswa/' . $mahasiswa->nim . '/profile-pictures');
                 if (!file_exists($destinationPath)) {
                     mkdir($destinationPath, 0775, true);
                 }
@@ -120,10 +186,10 @@ class MahasiswaProfileController extends Controller
                 //         'username' => $request->username,
                 //     ];
                 // } else {
-                    $data_user = [
-                        'username' => $request->username,
-                        // 'password' => $request->password
-                    ];
+                $data_user = [
+                    'username' => $request->username,
+                    // 'password' => $request->password
+                ];
                 // }
                 $check->update($data_user);
 
@@ -156,8 +222,26 @@ class MahasiswaProfileController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(MahasiswaModel $mahasiswaModel)
+
+
+
+    // MINAT KEAHLIAN DAN ORGANISASI
+
+    //KEAHLIAN MAHASISWA
+    public function confirm_keahlian(MinatMahasiswaModel $keahlian)
     {
-        //
+        return 'hello delete keahlian';
+    }
+
+    //MINAT MAHASISWA
+    public function confirm_minat(MinatMahasiswaModel $minat)
+    {
+        return 'hello delete minat';
+    }
+
+    //ORGANISASI MAHASISWA
+    public function confirm_organisasi(MahasiswaOrganisasiModel $organisasi)
+    {
+        return 'hello delete organisasi';
     }
 }
