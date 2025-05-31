@@ -82,7 +82,7 @@
     <x-slot:modal>
         <div id="modal-profile" class="modal fade animate shake" tabindex="-1" role="dialog" data-backdrop="static"
             data-keyboard="false" aria-hidden="true">
-            <div class="modal-dialog modal-xs" role="document">
+            <div class="modal-dialog modal-lg" role="document">
                 <div class="modal-content"></div>
             </div>
         </div>
@@ -174,6 +174,7 @@
 
             var minatMahasiswa;
             var keahlianMahasiswa;
+            var organisasiMahasiswa;
 
             $(document).ready(function() {
                 // Cek jika ada hash di URL (misal: #tab-eg115-0)

@@ -228,20 +228,50 @@ class MahasiswaProfileController extends Controller
     // MINAT KEAHLIAN DAN ORGANISASI
 
     //KEAHLIAN MAHASISWA
-    public function confirm_keahlian(MinatMahasiswaModel $keahlian)
+    public function confirm_keahlian(KeahlianMahasiswaModel $keahlian)
     {
-        return 'hello delete keahlian';
+        return view('mahasiswa.profile.confirm_delete_keahlian', compact('keahlian'));
+    }
+    public function destroy_keahlian(KeahlianMahasiswaModel $keahlian)
+    {
+        try {
+            $keahlian->delete();
+            return response()->json(['status' => true, 'message' => 'Data berhasil dihapus']);
+        } catch (\Exception $e) {
+            return response()->json(['status' => false, 'message' => 'Data gagal dihapus']);
+        }
     }
 
     //MINAT MAHASISWA
     public function confirm_minat(MinatMahasiswaModel $minat)
     {
-        return 'hello delete minat';
+        return view('mahasiswa.profile.confirm_delete_minat', compact('minat'));
+    }
+    public function destroy_minat(MinatMahasiswaModel $minat)
+    {
+        try {
+            $minat->delete();
+            return response()->json(['status' => true, 'message' => 'Data berhasil dihapus']);
+        } catch (\Exception $e) {
+            return response()->json(['status' => false, 'message' => 'Data gagal dihapus']);
+        }
     }
 
     //ORGANISASI MAHASISWA
     public function confirm_organisasi(MahasiswaOrganisasiModel $organisasi)
     {
-        return 'hello delete organisasi';
+        return view('mahasiswa.profile.confirm_delete_organisasi')->with([
+            'mahasiswa_organisasi' => $organisasi
+        ]);
+    }
+
+    public function destroy_organisasi(MahasiswaOrganisasiModel $organisasi)
+    {
+        try {
+            $organisasi->delete();
+            return response()->json(['status' => true, 'message' => 'Data berhasil dihapus']);
+        } catch (\Exception $e) {
+            return response()->json(['status' => false, 'message' => 'Data gagal dihapus']);
+        }
     }
 }
