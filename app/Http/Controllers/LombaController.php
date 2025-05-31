@@ -223,7 +223,7 @@ class LombaController extends Controller
                 'msgField' => $validator->errors()
             ]);
         }
-        $imagePath = null;
+        $imagePath = $lomba->foto_pamflet;
         if ($request->hasFile('foto_pamflet')) {
             $file = $request->file('foto_pamflet');
     
