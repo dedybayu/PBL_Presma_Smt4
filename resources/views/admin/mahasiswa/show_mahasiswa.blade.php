@@ -41,23 +41,32 @@
                 <th class="text-right col-3">No telp :</th>
                 <td class="col-9">{{ $mahasiswa->no_tlp }}</td>
             </tr>
-            <div class="modal-body">
-                <table class="table table-sm table-bordered table-striped">
+        </table>
+        <h5 class="modal-title">Detail prestasi</h5>
+        <table class="table table-sm table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th>No</th>
+                    <th>Nama Prestasi</th>
+                    <th>Aksi</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach ($mahasiswa->prestasi as $i => $prestasiItem)
                     <tr>
-                        <th class="text-right col-3">Prestasi terkait Mahasiswa :</th>
-                        <td class="col-9">
-                            @forelse ($mahasiswa->prestasi as $prestasiItem)
-                                {{ $prestasiItem->prestasi_nama }}<br>
-                            @empty
-                                Tidak ada prestasi terkait
-                            @endforelse
+                        <td>{{ $i + 1 }}</td>
+                        <td>{{ $prestasiItem->prestasi_nama?? '-' }}</td>
+                        <td>
+                            <button onclick="modalAction('{{ url('/prestasi/' . $prestasiItem->prestasi_id . '/show') }}')"
+                                class="btn btn-info btn-sm mt-1 mb-1"><i class="fa fa-eye"></i>
+                                Detail
+                            </button>
                         </td>
                     </tr>
-                </table>
-                <div class="modal-footer">
-                    <button onclick="modalAction('{{ url('/mahasiswa/' . $mahasiswa->mahasiswa_id . '/edit') }}')"
-                        class="btn btn-success btn-sm">Edit
-                    </button>
-                    <button type="button" data-dismiss="modal" class="btn btn-primary btn-sm">Close</button>
-                </div>
-            @endempty
+                @endforeach
+            </tbody>
+        </table>
+        <div>
+            <button type="button" data-dismiss="modal" class="btn btn-primary btn-sm">Close</button>
+        </div>
+    @endempty
