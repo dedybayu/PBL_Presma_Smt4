@@ -48,6 +48,7 @@
                 <tr>
                     <th>No</th>
                     <th>Nama Prestasi</th>
+                    <th>Tanggal Perolehan Prestasi</th>
                     <th>Aksi</th>
                 </tr>
             </thead>
@@ -56,6 +57,7 @@
                     <tr>
                         <td>{{ $i + 1 }}</td>
                         <td>{{ $prestasiItem->prestasi_nama?? '-' }}</td>
+                        <td>{{ $prestasiItem->tanggal_perolehan?? '-' }}</td>
                         <td>
                             <button onclick="modalAction('{{ url('/prestasi/' . $prestasiItem->prestasi_id . '/show') }}')"
                                 class="btn btn-info btn-sm mt-1 mb-1"><i class="fa fa-eye"></i>
