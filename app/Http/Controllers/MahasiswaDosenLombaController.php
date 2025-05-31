@@ -14,24 +14,31 @@ class MahasiswaDosenLombaController extends Controller
 {
     public function index(Request $request)
     {
-        $user = auth()->user();
 
-        $mahasiswaId = optional($user->mahasiswa)->mahasiswa_id;
-        $dosenId = optional($user->dosen)->dosen_id;
+        // $mahasiswaId = optional($user->mahasiswa)->mahasiswa_id;
+        // $dosenId = optional($user->dosen)->dosen_id;
 
         $search = $request->search;
         $tingkatLombaId = $request->tingkat_lomba_id;
         $bidangKeahlianId = $request->bidang_keahlian_id;
         $statusVerifikasi = $request->status_verifikasi;
 
-        $query = LombaModel::with(['penyelenggara', 'tingkat', 'bidang']);
+        $user = auth()->user();
+
+        $query = LombaModel::with(['penyelenggara', 'tingkat', 'bidang'])
+            ->where(function ($q) use ($user) {
+                $q->where('status_verifikasi', 1)
+                    ->orWhere('user_id', $user->user_id);
+            });
+
+
 
         if ($search) {
             $query->where(function ($q) use ($search) {
                 $q->where('lomba_nama', 'like', "%{$search}%")
-                ->orWhereHas('penyelenggara', function ($q2) use ($search) {
-                    $q2->where('penyelenggara_nama', 'like', "%{$search}%");
-                });
+                    ->orWhereHas('penyelenggara', function ($q2) use ($search) {
+                        $q2->where('penyelenggara_nama', 'like', "%{$search}%");
+                    });
             });
         }
 
@@ -58,10 +65,10 @@ class MahasiswaDosenLombaController extends Controller
 
 
     public function show($id)
-{
-    $lomba = LombaModel::with(['penyelenggara', 'tingkat', 'bidang'])->findOrFail($id);
-    return view('daftar_lomba.show_lomba', compact('lomba'));
-}
+    {
+        $lomba = LombaModel::with(['penyelenggara', 'tingkat', 'bidang'])->findOrFail($id);
+        return view('daftar_lomba.show_lomba', compact('lomba'));
+    }
 
     /**
      * Show the form for creating a new resource.
@@ -101,17 +108,17 @@ class MahasiswaDosenLombaController extends Controller
         $imagePath = null;
         if ($request->hasFile('foto_pamflet')) {
             $file = $request->file('foto_pamflet');
-    
+
             if (!$file->isValid()) {
                 return response()->json(['error' => 'Invalid file'], 400);
             }
-    
+
             $filename = time() . '_' . $file->getClientOriginalName();
             $destinationPath = storage_path('app/public/lomba/foto-pamflet');
             if (!file_exists($destinationPath)) {
                 mkdir($destinationPath, 0775, true);
             }
-    
+
             $file->move($destinationPath, $filename);
             $imagePath = "lomba/foto-pamflet/$filename"; // Simpan path gambar
         }
@@ -137,7 +144,7 @@ class MahasiswaDosenLombaController extends Controller
             }
             return response()->json(['status' => false, 'message' => 'Gagal menambahkan data baru: ' . $e->getMessage()], 500);
         }
-       
+
 
         return response()->json([
             'status' => true,
