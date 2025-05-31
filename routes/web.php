@@ -228,7 +228,7 @@ Route::middleware('auth')->group(function () {
 
 
     //PROFILE PROFILE PROFILE
-    
+
     Route::get('/profile', function () {
         if (auth()->user()->hasRole('MHS')) {
             return redirect()->action([MahasiswaProfileController::class, 'index']);
@@ -240,11 +240,37 @@ Route::middleware('auth')->group(function () {
         abort(403); // Role tidak dikenal
     })->name('profile');
 
-    Route::middleware('role:MHS')->group(function () {
-        Route::get('/profile/mahasiswa', [MahasiswaProfileController::class, 'index'])->name('profile.mahasiswa');
-        Route::get('/profile/mahasiswa/edit', [MahasiswaProfileController::class, 'edit'])->name('profile.mahasiswa.edit');
-        Route::post('/profile/mahasiswa/update', [MahasiswaProfileController::class, 'update'])->name('profile.mahasiswa.update');
+    Route::middleware('role:MHS')->prefix('profile/mahasiswa')->name('profile.mahasiswa.')->group(function () {
+        Route::get('/', [MahasiswaProfileController::class, 'index'])->name('');
+        Route::get('/edit', [MahasiswaProfileController::class, 'edit'])->name('edit');
+        Route::post('/update', [MahasiswaProfileController::class, 'update'])->name('update');
+
+        Route::post('/list_minat', [MahasiswaProfileController::class, 'list_minat'])->name('list_minat');
+        Route::post('/list_keahlian', [MahasiswaProfileController::class, 'list_keahlian'])->name('list_keahlian');
+        Route::post('/list_organisasi', [MahasiswaProfileController::class, 'list_organisasi'])->name('list_organisasi');
+
+        Route::get('/create_minat', [MahasiswaProfileController::class, 'create_minat'])->name('create_minat');
+        Route::get('/create_keahlian', [MahasiswaProfileController::class, 'create_keahlian'])->name('create_keahlian');
+
+        Route::post('/store_minat', [MahasiswaProfileController::class, 'store_minat'])->name('store_minat');
+        Route::post('/store_keahlian', [MahasiswaProfileController::class, 'store_keahlian'])->name('store_keahlian');
+
+        // Keahlian
+        Route::get('/keahlian/{keahlian}/show', [MahasiswaProfileController::class, 'show_keahlian'])->name('keahlian.show');
+        Route::get('/keahlian/{keahlian}/edit', [MahasiswaProfileController::class, 'edit_keahlian'])->name('keahlian.edit');
+        Route::put('/keahlian/{keahlian}', [MahasiswaProfileController::class, 'update_keahlian'])->name('keahlian.update');
+        Route::get('/keahlian/{keahlian}/delete', [MahasiswaProfileController::class, 'confirm_keahlian'])->name('keahlian.confirm');
+        Route::delete('/keahlian/{keahlian}', [MahasiswaProfileController::class, 'destroy_keahlian'])->name('keahlian.destroy');
+
+        // Minat
+        Route::get('/minat/{minat}/delete', [MahasiswaProfileController::class, 'confirm_minat'])->name('minat.confirm');
+        Route::delete('/minat/{minat}', [MahasiswaProfileController::class, 'destroy_minat'])->name('minat.destroy');
+        
+        // Organisasi
+        Route::get('/organisasi/{organisasi}/delete', [MahasiswaProfileController::class, 'confirm_organisasi'])->name('organisasi.confirm');
+        Route::delete('/organisasi/{organisasi}', [MahasiswaProfileController::class, 'destroy_organisasi'])->name('organisasi.destroy');
     });
+
 
     Route::middleware('role:DOS')->group(function () {
         Route::get('/profile/dosen', [DosenProfileController::class, 'index'])->name('profile.dosen');
