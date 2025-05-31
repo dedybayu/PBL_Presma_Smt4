@@ -38,14 +38,26 @@
                 <td class="col-9">{{ $mahasiswa->kelas->kelas_nama }}</td>
             </tr>
             <tr>
-                <th class="text-right col-3">no_telp :</th>
+                <th class="text-right col-3">No telp :</th>
                 <td class="col-9">{{ $mahasiswa->no_tlp }}</td>
             </tr>
-        </table>
-        <div class="modal-footer">
-            <button onclick="modalAction('{{ url('/mahasiswa/' . $mahasiswa->mahasiswa_id . '/edit') }}')"
-                class="btn btn-success btn-sm">Edit
-            </button>
-            <button type="button" data-dismiss="modal" class="btn btn-primary btn-sm">Close</button>
-        </div>
-@endempty
+            <div class="modal-body">
+                <table class="table table-sm table-bordered table-striped">
+                    <tr>
+                        <th class="text-right col-3">Prestasi terkait Mahasiswa :</th>
+                        <td class="col-9">
+                            @forelse ($mahasiswa->prestasi as $prestasiItem)
+                                {{ $prestasiItem->prestasi_nama }}<br>
+                            @empty
+                                Tidak ada prestasi terkait
+                            @endforelse
+                        </td>
+                    </tr>
+                </table>
+                <div class="modal-footer">
+                    <button onclick="modalAction('{{ url('/mahasiswa/' . $mahasiswa->mahasiswa_id . '/edit') }}')"
+                        class="btn btn-success btn-sm">Edit
+                    </button>
+                    <button type="button" data-dismiss="modal" class="btn btn-primary btn-sm">Close</button>
+                </div>
+            @endempty

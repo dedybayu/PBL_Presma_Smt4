@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\KelasModel;
 use App\Models\LevelModel;
 use App\Models\MahasiswaModel;
+use App\Models\PrestasiModel;
 use App\Models\ProdiModel;
 use App\Models\UserModel;
 use Illuminate\Http\Request;
@@ -201,9 +202,10 @@ class MahasiswaController extends Controller
     public function show($id)
     {
         $mahasiswa = MahasiswaModel::find($id);
+        $prestasi = PrestasiModel::all();
         // $kelas = KelasModel::select('kelas_id', 'kelas_nama');
         // $prodi = ProdiModel::select('prodi_id', 'prodi_nama');
-        return view('admin.mahasiswa.show_mahasiswa')->with(['mahasiswa' => $mahasiswa]);
+        return view('admin.mahasiswa.show_mahasiswa')->with(['mahasiswa' => $mahasiswa, 'prestasi' => $prestasi]);
     }
 
     /**
