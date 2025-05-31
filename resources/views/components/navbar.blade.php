@@ -330,7 +330,7 @@
                                                 <li class="nav-item-header nav-item">Menu
                                                 </li>
                                                 <li class="nav-item">
-                                                    <a href="{{route('profile')}}" class="nav-link">Profil Saya
+                                                    <a href="{{route('profile')}}" class="nav-link">Profile Saya
                                                     </a>
                                                 </li>
                                                 <li class="nav-item">

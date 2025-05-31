@@ -34,6 +34,7 @@ class KeahlianMahasiswaSeeder extends Seeder
                 KeahlianMahasiswaModel::create([
                     'mahasiswa_id' => $mahasiswa->mahasiswa_id,
                     'bidang_keahlian_id' => BidangKeahlianModel::where('bidang_keahlian_kode', $kodeBidang)->first()->bidang_keahlian_id,
+                    'file_sertifikat' => 'sertifikat.jpg',
                     'created_at' => now(),
                     'updated_at' => now(),
                 ]);

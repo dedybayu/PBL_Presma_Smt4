@@ -30,11 +30,7 @@
             <div class="tab-content">
                 <div class="tab-pane active" id="tab-eg115-0" role="tabpanel">
                     <div class="tab-profile ">
-                        <h1>Iki Profil</h1>
-
-                        <div class="d-flex justify-content-end">
-                            <button class="btn btn-success" onclick="editProfile()"><i class="fa fa-edit"></i> Edit</button>
-                        </div>
+                        <x-profile.mahasiswa.profile_mahasiswa></x-profile.mahasiswa.profile_mahasiswa>
                     </div>
 
                 </div>
@@ -71,18 +67,33 @@
         </div>
     </x-slot:modal>
 
-    <template id="template-edit-profile">
-        <h1>Edit Profile</h1>
 
-        <div class="d-flex justify-content-between">
-        <button class="btn btn-warning" onclick="cancelEditProfile()">Batal</button>
-        <button class="btn btn-success" onclick><i class="fa fa-save"></i> Simpan</button>
-        </div>
+
+
+
+    <template id="template-edit-profile">
+        <x-profile.mahasiswa.edit_profile_mahasiswa></x-profile.mahasiswa.edit_profile_mahasiswa>
     </template>
 
 
     <x-slot:js>
         <script>
+            function previewImage(event) {
+                var reader = new FileReader();
+                reader.onload = function() {
+                    var output = document.getElementById('profileImage');
+                    output.src = reader.result;
+                }
+                reader.readAsDataURL(event.target.files[0]);
+                document.getElementById('remove_picture').value = "0";
+            }
+
+            function removeImage() {
+                document.getElementById('profileImage').src = '/../assets/images/user.png';
+                document.getElementById('foto_profile').value = '';
+                document.getElementById('remove_picture').value = "1";
+            }
+
             // Simpan isi awal .tab-profile
             let originalProfileContent;
 
@@ -100,28 +111,31 @@
                 // Hapus isi lama
                 container.innerHTML = '';
                 container.appendChild(clone);
+
+                // Dapatkan token dari meta tag
+                const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+
+                // Tambahkan input CSRF baru (jika belum ada atau untuk memastikan fresh)
+                const form = document.getElementById('form-edit-profile');
+                let csrfInput = form.querySelector('input[name="_token"]');
+
+                if (csrfInput) {
+                    csrfInput.value = csrfToken; // Perbarui jika sudah ada
+                } else {
+                    // Tambahkan jika tidak ada
+                    csrfInput = document.createElement('input');
+                    csrfInput.setAttribute('type', 'hidden');
+                    csrfInput.setAttribute('name', '_token');
+                    csrfInput.setAttribute('value', csrfToken);
+                    form.prepend(csrfInput);
+                }
             }
+
 
             function cancelEditProfile() {
                 const container = document.querySelector('.tab-profile');
                 container.innerHTML = originalProfileContent;
             }
-
-            function modalDelete(url) {
-                // Kosongkan modal sebelum memuat konten baru
-                $("#modal-delete .modal-content").html("");
-
-                // Panggil modal melalui AJAX
-                $.get(url, function(response) {
-                    $("#modal-delete .modal-content").html(response);
-                    $("#modal-delete").modal("show");
-                });
-            }
-
-            // Bersihkan isi modal setelah ditutup
-            $('#modal-delete').on('hidden.bs.modal', function() {
-                $("#modal-delete .modal-content").html("");
-            });
 
             var dataPrestasi
             $(document).ready(function() {
@@ -134,6 +148,19 @@
 
                 $('#tingkat_lomba_id, #status_verifikasi').on('change', function() {
                     $(this).closest('form').submit();
+                });
+            });
+
+            $(document).ready(function() {
+                // Cek jika ada hash di URL (misal: #tab-eg115-0)
+                var hash = window.location.hash;
+                if (hash) {
+                    $('.nav a[href="' + hash + '"]').tab('show');
+                }
+
+                // Optional: update hash saat tab diklik
+                $('.nav a[data-toggle="tab"]').on('shown.bs.tab', function(e) {
+                    history.replaceState(null, null, $(e.target).attr('href'));
                 });
             });
         </script>

@@ -298,13 +298,15 @@
             });
 
             const ctxJadwal = document.getElementById('chartJadwalLomba').getContext('2d');
+            const labels = {!! json_encode($jadwalLombaPerBulan->pluck('bulan_format')) !!};
+            const data = {!! json_encode($jadwalLombaPerBulan->pluck('total')) !!};
             const chartJadwalLomba = new Chart(ctxJadwal, {
                 type: 'bar',
                 data: {
-                    labels: {!! json_encode($jadwalLombaPerBulan->pluck('bulan_format')) !!},
+                    labels: labels,
                     datasets: [{
                         label: 'Jumlah Lomba',
-                        data: {!! json_encode($jadwalLombaPerBulan->pluck('total')) !!},
+                        data: data,
                         backgroundColor: 'rgba(54, 162, 235, 0.7)',
                         borderColor: 'rgba(54, 162, 235, 1)',
                         borderWidth: 1
@@ -312,7 +314,12 @@
                 },
                 options: {
                     responsive: true,
-                    maintainAspectRatio: false
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
                 }
             });
         </script>
