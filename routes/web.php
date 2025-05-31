@@ -249,11 +249,11 @@ Route::middleware('auth')->group(function () {
         Route::post('/list_keahlian', [MahasiswaProfileController::class, 'list_keahlian'])->name('list_keahlian');
         Route::post('/list_organisasi', [MahasiswaProfileController::class, 'list_organisasi'])->name('list_organisasi');
 
-        Route::get('/create_minat', [MahasiswaProfileController::class, 'create_minat'])->name('create_minat');
-        Route::get('/create_keahlian', [MahasiswaProfileController::class, 'create_keahlian'])->name('create_keahlian');
+        Route::get('/create_minat', [MahasiswaProfileController::class, 'create_minat'])->name('minat.create');
+        Route::get('/create_keahlian', [MahasiswaProfileController::class, 'create_keahlian'])->name('keahlian.create');
 
-        Route::post('/store_minat', [MahasiswaProfileController::class, 'store_minat'])->name('store_minat');
-        Route::post('/store_keahlian', [MahasiswaProfileController::class, 'store_keahlian'])->name('store_keahlian');
+        Route::post('/store_minat', [MahasiswaProfileController::class, 'store_minat'])->name('minat.store');
+        Route::post('/store_keahlian', [MahasiswaProfileController::class, 'store_keahlian'])->name('keahlian.store');
 
         // Keahlian
         Route::get('/keahlian/{keahlian}/show', [MahasiswaProfileController::class, 'show_keahlian'])->name('keahlian.show');

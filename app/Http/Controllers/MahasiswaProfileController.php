@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\BidangKeahlianModel;
 use App\Models\KeahlianMahasiswaModel;
 use App\Models\KelasModel;
 use App\Models\MahasiswaModel;
 use App\Models\MahasiswaOrganisasiModel;
 use App\Models\MinatMahasiswaModel;
 use App\Models\UserModel;
+use File;
 use Illuminate\Http\Request;
 use Storage;
 use Validator;
@@ -39,7 +41,7 @@ class MahasiswaProfileController extends Controller
                     return $row->bidang_keahlian->bidang_keahlian_nama;
                 })
                 ->addColumn('aksi', function ($row) {
-                    $btn = '<button onclick="modalProfile(\'' . url('/profile/mahasiswa/minat/' . $row->minat_mahasiswa_id. '/delete') . '\')" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i> Hapus</button> ';
+                    $btn = '<button onclick="modalProfile(\'' . url('/profile/mahasiswa/minat/' . $row->minat_mahasiswa_id . '/delete') . '\')" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i> Hapus</button> ';
                     return $btn;
                 })
                 ->rawColumns(['aksi'])
@@ -59,7 +61,7 @@ class MahasiswaProfileController extends Controller
                     return $row->organisasi->organisasi_nama;
                 })
                 ->addColumn('aksi', function ($row) {
-                    $btn = '<button onclick="modalProfile(\'' . url('/profile/mahasiswa/organisasi/' . $row->mahasiswa_organisasi_id. '/delete') . '\')" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i> Hapus</button> ';
+                    $btn = '<button onclick="modalProfile(\'' . url('/profile/mahasiswa/organisasi/' . $row->mahasiswa_organisasi_id . '/delete') . '\')" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i> Hapus</button> ';
                     return $btn;
                 })
                 ->rawColumns(['aksi'])
@@ -81,8 +83,9 @@ class MahasiswaProfileController extends Controller
                 })
                 ->addColumn('aksi', function ($row) {
                     $btn = '<button onclick="modalProfile(\'' . url('/profile/mahasiswa/keahlian/' . $row->keahlian_mahasiswa_id . '/show') . '\')" class="btn btn-info btn-sm"><i class="fa fa-eye"></i> Detail</button> ';
-                    $btn .= '<button onclick="modalProfile(\'' . url('/profile/mahasiswa/keahlian/' . $row->keahlian_mahasiswa_id . '/edit') . '\')" class="btn btn-sm btn-warning" title="Edit"><i class="fa fa-pen"></i> Edit</button> ';
-                    $btn .= '<button onclick="modalProfile(\'' . url('/profile/mahasiswa/keahlian/' . $row->keahlian_mahasiswa_id . '/delete') . '\')" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i> Hapus</button> ';                    return $btn;
+                    $btn .= '<button onclick="modalProfile(\'' . url('/profile/mahasiswa/keahlian/' . $row->keahlian_mahasiswa_id . '/edit') . '\')" class="btn btn-sm btn-success" title="Edit"><i class="fa fa-pen"></i> Edit</button> ';
+                    $btn .= '<button onclick="modalProfile(\'' . url('/profile/mahasiswa/keahlian/' . $row->keahlian_mahasiswa_id . '/delete') . '\')" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i> Hapus</button> ';
+                    return $btn;
                 })
                 ->rawColumns(['aksi'])
                 ->make(true);
@@ -228,6 +231,110 @@ class MahasiswaProfileController extends Controller
     // MINAT KEAHLIAN DAN ORGANISASI
 
     //KEAHLIAN MAHASISWA
+    public function show_keahlian(KeahlianMahasiswaModel $keahlian)
+    {
+        return view('mahasiswa.profile.show_keahlian', compact('keahlian'));
+    }
+    
+    public function create_keahlian()
+    {
+        $bidangKeahlian = self::showAvailableBidangKeahlian(auth()->user()->mahasiswa->mahasiswa_id, 'keahlian');
+        return view('mahasiswa.profile.create_keahlian', compact('bidangKeahlian'));
+    }
+
+    public function edit_keahlian(KeahlianMahasiswaModel $keahlian)
+    {
+        $bidangKeahlian = self::showAvailableBidangKeahlian($keahlian->mahasiswa_id, 'keahlian', $keahlian->bidang_keahlian_id);
+        return view('mahasiswa.profile.edit_keahlian', compact('bidangKeahlian', 'keahlian'));
+    }
+    public function store_keahlian(Request $request)
+    {
+        $mahasiswa = auth()->user()->mahasiswa;
+        if (request()->ajax() || request()->wantsJson()) {
+            $rules = [
+                'bidang_keahlian_id' => 'required',
+                'file_sertifikat' => 'nullable|mimes:jpg,jpeg,png|max:2048',
+            ];
+            $validator = Validator::make($request->all(), $rules);
+
+            if ($validator->fails()) {
+                return response()->json([
+                    'status' => false,
+                    'message' => 'Validasi gagal. ' . implode(' ', $validator->errors()->all()),
+                    'errors' => $validator->errors()
+                ]);
+
+            }
+
+            $fileSertifikat = null;
+            if ($request->hasFile('file_sertifikat')) {
+                $fileSertifikat = FileController::saveMahasiswaFile($request, 'keahlian', $mahasiswa->nim, 'file_sertifikat');
+            }
+
+            try {
+                KeahlianMahasiswaModel::create([
+                    'mahasiswa_id' => auth()->user()->mahasiswa->mahasiswa_id,
+                    'bidang_keahlian_id' => $request->bidang_keahlian_id,
+                    'file_sertifikat' => $fileSertifikat
+                ]);
+
+                return response()->json([
+                    'status' => true,
+                    'message' => 'Data berhasil disimpan'
+                ]);
+            } catch (\Throwable $th) {
+                return response()->json([
+                    'status' => false,
+                    'message' => 'Data gagal disimpan. ' . $th->getMessage(),
+                ]);
+            }
+        }
+    }
+    public function update_keahlian(Request $request, KeahlianMahasiswaModel $keahlian)
+    {
+        // dd($keahlian->mahasiswa->nim);
+        // dd($request->file());
+        if (request()->ajax() || request()->wantsJson()) {
+            $rules = [
+                'bidang_keahlian_id' => 'required',
+                'file_sertifikat' => 'nullable|mimes:jpg,jpeg,png|max:2048',
+            ];
+            $validator = Validator::make($request->all(), $rules);
+
+            if ($validator->fails()) {
+                return response()->json([
+                    'status' => false,
+                    'message' => 'Validasi gagal. ' . implode(' ', $validator->errors()->all()),
+                    'errors' => $validator->errors()
+                ]);
+
+            }
+
+            $keahlian->bidang_keahlian_id = $request->bidang_keahlian_id;
+            $newFile = null;
+            if ($request->hasFile('file_sertifikat') && ($newFile = FileController::saveMahasiswaFile($request, 'keahlian', $keahlian->mahasiswa->nim, 'file_sertifikat'))) {
+                FileController::deleteFile($keahlian->file_sertifikat);
+                $keahlian->file_sertifikat = $newFile;
+            }
+
+            try {
+                $keahlian->save();
+                return response()->json([
+                    'status' => true,
+                    'message' => 'Data berhasil diupdate'
+                ]);
+            } catch (\Throwable $th) {
+                FileController::deleteFile($newFile);
+                return response()->json([
+                    'status' => false,
+                    'message' => 'Data gagal diupdate',
+                    'errors' => $th->getMessage()
+                ]);
+            }
+        }
+    }
+
+
     public function confirm_keahlian(KeahlianMahasiswaModel $keahlian)
     {
         return view('mahasiswa.profile.confirm_delete_keahlian', compact('keahlian'));
@@ -235,6 +342,7 @@ class MahasiswaProfileController extends Controller
     public function destroy_keahlian(KeahlianMahasiswaModel $keahlian)
     {
         try {
+            FileController::deleteFile($keahlian->file_sertifikat);
             $keahlian->delete();
             return response()->json(['status' => true, 'message' => 'Data berhasil dihapus']);
         } catch (\Exception $e) {
@@ -274,4 +382,35 @@ class MahasiswaProfileController extends Controller
             return response()->json(['status' => false, 'message' => 'Data gagal dihapus']);
         }
     }
+
+    public static function showAvailableBidangKeahlian($mahasiswaId, $key, $except = null)
+    {
+        if ($key == 'keahlian') {
+            $bidangKeahlian = BidangKeahlianModel::whereNotIn('bidang_keahlian_id', function ($query) use ($mahasiswaId, $except) {
+                $query->select('bidang_keahlian_id')
+                    ->from('r_keahlian_mahasiswa')
+                    ->where('mahasiswa_id', $mahasiswaId);
+
+                if ($except) {
+                    $query->where('bidang_keahlian_id', '!=', $except);
+                }
+            })->orWhere('bidang_keahlian_id', $except)->get();
+        } elseif ($key == 'minat') {
+            $bidangKeahlian = BidangKeahlianModel::whereNotIn('bidang_keahlian_id', function ($query) use ($mahasiswaId, $except) {
+                $query->select('bidang_keahlian_id')
+                    ->from('r_minat_mahasiswa')
+                    ->where('mahasiswa_id', $mahasiswaId);
+
+                if ($except) {
+                    $query->where('bidang_keahlian_id', '!=', $except);
+                }
+            })->orWhere('bidang_keahlian_id', $except)->get();
+        } else {
+            return null;
+        }
+
+        return $bidangKeahlian;
+    }
+
+
 }

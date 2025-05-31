@@ -35,6 +35,9 @@
 
                 </div>
                 <div class="tab-keahlian tab-pane" id="tab-eg115-1" role="tabpanel">
+                    <div class="mb-3 d-flex justify-content-end">
+                        <button onclick="modalProfile('{{ route('profile.mahasiswa.keahlian.create') }}')" class="btn btn-sm btn-success"><i class="fa fa-plus"></i> Tambah</button>
+                    </div>
                     <div class="table-responsive w-100">
                         <table class="table table-bordered table-sm table-striped table-hover w-100"
                             id="table-keahlian">
