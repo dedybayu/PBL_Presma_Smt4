@@ -251,9 +251,11 @@ Route::middleware('auth')->group(function () {
 
         Route::get('/create_minat', [MahasiswaProfileController::class, 'create_minat'])->name('minat.create');
         Route::get('/create_keahlian', [MahasiswaProfileController::class, 'create_keahlian'])->name('keahlian.create');
+        Route::get('/create_organisasi', [MahasiswaProfileController::class, 'create_organisasi'])->name('organisasi.create');
 
         Route::post('/store_minat', [MahasiswaProfileController::class, 'store_minat'])->name('minat.store');
         Route::post('/store_keahlian', [MahasiswaProfileController::class, 'store_keahlian'])->name('keahlian.store');
+        Route::post('/store_organisasi', [MahasiswaProfileController::class, 'store_organisasi'])->name('organisasi.store');
 
         // Keahlian
         Route::get('/keahlian/{keahlian}/show', [MahasiswaProfileController::class, 'show_keahlian'])->name('keahlian.show');

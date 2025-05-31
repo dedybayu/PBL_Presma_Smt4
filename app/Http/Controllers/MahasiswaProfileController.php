@@ -8,6 +8,7 @@ use App\Models\KelasModel;
 use App\Models\MahasiswaModel;
 use App\Models\MahasiswaOrganisasiModel;
 use App\Models\MinatMahasiswaModel;
+use App\Models\OrganisasiModel;
 use App\Models\UserModel;
 use File;
 use Illuminate\Http\Request;
@@ -235,7 +236,7 @@ class MahasiswaProfileController extends Controller
     {
         return view('mahasiswa.profile.show_keahlian', compact('keahlian'));
     }
-    
+
     public function create_keahlian()
     {
         $bidangKeahlian = self::showAvailableBidangKeahlian(auth()->user()->mahasiswa->mahasiswa_id, 'keahlian');
@@ -351,6 +352,44 @@ class MahasiswaProfileController extends Controller
     }
 
     //MINAT MAHASISWA
+    public function create_minat(){
+        $bidangKeahlian = self::showAvailableBidangKeahlian(auth()->user()->mahasiswa->mahasiswa_id, 'minat');
+        return view('mahasiswa.profile.create_minat', compact('bidangKeahlian'));
+    }
+    public function store_minat(Request $request){
+        if (request()->ajax() || request()->wantsJson()) {
+            $rules = [
+                'bidang_keahlian_id' => 'required',
+            ];
+            $validator = Validator::make($request->all(), $rules);
+
+            if ($validator->fails()) {
+                return response()->json([
+                    'status' => false,
+                    'message' => 'Validasi gagal. ' . implode(' ', $validator->errors()->all()),
+                    'errors' => $validator->errors()
+                ]);
+
+            }
+
+            try {
+                MinatMahasiswaModel::create([
+                    'mahasiswa_id' => auth()->user()->mahasiswa->mahasiswa_id,
+                    'bidang_keahlian_id' => $request->bidang_keahlian_id,
+                ]);
+
+                return response()->json([
+                    'status' => true,
+                    'message' => 'Data berhasil disimpan'
+                ]);
+            } catch (\Throwable $th) {
+                return response()->json([
+                    'status' => false,
+                    'message' => 'Data gagal disimpan. ' . $th->getMessage(),
+                ]);
+            }
+        }
+    }
     public function confirm_minat(MinatMahasiswaModel $minat)
     {
         return view('mahasiswa.profile.confirm_delete_minat', compact('minat'));
@@ -366,6 +405,44 @@ class MahasiswaProfileController extends Controller
     }
 
     //ORGANISASI MAHASISWA
+    public function create_organisasi()
+    {
+        $organisasi = self::showAvailableOrganisasi(auth()->user()->mahasiswa->mahasiswa_id);
+        return view('mahasiswa.profile.create_organisasi', compact('organisasi'));
+    }
+    public function store_organisasi(Request $request)
+    {
+        if (request()->ajax() || request()->wantsJson()) {
+            $rules = [
+                'organisasi_id' => 'required',
+            ];
+            $validator = Validator::make($request->all(), $rules);
+
+            if ($validator->fails()) {
+                return response()->json([
+                    'status' => false,
+                    'message' => 'Validasi gagal. ' . implode(' ', $validator->errors()->all()),
+                    'errors' => $validator->errors()
+                ]);
+            }
+            try {
+                MahasiswaOrganisasiModel::create([
+                    'organisasi_id' => $request->organisasi_id,
+                    'mahasiswa_id' => auth()->user()->mahasiswa->mahasiswa_id
+                ]);
+                return response()->json([
+                    'status' => true,
+                    'message' => 'Data berhasil disimpan'
+                ]);
+            } catch (\Throwable $th) {
+                return response()->json([
+                    'status' => false,
+                    'message' => 'Data gagal disimpan. ' . $th->getMessage(),
+                ]);
+            }
+            # code...
+        }
+    }
     public function confirm_organisasi(MahasiswaOrganisasiModel $organisasi)
     {
         return view('mahasiswa.profile.confirm_delete_organisasi')->with([
@@ -408,6 +485,20 @@ class MahasiswaProfileController extends Controller
         } else {
             return null;
         }
+
+        return $bidangKeahlian;
+    }
+    public static function showAvailableOrganisasi($mahasiswaId, $except = null)
+    {
+        $bidangKeahlian = OrganisasiModel::whereNotIn('organisasi_id', function ($query) use ($mahasiswaId, $except) {
+            $query->select('organisasi_id')
+                ->from('r_mahasiswa_organisasi')
+                ->where('mahasiswa_id', $mahasiswaId);
+
+            if ($except) {
+                $query->where('organisasi_id', '!=', $except);
+            }
+        })->orWhere('organisasi_id', $except)->get();
 
         return $bidangKeahlian;
     }
