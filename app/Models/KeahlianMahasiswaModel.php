@@ -11,7 +11,7 @@ class KeahlianMahasiswaModel extends Model
 
     protected $table = 'r_keahlian_mahasiswa';
     protected $primaryKey = 'keahlian_mahasiswa_id';
-    protected $fillable = ['mahasiswa_id', 'bidang_keahlian_id'];
+    protected $fillable = ['mahasiswa_id', 'bidang_keahlian_id', 'file_sertifikat'];
 
     public function mahasiswa()
     {

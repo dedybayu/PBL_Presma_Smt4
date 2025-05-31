@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id('keahlian_mahasiswa_id');
             $table->unsignedBigInteger('mahasiswa_id');
             $table->unsignedBigInteger('bidang_keahlian_id');
+            $table->string('file_sertifikat');
             $table->timestamps();
 
             $table->foreign('mahasiswa_id')->references('mahasiswa_id')->on('m_mahasiswa');
