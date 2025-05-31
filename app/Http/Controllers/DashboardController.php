@@ -60,17 +60,20 @@ class DashboardController extends Controller
             ->get();
 
         $jadwalLombaPerBulan = DB::table('m_lomba')
-            ->selectRaw("DATE_FORMAT(tanggal_mulai, '%Y-%m') as bulan, COUNT(*) as total")
-            ->groupByRaw("DATE_FORMAT(tanggal_mulai, '%Y-%m')")
-            ->orderByRaw("DATE_FORMAT(tanggal_mulai, '%Y-%m')")
-            ->limit(10)
-            ->get();
-
-            // Format agar bulannya lebih user-friendly, contoh: "Mei 2025"
-        $jadwalLombaPerBulanFormatted = $jadwalLombaPerBulan->map(function ($item) {
-            $item->bulan_format = Carbon::createFromFormat('Y-m', $item->bulan)->translatedFormat('F Y');
-            return $item;
-        });
+            ->selectRaw("YEAR(tanggal_mulai) as tahun, MONTH(tanggal_mulai) as bulan_angka, COUNT(*) as total")
+            ->whereNotNull('tanggal_mulai')
+            ->groupBy('tahun', 'bulan_angka')
+            ->orderBy('tahun')
+            ->orderBy('bulan_angka')
+            ->limit(12)
+            ->get()
+            ->map(function ($item) {
+                $bulanFormat = Carbon::createFromDate($item->tahun, $item->bulan_angka, 1)->translatedFormat('F Y');
+                return (object)[
+                    'bulan_format' => $bulanFormat,
+                    'total' => $item->total,
+                ];
+            });
 
         $topMahasiswaPrestasi = DB::table('t_prestasi')
             ->join('m_mahasiswa as mahasiswa', 't_prestasi.mahasiswa_id', '=', 'mahasiswa.mahasiswa_id')
@@ -82,7 +85,7 @@ class DashboardController extends Controller
 
         return [
             'topMahasiswaPrestasi' => $topMahasiswaPrestasi,
-            'jadwalLombaPerBulan' => $jadwalLombaPerBulanFormatted,
+            'jadwalLombaPerBulan' => $jadwalLombaPerBulan,
             'prestasiPerTingkat' => $prestasiPerTingkat,
             'lombaPerTingkat' => $lombaPerTingkat,
             'totalLomba' => $totalLomba,
