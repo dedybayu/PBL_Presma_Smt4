@@ -63,6 +63,7 @@ class DashboardController extends Controller
             ->selectRaw("DATE_FORMAT(tanggal_mulai, '%Y-%m') as bulan, COUNT(*) as total")
             ->groupByRaw("DATE_FORMAT(tanggal_mulai, '%Y-%m')")
             ->orderByRaw("DATE_FORMAT(tanggal_mulai, '%Y-%m')")
+            ->limit(10)
             ->get();
 
             // Format agar bulannya lebih user-friendly, contoh: "Mei 2025"
@@ -76,7 +77,7 @@ class DashboardController extends Controller
             ->select('mahasiswa.nama', DB::raw('COUNT(t_prestasi.prestasi_id) as total_prestasi'))
             ->groupBy('mahasiswa.mahasiswa_id', 'mahasiswa.nama')
             ->orderByDesc('total_prestasi')
-            ->limit(10)
+            ->limit(8)
             ->get();
 
         return [
