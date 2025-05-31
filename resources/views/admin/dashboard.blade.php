@@ -1,12 +1,6 @@
 <x-layout>
     <x-slot:css>
         <style>
-            .chart-container {
-                position: relative;
-                width: 100%;
-                height: 400px; /* Atur sesuai kebutuhan */
-            }
-
             .bg-bronze {
                 background-color: #b87333 !important;
                 color: #fff !important;
@@ -232,9 +226,7 @@
                     </div>
                 </div>
                 <div class="card-body d-flex justify-content-center">
-                    <div class="chart-container">
-                        <canvas id="chartLombaTingkat"></canvas>
-                    </div>
+                    <canvas id="chartLombaTingkat" width="500" height="500"></canvas>
                 </div>
             </div>
         </div>
@@ -248,9 +240,7 @@
                     </div>
                 </div>
                 <div class="card-body d-flex justify-content-center">
-                    <div class="chart-container">
-                        <canvas id="chartPrestasiTingkat"></canvas>
-                    </div>
+                    <canvas id="chartPrestasiTingkat" width="500" height="500"></canvas>
                 </div>
             </div>
         </div>
