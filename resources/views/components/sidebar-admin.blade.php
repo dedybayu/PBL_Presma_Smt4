@@ -152,12 +152,12 @@
                         <i class="metismenu-state-icon pe-7s-angle-down caret-left"></i>
                     </a>
                     <ul class="{{ request()->routeIs('periode.*', 'prodi.*', 'kelas.*') ? 'mm-show' : '' }}">
-                        <li>
+                        {{-- <li>
                             <a href="mailbox.html">
                                 <i class="metismenu-icon">
                                 </i>Periode Semester
                             </a>
-                        </li>
+                        </li> --}}
                         <li>
                             <a href="{{ route('prodi.index') }}"
                                 class="{{ request()->routeIs('prodi.index') ? 'mm-active' : '' }}">
