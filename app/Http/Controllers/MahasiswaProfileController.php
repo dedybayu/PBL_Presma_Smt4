@@ -11,6 +11,7 @@ use App\Models\MinatMahasiswaModel;
 use App\Models\OrganisasiModel;
 use App\Models\UserModel;
 use File;
+use Hash;
 use Illuminate\Http\Request;
 use Storage;
 use Validator;
@@ -95,17 +96,51 @@ class MahasiswaProfileController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function edit_password()
     {
-        //
+        return view('mahasiswa.profile.edit_password');
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function update_password(Request $request)
     {
-        //
+        if (request()->ajax()) {
+            $validator = Validator::make($request->all(), [
+                'old_password' => 'required',
+                'new_password' => 'required|min:6',
+            ]);
+
+            if ($validator->fails()) {
+                return response()->json(['errors' => $validator->errors()]);
+            }
+
+
+
+            if (!Hash::check($request->old_password, auth()->user()->password)) {
+                return response()->json([
+                    'status' => false,
+                    'message' => 'Password lama salah.'
+                ]);
+            }
+            if ($request->new_password == $request->old_password) {
+                return response()->json([
+                    'status' => false,
+                    'message' => 'Password baru tidak boleh sama'
+                ]);
+            }
+
+            auth()->user()->update([
+                'password' => $request->new_password,
+            ]);
+
+            return response()->json([
+                'status' => true,
+                'message' => 'Password berhasil diubah.'
+            ]);
+
+        }
     }
 
     /**
@@ -210,7 +245,7 @@ class MahasiswaProfileController extends Controller
 
                 $data_mahasiswa = [
                     'email' => $request->email,
-                    // 'no_tlp' => $request->no_tlp,
+                    'no_tlp' => $request->no_tlp,
                     'alamat' => $request->alamat,
                     'foto_profile' => $imagePath
                 ];
@@ -352,11 +387,13 @@ class MahasiswaProfileController extends Controller
     }
 
     //MINAT MAHASISWA
-    public function create_minat(){
+    public function create_minat()
+    {
         $bidangKeahlian = self::showAvailableBidangKeahlian(auth()->user()->mahasiswa->mahasiswa_id, 'minat');
         return view('mahasiswa.profile.create_minat', compact('bidangKeahlian'));
     }
-    public function store_minat(Request $request){
+    public function store_minat(Request $request)
+    {
         if (request()->ajax() || request()->wantsJson()) {
             $rules = [
                 'bidang_keahlian_id' => 'required',

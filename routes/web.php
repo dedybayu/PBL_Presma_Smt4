@@ -244,6 +244,8 @@ Route::middleware('auth')->group(function () {
         Route::get('/', [MahasiswaProfileController::class, 'index'])->name('');
         Route::get('/edit', [MahasiswaProfileController::class, 'edit'])->name('edit');
         Route::post('/update', [MahasiswaProfileController::class, 'update'])->name('update');
+        Route::get('/edit-password', [MahasiswaProfileController::class, 'edit_password'])->name('edit-password');
+        Route::post('/update-password', [MahasiswaProfileController::class, 'update_password'])->name('update-password');
 
         Route::post('/list_minat', [MahasiswaProfileController::class, 'list_minat'])->name('list_minat');
         Route::post('/list_keahlian', [MahasiswaProfileController::class, 'list_keahlian'])->name('list_keahlian');
@@ -280,10 +282,12 @@ Route::middleware('auth')->group(function () {
         Route::post('/profile/dosen/update', [DosenProfileController::class, 'update'])->name('profile.dosen.update');
     });
 
-    Route::middleware('role:ADM')->group(function () {
-        Route::get('/profile/admin', [AdminProfileController::class, 'index'])->name('profile.admin');
-        Route::get('/profile/admin/edit', [AdminProfileController::class, 'edit'])->name('profile.admin.edit');
-        Route::post('/profile/admin/update', [AdminProfileController::class, 'update'])->name('profile.admin.update');
+    Route::middleware('role:ADM')->prefix('profile/admin')->name('profile.admin.')->group(function () {
+        Route::get('/', [AdminProfileController::class, 'index'])->name('index');
+        Route::get('/edit', [AdminProfileController::class, 'edit'])->name('edit');
+        Route::put('/{admin}/update', [AdminProfileController::class, 'update'])->name('update');
+        Route::get('/edit-password', [AdminProfileController::class, 'edit_password'])->name('edit-password');
+        Route::post('/update-password', [AdminProfileController::class, 'update_password'])->name('update-password');
     });
 
 

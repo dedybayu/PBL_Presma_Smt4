@@ -10,84 +10,12 @@
     </x-slot:css>
     <x-slot:title>
         Profil
-        <div class="page-title-subheading">Profil Mahasiswa</div>
+        <div class="page-title-subheading">Profil admin</div>
     </x-slot:title>
 
     <div class="mb-3 card">
-        <div class="card-header card-header-tab-animation">
-            <ul class="nav nav-justified">
-                <li class="nav-item"><a data-toggle="tab" href="#tab-eg115-0" class="active nav-link"
-                        style="font-weight: bold;">Profile</a></li>
-                <li class="nav-item"><a data-toggle="tab" href="#tab-eg115-1" class="nav-link"
-                        style="font-weight: bold;">Keahlian</a></li>
-                <li class="nav-item"><a data-toggle="tab" href="#tab-eg115-2" class="nav-link"
-                        style="font-weight: bold;">Minat</a></li>
-                <li class="nav-item"><a data-toggle="tab" href="#tab-eg115-3" class="nav-link"
-                        style="font-weight: bold;">Organisasi</a></li>
-            </ul>
-        </div>
-        <div class="card-body">
-            <div class="tab-content">
-                <div class="tab-pane active" id="tab-eg115-0" role="tabpanel">
-                    <div class="tab-profile ">
-                        <x-profile.mahasiswa.profile_mahasiswa></x-profile.mahasiswa.profile_mahasiswa>
-                    </div>
-
-                </div>
-                <div class="tab-keahlian tab-pane" id="tab-eg115-1" role="tabpanel">
-                    <div class="mb-3 d-flex justify-content-end">
-                        <button onclick="modalProfile('{{ route('profile.mahasiswa.keahlian.create') }}')"
-                            class="btn btn-sm btn-success"><i class="fa fa-plus"></i> Tambah</button>
-                    </div>
-                    <div class="table-responsive w-100">
-                        <table class="table table-bordered table-sm table-striped table-hover w-100"
-                            id="table-keahlian">
-                            <thead>
-                                <tr>
-                                    <th>No</th>
-                                    <th>Keahlian Kamu</th>
-                                    <th>Aksi</th>
-                                </tr>
-                            </thead>
-                        </table>
-                    </div>
-                </div>
-                <div class="tab-minat tab-pane" id="tab-eg115-2" role="tabpanel">
-                    <div class="mb-3 d-flex justify-content-end">
-                        <button onclick="modalProfile('{{ route('profile.mahasiswa.minat.create') }}')"
-                            class="btn btn-sm btn-success"><i class="fa fa-plus"></i> Tambah</button>
-                    </div>
-                    <div class="table-responsive w-100">
-                        <table class="table table-bordered table-sm table-striped table-hover w-100" id="table-minat">
-                            <thead>
-                                <tr>
-                                    <th>No</th>
-                                    <th>Minat Kamu</th>
-                                    <th>Aksi</th>
-                                </tr>
-                            </thead>
-                        </table>
-                    </div>
-                </div>
-                <div class="tab-organisasi tab-pane" id="tab-eg115-3" role="tabpanel">
-                    <div class="mb-3 d-flex justify-content-end">
-                        <button onclick="modalProfile('{{ route('profile.mahasiswa.organisasi.create') }}')"
-                            class="btn btn-sm btn-success"><i class="fa fa-plus"></i> Tambah</button>
-                    </div>
-                    <div class="table-responsive w-100">
-                        <table class="table table-bordered table-sm table-striped table-hover w-100"
-                            id="table-organisasi">
-                            <thead>
-                                <tr>
-                                    <th>No</th>
-                                    <th>Organisasi Yang Diikuti</th>
-                                    <th>Aksi</th>
-                                </tr>
-                            </thead>
-                        </table>
-                    </div>
-                </div>
-            </div>
+        <div class="tab-profile ">
+            <x-profile.admin.profile_admin></x-profile.admin.profile_admin>
         </div>
     </div>
 
@@ -111,7 +39,7 @@
 
 
     <template id="template-edit-profile">
-        <x-profile.mahasiswa.edit_profile_mahasiswa></x-profile.mahasiswa.edit_profile_mahasiswa>
+        <x-profile.admin.edit_profile_admin></x-profile.admin.edit_profile_admin>
     </template>
 
 
@@ -128,6 +56,7 @@
             $('#modal-profile').on('hidden.bs.modal', function() {
                 $("#modal-profile .modal-content").html("");
             });
+
             function modalPassword(url) {
                 $("#modal-password .modal-content").html("");
                 $.get(url, function(response) {
@@ -201,9 +130,9 @@
 
 
 
-            var minatMahasiswa;
-            var keahlianMahasiswa;
-            var organisasiMahasiswa;
+            var minatadmin;
+            var keahlianadmin;
+            var organisasiadmin;
 
             $(document).ready(function() {
                 // Cek jika ada hash di URL (misal: #tab-eg115-0)
@@ -217,10 +146,10 @@
                     history.replaceState(null, null, $(e.target).attr('href'));
                 });
 
-                minatMahasiswa = $('#table-minat').DataTable({
+                minatadmin = $('#table-minat').DataTable({
                     serverSide: true,
                     ajax: {
-                        url: "{{ url('profile/mahasiswa/list_minat') }}",
+                        url: "{{ url('profile/admin/list_minat') }}",
                         dataType: "json",
                         type: "POST",
                         data: function(d) {
@@ -246,10 +175,10 @@
                         }
                     ]
                 });
-                keahlianMahasiswa = $('#table-keahlian').DataTable({
+                keahlianadmin = $('#table-keahlian').DataTable({
                     serverSide: true,
                     ajax: {
-                        url: "{{ url('profile/mahasiswa/list_keahlian') }}",
+                        url: "{{ url('profile/admin/list_keahlian') }}",
                         dataType: "json",
                         type: "POST",
                         data: function(d) {
@@ -275,10 +204,10 @@
                         }
                     ]
                 });
-                organisasiMahasiswa = $('#table-organisasi').DataTable({
+                organisasiadmin = $('#table-organisasi').DataTable({
                     serverSide: true,
                     ajax: {
-                        url: "{{ url('profile/mahasiswa/list_organisasi') }}",
+                        url: "{{ url('profile/admin/list_organisasi') }}",
                         dataType: "json",
                         type: "POST",
                         data: function(d) {
