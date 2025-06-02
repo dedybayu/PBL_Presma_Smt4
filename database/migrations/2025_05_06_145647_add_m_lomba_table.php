@@ -16,13 +16,14 @@ return new class extends Migration
             $table->string('lomba_kode')->unique();
             $table->string('lomba_nama');
             $table->string('lomba_deskripsi');
+            $table->string('link_website');
             $table->unsignedBigInteger('tingkat_lomba_id');
             $table->unsignedBigInteger('bidang_keahlian_id');
             $table->unsignedBigInteger('penyelenggara_id');
             $table->date('tanggal_mulai');
             $table->date('tanggal_selesai');
-            $table->string('foto_pamflet')->nullable();
-            $table->unsignedBigInteger('user_id')->nullable()->default(null);
+            $table->string('foto_pamflet');
+            $table->unsignedBigInteger('user_id');
             $table->boolean('status_verifikasi')->nullable()->default(null);
 
             $table->timestamps();

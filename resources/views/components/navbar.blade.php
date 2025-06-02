@@ -57,7 +57,9 @@
     </div>
     <div class="app-header__menu">
         <span>
-            <button type="button" class="btn-icon btn-icon-only btn btn-primary btn-sm mobile-toggle-header-nav">
+            <button type="button"
+                class="btn-icon btn-icon-only btn btn-primary btn-sm mobile-toggle-header-nav"
+                style="background-color: transparent; color: #3f6ad8; border: none;">
                 <span class="btn-icon-wrapper">
                     <i class="fa fa-ellipsis-v fa-w-6"></i>
                 </span>
@@ -325,7 +327,11 @@
                                     <div class="scroll-area-xs" style="height: 150px;">
                                         <div class="scrollbar-container ps">
                                             <ul class="nav flex-column">
-                                                <li class="nav-item-header nav-item">Aktivitas
+                                                <li class="nav-item-header nav-item">Menu
+                                                </li>
+                                                <li class="nav-item">
+                                                    <a href="{{route('profile')}}" class="nav-link">Profile Saya
+                                                    </a>
                                                 </li>
                                                 <li class="nav-item">
                                                     <a href="javascript:void(0);" class="nav-link">Pesan

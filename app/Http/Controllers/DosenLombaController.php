@@ -6,18 +6,18 @@ use App\Models\BidangKeahlianModel;
 use App\Models\LombaModel;
 use App\Models\PenyelenggaraModel;
 use App\Models\TingkatLombaModel;
-use Auth;
+use App\Http\Controllers\Auth;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
-use Storage;
-use Validator;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Validator;
 
 class DosenLombaController extends Controller
 {
     public function index()
     {
         // Ambil data dengan pagination
-        $lomba = LombaModel::with(['tingkatLomba.nama', 'bidangKeahlian.nama', 'penyelenggara.nama']) // jika relasi ini digunakan di Blade
+        $lomba = LombaModel::with(['tingkat', 'bidang', 'penyelenggara']) // jika relasi ini digunakan di Blade
             ->orderByDesc('created_at')
             ->paginate(8); // batasi 8 per halaman
 

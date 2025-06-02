@@ -9,7 +9,7 @@ class MahasiswaOrganisasiModel extends Model
 {
     use HasFactory;
 
-    protected $table = 'm_mahasiswa_organisasi';
+    protected $table = 'r_mahasiswa_organisasi';
     protected $primaryKey = 'mahasiswa_organisasi_id';
     public $incrementing = true;
     protected $keyType = 'int';

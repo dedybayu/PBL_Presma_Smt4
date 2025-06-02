@@ -17,6 +17,7 @@ class LombaModel extends Model
         'lomba_kode',
         'lomba_nama',
         'lomba_deskripsi',
+        'link_website',
         'tingkat_lomba_id',
         'bidang_keahlian_id',
         'penyelenggara_id',
@@ -24,6 +25,7 @@ class LombaModel extends Model
         'tanggal_selesai',
         'foto_pamflet',
         'status_verifikasi',
+        'user_id'
     ];
 
     public function penyelenggara()

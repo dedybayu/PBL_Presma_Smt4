@@ -2,6 +2,8 @@
 
 namespace Database\Seeders;
 
+use App\Models\MahasiswaOrganisasiModel;
+use App\Models\OrganisasiModel;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -30,5 +32,39 @@ class OrganisasiSeeder extends Seeder
                 'organisasi_nama' => 'Organisasi Luar Kampus',
             ],
         ];
+        OrganisasiModel::insert($data);
+
+        MahasiswaOrganisasiModel::insert([
+            [
+                'organisasi_id' => 1,
+                'mahasiswa_id' => 1,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'organisasi_id' => 1,
+                'mahasiswa_id' => 2,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'organisasi_id' => 2,
+                'mahasiswa_id' => 1,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'organisasi_id' => 3,
+                'mahasiswa_id' => 1,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'organisasi_id' => 4,
+                'mahasiswa_id' => 1,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+        ]);
     }
 }

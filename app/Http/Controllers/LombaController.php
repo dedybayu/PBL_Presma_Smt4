@@ -72,6 +72,10 @@ class LombaController extends Controller
                     // return collect(explode(' ', $row->lomba_deskripsi))->take(5)->implode(' ') . '...';
                     return collect(explode(' ', $row->lomba_deskripsi))->take(3)->implode(' ') . '...';
                 })
+                ->addColumn('link', function ($row) {
+                    // return collect(explode(' ', $row->lomba_deskripsi))->take(5)->implode(' ') . '...';
+                    return collect(explode(' ', $row->link_website))->take(3)->implode(' ') . '...';
+                })
                 ->addColumn('tanggal mulai', function ($row) {
                     return $row->tanggal_mulai ?? '-';
                 })
@@ -113,6 +117,7 @@ class LombaController extends Controller
             'lomba_kode' => 'required|string|max:255',
             'lomba_nama' => 'required|string|max:255',
             'lomba_deskripsi' => 'required|string|max:255',
+            'link_website' => 'required|string|max:255',
             'tingkat_lomba_id' => 'required|exists:m_tingkat_lomba,tingkat_lomba_id',
             'bidang_keahlian_id' => 'required|exists:m_bidang_keahlian,bidang_keahlian_id',
             'penyelenggara_id' => 'required|exists:m_penyelenggara,penyelenggara_id',
@@ -147,19 +152,21 @@ class LombaController extends Controller
             $file->move($destinationPath, $filename);
             $imagePath = "lomba/foto-pamflet/$filename"; // Simpan path gambar
         }
-
+        
         try {
             $lomba = LombaModel::create([
                 'lomba_kode' => $request->lomba_kode,
                 'lomba_nama' => $request->lomba_nama,
                 'lomba_deskripsi' => $request->lomba_deskripsi,
+                'link_website' => $request->link_website,
                 'tingkat_lomba_id' => $request->tingkat_lomba_id,
                 'bidang_keahlian_id' => $request->bidang_keahlian_id,
                 'penyelenggara_id' => $request->penyelenggara_id,
                 'tanggal_mulai' => $request->tanggal_mulai,
                 'tanggal_selesai' => $request->tanggal_selesai,
                 'foto_pamflet' => $imagePath,
-                'status_verifikasi' => $request->status_verifikasi
+                'user_id' => auth()->user()->user_id,
+                'status_verifikasi' => 2
             ]);
         } catch (\Throwable $e) {
             if (isset($lomba)) {
@@ -197,6 +204,7 @@ class LombaController extends Controller
             'lomba_kode' => 'required|string|max:255',
             'lomba_nama' => 'required|string|max:255',
             'lomba_deskripsi' => 'required|string|max:255',
+            'link_website' => 'required|string|max:255',
             'tingkat_lomba_id' => 'required|exists:m_tingkat_lomba,tingkat_lomba_id',
             'bidang_keahlian_id' => 'required|exists:m_bidang_keahlian,bidang_keahlian_id',
             'penyelenggara_id' => 'required|exists:m_penyelenggara,penyelenggara_id',
@@ -215,7 +223,7 @@ class LombaController extends Controller
                 'msgField' => $validator->errors()
             ]);
         }
-        $imagePath = null;
+        $imagePath = $lomba->foto_pamflet;
         if ($request->hasFile('foto_pamflet')) {
             $file = $request->file('foto_pamflet');
     
@@ -237,6 +245,7 @@ class LombaController extends Controller
             'lomba_kode' => $request->lomba_kode,
             'lomba_nama' => $request->lomba_nama,
             'lomba_deskripsi' => $request->lomba_deskripsi,
+            'link_website' => $request->link_website,
             'tingkat_lomba_id' => $request->tingkat_lomba_id,
             'bidang_keahlian_id' => $request->bidang_keahlian_id,
             'penyelenggara_id' => $request->penyelenggara_id,

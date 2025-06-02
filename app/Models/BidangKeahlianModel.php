@@ -22,4 +22,21 @@ class BidangKeahlianModel extends Model
     {
         return $this->belongsTo(KategoriBidangKeahlianModel::class, 'kategori_bidang_keahlian_id', 'kategori_bidang_keahlian_id');
     }
+
+    public function minat_mahasiswa()
+    {
+        return $this->hasMany(MinatMahasiswaModel::class, 'bidang_keahlian_id', 'bidang_keahlian_id');
+    }
+
+    public function keahlian_mahasiswa()
+    {
+        return $this->hasMany(KeahlianMahasiswaModel::class, 'bidang_keahlian_id', 'bidang_keahlian_id');
+    }
+
+    public function lomba()
+    {
+        return $this->hasMany(LombaModel::class, 'bidang_keahlian_id', 'bidang_keahlian_id');
+    }
+
+
 }
