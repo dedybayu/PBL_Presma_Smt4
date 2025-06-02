@@ -269,17 +269,19 @@ Route::middleware('auth')->group(function () {
         // Minat
         Route::get('/minat/{minat}/delete', [MahasiswaProfileController::class, 'confirm_minat'])->name('minat.confirm');
         Route::delete('/minat/{minat}', [MahasiswaProfileController::class, 'destroy_minat'])->name('minat.destroy');
-        
+
         // Organisasi
         Route::get('/organisasi/{organisasi}/delete', [MahasiswaProfileController::class, 'confirm_organisasi'])->name('organisasi.confirm');
         Route::delete('/organisasi/{organisasi}', [MahasiswaProfileController::class, 'destroy_organisasi'])->name('organisasi.destroy');
     });
 
 
-    Route::middleware('role:DOS')->group(function () {
-        Route::get('/profile/dosen', [DosenProfileController::class, 'index'])->name('profile.dosen');
-        Route::get('/profile/dosen/edit', [DosenProfileController::class, 'edit'])->name('profile.dosen.edit');
-        Route::post('/profile/dosen/update', [DosenProfileController::class, 'update'])->name('profile.dosen.update');
+    Route::middleware('role:DOS')->prefix('profile/dosen')->name('profile.dosen.')->group(function () {
+        Route::get('/', [DosenProfileController::class, 'index'])->name('index');
+        // Route::get('/profile/dosen/edit', [DosenProfileController::class, 'edit'])->name('profile.dosen.edit');
+        Route::put('/{dosen}/update', [DosenProfileController::class, 'update'])->name('update');
+        Route::get('/edit-password', [DosenProfileController::class, 'edit_password'])->name('edit-password');
+        Route::post('/update-password', [DosenProfileController::class, 'update_password'])->name('update-password');
     });
 
     Route::middleware('role:ADM')->prefix('profile/admin')->name('profile.admin.')->group(function () {

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\AdminModel;
 use App\Models\UserModel;
+use File;
 use Hash;
 use Illuminate\Http\Request;
 use Storage;
@@ -19,41 +20,6 @@ class AdminProfileController extends Controller
         return view('admin.profile.profile_admin');
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(AdminModel $adminModel)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(AdminModel $adminModel)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(Request $request, AdminModel $admin)
     {
         // dd($admin);
@@ -67,6 +33,7 @@ class AdminProfileController extends Controller
                 'nama' => 'required|max:200',
                 'username' => 'required|max:20|unique:m_user,username,' . $admin->user->user_id . ',user_id',
                 'email' => 'required|email|unique:m_admin,email,' . $admin->admin_id . ',admin_id',
+                'no_tlp' => 'required|max:20',
             ];
             $validator = Validator::make($request->all(), $rules);
 
@@ -125,7 +92,7 @@ class AdminProfileController extends Controller
                     if ($admin->foto_profile) {
                         $oldImage = $admin->foto_profile; // Ambil path file lama dari database
                         if ($oldImage) {
-                            Storage::disk('public')->delete($oldImage);
+                            FileController::deleteFile($oldImage);
                         }
                     }
                     $imagePath = null; // Set kolom di database jadi null
@@ -188,12 +155,5 @@ class AdminProfileController extends Controller
             ]);
 
         }
-    }
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(AdminModel $adminModel)
-    {
-        //
     }
 }

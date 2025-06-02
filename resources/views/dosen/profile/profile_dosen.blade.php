@@ -10,12 +10,12 @@
     </x-slot:css>
     <x-slot:title>
         Profil
-        <div class="page-title-subheading">Profil admin</div>
+        <div class="page-title-subheading">Profil dosen</div>
     </x-slot:title>
 
     <div class="mb-3 card">
         <div class="tab-profile ">
-            <x-profile.admin.profile_admin></x-profile.admin.profile_admin>
+            <x-profile.dosen.profile_dosen></x-profile.dosen.profile_dosen>
         </div>
     </div>
 
@@ -39,7 +39,7 @@
 
 
     <template id="template-edit-profile">
-        <x-profile.admin.edit_profile_admin></x-profile.admin.edit_profile_admin>
+        <x-profile.dosen.edit_profile_dosen></x-profile.dosen.edit_profile_dosen>
     </template>
 
 
@@ -127,7 +127,6 @@
                 const container = document.querySelector('.tab-profile');
                 container.innerHTML = originalProfileContent;
             }
-
         </script>
     </x-slot:js>
 </x-layout>
