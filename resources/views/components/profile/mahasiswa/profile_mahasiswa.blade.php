@@ -15,7 +15,7 @@
 </div>
 
 <div class="card-body">
-    <div class="row">
+    <div class="row mt-4">
         <div class="mb-3 col-md-6">
             <label class="form-label">Nama Mahasiswa</label>
             <div type="text" class="form-control" style="background-color: #e9ecef">
@@ -37,7 +37,7 @@
                 {{ auth()->user()->mahasiswa->email }}</div>
         </div>
         <div class="mb-3 col-md-6">
-            <label class="form-label">Email</label>
+            <label class="form-label">No. Telepon</label>
             <div type="text" class="form-control" style="background-color: #e9ecef">
                 {{ auth()->user()->mahasiswa->no_tlp }}</div>
         </div>
@@ -58,7 +58,9 @@
         </div>
     </div>
 
-    <div class="d-flex justify-content-end">
+    <div class="d-flex justify-content-between">
+        <button class="btn btn-warning" onclick="modalPassword('{{ route('profile.mahasiswa.edit-password') }}')"><i class="fa fa-edit"></i>
+            Ubah Password</button>
         <button class="btn btn-success" onclick="editProfile()"><i class="fa fa-edit"></i>
             Edit</button>
     </div>
