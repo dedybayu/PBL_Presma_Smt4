@@ -7,6 +7,7 @@ use App\Models\LombaModel;
 use App\Models\PenyelenggaraModel;
 use App\Models\TingkatLombaModel;
 use App\Http\Controllers\Auth;
+use App\Models\MahasiswaModel;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -79,49 +80,55 @@ class DosenLombaController extends Controller
                 'msgField' => $validator->errors()
             ]);
         }
-        
-        $prestasi->juara = $request->juara;
-        $prestasi->dosen_id = $mhs->dosen_id;
-        $prestasi->dosen_id = $request->dosen_id;
-        $prestasi->lomba_id = $request->lomba_id;
-        $prestasi->prestasi_nama = $request->prestasi_nama;
-        $prestasi->tanggal_perolehan = $request->tanggal_perolehan;
 
+        $imagePath = $lomba->foto_pamflet;
+        if ($request->hasFile('foto_pamflet')) {
+            $file = $request->file('foto_pamflet');
+    
+            if (!$file->isValid()) {
+                return response()->json(['error' => 'Invalid file'], 400);
+            }
+    
+            $filename = time() . '_' . $file->getClientOriginalName();
+            $destinationPath = storage_path('app/public/lomba/foto-pamflet');
+            if (!file_exists($destinationPath)) {
+                mkdir($destinationPath, 0775, true);
+            }
+    
+            $file->move($destinationPath, $filename);
+            $imagePath = "lomba/foto-pamflet/$filename"; // Simpan path gambar
+        }
+        
+        $update_data =[
+            'lomba_kode' => $request->lomba_kode,
+            'lomba_nama' => $request->lomba_nama,
+            'lomba_deskripsi' => $request->lomba_deskripsi,
+            'link_website' => $request->link_website,
+            'tingkat_lomba_id' => $request->tingkat_lomba_id,
+            'bidang_keahlian_id' => $request->bidang_keahlian_id,
+            'penyelenggara_id' => $request->penyelenggara_id,
+            'tanggal_mulai' => $request->tanggal_mulai,
+            'tanggal_selesai' => $request->tanggal_selesai,
+            'foto_pamflet' => $imagePath,
+            'status_verifikasi' => $request->status_verifikasi
+        ];
+
+        $mhs = MahasiswaModel::all();
 
         $nim_dosen = $mhs->nim;
 
-        if ($request->hasFile('file_sertifikat')) {
-            self::deleteFile($prestasi->file_sertifikat);
-            $prestasi->file_sertifikat = self::saveFile($request, 'sertifikat', $nim_dosen, 'file_sertifikat');
+        if ($request->hasFile('foto_pamflet')) {
+            self::deleteFile($lomba->foto_pamflet);
+            $lomba->foto_pamflet = self::saveFile($request, 'foto_pamflet', $nim_dosen, 'foto_pamflet');
         }
 
-        if ($request->hasFile('file_bukti_foto')) {
-            self::deleteFile($prestasi->file_bukti_foto);
-            $prestasi->file_bukti_foto = self::saveFile($request, 'bukti_foto', $nim_dosen, 'file_bukti_foto');
-        }
+        $lomba->status_verifikasi = null;
+        $lomba->updated_at = Carbon::now();
+        $lomba->save();
 
-        if ($request->hasFile('file_surat_tugas')) {
-            self::deleteFile($prestasi->file_surat_tugas);
-            $prestasi->file_surat_tugas = self::saveFile($request, 'surat_tugas', $nim_dosen, 'file_surat_tugas');
-        }
+        $lomba->poin = self::hitungPoin($lomba);
 
-        if ($request->hasFile('file_surat_undangan')) {
-            self::deleteFile($prestasi->file_surat_undangan);
-            $prestasi->file_surat_undangan = self::saveFile($request, 'surat_undangan', $nim_dosen, 'file_surat_undangan');
-        }
-
-        if ($request->hasFile('file_proposal')) {
-            self::deleteFile($prestasi->file_proposal);
-            $prestasi->file_proposal = self::saveFile($request, 'proposal', $nim_dosen, 'file_proposal');
-        }
-
-        $prestasi->status_verifikasi = null;
-        $prestasi->updated_at = Carbon::now();
-        $prestasi->save();
-
-        $prestasi->poin = self::hitungPoin($prestasi);
-
-        $prestasi->save();
+        $lomba->save();
 
         return response()->json([
             'status' => true,
@@ -133,20 +140,17 @@ class DosenLombaController extends Controller
      * Remove the specified resource from storage.
      */
 
-    public function confirm(LombaModel $prestasi)
+    public function confirm(LombaModel $lomba)
     {
-        return view('dosen.prestasi.confirm_delete_prestasi', compact('prestasi'));
+        return view('dosen.lomba.confirm_delete_lomba', compact('lomba'));
     }
-    public function destroy(LombaModel $prestasi)
+
+    public function destroy(LombaModel $lomba)
     {
         try {
-            self::deleteFile($prestasi->file_sertifikat);
-            self::deleteFile($prestasi->file_bukti_foto);
-            self::deleteFile($prestasi->file_surat_tugas);
-            self::deleteFile($prestasi->file_surat_undangan);
-            self::deleteFile($prestasi->file_proposal);
+            self::deleteFile($lomba->file_foto_pamflet);
 
-            $prestasi->delete();
+            $lomba->delete();
 
             return response()->json([
                 'status' => true,
