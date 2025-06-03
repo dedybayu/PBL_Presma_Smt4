@@ -198,6 +198,12 @@
                 <div class="modal-content"></div>
             </div>
         </div>
+        <div id="modal-delete" class="modal fade animate shake" tabindex="-1" role="dialog" data-backdrop="static"
+            data-keyboard="false" aria-hidden="true">
+            <div class="modal-dialog modal-xl" role="document">
+                <div class="modal-content"></div>
+            </div>
+        </div>
     </x-slot:modal>
 
     <x-slot:js>
@@ -216,6 +222,21 @@
             // Bersihkan isi modal setelah ditutup
             $('#modal-lomba').on('hidden.bs.modal', function () {
                 $("#modal-lomba .modal-content").html("");
+            });
+            function modalDelete(url) {
+                // Kosongkan modal sebelum memuat konten baru
+                $("#modal-delete .modal-content").html("");
+
+                // Panggil modal melalui AJAX
+                $.get(url, function (response) {
+                    $("#modal-delete .modal-content").html(response);
+                    $("#modal-delete").modal("show");
+                });
+            }
+
+            // Bersihkan isi modal setelah ditutup
+            $('#modal-delete').on('hidden.bs.modal', function () {
+                $("#modal-delete .modal-content").html("");
             });
 
             var dataLomba
