@@ -23,6 +23,7 @@ class MahasiswaModel extends Model
         'nama',
         'kelas_id',
         'no_tlp',
+        'ipk',
         'email',
         'alamat',
         'foto_profile',

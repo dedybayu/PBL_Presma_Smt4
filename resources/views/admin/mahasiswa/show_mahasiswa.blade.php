@@ -41,6 +41,10 @@
                 <th class="text-right col-3">No telp :</th>
                 <td class="col-9">{{ $mahasiswa->no_tlp }}</td>
             </tr>
+            <tr>
+                <th class="text-right col-3">IPK :</th>
+                <td class="col-9">{{ $mahasiswa->ipk }}</td>
+            </tr>
         </table>
         <h5 class="modal-title">Detail prestasi</h5>
         <table class="table table-sm table-bordered table-striped">

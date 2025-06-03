@@ -113,7 +113,7 @@ class MahasiswaController extends Controller
             // dd($request->file('foto_profile'));
 
             $rules = [
-                'username' => 'required|max:20|unique:m_user,username',
+                'username' => 'required|unique:m_user,username',
                 'nama' => 'required|max:100',
                 'email' => 'required|email|unique:m_mahasiswa,email',
                 'no_tlp' => 'nullable|max:20',
@@ -122,6 +122,7 @@ class MahasiswaController extends Controller
                 'kelas_id' => 'required',
                 'alamat' => 'nullable',
                 'foto_profile' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+                'ipk' => 'required|numeric',
                 'password' => 'nullable|min:6|max:20'
             ];
             $validator = Validator::make($request->all(), $rules);
@@ -185,6 +186,7 @@ class MahasiswaController extends Controller
                 'no_tlp' => $request->no_tlp,
                 'alamat' => $request->alamat,
                 'tahun_angkatan' => $request->tahun_angkatan,
+                'ipk' => $request->ipk,
                 'foto_profile' => $imagePath
             ];
 
@@ -215,8 +217,8 @@ class MahasiswaController extends Controller
     {
         // $mahasiswa = MahasiswaModel::find($id);
 
-        $kelas = KelasModel::select('kelas_id', 'kelas_nama');
-        $prodi = ProdiModel::select('prodi_id', 'prodi_nama');
+        $kelas = KelasModel::select('kelas_id', 'kelas_nama', 'prodi_id')->get();
+        $prodi = ProdiModel::select('prodi_id', 'prodi_nama')->get();
         return view('admin.mahasiswa.edit_mahasiswa')->with(['kelas' => $kelas, 'prodi' => $prodi, 'mahasiswa' => $mahasiswa]);
     }
 
@@ -232,6 +234,14 @@ class MahasiswaController extends Controller
             $rules = [
                 'username' => 'required|max:20|unique:m_user,username,' . $mahasiswa->user->user_id . ',user_id',
                 'nama' => 'required|max:100',
+                'email' => 'required|email|unique:m_mahasiswa,email,' . $mahasiswa->mahasiswa_id . ',mahasiswa_id',
+                'no_tlp' => 'nullable|max:20',
+                'nim' => 'required|unique:m_mahasiswa,nim,' . $mahasiswa->mahasiswa_id . ',mahasiswa_id',
+                'prodi_id' => 'required',
+                'kelas_id' => 'required',
+                'alamat' => 'nullable',
+                'foto_profile' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+                'ipk' => 'required|numeric',
                 'password' => 'nullable|min:6|max:20'
             ];
             $validator = Validator::make($request->all(), $rules);
@@ -310,6 +320,8 @@ class MahasiswaController extends Controller
                     'no_tlp' => $request->no_tlp,
                     'alamat' => $request->alamat,
                     'tahun_angkatan' => $request->tahun_angkatan,
+                    'kelas_id' => $request->kelas_id,
+                    'ipk' => $request->ipk,
                     'foto_profile' => $imagePath
                 ];
                 $mahasiswa->update($data_mahasiswa);
