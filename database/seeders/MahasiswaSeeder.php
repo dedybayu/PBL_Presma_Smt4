@@ -60,6 +60,7 @@ class MahasiswaSeeder extends Seeder
                 'no_tlp' => $faker->unique()->phoneNumber,
                 'email' => $faker->unique()->safeEmail,
                 'alamat' => $faker->address,
+                'ipk' => $faker->randomFloat(2, 0, 4),
                 'foto_profile' => null,
             ]);
         }
