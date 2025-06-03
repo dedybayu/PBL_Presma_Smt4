@@ -21,6 +21,7 @@ class LombaModel extends Model
         'tingkat_lomba_id',
         'bidang_keahlian_id',
         'penyelenggara_id',
+        'jumlah_anggota',
         'tanggal_mulai',
         'tanggal_selesai',
         'foto_pamflet',
