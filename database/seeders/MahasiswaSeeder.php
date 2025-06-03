@@ -25,6 +25,8 @@ class MahasiswaSeeder extends Seeder
         // $mahasiswaData = [];
 
         // Membuat data mahasiswa random
+        $prefixNim = '234172';
+
         for ($i = 1; $i <= 100; $i++) {
             $kelasKode = array_rand($kelas->toArray());
             $kelasId = $kelas[$kelasKode];
@@ -42,7 +44,8 @@ class MahasiswaSeeder extends Seeder
                 $angkatan = '2020';
             }
 
-            $nim = $faker->unique()->numerify('2023########');
+            // Format: 234172 + 3 digit increment, leading zero
+            $nim = $prefixNim . str_pad($i, 3, '0', STR_PAD_LEFT); // e.g., 234172001, ..., 234172100
 
             $userId = UserModel::create([
                 'username' => $nim,
@@ -54,7 +57,6 @@ class MahasiswaSeeder extends Seeder
                 'user_id' => $userId->user_id,
                 'tahun_angkatan' => $angkatan,
                 'nim' => $nim,
-                // 'password' => 'mahasiswa123', // Akan di-hash otomatis oleh model
                 'nama' => $faker->firstName . ' ' . $faker->lastName,
                 'kelas_id' => $kelasId,
                 'no_tlp' => $faker->unique()->phoneNumber,
@@ -64,6 +66,5 @@ class MahasiswaSeeder extends Seeder
                 'foto_profile' => null,
             ]);
         }
-
     }
 }
