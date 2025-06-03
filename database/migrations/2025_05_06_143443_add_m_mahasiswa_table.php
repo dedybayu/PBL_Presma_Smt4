@@ -23,7 +23,7 @@ return new class extends Migration
             $table->string('no_tlp');
             $table->string('email');
             $table->string('alamat')->nullable();
-            $table->float('ipk');
+            $table->float('ipk')->default(0);
             $table->string('foto_profile')->nullable();
             $table->timestamps();
 
