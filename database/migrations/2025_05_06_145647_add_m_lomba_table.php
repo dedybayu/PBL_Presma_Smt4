@@ -20,6 +20,7 @@ return new class extends Migration
             $table->unsignedBigInteger('tingkat_lomba_id');
             $table->unsignedBigInteger('bidang_keahlian_id');
             $table->unsignedBigInteger('penyelenggara_id');
+            $table->string('jumlah_anggoata')->default(1);
             $table->date('tanggal_mulai');
             $table->date('tanggal_selesai');
             $table->string('foto_pamflet');
