@@ -62,6 +62,10 @@
                 <td class="col-9">{{ $lomba->lomba_deskripsi }}</td>
             </tr>
             <tr>
+                <th class="text-right col-3">Jumlah anggota :</th>
+                <td class="col-9">{{ $lomba->jumlah_anggota }}</td>
+            </tr>
+            <tr>
                 <th class="text-right col-3">Link Website terkait :</th>
                 <td class="col-9">{{ $lomba->link_website }}</td>
             </tr>

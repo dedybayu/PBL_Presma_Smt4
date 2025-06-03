@@ -24,6 +24,11 @@
             <small id="error-lomba_deskripsi" class="text-danger"></small>
         </div>
         <div class="form-group">
+            <label for="lomba_deskripsi">Jumlah Anggota</label>
+            <input type="text" name="jumlah_anggota" id="Jumlah_anggota" class="form-control">
+            <small id="error-jumlah_anggota" class="text-danger"></small>
+        </div>
+        <div class="form-group">
             <label for="link_website">Link Website Lomba</label>
             <input type="text" name="link_website" id="link_website" class="form-control">
             <small id="error-link_website" class="text-danger"></small>

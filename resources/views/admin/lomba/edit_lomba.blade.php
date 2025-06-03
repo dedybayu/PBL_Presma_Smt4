@@ -29,6 +29,12 @@
             <small id="error-lomba_deskripsi" class="error-text form-text text-danger"></small>
         </div>
         <div class="form-group">
+            <label>Jumlah Anggota</label>
+            <input type="text" name="jumlah_anggota" id="jumlah_anggota" class="form-control"
+                value="{{ $lomba->jumlah_anggota }}" required>
+            <small id="error-jumlah_anggota" class="error-text form-text text-danger"></small>
+        </div>
+        <div class="form-group">
             <label>Link Website Lomba</label>
             <input type="text" name="link_website" id="link_website" class="form-control"
                 value="{{ $lomba->link_website }}" required>
