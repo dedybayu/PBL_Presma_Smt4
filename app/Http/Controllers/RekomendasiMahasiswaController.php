@@ -48,7 +48,7 @@ class RekomendasiMahasiswaController extends Controller
             "kriteria" => ["benefit", "benefit", "benefit", "benefit", "benefit", "benefit", "benefit", "benefit", "benefit"],
             "mahasiswa" => [
                 [
-                    "nama" => "C",
+                    "mahasiswa_id" => 1,
                     "ipk" => 3.7,
                     "keahlian" => 6,
                     "jumlah_prestasi" => 4,
@@ -60,7 +60,7 @@ class RekomendasiMahasiswaController extends Controller
                     "organisasi" => 75
                 ],
                 [
-                    "nama" => "D",
+                    "mahasiswa_id" => 2,
                     "ipk" => 3.5,
                     "keahlian" => 5,
                     "jumlah_prestasi" => 6,
@@ -72,7 +72,7 @@ class RekomendasiMahasiswaController extends Controller
                     "organisasi" => 65
                 ],
                 [
-                    "nama" => "E",
+                    "mahasiswa_id" => 3,
                     "ipk" => 3.85,
                     "keahlian" => 8,
                     "jumlah_prestasi" => 8,
@@ -84,7 +84,7 @@ class RekomendasiMahasiswaController extends Controller
                     "organisasi" => 90
                 ],
                 [
-                    "nama" => "F",
+                    "mahasiswa_id" => 4,
                     "ipk" => 3.3,
                     "keahlian" => 3,
                     "jumlah_prestasi" => 2,
@@ -96,7 +96,7 @@ class RekomendasiMahasiswaController extends Controller
                     "organisasi" => 50
                 ],
                 [
-                    "nama" => "G",
+                    "mahasiswa_id" => 5,
                     "ipk" => 3.6,
                     "keahlian" => 6,
                     "jumlah_prestasi" => 5,

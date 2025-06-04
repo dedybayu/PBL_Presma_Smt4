@@ -7,7 +7,7 @@ from topsis import Topsis
 app = FastAPI()
 
 class MahasiswaInput(BaseModel):
-    nama: str
+    mahasiswa_id: int
     ipk: float
     keahlian: int
     jumlah_prestasi: int
@@ -45,7 +45,7 @@ async def receive_data(request: Request):
 async def calculate_topsis(data: LombaInput):
     # Ubah list mahasiswa ke DataFrame
     df = pd.DataFrame([{
-        "Mahasiswa": m.nama,
+        "Mahasiswa_ID": m.mahasiswa_id,
         "IPK": m.ipk,
         "Keahlian": m.keahlian,
         "Jumlah_Prestasi": m.jumlah_prestasi,
