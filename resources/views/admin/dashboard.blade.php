@@ -175,7 +175,7 @@
         <div class="col-md-6 d-flex">
             <div class="card mb-3 flex-fill d-flex flex-column">
                 <div class="card-header-tab card-header">
-                    <div class="card-header-title font-size-lg text-capitalize fw-normal">
+                    <div class="card-header-title font-size-lg text-capitalize fw-normal text-truncate w-100">
                         Ranking Mahasiswa Peraih Prestasi Terbanyak
                     </div>
                 </div>

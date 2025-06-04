@@ -69,6 +69,7 @@ class DashboardController extends Controller
 
         // Jumlah lomba per bulan
         $jadwalLombaPerBulan = DB::table('m_lomba')
+            ->where('m_lomba.status_verifikasi', 1) // Hanya ambil prestasi terverifikasi
             ->selectRaw("YEAR(tanggal_mulai) as tahun, MONTH(tanggal_mulai) as bulan_angka, COUNT(*) as total")
             ->whereNotNull('tanggal_mulai')
             ->groupBy('tahun', 'bulan_angka')
