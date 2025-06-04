@@ -50,6 +50,10 @@
                 <td class="col-9">{{ $lomba->penyelenggara->penyelenggara_nama }}</td>
             </tr>
             <tr>
+                <th class="text-right col-3">jumlah anggota :</th>
+                <td class="col-9">{{ $lomba->jumlah_anggota }}</td>
+            </tr>
+            <tr>
                 <th class="text-right col-3">tanggal mulai  :</th>
                 <td class="col-9">{{ $lomba->tanggal_mulai }}</td>
             </tr>

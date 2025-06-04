@@ -65,6 +65,10 @@
                     <td class="col-9">{{ $lomba->penyelenggara->penyelenggara_nama ?? '-' }}</td>
                 </tr>
                 <tr>
+                    <th class="text-right col-3">Jumlah Anggota:</th>
+                    <td class="col-9">{{ $lomba->jumlah_anggota ?? '-' }}</td>
+                </tr>
+                <tr>
                     <th class="text-right col-3">Tingkat Lomba:</th>
                     <td class="col-9">{{ $lomba->tingkat->tingkat_lomba_nama ?? '-' }}</td>
                 </tr>

@@ -112,6 +112,14 @@
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
+                            <label>Jumlah Anggota</label>
+                            <input type="text" name="jumlah_anggota" id="jumlah_anggota" class="form-control"
+                                value="{{ $lomba->jumlah_anggota }}">
+                            <small id="error-jumlah_anggota" class="error-text form-text text-danger"></small>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
                             <label>Tanggal Mulai</label>
                             <input type="date" name="tanggal_mulai" id="tanggal_mulai" class="form-control"
                                 value="{{ $lomba->tanggal_mulai }}" required>
@@ -129,13 +137,8 @@
                     <div class="col-md-6">
                         <div class="form-group">
                             <label>Status Verifikasi</label>
-                            <select name="status_verifikasi" id="status_verifikasi" class="form-control">
-                                <option value="" disabled>- Pilih status -</option>
-                                <option value="1" {{ $lomba->status_verifikasi == 1 ? 'selected' : '' }}>Terverifikasi
-                                </option>
-                                <option value="2" {{ $lomba->status_verifikasi == 2 ? 'selected' : '' }}>Menunggu</option>
-                                <option value="0" {{ $lomba->status_verifikasi == 0 ? 'selected' : '' }}>Ditolak</option>
-                            </select>
+                            <input type="text" name="status_verifikasi" id="status_verifikasi" class="form-control"
+                                value="{{ $lomba->status_verifikasi }}" required>
                             <small id="error-status_verifikasi" class="error-text form-text text-danger"></small>
                         </div>
                     </div>
