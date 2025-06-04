@@ -48,30 +48,65 @@ class RekomendasiMahasiswaController extends Controller
             "kriteria" => ["benefit", "benefit", "benefit", "benefit", "benefit", "benefit", "benefit", "benefit", "benefit"],
             "mahasiswa" => [
                 [
-                    "nama" => "A",
-                    "ipk" => 3.8,
-                    "keahlian" => 7,
-                    "jumlah_prestasi" => 7,
-                    "kesesuaian_bidang_prestasi" => 7,
-                    "tingkat_lomba_prestasi" => 3,
-                    "poin_prestasi" => 300,
-                    "bidang" => 2,
-                    "minat" => 1,
-                    "organisasi" => 80
+                    "nama" => "C",
+                    "ipk" => 3.7,
+                    "keahlian" => 6,
+                    "jumlah_prestasi" => 4,
+                    "kesesuaian_bidang_prestasi" => 6,
+                    "tingkat_lomba_prestasi" => 2,
+                    "poin_prestasi" => 200,
+                    "bidang" => 1,
+                    "minat" => 2,
+                    "organisasi" => 75
                 ],
                 [
-                    "nama" => "B",
-                    "ipk" => 3.9,
-                    "keahlian" => 4,
-                    "jumlah_prestasi" => 5,
-                    "kesesuaian_bidang_prestasi" => 5,
-                    "tingkat_lomba_prestasi" => 3,
-                    "poin_prestasi" => 300,
+                    "nama" => "D",
+                    "ipk" => 3.5,
+                    "keahlian" => 5,
+                    "jumlah_prestasi" => 6,
+                    "kesesuaian_bidang_prestasi" => 4,
+                    "tingkat_lomba_prestasi" => 2,
+                    "poin_prestasi" => 250,
+                    "bidang" => 3,
+                    "minat" => 2,
+                    "organisasi" => 65
+                ],
+                [
+                    "nama" => "E",
+                    "ipk" => 3.85,
+                    "keahlian" => 8,
+                    "jumlah_prestasi" => 8,
+                    "kesesuaian_bidang_prestasi" => 8,
+                    "tingkat_lomba_prestasi" => 4,
+                    "poin_prestasi" => 350,
                     "bidang" => 2,
                     "minat" => 1,
-                    "organisasi" => 80
+                    "organisasi" => 90
                 ],
-                
+                [
+                    "nama" => "F",
+                    "ipk" => 3.3,
+                    "keahlian" => 3,
+                    "jumlah_prestasi" => 2,
+                    "kesesuaian_bidang_prestasi" => 2,
+                    "tingkat_lomba_prestasi" => 1,
+                    "poin_prestasi" => 100,
+                    "bidang" => 1,
+                    "minat" => 3,
+                    "organisasi" => 50
+                ],
+                [
+                    "nama" => "G",
+                    "ipk" => 3.6,
+                    "keahlian" => 6,
+                    "jumlah_prestasi" => 5,
+                    "kesesuaian_bidang_prestasi" => 7,
+                    "tingkat_lomba_prestasi" => 3,
+                    "poin_prestasi" => 280,
+                    "bidang" => 2,
+                    "minat" => 2,
+                    "organisasi" => 85
+                ]
             ]
         ]);
 

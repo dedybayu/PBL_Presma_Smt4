@@ -35,10 +35,20 @@ class Topsis:
         D_minus = self.distance_to_ideal(V, A_minus)
         C = self.closeness_coefficient(D_plus, D_minus)
 
+        # result = pd.DataFrame({
+        #     "Mahasiswa": self.alternatives,
+        #     "C": C,
+        #     "Ranking": C.argsort()[::-1] + 1
+        # }).sort_values("C", ascending=False).reset_index(drop=True)
+
+        # Hitung ranking berdasarkan nilai C tertinggi
+        # ranking = (-C).argsort().argsort() + 1
+
+        # Buat DataFrame hasil
         result = pd.DataFrame({
             "Mahasiswa": self.alternatives,
             "C": C,
-            "Ranking": C.argsort()[::-1] + 1
-        }).sort_values("C", ascending=False).reset_index(drop=True)
+            "Ranking": (-C).argsort().argsort() + 1
+        }).sort_values("Ranking").reset_index(drop=True)
 
         return result
