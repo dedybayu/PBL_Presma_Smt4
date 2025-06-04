@@ -34,6 +34,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 Route::get('/python', [RekomendasiMahasiswaController::class, 'python'])->name('python');
+Route::get('/python_coba', [RekomendasiMahasiswaController::class, 'python_coba'])->name('python_coba');
 
 
 Route::get('/', function () {

@@ -1,21 +1,40 @@
 from fastapi import FastAPI, Request
 from pydantic import BaseModel
-from typing import List, Dict
+from typing import List
+import pandas as pd
+from topsis import Topsis
 
 app = FastAPI()
 
-@app.post("/api/data")
-async def receive_data(request: Request):
-    data = await request.json()  # terima seluruh data
-    lomba_data = data.get("lomba", [])
+class MahasiswaInput(BaseModel):
+    nama: str
+    ipk: float
+    presentasi: float
+    pengalaman: int
+    organisasi: float
+    biaya: float
 
-    # Bisa diproses di sini, lalu dikembalikan
-    return {
-        "status": "ok",
-        "received_count": len(lomba_data),
-        "data": lomba_data  # atau hasil olahan
-    }
+class LombaInput(BaseModel):
+    bobot: List[float]  # total 5 nilai bobot
+    kriteria: List[str]  # contoh: ["benefit", "benefit", ..., "cost"]
+    mahasiswa: List[MahasiswaInput]
 
-@app.get("/api/data")
-def read_data():
-    return {"message": "Hello from Python backend"}
+
+@app.post("/api/topsis")
+async def calculate_topsis(data: LombaInput):
+    # Ubah list mahasiswa ke DataFrame
+    df = pd.DataFrame([{
+        "Mahasiswa": m.nama,
+        "IPK": m.ipk,
+        "Presentasi": m.presentasi,
+        "Pengalaman_Lomba": m.pengalaman,
+        "Organisasi": m.organisasi,
+        "Biaya": m.biaya
+    } for m in data.mahasiswa])
+
+    # Inisialisasi & jalankan TOPSIS
+    topsis = Topsis(df, data.bobot, data.kriteria)
+    hasil = topsis.run()
+
+    # Convert hasil DataFrame ke list of dict
+    return hasil.to_dict(orient="records")
