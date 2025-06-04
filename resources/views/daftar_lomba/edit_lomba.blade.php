@@ -137,8 +137,15 @@
                     <div class="col-md-6">
                         <div class="form-group">
                             <label>Status Verifikasi</label>
-                            <input type="text" name="status_verifikasi" id="status_verifikasi" class="form-control"
-                                value="{{ $lomba->status_verifikasi }}" required>
+                            <td class="col-9">
+                                @if ($lomba->status_verifikasi === 1)
+                                    <span class="badge bg-success">Terverifikasi</span>
+                                @elseif ($lomba->status_verifikasi === 0)
+                                    <span class="badge bg-danger">Ditolak</span>
+                                @else
+                                    <span class="badge bg-warning">Menunggu Verifikasi</span>
+                                @endif
+                            </td>
                             <small id="error-status_verifikasi" class="error-text form-text text-danger"></small>
                         </div>
                     </div>
