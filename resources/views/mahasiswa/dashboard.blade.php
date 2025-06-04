@@ -17,12 +17,25 @@
         <div class="col-md-9 d-flex">
             <div class="card mb-3 flex-fill d-flex flex-column">
                 <div class="card-header-tab card-header">
-                    <div class="card-header-title font-size-lg text-capitalize fw-normal">
-                        Lomba tersedia
+                    <div class="card-header-title font-size-lg text-capitalize fw-normal text-truncate w-100">
+                        Daftar Lomba
                     </div>
                 </div>
-                <div class="card-body d-flex justify-content-center flex-grow-1">
-                    <canvas id="--" width="700" height="1000"></canvas>
+                <div class="card-body d-flex flex-column">
+                    @if ($daftarLomba->isEmpty())
+                        <p class="text-center text-muted flex-grow-1 d-flex align-items-center justify-content-center">Belum ada lomba.</p>
+                    @else
+                        <ul class="list-group list-group-flush overflow-auto flex-grow-1" style="max-height: 100%;">
+                            @foreach ($daftarLomba as $lomba)
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <strong>{{ $lomba->lomba_nama }}</strong><br>
+                                        <small class="text-muted">{{ \Carbon\Carbon::parse($lomba->tanggal_mulai)->translatedFormat('d M Y') }}</small>
+                                    </div>
+                                </li>
+                            @endforeach
+                        </ul>
+                    @endif
                 </div>
             </div>
         </div>
@@ -31,7 +44,7 @@
         <div class="col-md-3">
             <div class="card mb-3 flex-fill d-flex flex-column">
                 <div class="card-header-tab card-header">
-                    <div class="card-header-title font-size-lg text-capitalize fw-normal">
+                    <div class="card-header-title font-size-lg text-capitalize fw-normal text-truncate w-100">
                         Ranking Mahasiswa Peraih Prestasi Terbanyak
                     </div>
                 </div>
@@ -70,8 +83,8 @@
             </div>
             <div class="card mb-3 flex-fill d-flex flex-column">
                 <div class="card-header-tab card-header">
-                    <div class="card-header-title font-size-lg text-capitalize fw-normal">
-                        Ranking Mahasiswa Peraih Prestasi Terbanyak
+                    <div class="card-header-title font-size-lg text-capitalize fw-normal text-truncate w-100">
+                        Ape ni
                     </div>
                 </div>
                 <div class="card-body flex-grow-1 overflow-auto">
