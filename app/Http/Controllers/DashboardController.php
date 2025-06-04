@@ -22,7 +22,8 @@ class DashboardController extends Controller
 
         switch ($levelKode) {
             case 'MHS':
-                return view('mahasiswa.dashboard');
+                $data = $this->getDashboardData();
+                return view('mahasiswa.dashboard', $data);
             case 'DOS':
                 return view('dosen.dashboard');
             case 'ADM':
