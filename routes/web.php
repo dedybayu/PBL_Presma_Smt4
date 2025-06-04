@@ -20,6 +20,7 @@ use App\Http\Controllers\MahasiswaPrestasiController;
 use App\Http\Controllers\MahasiswaProfileController;
 use App\Http\Controllers\ProdiController;
 use App\Http\Controllers\PenyelenggaraController;
+use App\Http\Controllers\RekomendasiMahasiswaController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -32,6 +33,7 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
+Route::get('/python', [RekomendasiMahasiswaController::class, 'python'])->name('python');
 
 
 Route::get('/', function () {
