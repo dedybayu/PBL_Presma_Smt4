@@ -9,10 +9,15 @@ app = FastAPI()
 class MahasiswaInput(BaseModel):
     nama: str
     ipk: float
-    presentasi: float
-    pengalaman: int
+    keahlian: int
+    jumlah_prestasi: int
+    kesesuaian_bidang_prestasi: int
+    tingkat_lomba_prestasi: int
+    poin_prestasi: float
+    bidang: int
+    minat: int
     organisasi: float
-    biaya: float
+
 
 class LombaInput(BaseModel):
     bobot: List[float]  # total 5 nilai bobot
@@ -42,11 +47,16 @@ async def calculate_topsis(data: LombaInput):
     df = pd.DataFrame([{
         "Mahasiswa": m.nama,
         "IPK": m.ipk,
-        "Presentasi": m.presentasi,
-        "Pengalaman_Lomba": m.pengalaman,
-        "Organisasi": m.organisasi,
-        "Biaya": m.biaya
+        "Keahlian": m.keahlian,
+        "Jumlah_Prestasi": m.jumlah_prestasi,
+        "Kesesuaian_Bidang_Prestasi": m.kesesuaian_bidang_prestasi,
+        "Tingkat_Lomba_Prestasi": m.tingkat_lomba_prestasi,
+        "Poin_Prestasi": m.poin_prestasi,
+        "Bidang": m.bidang,
+        "Minat": m.minat,
+        "Organisasi": m.organisasi
     } for m in data.mahasiswa])
+
 
     # Inisialisasi & jalankan TOPSIS
     topsis = Topsis(df, data.bobot, data.kriteria)

@@ -13,6 +13,7 @@ class Topsis:
         return self.X / np.sqrt((self.X ** 2).sum(axis=0))
 
     def weighted_normalized_matrix(self, norm_matrix):
+        
         return norm_matrix * self.weights
 
     def ideal_solutions(self, V):

@@ -44,44 +44,51 @@ class RekomendasiMahasiswaController extends Controller
     public function python_coba()
     {
         $response = Http::post('http://127.0.0.1:8000/api/topsis', [
-            "bobot" => [0.25, 0.2, 0.2, 0.15, 0.2],
-            "kriteria" => ["benefit", "benefit", "benefit", "benefit", "cost"],
+            "bobot" => [0.15, 0.1, 0.15, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1],
+            "kriteria" => ["benefit", "benefit", "benefit", "benefit", "benefit", "benefit", "benefit", "benefit", "benefit"],
             "mahasiswa" => [
                 [
                     "nama" => "A",
                     "ipk" => 3.8,
-                    "presentasi" => 85,
-                    "pengalaman" => 4,
-                    "organisasi" => 80,
-                    "biaya" => 500
+                    "keahlian" => 7,
+                    "jumlah_prestasi" => 7,
+                    "kesesuaian_bidang_prestasi" => 7,
+                    "tingkat_lomba_prestasi" => 3,
+                    "poin_prestasi" => 300,
+                    "bidang" => 2,
+                    "minat" => 1,
+                    "organisasi" => 80
                 ],
                 [
                     "nama" => "B",
-                    "ipk" => 3.5,
-                    "presentasi" => 80,
-                    "pengalaman" => 6,
-                    "organisasi" => 70,
-                    "biaya" => 300
-                ],
-                [
-                    "nama" => "C",
                     "ipk" => 3.9,
-                    "presentasi" => 90,
-                    "pengalaman" => 3,
-                    "organisasi" => 85,
-                    "biaya" => 450
+                    "keahlian" => 4,
+                    "jumlah_prestasi" => 5,
+                    "kesesuaian_bidang_prestasi" => 5,
+                    "tingkat_lomba_prestasi" => 3,
+                    "poin_prestasi" => 300,
+                    "bidang" => 2,
+                    "minat" => 1,
+                    "organisasi" => 80
                 ],
-                [
-                    "nama" => "D",
-                    "ipk" => 3.6,
-                    "presentasi" => 88,
-                    "pengalaman" => 5,
-                    "organisasi" => 75,
-                    "biaya" => 350
-                ]
+                
             ]
         ]);
 
+
         return $response->json(); // bisa juga ->body() untuk raw response
     }
+
+    // KRITERIA
+
+    //IPK
+    //Keahlian
+    //Jumlah Prestasi
+    //Tingkat lomba prestasi
+    //Poin Prestasi
+    //Bidang Prestasi 
+    //Minat
+    //Organisasi
+
+
 }
