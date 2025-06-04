@@ -20,6 +20,22 @@ class LombaInput(BaseModel):
     mahasiswa: List[MahasiswaInput]
 
 
+@app.post("/api/data")
+async def receive_data(request: Request):
+    data = await request.json()  # terima seluruh data
+    lomba_data = data.get("lomba", [])
+    mahasiswa_data = data.get("mahasiswa", [])
+
+    # Bisa diproses di sini, lalu dikembalikan
+    return {
+        "status": "ok",
+        "received_count": len(mahasiswa_data) + (1 if isinstance(lomba_data, dict) else len(lomba_data)),
+        "data": {
+            "lomba": lomba_data,
+            "mahasiswa": mahasiswa_data
+        }
+    }
+
 @app.post("/api/topsis")
 async def calculate_topsis(data: LombaInput):
     # Ubah list mahasiswa ke DataFrame
