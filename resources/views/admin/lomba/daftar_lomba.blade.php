@@ -68,7 +68,6 @@
                             <th>No</th>
                             <th>lomba kode</th>
                             <th>Info</th>
-                            <th>Deskripsi</th>
                             <th>Link Website</th>
                             <th>Tanggal mulai</th>
                             <th>Tanggal selesai</th>
@@ -138,7 +137,6 @@
                         { data: "DT_RowIndex", className: "text-center", orderable: false, searchable: false },
                         { data: "lomba_kode", className: "", orderable: true, searchable: true },
                         { data: "info", className: "", orderable: true, searchable: true },
-                        { data: "deskripsi", className: "", orderable: true, searchable: true },
                         { data: "link", className: "", orderable: true, searchable: true },
                         { data: "tanggal_mulai", className: "", orderable: true, searchable: true },
                         { data: "tanggal_selesai", className: "", orderable: false, searchable: true },

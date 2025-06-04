@@ -68,10 +68,6 @@ class LombaController extends Controller
                     </div>
                     ';
                 })
-                ->addColumn('deskripsi', function ($row) {
-                    // return collect(explode(' ', $row->lomba_deskripsi))->take(5)->implode(' ') . '...';
-                    return collect(explode(' ', $row->lomba_deskripsi))->take(3)->implode(' ') . '...';
-                })
                 ->addColumn('link', function ($row) {
                     // return collect(explode(' ', $row->lomba_deskripsi))->take(5)->implode(' ') . '...';
                     return collect(explode(' ', $row->link_website))->take(3)->implode(' ') . '...';
