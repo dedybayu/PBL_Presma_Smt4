@@ -291,6 +291,9 @@ class RekomendasiMahasiswaController extends Controller
             // dd('null'); // Tidak ada keahlian mahasiswa
         } else {
             foreach ($ListrestasiMahasiswa as $prestasi) {
+                if ($prestasi->status_verifikasi === 0) {
+                    continue;
+                }
                 if ($prestasi->lomba->bidang->bidang_keahlian_id === $bidangKeahlian->bidang_keahlian_id) {
                     $poin += 100;
                 } else {
