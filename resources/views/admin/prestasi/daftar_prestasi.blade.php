@@ -48,8 +48,8 @@
                 </div>
             </div>
 
-            <div class="table-responsive">
-                <table style="width: 100%;" id="table-prestasi" class="table table-hover table-striped table-bordered">
+            <div class="table-responsive w-100">
+                <table style="width: 100%;" id="table-prestasi" class="table table-hover table-striped table-bordered w-100">
                     <thead>
                         <tr>
                             <th>No</th>

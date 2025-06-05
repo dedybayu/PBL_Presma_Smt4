@@ -60,9 +60,9 @@
                 </div>
             </div>
 
-            <div class="table-responsive">
+            <div class="table-responsive w-100">
                 <!-- Mahasiswa Table -->
-                <table class="table table-bordered table-sm table-striped table-hover" id="table-lomba">
+                <table class="table table-bordered table-sm table-striped table-hover w-100" id="table-lomba">
                     <thead>
                         <tr>
                             <th>No</th>

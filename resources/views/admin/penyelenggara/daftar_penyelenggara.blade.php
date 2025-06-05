@@ -44,8 +44,8 @@
                 </div>
             </div>
 
-            <div class="table-responsive">
-                <table class="table table-bordered table-sm table-striped table-hover" id="table-penyelenggara">
+            <div class="table-responsive w-100">
+                <table class="table table-bordered table-sm table-striped table-hover w-100" id="table-penyelenggara">
                     <thead>
                         <tr>
                             <th>No</th>

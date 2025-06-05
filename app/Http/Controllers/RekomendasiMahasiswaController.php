@@ -7,12 +7,50 @@ use App\Models\LombaModel;
 use App\Models\MahasiswaModel;
 use App\Models\PrestasiModel;
 use App\Models\RekomendasiMahasiswaLombaModel;
+use Carbon\Carbon;
 use Http;
 use Illuminate\Http\Request;
 use Log;
+use Yajra\DataTables\DataTables;
 
 class RekomendasiMahasiswaController extends Controller
 {
+    public function index()
+    {
+        // RekomendasiMahasiswaLombaModel::with([
+        //     'mahasiswa',
+        //     'lomba'
+        // ])->get();
+        return view('admin.rekomendasi.daftar_rekomendasi');
+    }
+
+    public function list(Request $request)
+    {
+        if ($request->ajax()) {
+            $query = RekomendasiMahasiswaLombaModel::with([
+                'mahasiswa',
+                'lomba'
+            ]);
+
+            if ($request->lomba_id) {
+                $query->where('lomba_id', $request->lomba_id);
+            }
+
+            $bidangKeahlian = $query->get();
+
+            return DataTables::of($bidangKeahlian)
+                ->addIndexColumn()
+                ->addColumn('nama_lomba', function ($row) {
+                    return $row->lomba->lomba_nama;
+                })
+                ->addColumn('rekomendasi_mahasiswa', function ($row) {
+                    return $row->mahasiswa->nama;
+                })
+                ->make(true);
+        }
+    }
+
+
     // KRITERIA
 
     //IPK
@@ -27,11 +65,15 @@ class RekomendasiMahasiswaController extends Controller
 
     public function rekomendasiByTopsis()
     {
-        $allLomba = LombaModel::with(
+        $allLomba = LombaModel::with([
             'bidang.kategoriBidangKeahlian',
             'penyelenggara.kota.provinsi.negara',
             'tingkat'
-        )->get();
+        ])
+            ->where('tanggal_selesai', '<', Carbon::now())
+            ->where('status_verifikasi', 1)
+            ->get();
+        // dd($allLomba);
 
         RekomendasiMahasiswaLombaModel::truncate();
 
@@ -41,7 +83,6 @@ class RekomendasiMahasiswaController extends Controller
                 "bobot" => [0.15, 0.1, 0.15, 0.2, 0.1, 0.1, 0.1, 0.1],
                 "kriteria" => ["benefit", "benefit", "benefit", "benefit", "benefit", "benefit", "benefit", "benefit"],
                 "mahasiswa" => self::getAlternatif($lomba)
-
             ]);
 
             if ($response->successful()) {

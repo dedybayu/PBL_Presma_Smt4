@@ -39,9 +39,9 @@
                 </div>
             </div>
 
-            <div class="table-responsive">
+            <div class="table-responsive w-100">
                 <!-- Dosen Table -->
-                <table class="table table-bordered table-sm table-striped table-hover" id="table-dosen">
+                <table class="table table-bordered table-sm table-striped table-hover w-100" id="table-dosen">
                     <thead>
                         <tr>
                             <th>No</th>

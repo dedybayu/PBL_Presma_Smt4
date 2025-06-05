@@ -155,6 +155,18 @@ Route::middleware('auth')->group(function () {
             Route::delete('/{lomba}', [LombaController::class, 'destroy'])->name('lomba.destroy');
         });
 
+        Route::prefix('rekomendasi')->name('rekomendasi.')->group(function () {
+            Route::get('/', [RekomendasiMahasiswaController::class, 'index'])->name('index');
+            Route::post('/list', [RekomendasiMahasiswaController::class, 'list']);
+            Route::get('/{lomba}/show', [RekomendasiMahasiswaController::class, 'show'])->name('show');
+            Route::get('/create', [RekomendasiMahasiswaController::class, 'create'])->name('create');
+            Route::post('/', [RekomendasiMahasiswaController::class, 'store'])->name('store');
+            Route::get('/{lomba}/edit', [RekomendasiMahasiswaController::class, 'edit'])->name('edit');
+            Route::put('/{lomba}', [RekomendasiMahasiswaController::class, 'update'])->name('update');
+            Route::get('/{lomba}/delete', [RekomendasiMahasiswaController::class, 'confirm'])->name('delete');
+            Route::delete('/{lomba}', [RekomendasiMahasiswaController::class, 'destroy'])->name('destroy');
+        });
+
         Route::prefix('bidangKeahlian')->group(function () {
             Route::get('/', [BidangKeahlianController::class, 'index'])->name('bidangKeahlian.index');
             Route::post('/list', [BidangKeahlianController::class, 'list']);

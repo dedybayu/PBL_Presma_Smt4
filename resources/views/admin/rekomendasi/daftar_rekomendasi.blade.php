@@ -14,9 +14,9 @@
 
     <div class="mb-3 card">
         <div class="card-header-tab card-header">
-            <h3 class="card-title">Daftar Bidang Keahlian</h3>
+            <h3 class="card-title">Daftar</h3>
             <div class="btn-actions-pane-right text-capitalize">
-                <button onclick="modalAction('{{ url('/bidangKeahlian/create') }}')"
+                <button onclick="modalAction('{{ url('/rekomendasi/refresh') }}')"
                     class="btn btn-sm btn-success mt-1">
                     <i class="fa fa-plus"></i> Tambah Bidang Keahlian
                 </button>
@@ -25,14 +25,12 @@
 
         <div class="card-body">
             <div class="table-responsive w-100">
-                <table class="table table-bordered table-sm table-striped table-hover w-100" id="table-bidangKeahlian">
+                <table class="table table-bordered table-sm table-striped table-hover w-100" id="table-rekomendasi">
                     <thead>
                         <tr>
                             <th>No</th>
-                            <th>Kode</th>
-                            <th>Nama</th>
-                            <th>Kategori</th>
-                            <th>Aksi</th>
+                            <th>Nama Lomba</th>
+                            <th>Rekomendasi Mahasiswa</th>
                         </tr>
                     </thead>
                 </table>
@@ -41,7 +39,7 @@
     </div>
 
     <x-slot:modal>
-        <div id="modal-bidangKeahlian" class="modal fade animate shake" tabindex="-1" role="dialog"
+        <div id="modal-rekomendasi" class="modal fade animate shake" tabindex="-1" role="dialog"
             data-backdrop="static" data-keyboard="false" aria-hidden="true">
             <div class="modal-dialog modal-lg" role="document">
                 <div class="modal-content"></div>
@@ -52,23 +50,23 @@
     <x-slot:js>
         <script>
             function modalAction(url) {
-                $("#modal-bidangKeahlian .modal-content").html("");
+                $("#modal-rekomendasi .modal-content").html("");
                 $.get(url, function (response) {
-                    $("#modal-bidangKeahlian .modal-content").html(response);
-                    $("#modal-bidangKeahlian").modal("show");
+                    $("#modal-rekomendasi .modal-content").html(response);
+                    $("#modal-rekomendasi").modal("show");
                 });
             }
 
-            $('#modal-bidangKeahlian').on('hidden.bs.modal', function () {
-                $("#modal-bidangKeahlian .modal-content").html("");
+            $('#modal-rekomendasi').on('hidden.bs.modal', function () {
+                $("#modal-rekomendasi .modal-content").html("");
             });
 
-            var dataBidangKeahlian;
+            var datarekomendasi;
             $(document).ready(function () {
-                dataBidangKeahlian = $('#table-bidangKeahlian').DataTable({
+                datarekomendasi = $('#table-rekomendasi').DataTable({
                     serverSide: true,
                     ajax: {
-                        url: "{{ url('bidangKeahlian/list') }}",
+                        url: "{{ url('rekomendasi/list') }}",
                         dataType: "json",
                         type: "POST",
                         data: function (d) {
@@ -77,15 +75,13 @@
                     },
                     columns: [
                         { data: 'DT_RowIndex', className: "text-center", orderable: false, searchable: false },
-                        { data: 'bidang_keahlian_kode', orderable: true, searchable: true },
-                        { data: 'bidang_keahlian_nama', orderable: true, searchable: true },
-                        { data: 'kategori', orderable: true, searchable: true },
-                        { data: "aksi", className: "", orderable: false, searchable: false }
+                        { data: 'nama_lomba', orderable: true, searchable: true },
+                        { data: 'rekomendasi_mahasiswa', orderable: true, searchable: true },
                     ]
                 });
 
-                $('#bidangKeahlian_id').on('change', function () {
-                    dataBidangKeahlian.ajax.reload();
+                $('#rekomendasi_id').on('change', function () {
+                    datarekomendasi.ajax.reload();
                 });
             });
         </script>

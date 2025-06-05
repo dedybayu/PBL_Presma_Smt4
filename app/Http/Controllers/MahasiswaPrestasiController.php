@@ -70,7 +70,9 @@ class MahasiswaPrestasiController extends Controller
      */
     public function create()
     {
-        $lomba = LombaModel::all();
+        $lomba = LombaModel::where('tanggal_selesai', '<', Carbon::now())
+            ->where('status_verifikasi', 1)
+            ->get();;
         $dosen = DosenModel::all();
         return view('mahasiswa.prestasi.create_prestasi')->with([
             'lomba' => $lomba,
@@ -202,7 +204,9 @@ class MahasiswaPrestasiController extends Controller
         if ($prestasi->mahasiswa->user_id !== auth()->user()->user_id) {
             abort(403, 'Anda tidak diizinkan mengakses prestasi ini.');
         }
-        $lomba = LombaModel::all();
+        $lomba = LombaModel::where('tanggal_selesai', '<', Carbon::now())
+            ->where('status_verifikasi', 1)
+            ->get();;
         $dosen = DosenModel::all();
         return view('mahasiswa.prestasi.edit_prestasi')->with([
             'prestasi' => $prestasi,
