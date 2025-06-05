@@ -33,9 +33,9 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
-Route::get('/python', [RekomendasiMahasiswaController::class, 'python'])->name('python');
-Route::get('/python_coba', [RekomendasiMahasiswaController::class, 'python_coba'])->name('python_coba');
-Route::get('/topsis', [RekomendasiMahasiswaController::class, 'rekomendasiByTopsis'])->name('rekomendasiByTopsis');
+// Route::get('/python', [RekomendasiMahasiswaController::class, 'python'])->name('python');
+// Route::get('/python_coba', [RekomendasiMahasiswaController::class, 'python_coba'])->name('python_coba');
+// Route::get('/topsis', [RekomendasiMahasiswaController::class, 'rekomendasiByTopsis'])->name('rekomendasiByTopsis');
 
 
 Route::get('/', function () {
@@ -158,13 +158,10 @@ Route::middleware('auth')->group(function () {
         Route::prefix('rekomendasi')->name('rekomendasi.')->group(function () {
             Route::get('/', [RekomendasiMahasiswaController::class, 'index'])->name('index');
             Route::post('/list', [RekomendasiMahasiswaController::class, 'list']);
-            Route::get('/{lomba}/show', [RekomendasiMahasiswaController::class, 'show'])->name('show');
-            Route::get('/create', [RekomendasiMahasiswaController::class, 'create'])->name('create');
-            Route::post('/', [RekomendasiMahasiswaController::class, 'store'])->name('store');
-            Route::get('/{lomba}/edit', [RekomendasiMahasiswaController::class, 'edit'])->name('edit');
-            Route::put('/{lomba}', [RekomendasiMahasiswaController::class, 'update'])->name('update');
-            Route::get('/{lomba}/delete', [RekomendasiMahasiswaController::class, 'confirm'])->name('delete');
-            Route::delete('/{lomba}', [RekomendasiMahasiswaController::class, 'destroy'])->name('destroy');
+            Route::get('/refresh', [RekomendasiMahasiswaController::class, 'show_refresh'])->name('show_refresh');
+            Route::post('/refresh', [RekomendasiMahasiswaController::class, 'refresh'])->name('refresh');
+            Route::get('/confirm', [RekomendasiMahasiswaController::class, 'confirm'])->name('confirm');
+            Route::delete('/', [RekomendasiMahasiswaController::class, 'destroy'])->name('destroy');
         });
 
         Route::prefix('bidangKeahlian')->group(function () {

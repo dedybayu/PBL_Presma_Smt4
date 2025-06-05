@@ -8,20 +8,21 @@ use App\Models\MahasiswaModel;
 use App\Models\PrestasiModel;
 use App\Models\RekomendasiMahasiswaLombaModel;
 use Carbon\Carbon;
+use Doctrine\Inflector\Rules\English\Rules;
 use Http;
 use Illuminate\Http\Request;
 use Log;
+use Validator;
 use Yajra\DataTables\DataTables;
 
 class RekomendasiMahasiswaController extends Controller
 {
     public function index()
     {
-        // RekomendasiMahasiswaLombaModel::with([
-        //     'mahasiswa',
-        //     'lomba'
-        // ])->get();
-        return view('admin.rekomendasi.daftar_rekomendasi');
+        $lomba = LombaModel::where('tanggal_selesai', '<', Carbon::now())
+            ->where('status_verifikasi', 1)
+            ->get();
+        return view('admin.rekomendasi.daftar_rekomendasi')->with('lomba', $lomba);
     }
 
     public function list(Request $request)
@@ -46,10 +47,69 @@ class RekomendasiMahasiswaController extends Controller
                 ->addColumn('rekomendasi_mahasiswa', function ($row) {
                     return $row->mahasiswa->nama;
                 })
+                ->addColumn('nim', function ($row) {
+                    return $row->mahasiswa->nim;
+                })
+                ->addColumn('rank', function ($row) {
+                    return $row->rank;
+                })
+
                 ->make(true);
         }
     }
 
+    public function show_refresh()
+    {
+        return view('admin.rekomendasi.refresh_rekomendasi');
+    }
+
+    public function refresh(Request $request)
+    {
+        if ($request->ajax()) {
+            $validator = Validator::make($request->all(), [
+                'metode' => 'required',
+            ]);
+
+            if ($validator->fails()) {
+                return response()->json([
+                    'status' => false,
+                    'message' => 'Metode harus dipilih.',
+                    'msgField' => $validator->errors()
+                ]);
+            }
+
+            try {
+                if ($request->metode == 'topsis') {
+                    $this->rekomendasiByTopsis();
+                }
+
+                return response()->json([
+                    'status' => true,
+                    'message' => 'Data rekomendasi berhasil di perbarui.'
+                ]);
+            } catch (\Throwable $th) {
+                return response()->json([
+                    'status' => false,
+                    'message' => 'Data rekomendasi gagal di perbarui. ' . $th->getMessage()
+                ]);
+            }
+
+        }
+    }
+
+    public function confirm()
+    {
+        return view('admin.rekomendasi.confirm_delete_rekomendasi');
+    }
+
+    public function destroy()
+    {
+        RekomendasiMahasiswaLombaModel::truncate();
+        return response()->json([
+            'status' => true,
+            'message' => 'Data rekomendasi berhasil di hapus.'
+        ]);
+    }
 
     // KRITERIA
 
@@ -63,7 +123,7 @@ class RekomendasiMahasiswaController extends Controller
     //Organisasi
 
 
-    public function rekomendasiByTopsis()
+    public static function rekomendasiByTopsis()
     {
         $allLomba = LombaModel::with([
             'bidang.kategoriBidangKeahlian',
@@ -101,12 +161,6 @@ class RekomendasiMahasiswaController extends Controller
                 ]);
             }
         }
-
-        // dd(self::getAlternatif($lomba));
-        // $bidang = $lomba->bidang;
-
-
-        // return $response->json();
     }
 
     private static function getAlternatif(LombaModel $lomba)
