@@ -81,6 +81,8 @@ class RekomendasiMahasiswaController extends Controller
             try {
                 if ($request->metode == 'topsis') {
                     $this->rekomendasiByTopsis();
+                } elseif ($request->metode == 'saw') {
+                    $this->rekomendasiBySAW();
                 }
 
                 return response()->json([
@@ -139,6 +141,45 @@ class RekomendasiMahasiswaController extends Controller
 
         foreach ($allLomba as $lomba) {
             $response = Http::post('http://127.0.0.1:8000/api/topsis', [
+                "jumlah_anggota" => $lomba->jumlah_anggota,
+                "bobot" => [0.15, 0.1, 0.15, 0.2, 0.1, 0.1, 0.1, 0.1],
+                "kriteria" => ["benefit", "benefit", "benefit", "benefit", "benefit", "benefit", "benefit", "benefit"],
+                "mahasiswa" => self::getAlternatif($lomba)
+            ]);
+
+            if ($response->successful()) {
+                foreach ($response->json() as $mahasiswa) {
+                    // dd($mahasiswa[ra]);
+                    RekomendasiMahasiswaLombaModel::create([
+                        "mahasiswa_id" => $mahasiswa['mahasiswa_id'],
+                        "lomba_id" => $lomba->lomba_id,
+                        "rank" => $mahasiswa['rank']
+                    ]);
+                }
+            } else {
+                Log::error('Gagal mendapatkan data dari TOPSIS API', [
+                    'status' => $response->status(),
+                    'body' => $response->body()
+                ]);
+            }
+        }
+    }
+    public static function rekomendasiBySAW()
+    {
+        $allLomba = LombaModel::with([
+            'bidang.kategoriBidangKeahlian',
+            'penyelenggara.kota.provinsi.negara',
+            'tingkat'
+        ])
+            ->where('tanggal_selesai', '<', Carbon::now())
+            ->where('status_verifikasi', 1)
+            ->get();
+        // dd($allLomba);
+
+        RekomendasiMahasiswaLombaModel::truncate();
+
+        foreach ($allLomba as $lomba) {
+            $response = Http::post('http://127.0.0.1:8000/api/saw', [
                 "jumlah_anggota" => $lomba->jumlah_anggota,
                 "bobot" => [0.15, 0.1, 0.15, 0.2, 0.1, 0.1, 0.1, 0.1],
                 "kriteria" => ["benefit", "benefit", "benefit", "benefit", "benefit", "benefit", "benefit", "benefit"],

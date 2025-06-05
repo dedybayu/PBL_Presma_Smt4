@@ -3,6 +3,8 @@ from pydantic import BaseModel
 from typing import List
 import pandas as pd
 from topsis import Topsis
+from saw import SAW
+
 
 app = FastAPI()
 
@@ -62,4 +64,25 @@ async def calculate_topsis(data: LombaInput):
     hasil = topsis.run()
 
     # Convert hasil DataFrame ke list of dict
+    return hasil.to_dict(orient="records")
+
+
+
+@app.post("/api/saw")
+async def calculate_saw(data: LombaInput):
+    df = pd.DataFrame([{
+        "Mahasiswa_ID": m.mahasiswa_id,
+        "IPK": m.ipk,
+        "Keahlian": m.keahlian,
+        "Jumlah_Prestasi": m.jumlah_prestasi,
+        "Kesesuaian_Bidang_Prestasi": m.kesesuaian_bidang_prestasi,
+        "Tingkat_Lomba_Prestasi": m.tingkat_lomba_prestasi,
+        "Poin_Prestasi": m.poin_prestasi,
+        "Minat": m.minat,
+        "Organisasi": m.organisasi
+    } for m in data.mahasiswa])
+
+    saw = SAW(df, data.bobot, data.kriteria, data.jumlah_anggota)
+    hasil = saw.run()
+
     return hasil.to_dict(orient="records")

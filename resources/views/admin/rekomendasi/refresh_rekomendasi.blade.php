@@ -8,7 +8,7 @@
     </div>
 
     <div class="modal-body">
-        <div class="form-group">
+        <div class="form-group mb-3">
             <label for="metode"><strong>Pilih Metode Perhitungan:</strong></label><br>
             <div class="form-check form-check-inline">
                 <input class="form-check-input" type="radio" name="metode" id="metode_topsis" value="topsis">
@@ -20,6 +20,13 @@
             </div>
             <small id="error-metode" class="text-danger"></small>
         </div>
+        <p><strong>Keterangan:</strong></p>
+        <p><strong>TOPSIS:</strong> Memilih alternatif terbaik berdasarkan jarak ke solusi ideal dan solusi negatif.
+            <em>(Lebih akurat, tetapi sedikit lebih lambat)</em></p>
+
+        <p><strong>SAW:</strong> Menjumlahkan nilai terbobot dari semua kriteria untuk menentukan skor terbaik. 
+            <em>(Lebih cepat, tetapi kurang akurat dibanding TOPSIS)</em></p>
+
     </div>
 
 
