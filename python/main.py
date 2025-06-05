@@ -14,7 +14,6 @@ class MahasiswaInput(BaseModel):
     kesesuaian_bidang_prestasi: int
     tingkat_lomba_prestasi: int
     poin_prestasi: float
-    bidang: int
     minat: int
     organisasi: float
 
@@ -52,7 +51,6 @@ async def calculate_topsis(data: LombaInput):
         "Kesesuaian_Bidang_Prestasi": m.kesesuaian_bidang_prestasi,
         "Tingkat_Lomba_Prestasi": m.tingkat_lomba_prestasi,
         "Poin_Prestasi": m.poin_prestasi,
-        "Bidang": m.bidang,
         "Minat": m.minat,
         "Organisasi": m.organisasi
     } for m in data.mahasiswa])

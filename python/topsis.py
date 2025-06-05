@@ -46,9 +46,9 @@ class Topsis:
 
         # Buat DataFrame hasil
         result = pd.DataFrame({
-            "Mahasiswa_ID": self.alternatives,
+            "mahasiswa_id": self.alternatives,
             "C": C,
-            "Ranking": (-C).argsort().argsort() + 1
-        }).sort_values("Ranking").reset_index(drop=True)
+            "rank": (-C).argsort().argsort() + 1
+        }).sort_values("rank").reset_index(drop=True)
 
         return result

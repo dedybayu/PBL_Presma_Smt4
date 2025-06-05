@@ -2,17 +2,99 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\BidangKeahlianModel;
 use App\Models\LombaModel;
 use App\Models\MahasiswaModel;
+use App\Models\PrestasiModel;
 use Http;
 use Illuminate\Http\Request;
 
 class RekomendasiMahasiswaController extends Controller
 {
-    public function rekomendasiByTopsis(LombaModel $lomba)
+    // KRITERIA
+
+    //IPK
+    //Keahlian
+    //Jumlah Prestasi
+    //Tingkat lomba prestasi
+    //Poin Prestasi
+    //Bidang Prestasi 
+    //Minat
+    //Organisasi
+
+    public function rekomendasiByTopsis()
     {
+        $lomba = LombaModel::find(1)->with('bidang', 'penyelenggara.kota.provinsi.negara', 'tingkat')->first();
+        // dd(self::getAlternatif($lomba));
         $bidang = $lomba->bidang;
+        $response = Http::post('http://127.0.0.1:8000/api/topsis', [
+            "bobot" => [0.15, 0.1, 0.15, 0.2, 0.1, 0.1, 0.1, 0.1],
+            "kriteria" => ["benefit", "benefit", "benefit", "benefit", "benefit", "benefit", "benefit", "benefit"],
+            "mahasiswa" => self::getAlternatif($lomba)
+
+        ]);
+
+        return $response->json();
     }
+
+    private static function getAlternatif(LombaModel $lomba)
+    {
+        $allMahasiswa = MahasiswaModel::with(
+            'prestasi.lomba.bidang.kategoriBidangKeahlian',
+            'prestasi.lomba.tingkat',
+            'prestasi.lomba.penyelenggara.kota.provinsi.negara',
+            'minat',
+            'keahlian',
+            'organisasi'
+        )->get();
+
+        $allternatif = [];
+        foreach ($allMahasiswa as $mahasiswa) {
+            $allternatif[] = [
+                "mahasiswa_id" => $mahasiswa->mahasiswa_id,
+                "ipk" => $mahasiswa->ipk,
+                "keahlian" => self::kesesuaianKeahlian($mahasiswa->keahlian, $lomba->bidang),
+                "jumlah_prestasi" => count($mahasiswa->prestasi),
+                "kesesuaian_bidang_prestasi" => self::kesesuaianBidangPrestasi($mahasiswa->prestasi, $lomba->bidang),
+                "tingkat_lomba_prestasi" => self::tingkatLombaPrestasi($mahasiswa->prestasi),
+                "poin_prestasi" => self::totalPoinMahasiswa($mahasiswa->prestasi),
+                "minat" => self::kesesuaianMinat($mahasiswa->minat, $lomba->bidang),
+                "organisasi" => count($mahasiswa->organisasi)
+            ];
+        }
+        return $allternatif;
+    }
+
+    private static function totalPoinMahasiswa($listPrestasimahasiswa)
+    {
+        $totalPoin = 0;
+        foreach ($listPrestasimahasiswa as $prestasi) {
+            if ($prestasi->status_verifikasi === 1) {
+                $totalPoin += $prestasi->poin;
+            }
+        }
+        return $totalPoin;
+    }
+    private static function kesesuaianKeahlian($listKeahlian, BidangKeahlianModel $bidangKeahlian)
+    {
+        return 5;
+    }
+    private static function kesesuaianMinat($listMinat, BidangKeahlianModel $bidangKeahlian)
+    {
+        return 5;
+    }
+
+    private static function kesesuaianBidangPrestasi($ListrestasiMahasiswa, BidangKeahlianModel $bidangKeahlian)
+    {
+        return 5;
+    }
+
+    private static function tingkatLombaPrestasi($listPrestasiMahasiswa)
+    {
+        return 5;
+    }
+
+
 
     public function python()
     {
@@ -44,8 +126,8 @@ class RekomendasiMahasiswaController extends Controller
     public function python_coba()
     {
         $response = Http::post('http://127.0.0.1:8000/api/topsis', [
-            "bobot" => [0.15, 0.1, 0.15, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1],
-            "kriteria" => ["benefit", "benefit", "benefit", "benefit", "benefit", "benefit", "benefit", "benefit", "benefit"],
+            "bobot" => [0.15, 0.1, 0.15, 0.1, 0.1, 0.1, 0.1, 0.1],
+            "kriteria" => ["benefit", "benefit", "benefit", "benefit", "benefit", "benefit", "benefit", "benefit"],
             "mahasiswa" => [
                 [
                     "mahasiswa_id" => 1,
@@ -55,7 +137,6 @@ class RekomendasiMahasiswaController extends Controller
                     "kesesuaian_bidang_prestasi" => 6,
                     "tingkat_lomba_prestasi" => 2,
                     "poin_prestasi" => 200,
-                    "bidang" => 1,
                     "minat" => 2,
                     "organisasi" => 75
                 ],
@@ -67,7 +148,6 @@ class RekomendasiMahasiswaController extends Controller
                     "kesesuaian_bidang_prestasi" => 4,
                     "tingkat_lomba_prestasi" => 2,
                     "poin_prestasi" => 250,
-                    "bidang" => 3,
                     "minat" => 2,
                     "organisasi" => 65
                 ],
@@ -79,7 +159,6 @@ class RekomendasiMahasiswaController extends Controller
                     "kesesuaian_bidang_prestasi" => 8,
                     "tingkat_lomba_prestasi" => 4,
                     "poin_prestasi" => 350,
-                    "bidang" => 2,
                     "minat" => 1,
                     "organisasi" => 90
                 ],
@@ -91,7 +170,6 @@ class RekomendasiMahasiswaController extends Controller
                     "kesesuaian_bidang_prestasi" => 2,
                     "tingkat_lomba_prestasi" => 1,
                     "poin_prestasi" => 100,
-                    "bidang" => 1,
                     "minat" => 3,
                     "organisasi" => 50
                 ],
@@ -103,7 +181,6 @@ class RekomendasiMahasiswaController extends Controller
                     "kesesuaian_bidang_prestasi" => 7,
                     "tingkat_lomba_prestasi" => 3,
                     "poin_prestasi" => 280,
-                    "bidang" => 2,
                     "minat" => 2,
                     "organisasi" => 85
                 ]
