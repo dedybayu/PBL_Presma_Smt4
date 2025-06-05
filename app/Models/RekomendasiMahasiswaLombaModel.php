@@ -14,6 +14,7 @@ class RekomendasiMahasiswaLombaModel extends Model
     protected $fillable = [
         'mahasiswa_id',
         'lomba_id',
+        'rank',
     ];
 
     public function mahasiswa()

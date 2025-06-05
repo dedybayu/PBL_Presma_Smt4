@@ -51,7 +51,7 @@ class LombaModel extends Model
 
     public function rekomendasi()
     {
-        return $this->hasMany(RekomendasiMahasiswaLomba::class, 'lomba_id', 'lomba_id');
+        return $this->hasMany(RekomendasiMahasiswaLombaModel::class, 'lomba_id', 'lomba_id');
     }
 
     public function user()

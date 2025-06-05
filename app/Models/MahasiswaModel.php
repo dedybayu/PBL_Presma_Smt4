@@ -50,7 +50,7 @@ class MahasiswaModel extends Model
 
     public function rekomendasi()
     {
-        return $this->hasMany(RekomendasiMahasiswaLomba::class, 'mahasiswa_id', 'mahasiswa_id');
+        return $this->hasMany(RekomendasiMahasiswaLombaModel::class, 'mahasiswa_id', 'mahasiswa_id');
     }
 
     public function minat()

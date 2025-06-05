@@ -27,37 +27,45 @@ class RekomendasiMahasiswaController extends Controller
 
     public function rekomendasiByTopsis()
     {
-        $lomba = LombaModel::with(
+        $allLomba = LombaModel::with(
             'bidang.kategoriBidangKeahlian',
             'penyelenggara.kota.provinsi.negara',
             'tingkat'
-        )->find(1);
+        )->get();
 
-        // dd(self::getAlternatif($lomba));
-        $bidang = $lomba->bidang;
-        $response = Http::post('http://127.0.0.1:8000/api/topsis', [
-            "jumlah_anggota" => $lomba->jumlah_anggota,
-            "bobot" => [0.15, 0.1, 0.15, 0.2, 0.1, 0.1, 0.1, 0.1],
-            "kriteria" => ["benefit", "benefit", "benefit", "benefit", "benefit", "benefit", "benefit", "benefit"],
-            "mahasiswa" => self::getAlternatif($lomba)
+        RekomendasiMahasiswaLombaModel::truncate();
 
-        ]);
+        foreach ($allLomba as $lomba) {
+            $response = Http::post('http://127.0.0.1:8000/api/topsis', [
+                "jumlah_anggota" => $lomba->jumlah_anggota,
+                "bobot" => [0.15, 0.1, 0.15, 0.2, 0.1, 0.1, 0.1, 0.1],
+                "kriteria" => ["benefit", "benefit", "benefit", "benefit", "benefit", "benefit", "benefit", "benefit"],
+                "mahasiswa" => self::getAlternatif($lomba)
 
-        if ($response->successful()) {
-            foreach ($response->json() as $mahasiswa) {
-                RekomendasiMahasiswaLombaModel::create([
-                    "mahasiswa_id" => $mahasiswa['mahasiswa_id'],
-                    "lomba_id" => $lomba->lomba_id
+            ]);
+
+            if ($response->successful()) {
+                foreach ($response->json() as $mahasiswa) {
+                    // dd($mahasiswa[ra]);
+                    RekomendasiMahasiswaLombaModel::create([
+                        "mahasiswa_id" => $mahasiswa['mahasiswa_id'],
+                        "lomba_id" => $lomba->lomba_id,
+                        "rank" => $mahasiswa['rank']
+                    ]);
+                }
+            } else {
+                Log::error('Gagal mendapatkan data dari TOPSIS API', [
+                    'status' => $response->status(),
+                    'body' => $response->body()
                 ]);
             }
-        } else {
-            Log::error('Gagal mendapatkan data dari TOPSIS API', [
-                'status' => $response->status(),
-                'body' => $response->body()
-            ]);
         }
 
-        return $response->json();
+        // dd(self::getAlternatif($lomba));
+        // $bidang = $lomba->bidang;
+
+
+        // return $response->json();
     }
 
     private static function getAlternatif(LombaModel $lomba)
