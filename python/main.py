@@ -19,6 +19,7 @@ class MahasiswaInput(BaseModel):
 
 
 class LombaInput(BaseModel):
+    jumlah_anggota: int
     bobot: List[float]  # total 5 nilai bobot
     kriteria: List[str]  # contoh: ["benefit", "benefit", ..., "cost"]
     mahasiswa: List[MahasiswaInput]
@@ -57,7 +58,7 @@ async def calculate_topsis(data: LombaInput):
 
 
     # Inisialisasi & jalankan TOPSIS
-    topsis = Topsis(df, data.bobot, data.kriteria)
+    topsis = Topsis(df, data.bobot, data.kriteria, data.jumlah_anggota)
     hasil = topsis.run()
 
     # Convert hasil DataFrame ke list of dict

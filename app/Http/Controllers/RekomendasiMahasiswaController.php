@@ -28,6 +28,7 @@ class RekomendasiMahasiswaController extends Controller
         // dd(self::getAlternatif($lomba));
         $bidang = $lomba->bidang;
         $response = Http::post('http://127.0.0.1:8000/api/topsis', [
+            "jumlah_anggota" => $lomba->jumlah_anggota,
             "bobot" => [0.15, 0.1, 0.15, 0.2, 0.1, 0.1, 0.1, 0.1],
             "kriteria" => ["benefit", "benefit", "benefit", "benefit", "benefit", "benefit", "benefit", "benefit"],
             "mahasiswa" => self::getAlternatif($lomba)

@@ -2,11 +2,12 @@ import numpy as np
 import pandas as pd
 
 class Topsis:
-    def __init__(self, dataframe, weights, criteria_types):
+    def __init__(self, dataframe, weights, criteria_types, jumlah_anggota):
         self.df = dataframe
         self.weights = np.array(weights)
         self.criteria = np.array(criteria_types)
         self.alternatives = dataframe.iloc[:, 0]
+        self.jumlah_anggota = jumlah_anggota  # simpan sebagai integer
         self.X = dataframe.iloc[:, 1:].values
 
     def normalize_matrix(self):
@@ -50,5 +51,8 @@ class Topsis:
             "C": C,
             "rank": (-C).argsort().argsort() + 1
         }).sort_values("rank").reset_index(drop=True)
+
+        # Ambil hanya sebanyak jumlah anggota
+        result = result.head(self.jumlah_anggota)
 
         return result
