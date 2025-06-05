@@ -52,7 +52,7 @@ class DashboardController extends Controller
         $prestasiPending = PrestasiModel::where('status_verifikasi', null)->count(); // Menunggu
         $prestasiDitolak = PrestasiModel::where('status_verifikasi', 0)->count();    // Ditolak
 
-        // Prestasi per tingkat lomba
+        // Chart Prestasi per tingkat lomba
         $prestasiPerTingkat = DB::table('m_tingkat_lomba as tingkat')
             ->leftJoin('m_lomba as lomba', 'tingkat.tingkat_lomba_id', '=', 'lomba.tingkat_lomba_id')
             ->leftJoin('t_prestasi as prestasi', 'lomba.lomba_id', '=', 'prestasi.lomba_id')
@@ -60,7 +60,7 @@ class DashboardController extends Controller
             ->groupBy('tingkat.tingkat_lomba_id', 'tingkat.tingkat_lomba_nama')
             ->get();
 
-        // Lomba per tingkat
+        // Chart Lomba per tingkat
         $lombaPerTingkat = DB::table('m_tingkat_lomba as tingkat')
             ->leftJoin('m_lomba as lomba', 'tingkat.tingkat_lomba_id', '=', 'lomba.tingkat_lomba_id')
             ->select('tingkat.tingkat_lomba_id', 'tingkat.tingkat_lomba_nama', DB::raw('COUNT(lomba.lomba_id) as total_lomba'))
@@ -69,6 +69,7 @@ class DashboardController extends Controller
 
         // Jumlah lomba per bulan
         $jadwalLombaPerBulan = DB::table('m_lomba')
+            ->where('m_lomba.status_verifikasi', 1) // Hanya ambil prestasi terverifikasi
             ->selectRaw("YEAR(tanggal_mulai) as tahun, MONTH(tanggal_mulai) as bulan_angka, COUNT(*) as total")
             ->whereNotNull('tanggal_mulai')
             ->groupBy('tahun', 'bulan_angka')
@@ -87,13 +88,21 @@ class DashboardController extends Controller
         // Top mahasiswa dengan prestasi terbanyak
         $topMahasiswaPrestasi = DB::table('t_prestasi')
             ->join('m_mahasiswa as mahasiswa', 't_prestasi.mahasiswa_id', '=', 'mahasiswa.mahasiswa_id')
+            ->where('t_prestasi.status_verifikasi', 1) // Hanya ambil prestasi terverifikasi
             ->select('mahasiswa.nama', DB::raw('COUNT(t_prestasi.prestasi_id) as total_prestasi'))
             ->groupBy('mahasiswa.mahasiswa_id', 'mahasiswa.nama')
             ->orderByDesc('total_prestasi')
             ->limit(8)
             ->get();
 
+        // Ambil daftar lomba 
+        $daftarLomba = LombaModel::where('status_verifikasi', 1)
+            ->orderBy('tanggal_mulai', 'desc')
+            ->limit(10)
+            ->get(['lomba_id', 'lomba_nama', 'tanggal_mulai']);
+
         return [
+            'daftarLomba' => $daftarLomba,
             'topMahasiswaPrestasi' => $topMahasiswaPrestasi,
             'jadwalLombaPerBulan' => $jadwalLombaPerBulan,
             'prestasiPerTingkat' => $prestasiPerTingkat,
