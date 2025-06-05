@@ -182,6 +182,7 @@ class LombaController extends Controller
 
     public function show(LombaModel $lomba)
     {
+        // dd($lomba->rekomendasi->mahasiswa);
         $tingkat = TingkatLombaModel::all();
         $bidang = BidangKeahlianModel::all();
         $penyelenggara = PenyelenggaraModel::all();
