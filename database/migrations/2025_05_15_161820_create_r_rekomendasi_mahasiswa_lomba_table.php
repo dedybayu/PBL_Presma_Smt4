@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('mahasiswa_id');
             $table->unsignedBigInteger('lomba_id');
+            $table->integer('rank');
             $table->timestamps();
 
             $table->foreign('mahasiswa_id')->references('mahasiswa_id')->on('m_mahasiswa');

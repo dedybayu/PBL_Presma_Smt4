@@ -6,8 +6,10 @@ use App\Models\BidangKeahlianModel;
 use App\Models\LombaModel;
 use App\Models\MahasiswaModel;
 use App\Models\PrestasiModel;
+use App\Models\RekomendasiMahasiswaLombaModel;
 use Http;
 use Illuminate\Http\Request;
+use Log;
 
 class RekomendasiMahasiswaController extends Controller
 {
@@ -22,9 +24,15 @@ class RekomendasiMahasiswaController extends Controller
     //Minat
     //Organisasi
 
+
     public function rekomendasiByTopsis()
     {
-        $lomba = LombaModel::find(1)->with('bidang', 'penyelenggara.kota.provinsi.negara', 'tingkat')->first();
+        $lomba = LombaModel::with(
+            'bidang.kategoriBidangKeahlian',
+            'penyelenggara.kota.provinsi.negara',
+            'tingkat'
+        )->find(1);
+
         // dd(self::getAlternatif($lomba));
         $bidang = $lomba->bidang;
         $response = Http::post('http://127.0.0.1:8000/api/topsis', [
@@ -34,6 +42,20 @@ class RekomendasiMahasiswaController extends Controller
             "mahasiswa" => self::getAlternatif($lomba)
 
         ]);
+
+        if ($response->successful()) {
+            foreach ($response->json() as $mahasiswa) {
+                RekomendasiMahasiswaLombaModel::create([
+                    "mahasiswa_id" => $mahasiswa['mahasiswa_id'],
+                    "lomba_id" => $lomba->lomba_id
+                ]);
+            }
+        } else {
+            Log::error('Gagal mendapatkan data dari TOPSIS API', [
+                'status' => $response->status(),
+                'body' => $response->body()
+            ]);
+        }
 
         return $response->json();
     }
@@ -45,7 +67,7 @@ class RekomendasiMahasiswaController extends Controller
             'prestasi.lomba.tingkat',
             'prestasi.lomba.penyelenggara.kota.provinsi.negara',
             'minat',
-            'keahlian',
+            'keahlian.bidang_keahlian.kategoriBidangKeahlian',
             'organisasi'
         )->get();
 
@@ -76,24 +98,91 @@ class RekomendasiMahasiswaController extends Controller
         }
         return $totalPoin;
     }
+
     private static function kesesuaianKeahlian($listKeahlian, BidangKeahlianModel $bidangKeahlian)
     {
-        return 5;
+        // dd($bidangKeahlian);
+        $poin = 0;
+        if ($listKeahlian->isEmpty()) {
+            // dd('null'); // Tidak ada keahlian mahasiswa
+        } else {
+            foreach ($listKeahlian as $keahlian) {
+                if ($keahlian->bidang_keahlian_id === $bidangKeahlian->bidang_keahlian_id) {
+                    $poin += 100;
+                } else {
+                    $keahlian->bidang_keahlian->kategoriBidangKeahlian->kategori_bidang_keahlian_id === $bidangKeahlian->kategoriBidangKeahlian->kategori_bidang_keahlian_id ? $poin += 65 : $poin += 10;
+                }
+            }
+        }
+
+        // dd($poin); // Debug isi
+        return $poin;
     }
+
     private static function kesesuaianMinat($listMinat, BidangKeahlianModel $bidangKeahlian)
     {
-        return 5;
+        // dd($bidangKeahlian);
+        $poin = 0;
+        if ($listMinat->isEmpty()) {
+            // dd('null'); // Tidak ada keahlian mahasiswa
+        } else {
+            foreach ($listMinat as $minat) {
+                if ($minat->bidang_keahlian_id === $bidangKeahlian->bidang_keahlian_id) {
+                    $poin += 100;
+                } else {
+                    $minat->bidang_keahlian->kategoriBidangKeahlian->kategori_bidang_keahlian_id === $bidangKeahlian->kategoriBidangKeahlian->kategori_bidang_keahlian_id ? $poin += 65 : $poin += 10;
+                }
+            }
+        }
+
+        // dd($poin); // Debug isi
+        return $poin;
     }
 
     private static function kesesuaianBidangPrestasi($ListrestasiMahasiswa, BidangKeahlianModel $bidangKeahlian)
     {
-        return 5;
+        // dd($bidangKeahlian);
+        $poin = 0;
+        if ($ListrestasiMahasiswa->isEmpty()) {
+            // dd('null'); // Tidak ada keahlian mahasiswa
+        } else {
+            foreach ($ListrestasiMahasiswa as $prestasi) {
+                if ($prestasi->lomba->bidang->bidang_keahlian_id === $bidangKeahlian->bidang_keahlian_id) {
+                    $poin += 100;
+                } else {
+                    $prestasi->lomba->bidang->kategoriBidangKeahlian->kategori_bidang_keahlian_id === $bidangKeahlian->kategoriBidangKeahlian->kategori_bidang_keahlian_id ? $poin += 65 : $poin += 10;
+                }
+            }
+        }
+
+        // dd($poin); // Debug isi
+        return $poin;
     }
 
     private static function tingkatLombaPrestasi($listPrestasiMahasiswa)
     {
-        return 5;
+        $prioritas = [
+            'INT' => 100, // Internasional
+            'NAS' => 60,  // Nasional
+            'PRO' => 30,  // Provinsi
+            'KAB' => 10   // Kabupaten
+        ];
+        $poin = 0;
+        foreach ($prioritas as $kode => $poin) {
+            foreach ($listPrestasiMahasiswa as $prestasi) {
+                if (
+                    $prestasi->status_verifikasi === 1 &&
+                    $prestasi->lomba &&
+                    $prestasi->lomba->tingkat &&
+                    $prestasi->lomba->tingkat->tingkat_lomba_kode === $kode
+                ) {
+                    return $poin; // return saat menemukan tingkat tertinggi
+                }
+            }
+        }
+        return 0; // Jika tidak ada prestasi terverifikasi
     }
+
 
 
 
