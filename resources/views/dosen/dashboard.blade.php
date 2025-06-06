@@ -5,6 +5,7 @@
 
     <x-slot:title>
         Dashboard Dosen {{ auth()->user()->nama }}
+        <div class="page-title-subheading">Selamat Datang di PresApp</div>
     </x-slot:title>
 
     <h1 class="aaaa">Dashboard</h1>

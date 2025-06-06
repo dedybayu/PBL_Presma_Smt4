@@ -99,9 +99,18 @@ class DashboardController extends Controller
         $daftarLomba = LombaModel::where('status_verifikasi', 1)
             ->orderBy('tanggal_mulai', 'desc')
             ->limit(10)
-            ->get(['lomba_id', 'lomba_nama', 'tanggal_mulai']);
+            ->get(['lomba_id', 'lomba_nama', 'tanggal_mulai', 'foto_pamflet']);
+
+        // Ambil data prestasi
+        $prestasiSaya = PrestasiModel::with('lomba')
+            ->where('mahasiswa_id', auth()->user()->mahasiswa->mahasiswa_id ?? null)
+            ->where('status_verifikasi', 1)
+            ->orderByDesc('created_at')
+            ->limit(5)
+            ->get();
 
         return [
+            'prestasiSaya' => $prestasiSaya,
             'daftarLomba' => $daftarLomba,
             'topMahasiswaPrestasi' => $topMahasiswaPrestasi,
             'jadwalLombaPerBulan' => $jadwalLombaPerBulan,
