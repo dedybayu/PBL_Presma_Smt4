@@ -33,7 +33,7 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
-// Route::get('/python', [RekomendasiMahasiswaController::class, 'python'])->name('python');
+Route::get('/python', [RekomendasiMahasiswaController::class, 'kalkulasiBobot'])->name('kalkulasiBobot');
 // Route::get('/python_coba', [RekomendasiMahasiswaController::class, 'python_coba'])->name('python_coba');
 // Route::get('/topsis', [RekomendasiMahasiswaController::class, 'rekomendasiByTopsis'])->name('rekomendasiByTopsis');
 

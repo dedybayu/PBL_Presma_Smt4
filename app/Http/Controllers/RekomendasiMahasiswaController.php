@@ -140,9 +140,13 @@ class RekomendasiMahasiswaController extends Controller
         RekomendasiMahasiswaLombaModel::truncate();
 
         foreach ($allLomba as $lomba) {
+            if ($lomba[0] || $lomba[1]) {
+                continue;
+            }
             $response = Http::post('http://127.0.0.1:8000/api/topsis', [
                 "jumlah_anggota" => $lomba->jumlah_anggota,
-                "bobot" => [0.15, 0.1, 0.15, 0.2, 0.1, 0.1, 0.1, 0.1],
+                "bobot" => self::getBobot($lomba),
+                // "bobot" => [0.15, 0.1, 0.15, 0.2, 0.1, 0.1, 0.1, 0.1],
                 "kriteria" => ["benefit", "benefit", "benefit", "benefit", "benefit", "benefit", "benefit", "benefit"],
                 "mahasiswa" => self::getAlternatif($lomba)
             ]);
@@ -181,7 +185,8 @@ class RekomendasiMahasiswaController extends Controller
         foreach ($allLomba as $lomba) {
             $response = Http::post('http://127.0.0.1:8000/api/saw', [
                 "jumlah_anggota" => $lomba->jumlah_anggota,
-                "bobot" => [0.15, 0.1, 0.15, 0.2, 0.1, 0.1, 0.1, 0.1],
+                // "bobot" => [0.15, 0.1, 0.15, 0.2, 0.1, 0.1, 0.1, 0.1],
+                "bobot" => self::getBobot($lomba),
                 "kriteria" => ["benefit", "benefit", "benefit", "benefit", "benefit", "benefit", "benefit", "benefit"],
                 "mahasiswa" => self::getAlternatif($lomba)
             ]);
@@ -203,6 +208,53 @@ class RekomendasiMahasiswaController extends Controller
             }
         }
     }
+
+    public static function getBobot(LombaModel $lomba)
+    {
+        $response = Http::post('http://127.0.0.1:8000/api/psi', [
+            "kriteria" => ["benefit", "benefit", "benefit", "benefit", "benefit", "benefit", "benefit", "benefit"],
+            "mahasiswa" => self::getAlternatif($lomba)
+        ]);
+
+        if ($response->successful()) {
+            $bobot = $response->json()['bobot'];
+            // Misalnya ingin mencetak atau memproses bobotnya
+            return $bobot;
+        } else {
+            Log::error('Gagal menghitung bobot dengan PSI', [
+                'status' => $response->status(),
+                'body' => $response->body()
+            ]);
+        }
+    }
+    public static function kalkulasiBobot__(LombaModel $lomba)
+    {
+        $allLomba = LombaModel::with([
+            'bidang.kategoriBidangKeahlian',
+            'penyelenggara.kota.provinsi.negara',
+            'tingkat'
+        ])
+            ->where('tanggal_selesai', '<', Carbon::now())
+            ->where('status_verifikasi', 1)
+            ->get();
+
+        $response = Http::post('http://127.0.0.1:8000/api/psi', [
+            "kriteria" => ["benefit", "benefit", "benefit", "benefit", "benefit", "benefit", "benefit", "benefit"],
+            "mahasiswa" => self::getAlternatif($allLomba[0])
+        ]);
+
+        if ($response->successful()) {
+            $bobot = $response->json()['bobot'];
+            // Misalnya ingin mencetak atau memproses bobotnya
+            dd($bobot);
+        } else {
+            Log::error('Gagal menghitung bobot dengan PSI', [
+                'status' => $response->status(),
+                'body' => $response->body()
+            ]);
+        }
+    }
+
 
     private static function getAlternatif(LombaModel $lomba)
     {

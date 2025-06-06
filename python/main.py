@@ -4,6 +4,7 @@ from typing import List
 import pandas as pd
 from topsis import Topsis
 from saw import SAW
+from psi import PSI 
 
 
 app = FastAPI()
@@ -86,3 +87,30 @@ async def calculate_saw(data: LombaInput):
     hasil = saw.run()
 
     return hasil.to_dict(orient="records")
+
+
+
+class BobotInput(BaseModel):
+    kriteria: List[str]  # ['benefit', 'benefit', ..., 'cost']
+    mahasiswa: List[MahasiswaInput]
+
+
+@app.post("/api/psi")
+async def calculate_psi(data: BobotInput):
+    matrix = [[
+        m.ipk,
+        m.keahlian,
+        m.jumlah_prestasi,
+        m.kesesuaian_bidang_prestasi,
+        m.tingkat_lomba_prestasi,
+        m.poin_prestasi,
+        m.minat,
+        m.organisasi
+    ] for m in data.mahasiswa]
+
+    psi = PSI(matrix, data.kriteria)
+    weights = psi.calculate_weights()
+
+    return {
+        "bobot": weights
+    }
