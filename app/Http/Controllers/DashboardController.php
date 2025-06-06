@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\LombaModel;
 use App\Models\PrestasiModel;
+use App\Models\MahasiswaModel;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\App;
@@ -25,7 +26,8 @@ class DashboardController extends Controller
                 $data = $this->getDashboardData();
                 return view('mahasiswa.dashboard', $data);
             case 'DOS':
-                return view('dosen.dashboard');
+                $data = $this->getDashboardData();
+                return view('dosen.dashboard', $data);
             case 'ADM':
                 $data = $this->getDashboardData();
                 return view('admin.dashboard', $data);
@@ -109,7 +111,21 @@ class DashboardController extends Controller
             ->limit(5)
             ->get();
 
+        // Ambil data mahasiswa bimbingan
+        $dosenId = auth()->user()->dosen->dosen_id ?? null;
+        $mahasiswaBimbingan = collect();
+
+        if ($dosenId) {
+            $mahasiswaBimbingan = MahasiswaModel::whereHas('prestasi', function ($query) use ($dosenId) {
+                $query->where('dosen_id', $dosenId);
+            })
+            ->orderBy('created_at', 'desc')
+            ->limit(5)
+            ->get(['mahasiswa_id', 'nim', 'nama', 'kelas_id', 'foto_profile']);
+        }
+
         return [
+            'mahasiswaBimbingan' => $mahasiswaBimbingan,
             'prestasiSaya' => $prestasiSaya,
             'daftarLomba' => $daftarLomba,
             'topMahasiswaPrestasi' => $topMahasiswaPrestasi,
