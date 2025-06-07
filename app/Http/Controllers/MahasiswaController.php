@@ -459,32 +459,30 @@ class MahasiswaController extends Controller
         // Header
         $sheet->setCellValue('A1', 'No');
         $sheet->setCellValue('B1', 'Username');
-        $sheet->setCellValue('C1', 'Password'); // tidak diekspor, hanya dummy
-        $sheet->setCellValue('D1', 'NIM');
-        $sheet->setCellValue('E1', 'Nama');
-        $sheet->setCellValue('F1', 'Email');
-        $sheet->setCellValue('G1', 'No Telepon');
-        $sheet->setCellValue('H1', 'Alamat');
-        $sheet->setCellValue('I1', 'Tahun Angkatan');
-        $sheet->setCellValue('J1', 'Kelas');
-        $sheet->setCellValue('K1', 'IPK');
+        $sheet->setCellValue('C1', 'NIM');
+        $sheet->setCellValue('D1', 'Nama');
+        $sheet->setCellValue('E1', 'Email');
+        $sheet->setCellValue('F1', 'No Telepon');
+        $sheet->setCellValue('G1', 'Alamat');
+        $sheet->setCellValue('H1', 'Tahun Angkatan');
+        $sheet->setCellValue('I1', 'Kelas');
+        $sheet->setCellValue('J1', 'IPK');
 
-        $sheet->getStyle('A1:K1')->getFont()->setBold(true);
+        $sheet->getStyle('A1:J1')->getFont()->setBold(true);
 
         $baris = 2;
         $no = 1;
         foreach ($mahasiswa as $m) {
             $sheet->setCellValue("A$baris", $no++);
             $sheet->setCellValue("B$baris", $m->user->username ?? '-');
-            $sheet->setCellValue("C$baris", '********'); // Password disembunyikan
-            $sheet->setCellValue("D$baris", $m->nim);
-            $sheet->setCellValue("E$baris", $m->nama);
-            $sheet->setCellValue("F$baris", $m->email);
-            $sheet->setCellValue("G$baris", $m->no_tlp);
-            $sheet->setCellValue("H$baris", $m->alamat);
-            $sheet->setCellValue("I$baris", $m->tahun_angkatan);
-            $sheet->setCellValue("J$baris", $m->kelas->kelas_nama ?? '-');
-            $sheet->setCellValue("K$baris", $m->ipk ?? '-');
+            $sheet->setCellValue("C$baris", $m->nim);
+            $sheet->setCellValue("D$baris", $m->nama);
+            $sheet->setCellValue("E$baris", $m->email);
+            $sheet->setCellValue("F$baris", $m->no_tlp);
+            $sheet->setCellValue("G$baris", $m->alamat);
+            $sheet->setCellValue("H$baris", $m->tahun_angkatan);
+            $sheet->setCellValue("I$baris", $m->kelas->kelas_nama ?? '-');
+            $sheet->setCellValue("J$baris", $m->ipk ?? '-');
             $baris++;
         }
 

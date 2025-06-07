@@ -23,7 +23,7 @@
             <span aria-hidden="true">&times;</span>
         </button>
     </div>
-    <div class="modal-body">
+    <div class="modal-body" style="max-height: 70vh; overflow-y: auto;">
         <div class="container">
             <div class="main-body">
                 <div class="row gutters-sm">
@@ -113,8 +113,8 @@
                                 <hr>
                                 <div class="row">
                                     <div class="col-sm-12">
-                                        <a class="btn btn-info " target="__blank"
-                                            href="https://www.bootdey.com/snippets/view/profile-edit-data-and-skills">Edit</a>
+                                        <button class="btn btn-info " onclick="modalAction('{{ url('/mahasiswa/' . $mahasiswa->mahasiswa_id . '/edit') }}')"
+                                            href="https://www.bootdey.com/snippets/view/profile-edit-data-and-skills">Edit</button>
                                     </div>
                                 </div>
                             </div>
@@ -160,4 +160,5 @@
         <div>
             <button type="button" data-dismiss="modal" class="btn btn-primary btn-sm">Close</button>
         </div>
+
     @endempty

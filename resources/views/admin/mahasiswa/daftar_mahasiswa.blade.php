@@ -19,7 +19,7 @@
             <div class="btn-actions-pane-right text-capitalize">
                 {{-- <button class="btn-wide btn-outline-2x mr-md-2 btn btn-outline-focus btn-sm">View All</button> --}}
                 <button onclick="modalAction('{{ url('/mahasiswa/create') }}')" class="btn btn-sm btn-success mt-1">
-                    <i class="fa fa-plus"></i> Tambah Ajax
+                    <i class="fa fa-plus"></i> Tambah
                 </button>
                 <button onclick="modalAction('{{ url('/mahasiswa/import') }}')" class="btn btn-sm btn-primary mt-1">
                     <i class="fa fa-plus"></i> Import
@@ -40,7 +40,7 @@
                         <label class="col-12 col-md-1 control-label col-form-label">Filter:</label>
 
                         <div class="col-12 col-md-3 mb-2 mb-md-0">
-                            <select class="form-select" id="prodi_id" name="prodi_id" style="width: 100%">
+                            <select class="form-select" id="mhs-prodi_id" name="prodi_id" style="width: 100%">
                                 <option value="">- Semua -</option>
                                 @foreach($prodi as $item)
                                     <option value="{{ $item->prodi_id }}">{{ $item->prodi_nama }}</option>
@@ -49,7 +49,7 @@
                             <small class="form-text text-muted">Filter Prodi</small>
                         </div>
                         <div class="col-12 col-md-3 mb-2 mb-md-0">
-                            <select class="form-select" id="kelas_id" name="kelas_id" style="width: 100%">
+                            <select class="form-select" id="mhs-kelas_id" name="kelas_id" style="width: 100%">
                                 <option value="">- Semua -</option>
                                 @foreach($kelas as $item)
                                     <option value="{{ $item->kelas_id }}" data-prodi-id="{{ $item->prodi_id }}">
@@ -115,9 +115,9 @@
 
             var dataMahasiswa
             $(document).ready(function () {
-                handleKelasFilterByProdi('#prodi_id', '#kelas_id');
+                handleKelasFilterByProdi('#mhs-prodi_id', '#mhs-kelas_id');
 
-                $('#prodi_id, #kelas_id').select2({
+                $('#mhs-prodi_id, #mhs-kelas_id').select2({
                     theme: 'bootstrap-5',
                     placeholder: "- Semua -",
                     allowClear: true,
@@ -150,7 +150,7 @@
                 });
 
 
-                $('#prodi_id, #kelas_id').on('change', function () {
+                $('#mhs-prodi_id, #mhs-kelas_id').on('change', function () {
                     dataMahasiswa.ajax.reload();
                 });
 

@@ -96,7 +96,7 @@
                                     style="background-image: url('{{asset('assets/images/gdungjti2.png')}}');"></div>
                                 <div class="menu-header-content text-dark">
                                     <h5 class="menu-header-title">Notifikasi</h5>
-                                    <h6 class="menu-header-subtitle">Kamu memiliki <b>5</b> pesan baru</h6>
+                                    <h6 class="menu-header-subtitle">Notifikasi <b>Terbaru</b></h6>
                                 </div>
                             </div>
                         </div>
@@ -324,7 +324,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="scroll-area-xs" style="height: 150px;">
+                                    <div class="scroll-area-xs" style="height: 80px;">
                                         <div class="scrollbar-container ps">
                                             <ul class="nav flex-column">
                                                 <li class="nav-item-header nav-item">Menu
@@ -333,16 +333,12 @@
                                                     <a href="{{route('profile')}}" class="nav-link">Profile Saya
                                                     </a>
                                                 </li>
-                                                <li class="nav-item">
+                                                {{-- <li class="nav-item">
                                                     <a href="javascript:void(0);" class="nav-link">Pesan
                                                         <div class="ml-auto badge badge-pill badge-info">1
                                                         </div>
                                                     </a>
-                                                </li>
-                                                <li class="nav-item">
-                                                    <a href="javascript:void(0);" class="nav-link">Lupa Password?
-                                                    </a>
-                                                </li>
+                                                </li> --}}
                                             </ul>
                                         </div>
                                     </div>
