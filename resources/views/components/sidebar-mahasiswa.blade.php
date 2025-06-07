@@ -37,19 +37,19 @@
                 <li class="">
                     <a href="{{ route('dashboard') }}"
                                 class="{{ request()->routeIs('dashboard') ? 'mm-active' : '' }}">
-                        <i class="metismenu-icon pe-7s-rocket"></i> Dashboard
+                        <i class="metismenu-icon pe-7s-home"></i> Dashboard
                     </a>
                 </li>
                 <li class="">
                     <a href="{{ route('mahasiswa.prestasi.index') }}"
                                 class="{{ request()->routeIs('mahasiswa.prestasi.*' ) ? 'mm-active' : '' }}">
-                        <i class="metismenu-icon pe-7s-rocket"></i> Prestasi Gua
+                        <i class="metismenu-icon pe-7s-medal"></i> Prestasi Saya
                     </a>
                 </li>
                 <li class="">
                     <a href="{{ route('daftar_lomba.index') }}"
                                 class="{{ request()->routeIs('daftar_lomba.*' ) ? 'mm-active' : '' }}">
-                        <i class="metismenu-icon pe-7s-rocket"></i> Daftar Lomba
+                        <i class="metismenu-icon pe-7s-flag"></i> Daftar Lomba
                     </a>
                 </li>
             </ul>
