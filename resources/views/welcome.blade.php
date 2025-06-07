@@ -583,27 +583,16 @@
         </div>
     </div>
     <!-- END FEATURES SECTION -->
-    <!-- Start Testimonials -->
+    <!-- Ranking Prestasi -->
     <div id="prestasi" class="w-full px-8 py-10 border-t border-gray-200 md:py-16 lg:py-24 xl:py-40 xl:px-0 bg-white" data-aos="fade-up" data-aos-delay="400">
         <div class="max-w-3xl mx-auto text-center">
             <p class="my-5 text-base font-medium tracking-tight text-indigo-500 uppercase">MAHASISWA UNGGUL</p>
-            <h2 class="text-4xl font-extrabold leading-10 tracking-tight text-gray-900 sm:text-5xl sm:leading-none md:text-6xl lg:text-5xl xl:text-6xl">
-                Bintang Prestasi
-            </h2>
+            <h2 class="text-4xl font-extrabold leading-10 text-gray-900">Bintang Prestasi</h2>
             <p class="my-6 text-xl font-medium text-gray-500">Menampilkan 5 besar mahasiswa berprestasi terbaik kami.</p>
         </div>
 
-        <!-- Ranking Prestasi -->
         <div class="max-w-2xl mx-auto mt-12">
             <ul class="space-y-4">
-                $topMahasiswaPrestasi = DB::table('t_prestasi')
-                ->join('m_mahasiswa as mahasiswa', 't_prestasi.mahasiswa_id', '=', 'mahasiswa.mahasiswa_id')
-                ->where('t_prestasi.status_verifikasi', 1) // Hanya ambil prestasi terverifikasi
-                ->select('mahasiswa.nama', DB::raw('COUNT(t_prestasi.prestasi_id) as total_prestasi'))
-                ->groupBy('mahasiswa.mahasiswa_id', 'mahasiswa.nama')
-                ->orderByDesc('total_prestasi')
-                ->limit(8)
-                ->get();
                 @foreach ($topMahasiswaPrestasi as $index => $mahasiswa)
                     @php
                         $rank = $index + 1;
@@ -637,7 +626,39 @@
         </div>
     </div>
 
-    <!-- End Testimonials-->
+    <!-- End Prestasi-->
+
+    <!-- Daftar Lomba -->
+    <div id="lomba-terbaru" class="w-full px-8 py-10 border-t border-gray-200 md:py-16 lg:py-24 xl:py-40 xl:px-0 bg-white" data-aos="fade-up" data-aos-delay="400">
+        <div class="max-w-3xl mx-auto text-center">
+            <p class="my-5 text-base font-medium tracking-tight text-indigo-500 uppercase">INFO TERKINI</p>
+            <h2 class="text-4xl font-extrabold leading-10 text-gray-900">Lomba Terbaru</h2>
+            <p class="my-6 text-xl font-medium text-gray-500">3 Lomba terbaru yang telah diverifikasi dan siap diikuti mahasiswa.</p>
+        </div>
+
+        <div class="max-w-2xl mx-auto mt-12">
+            <ul class="space-y-4">
+                @foreach ($daftarLomba as $lomba)
+                    <li class="flex items-center justify-between p-4 bg-gray-100 rounded-lg shadow hover:bg-gray-200 transition-all">
+                        <div class="flex items-center space-x-4">
+                            {{-- Thumbnail / ikon lomba --}}
+                            <div class="w-16 h-16 overflow-hidden rounded-lg shadow">
+                                <img src="{{ asset('storage/foto_pamflet/' . $lomba->foto_pamflet) }}" alt="{{ $lomba->lomba_nama }}" class="object-cover w-full h-full">
+                            </div>
+                            <div>
+                                <p class="font-semibold text-gray-800">{{ $lomba->lomba_nama }}</p>
+                                <p class="text-sm text-gray-500">Mulai: {{ \Carbon\Carbon::parse($lomba->tanggal_mulai)->translatedFormat('d F Y') }}</p>
+                            </div>
+                        </div>
+                        <span class="px-3 py-1 text-sm font-semibold text-white rounded-full bg-indigo-500">
+                            Lomba
+                        </span>
+                    </li>
+                @endforeach
+            </ul>
+        </div>
+    </div>
+    <!-- End Daftar Lomba -->
 
 
     <footer class="px-4 pt-12 pb-8 text-white bg-white border-t border-gray-200" data-aos="fade-up"
