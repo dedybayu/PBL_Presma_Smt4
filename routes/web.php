@@ -21,6 +21,7 @@ use App\Http\Controllers\MahasiswaProfileController;
 use App\Http\Controllers\ProdiController;
 use App\Http\Controllers\PenyelenggaraController;
 use App\Http\Controllers\RekomendasiMahasiswaController;
+use App\Http\Controllers\WelcomeController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -41,6 +42,8 @@ Route::get('/python', [RekomendasiMahasiswaController::class, 'kalkulasiBobot'])
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::get('/', [WelcomeController::class, 'index']);
 
 Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
 Route::post('/login', [AuthController::class, 'login'])->name('custom.login');
