@@ -647,7 +647,7 @@
                         <div class="flex items-center space-x-4">
                             {{-- Thumbnail / ikon lomba --}}
                             <div class="w-16 h-16 overflow-hidden rounded-lg shadow">
-                                <img src="{{ asset('storage/foto_pamflet/' . $lomba->foto_pamflet) }}" alt="{{ $lomba->lomba_nama }}" class="object-cover w-full h-full">
+                                <img src="{{ file_exists(public_path('storage/' . $lomba->foto_pamflet)) ? asset('storage/' . $lomba->foto_pamflet) : asset('assets/images/broken-image.png') }}" alt="{{ $lomba->lomba_nama }}" class="object-cover w-full h-full">
                             </div>
                             <div>
                                 <p class="font-semibold text-gray-800">{{ $lomba->lomba_nama }}</p>
