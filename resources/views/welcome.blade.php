@@ -153,7 +153,7 @@
                     Prestasi Akademik Anda</h1>
                 <p class="pr-0 mb-8 text-base text-gray-600 sm:text-lg xl:text-xl lg:pr-20">Apakah Anda siap untuk
                     memulai perjalanan Anda dan mulai melacak prestasi akademik terbaik Anda?</p>
-                <a href="{{ route('login') }}"
+                <a href="#_"
                     class="relative self-start inline-block w-auto px-8 py-4 mx-auto mt-0 text-base font-bold text-white bg-indigo-600 border-t border-gray-200 rounded-md shadow-xl sm:mt-1 fold-bold lg:mx-0">
                     Mulai Sekarang</a>
                 <svg class="absolute left-0 max-w-md mt-24 -ml-64 left-svg" viewBox="0 0 423 423"
