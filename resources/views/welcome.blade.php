@@ -69,8 +69,12 @@
                 <a href="#features"
                     class="mr-0 font-bold duration-100 md:mr-3 lg:mr-8 transition-color hover:text-indigo-600">Fitur
                     Kami</a>
-                <a href="#testimonials" class="font-bold duration-100 transition-color hover:text-indigo-600">Bintang
+                <a href="#prestasi" 
+                    class="mr-0 font-bold duration-100 md:mr-3 lg:mr-8 transition-color hover:text-indigo-600">Bintang
                     Prestasi</a>
+                <a href="#lomba" 
+                    class="mr-0 font-bold duration-100 transition-color hover:text-indigo-600">Lomba
+                    Terbaru</a>
                 <div class="flex flex-col block w-full font-medium border-t border-gray-200 md:hidden">
                     <a href="{{ route('login') }}"
                         class="relative inline-block w-full px-5 py-3 text-sm leading-none text-center text-white bg-indigo-700 fold-bold">Masuk</a>
@@ -629,7 +633,7 @@
     <!-- End Prestasi-->
 
     <!-- Daftar Lomba -->
-    <div id="lomba-terbaru" class="w-full px-8 py-10 border-t border-gray-200 md:py-16 lg:py-24 xl:py-40 xl:px-0 bg-white" data-aos="fade-up" data-aos-delay="400">
+    <div id="lomba" class="w-full px-8 py-10 border-t border-gray-200 md:py-16 lg:py-24 xl:py-40 xl:px-0 bg-white" data-aos="fade-up" data-aos-delay="400">
         <div class="max-w-3xl mx-auto text-center">
             <p class="my-5 text-base font-medium tracking-tight text-indigo-500 uppercase">INFO TERKINI</p>
             <h2 class="text-4xl font-extrabold leading-10 text-gray-900">Lomba Terbaru</h2>
