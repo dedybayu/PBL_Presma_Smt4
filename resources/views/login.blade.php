@@ -107,7 +107,7 @@
 
             <div class="hidden md:block md:w-1/2 bg-indigo-100">
                 <div class="h-full w-full bg-no-repeat bg-center bg-contain"
-                    style="background-image: url('https://storage.googleapis.com/devitary-image-host.appspot.com/15848031292911696601-undraw_designer_life_w96d.svg');">
+                    style="background-image: url('{{asset('assets/images/login-image.png')}}');">
                 </div>
             </div>
         </div>
