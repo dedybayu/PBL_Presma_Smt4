@@ -149,7 +149,7 @@ class DosenController extends Controller
 
     public function show($id)
     {
-        $dosen = DosenModel::find($id);
+        $dosen = DosenModel::find($id)->with('prestasi')->first();
         return view('admin.dosen.show_dosen')->with(['dosen' => $dosen]);
     }
 

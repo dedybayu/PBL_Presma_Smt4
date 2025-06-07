@@ -23,25 +23,111 @@
             <span aria-hidden="true">&times;</span>
         </button>
     </div>
-    <div class="modal-body">
-        <table class="table table-sm table-bordered table-striped">
-            <tr>
-                <th class="text-right col-3">Nama dosen :</th>
-                <td class="col-9">{{ $dosen->nama }}</td>
-            </tr>
-            <tr>
-                <th class="text-right col-3">nidn :</th>
-                <td class="col-9">{{ $dosen->nidn }}</td>
-            </tr>
-            <tr>
-                <th class="text-right col-3">email :</th>
-                <td class="col-9">{{ $dosen->email }}</td>
-            </tr>
-            <tr>
-                <th class="text-right col-3">no-telp :</th>
-                <td class="col-9">{{ $dosen->no_tlp }}</td>
-            </tr>
-        </table>
+    <div class="modal-body" style="max-height: 70vh; overflow-y: auto;">
+        <div class="container">
+            <div class="main-body">
+                <div class="row gutters-sm">
+                    <div class="col-md-4 mb-3">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="d-flex flex-column align-items-center text-center">
+                                    <img id="profileImage" class="img-thumbnail rounded-circle mb-3"
+                                        style="width: 160px; height: 160px; object-fit: cover;"
+                                        src="{{ $dosen->foto_profile ? asset('storage/' . $dosen->foto_profile) : asset('assets/images/user.png') }}"
+                                        alt="Profile picture">
+                                    <div class="mt-3">
+                                        <h4>{{ $dosen->nama }}</h4>
+                                        <p class="text-secondary mb-1">{{ $dosen->nidn }}</p>
+                                        <p class="text-muted font-size-sm">{{ $dosen->email }}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-8">
+                        <div class="card mb-3">
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-sm-3">
+                                        <h6 class="mb-0">Nama</h6>
+                                    </div>
+                                    <div class="col-sm-9 text-secondary">
+                                        {{ $dosen->nama }}
+                                    </div>
+                                </div>
+                                <hr>
+                                <div class="row">
+                                    <div class="col-sm-3">
+                                        <h6 class="mb-0">NIDN</h6>
+                                    </div>
+                                    <div class="col-sm-9 text-secondary">
+                                        {{ $dosen->nidn }}
+                                    </div>
+                                </div>
+                                <hr>
+                                <div class="row">
+                                    <div class="col-sm-3">
+                                        <h6 class="mb-0">No. Telpon</h6>
+                                    </div>
+                                    <div class="col-sm-9 text-secondary">
+                                        {{ $dosen->no_tlp }}
+                                    </div>
+                                </div>
+                                <hr>
+                                <div class="row">
+                                    <div class="col-sm-3">
+                                        <h6 class="mb-0">Email</h6>
+                                    </div>
+                                    <div class="col-sm-9 text-secondary">
+                                        {{ $dosen->email }}
+                                    </div>
+                                </div>
+                                <hr>
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <button class="btn btn-info "
+                                            onclick="modalAction('{{ url('/dosen/' . $dosen->dosen_id . '/edit') }}')"
+                                            href="https://www.bootdey.com/snippets/view/profile-edit-data-and-skills">Edit</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        @if (!$dosen->prestasi->isEmpty())
+            <div class="container">
+                <h5 class="modal-title">Prestasi Bimbingan</h5>
+                <table class="table table-sm table-bordered table-striped">
+                    <thead>
+                        <tr>
+                            <th>No</th>
+                            <th>Nama Prestasi</th>
+                            <th>Tanggal Perolehan Prestasi</th>
+                            <th>Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach ($dosen->prestasi as $i => $prestasiItem)
+                            <tr>
+                                <td>{{ $i + 1 }}</td>
+                                <td>{{ $prestasiItem->prestasi_nama ?? '-' }}</td>
+                                <td>{{ $prestasiItem->tanggal_perolehan ?? '-' }}</td>
+                                <td>
+                                    <button
+                                        onclick="modalAction('{{ url('/prestasi/' . $prestasiItem->prestasi_id . '/show') }}')"
+                                        class="btn btn-info btn-sm mt-1 mb-1"><i class="fa fa-eye"></i>
+                                        Detail
+                                    </button>
+                                </td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
+        @endif
     </div>
     <div class="modal-footer">
         <button type="button" data-dismiss="modal" class="btn btn-primary btn-sm">Close</button>

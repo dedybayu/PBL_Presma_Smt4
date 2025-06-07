@@ -43,4 +43,8 @@ class DosenModel extends Model
     {
         return $this->belongsTo(UserModel::class, 'user_id', 'user_id');
     }
+
+    public function prestasi(){
+        return $this->hasMany(PrestasiModel::class, 'dosen_id', 'dosen_id');
+    }
 }
