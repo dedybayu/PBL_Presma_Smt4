@@ -22,17 +22,21 @@
         </div>
         <p><strong>Keterangan:</strong></p>
         <p><strong>TOPSIS:</strong> Memilih alternatif terbaik berdasarkan jarak ke solusi ideal dan solusi negatif.
-            <em>(Lebih akurat, tetapi sedikit lebih lambat)</em></p>
+            <em>(Lebih akurat, tetapi sedikit lebih lambat)</em>
+        </p>
 
-        <p><strong>SAW:</strong> Menjumlahkan nilai terbobot dari semua kriteria untuk menentukan skor terbaik. 
-            <em>(Lebih cepat, tetapi kurang akurat dibanding TOPSIS)</em></p>
+        <p><strong>SAW:</strong> Menjumlahkan nilai terbobot dari semua kriteria untuk menentukan skor terbaik.
+            <em>(Lebih cepat, tetapi kurang akurat dibanding TOPSIS)</em>
+        </p>
 
     </div>
 
 
     <div class="modal-footer">
         <button type="button" class="btn btn-warning" data-dismiss="modal">Batal</button>
-        <button type="submit" class="btn btn-success"><i class="fa fa-refresh"></i> Perbarui</button>
+        <button type="submit" id="btn-submit-refresh" class="btn btn-success">
+            <i class="fa fa-refresh"></i> Perbarui
+        </button>
     </div>
 </form>
 
@@ -57,6 +61,12 @@
                 }
             },
             submitHandler: function(form) {
+                // Disable tombol dan ubah jadi loading
+                const $btn = $('#btn-submit-refresh');
+                $btn.prop('disabled', true);
+                const originalText = $btn.html();
+                $btn.html('<i class="fa fa-spinner fa-spin"></i> Memproses...');
+
                 $.ajax({
                     url: form.action,
                     type: form.method,
@@ -81,6 +91,18 @@
                                 text: response.message
                             });
                         }
+                    },
+                    error: function() {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Terjadi Kesalahan',
+                            text: 'Silakan coba lagi nanti.'
+                        });
+                    },
+                    complete: function() {
+                        // Aktifkan kembali tombol dan reset teks
+                        $btn.prop('disabled', false);
+                        $btn.html(originalText);
                     }
                 });
                 return false;

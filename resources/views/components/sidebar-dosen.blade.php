@@ -35,22 +35,22 @@
                 <li class="app-sidebar__heading">Menu</li>
                 <li class="">
                     <a href="{{ route('dashboard') }}" class="{{ request()->routeIs('dashboard') ? 'mm-active' : '' }}">
-                        <i class="metismenu-icon pe-7s-rocket"></i> Dashboard
+                        <i class="metismenu-icon pe-7s-home"></i> Dashboard
                     </a>
                 </li>
                 <li class="">
                     <a href="{{route('dosen.prestasi.allPrestasi')}}" class="{{ request()->routeIs('dosen.prestasi.allPrestasi') ? 'mm-active' : '' }}">
-                        <i class="metismenu-icon pe-7s-rocket"></i> Semua Prestasi
+                        <i class="metismenu-icon pe-7s-medal"></i> Semua Prestasi
                     </a>
                 </li>
                 <li class="">
                     <a href="{{route('dosen.prestasi.index')}}" class="{{ request()->routeIs('dosen.prestasi.index') ? 'mm-active' : '' }}">
-                        <i class="metismenu-icon pe-7s-rocket"></i> Prestasi Bimbingan
+                        <i class="metismenu-icon pe-7s-star"></i> Prestasi Bimbingan
                     </a>
                 </li>
                 <li class="">
                     <a href="{{ route('daftar_lomba.index') }}" class="{{ request()->routeIs('daftar.lomba.index') }}" class="">
-                        <i class="metismenu-icon pe-7s-rocket"></i> Lomba
+                        <i class="metismenu-icon pe-7s-flag"></i> Lomba
                     </a>
                 </li>
                 <li class="">

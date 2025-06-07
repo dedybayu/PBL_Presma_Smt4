@@ -36,7 +36,7 @@
                 <li class="app-sidebar__heading">Menu</li>
                 <li class="">
                     <a href="{{ url('dashboard') }}" class="{{ request()->is('dashboard') ? 'mm-active' : '' }}">
-                        <i class="metismenu-icon pe-7s-rocket"></i> Dashboard
+                        <i class="metismenu-icon pe-7s-home"></i> Dashboard
                     </a>
                 </li>
                 <li class="">
@@ -71,12 +71,12 @@
                 </li>
                 <li>
                     <a href="#"
-                        class="{{ request()->routeIs('kategoriBidangKeahlian.*','bidangKeahlian.*') ? 'mm-active' : '' }}">
-                        <i class="metismenu-icon pe-7s-note2"></i> Bidang Keahlian
+                        class="{{ request()->routeIs('kategoriBidangKeahlian.*', 'bidangKeahlian.*') ? 'mm-active' : '' }}">
+                        <i class="metismenu-icon pe-7s-light"></i> Bidang Keahlian
                         <i class="metismenu-state-icon pe-7s-angle-down caret-left"></i>
                     </a>
                     <ul
-                        class="{{ request()->routeIs('kategoriBidangKeahlian.*','bidangKeahlian.*') ? 'mm-show' : '' }}">
+                        class="{{ request()->routeIs('kategoriBidangKeahlian.*', 'bidangKeahlian.*') ? 'mm-show' : '' }}">
                         <li>
                             <a href="{{ route('kategoriBidangKeahlian.index') }}"
                                 class="{{ request()->routeIs('kategoriBidangKeahlian.index') ? 'mm-active' : '' }}">
@@ -96,7 +96,7 @@
                 <li>
                     <a href="#"
                         class="{{ request()->routeIs('lomba.*', 'penyelenggara.*') ? 'mm-active' : '' }}">
-                        <i class="metismenu-icon pe-7s-note2"></i> Data Lomba
+                        <i class="metismenu-icon pe-7s-flag"></i> Data Lomba
                         <i class="metismenu-state-icon pe-7s-angle-down caret-left"></i>
                     </a>
                     <ul
@@ -126,7 +126,7 @@
                 </li>
                 <li>
                     <a href="#" class="{{ request()->routeIs('prestasi.*') ? 'mm-active' : '' }}">
-                        <i class="metismenu-icon pe-7s-check"></i> Data Prestasi
+                        <i class="metismenu-icon pe-7s-star"></i> Data Prestasi
                         <i class="metismenu-state-icon pe-7s-angle-down caret-left"></i>
                     </a>
                     <ul class="{{ request()->routeIs('prestasi.*') ? 'mm-show' : '' }}">
@@ -174,12 +174,12 @@
                         </li>
                     </ul>
                 </li>
-                <li>
+                {{-- <li>
                     <a href="#">
                         <i class="metismenu-icon pe-7s-graph3">
                         </i>Laporan & Analisis
                     </a>
-                </li>
+                </li> --}}
             </ul>
         </div>
     </div>
