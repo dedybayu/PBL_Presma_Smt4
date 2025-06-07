@@ -19,7 +19,7 @@ class RekomendasiMahasiswaController extends Controller
 {
     public function index()
     {
-        $lomba = LombaModel::where('tanggal_selesai', '<', Carbon::now())
+        $lomba = LombaModel::where('tanggal_mulai', '>', Carbon::now())
             ->where('status_verifikasi', 1)
             ->get();
         return view('admin.rekomendasi.daftar_rekomendasi')->with('lomba', $lomba);
@@ -132,7 +132,7 @@ class RekomendasiMahasiswaController extends Controller
             'penyelenggara.kota.provinsi.negara',
             'tingkat'
         ])
-            ->where('tanggal_selesai', '<', Carbon::now())
+            ->where('tanggal_mulai', '>', Carbon::now())
             ->where('status_verifikasi', 1)
             ->get();
         // dd($allLomba);
@@ -175,7 +175,7 @@ class RekomendasiMahasiswaController extends Controller
             'penyelenggara.kota.provinsi.negara',
             'tingkat'
         ])
-            ->where('tanggal_selesai', '<', Carbon::now())
+            ->where('tanggal_mulai', '>', Carbon::now())
             ->where('status_verifikasi', 1)
             ->get();
         // dd($allLomba);
