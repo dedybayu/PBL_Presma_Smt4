@@ -762,7 +762,7 @@
             var header = document.querySelector("header");
             if (window.scrollY > 0) {
                 // header.classList.add("bg-blue-400");  // Menambahkan background biru
-                header.style.backgroundColor = "rgba(59, 130, 246, 0.8)"; // Set background dengan transparansi
+                header.style.backgroundColor = "rgba(59, 130, 246, 0.5)"; // Set background dengan transparansi
             } else {
                 // header.classList.remove("bg-blue-400");  // Menghapus background biru
                 header.style.backgroundColor = "rgba(59, 130, 246, 0)"; // Menghapus transparansi (full transparan)
