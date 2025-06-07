@@ -207,13 +207,18 @@
                     contentType: false,
                     success: function(response) {
                         if (response.status) {
-                            $('#modal-lomba').modal('hide');
-                            Swal.fire({
-                                icon: 'success',
-                                title: 'Berhasil',
-                                text: response.message
+                            $('#modal-lomba').on('hidden.bs.modal', function() {
+                                Swal.fire({
+                                    icon: 'success',
+                                    title: 'Berhasil',
+                                    text: response.message
+                                });
+                                dataLomba.ajax.reload();
+                                $(this).off(
+                                'hidden.bs.modal'); // penting untuk mencegah duplikasi
                             });
-                            dataLomba.ajax.reload();
+
+                            $('#modal-lomba').modal('hide');
                         } else {
                             $('.error-text').text('');
                             $.each(response.msgField, function(prefix, val) {
@@ -226,6 +231,7 @@
                             });
                         }
                     }
+
                 });
                 return false;
             },

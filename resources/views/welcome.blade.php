@@ -69,11 +69,10 @@
                 <a href="#features"
                     class="mr-0 font-bold duration-100 md:mr-3 lg:mr-8 transition-color hover:text-indigo-600">Fitur
                     Kami</a>
-                <a href="#prestasi" 
+                <a href="#prestasi"
                     class="mr-0 font-bold duration-100 md:mr-3 lg:mr-8 transition-color hover:text-indigo-600">Bintang
                     Prestasi</a>
-                <a href="#lomba" 
-                    class="mr-0 font-bold duration-100 transition-color hover:text-indigo-600">Lomba
+                <a href="#lomba" class="mr-0 font-bold duration-100 transition-color hover:text-indigo-600">Lomba
                     Terbaru</a>
                 <div class="flex flex-col block w-full font-medium border-t border-gray-200 md:hidden">
                     <a href="{{ route('login') }}"
@@ -191,7 +190,7 @@
             </div>
             <div class="relative z-10 flex flex-col items-end justify-center w-full h-full lg:w-1/2 ms:pl-10">
                 <div class="container relative left-0 w-full max-w-4xl lg:absolute xl:max-w-6xl lg:w-screen">
-                    <img src="{{asset('assets/images/macbook-mockup.png')}}"
+                    <img src="{{ asset('assets/images/macbook-mockup.png') }}"
                         class="w-full h-auto mt-20 mb-20 ml-0 lg:mt-24 xl:mt-40 lg:mb-0 lg:h-full lg:-ml-12">
                 </div>
             </div>
@@ -329,7 +328,8 @@
                             </g>
                         </svg>
                         <h4 class="relative mt-6 text-lg font-bold">Verifikasi Data Lomba</h4>
-                        <p class="relative mt-2 text-base text-center text-gray-600">Mengajukan verifikasi data lomba oleh
+                        <p class="relative mt-2 text-base text-center text-gray-600">Mengajukan verifikasi data lomba
+                            oleh
                             mahasiswa juga dosen dan melakukan verifikasi data oleh admin</p>
                     </div>
                 </div>
@@ -454,7 +454,8 @@
                             </g>
                         </svg>
                         <h4 class="relative mt-6 text-lg text-center font-bold">Manajemen Data Prestasi</h4>
-                        <p class="relative mt-2 text-base text-center text-gray-600">Mengajukan verifikasi data prestasi oleh
+                        <p class="relative mt-2 text-base text-center text-gray-600">Mengajukan verifikasi data
+                            prestasi oleh
                             mahasiswa dan melakukan verifikasi data oleh admin</p>
                     </div>
                 </div>
@@ -516,7 +517,8 @@
                             </g>
                         </svg>
                         <h4 class="relative mt-6 text-lg font-bold">Manajemen Profil</h4>
-                        <p class="relative mt-2 text-base text-center text-gray-600">Mengisi dan mengedit data pada profil masing-masing user</p>
+                        <p class="relative mt-2 text-base text-center text-gray-600">Mengisi dan mengedit data pada
+                            profil masing-masing user</p>
                     </div>
                 </div>
 
@@ -578,7 +580,8 @@
                             </g>
                         </svg>
                         <h4 class="relative mt-6 text-lg text-center font-bold">Manajemen Data Mahasiswa Bimbingan</h4>
-                        <p class="relative mt-2 text-base text-center text-gray-600">Dosen pembimbing dapat melihat data mahasiswa yang dimbingnya
+                        <p class="relative mt-2 text-base text-center text-gray-600">Dosen pembimbing dapat melihat
+                            data mahasiswa yang dimbingnya
                             dan juga prestasi yang telah diraih oleh mahasiswa tersebut
                         </p>
                     </div>
@@ -588,11 +591,13 @@
     </div>
     <!-- END FEATURES SECTION -->
     <!-- Ranking Prestasi -->
-    <div id="prestasi" class="w-full px-8 py-10 border-t border-gray-200 md:py-16 lg:py-24 xl:py-40 xl:px-0 bg-white" data-aos="fade-up" data-aos-delay="400">
+    <div id="prestasi" class="w-full px-8 py-10 border-t border-gray-200 md:py-16 lg:py-24 xl:py-40 xl:px-0 bg-white"
+        data-aos="fade-up" data-aos-delay="400">
         <div class="max-w-3xl mx-auto text-center">
             <p class="my-5 text-base font-medium tracking-tight text-indigo-500 uppercase">MAHASISWA UNGGUL</p>
             <h2 class="text-4xl font-extrabold leading-10 text-gray-900">Bintang Prestasi</h2>
-            <p class="my-6 text-xl font-medium text-gray-500">Menampilkan 5 besar mahasiswa berprestasi terbaik kami.</p>
+            <p class="my-6 text-xl font-medium text-gray-500">Menampilkan 5 besar mahasiswa berprestasi terbaik kami.
+            </p>
         </div>
 
         <div class="max-w-2xl mx-auto mt-12">
@@ -600,25 +605,27 @@
                 @foreach ($topMahasiswaPrestasi as $index => $mahasiswa)
                     @php
                         $rank = $index + 1;
-                        $emoji = match($rank) {
+                        $emoji = match ($rank) {
                             1 => '🥇',
                             2 => '🥈',
                             3 => '🥉',
-                            default => '⭐'
+                            default => '⭐',
                         };
-                        $bgColor = match($rank) {
+                        $bgColor = match ($rank) {
                             1 => 'bg-yellow-400',
                             2 => 'bg-gray-400',
                             3 => 'bg-amber-700',
-                            default => 'bg-blue-500'
+                            default => 'bg-blue-500',
                         };
                     @endphp
-                    <li class="flex items-center justify-between p-4 bg-gray-100 rounded-lg shadow hover:bg-gray-200 transition-all">
+                    <li
+                        class="flex items-center justify-between p-4 bg-gray-100 rounded-lg shadow hover:bg-gray-200 transition-all">
                         <div class="flex items-center space-x-4">
                             <span class="text-2xl">{{ $emoji }}</span>
                             <div>
                                 <p class="font-semibold text-gray-800">{{ $mahasiswa->nama }}</p>
-                                <p class="text-sm text-gray-500">{{ $mahasiswa->kelas->prodi->prodi_nama ?? 'Program Studi Tidak Diketahui' }}</p>
+                                <p class="text-sm text-gray-500">
+                                    {{ $mahasiswa->kelas->prodi->prodi_nama ?? 'Program Studi Tidak Diketahui' }}</p>
                             </div>
                         </div>
                         <span class="px-3 py-1 text-sm font-semibold text-white rounded-full {{ $bgColor }}">
@@ -633,25 +640,30 @@
     <!-- End Prestasi-->
 
     <!-- Daftar Lomba -->
-    <div id="lomba" class="w-full px-8 py-10 border-t border-gray-200 md:py-16 lg:py-24 xl:py-40 xl:px-0 bg-white" data-aos="fade-up" data-aos-delay="400">
+    <div id="lomba" class="w-full px-8 py-10 border-t border-gray-200 md:py-16 lg:py-24 xl:py-40 xl:px-0 bg-white"
+        data-aos="fade-up" data-aos-delay="400">
         <div class="max-w-3xl mx-auto text-center">
             <p class="my-5 text-base font-medium tracking-tight text-indigo-500 uppercase">INFO TERKINI</p>
             <h2 class="text-4xl font-extrabold leading-10 text-gray-900">Lomba Terbaru</h2>
-            <p class="my-6 text-xl font-medium text-gray-500">3 Lomba terbaru yang telah diverifikasi dan siap diikuti mahasiswa.</p>
+            <p class="my-6 text-xl font-medium text-gray-500">3 Lomba terbaru yang telah diverifikasi dan siap diikuti
+                mahasiswa.</p>
         </div>
 
         <div class="max-w-2xl mx-auto mt-12">
             <ul class="space-y-4">
                 @foreach ($daftarLomba as $lomba)
-                    <li class="flex items-center justify-between p-4 bg-gray-100 rounded-lg shadow hover:bg-gray-200 transition-all">
+                    <li
+                        class="flex items-center justify-between p-4 bg-gray-100 rounded-lg shadow hover:bg-gray-200 transition-all">
                         <div class="flex items-center space-x-4">
                             {{-- Thumbnail / ikon lomba --}}
                             <div class="w-16 h-16 overflow-hidden rounded-lg shadow">
-                                <img src="{{ asset('storage/foto_pamflet/' . $lomba->foto_pamflet) }}" alt="{{ $lomba->lomba_nama }}" class="object-cover w-full h-full">
+                                <img src="{{ file_exists(public_path('storage/' . $lomba->foto_pamflet)) ? asset('storage/' . $lomba->foto_pamflet) : asset('assets/images/broken-image.png') }}"
+                                    alt="{{ $lomba->lomba_nama }}" class="object-cover w-full h-full">
                             </div>
                             <div>
                                 <p class="font-semibold text-gray-800">{{ $lomba->lomba_nama }}</p>
-                                <p class="text-sm text-gray-500">Mulai: {{ \Carbon\Carbon::parse($lomba->tanggal_mulai)->translatedFormat('d F Y') }}</p>
+                                <p class="text-sm text-gray-500">Mulai:
+                                    {{ \Carbon\Carbon::parse($lomba->tanggal_mulai)->translatedFormat('d F Y') }}</p>
                             </div>
                         </div>
                         <span class="px-3 py-1 text-sm font-semibold text-white rounded-full bg-indigo-500">
@@ -667,8 +679,8 @@
 
     <footer class="px-4 pt-12 pb-8 text-white bg-white border-t border-gray-200" data-aos="fade-up"
         data-aos-delay="400">
-        <div class="container flex flex-col justify-between max-w-6xl px-4 mx-auto overflow-hidden lg:flex-row">
-            <div class="w-full pl-12 mr-2 text-left lg:w-1/4 sm:text-center sm:pl-0 lg:text-left">
+        {{-- <div class="container flex flex-col justify-center max-w-6xl px-4 mx-auto overflow-hidden lg:flex-row">
+            <div class="w-full pl-12 mr-2 text-center lg:w-1/4 sm:text-center sm:pl-0 lg:text-left">
                 <a href="/"
                     class="flex justify-start block text-left sm:text-center lg:text-left sm:justify-center lg:justify-start">
                     <span class="flex items-start sm:items-center">
@@ -724,9 +736,16 @@
                     </div>
                 </div>
             </div>
+        </div> --}}
+        <div class="flex flex-col items-center justify-center w-full h-full">
+            <div class="flex items-center font-black leading-none h-6">
+                <img src="../assets/images/presapp-logo.png" alt="Logo" class="w-auto h-25" />
+                <span class="ml-4 text-4xl text-gray-800">PresApp<span class="text-pink-500">.</span></span>
+            </div>
+            <div class="pt-4 mt-10 text-center text-gray-500 border-t border-gray-100">© 2025 PresApp. All rights
+                reserved.</div>
         </div>
-        <div class="pt-4 pt-6 mt-10 text-center text-gray-500 border-t border-gray-100">© 2025 PresApp. All rights
-            reserved.</div>
+
     </footer>
 
 

@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use PhpParser\Node\Stmt\TryCatch;
+use Str;
 use Yajra\DataTables\Facades\DataTables;
 
 class LombaController extends Controller
@@ -44,25 +45,25 @@ class LombaController extends Controller
                     return '
                     <div class="d-flex flex-column">
                         <div class="fw-bold text-truncate mb-1" style="max-width: 100%;">'
-                            .$row->lomba_nama.
+                        . $row->lomba_nama .
                         '</div>
 
                         <div class="text-muted text-truncate mb-1" style="max-width: 100%;">
                             <small>
-                                <i class="fa fa-envelope me-1"> </i>' .$row->tingkat->tingkat_lomba_nama.
-                            '</small>
+                                <i class="fa fa-envelope me-1"> </i>' . $row->tingkat->tingkat_lomba_nama .
+                        '</small>
                         </div>
 
                         <div class="text-muted text-truncate mb-1" style="max-width: 100%;">
                             <small>
-                                <i class="fa fa-info me-1"> </i> '.$row->bidang->bidang_keahlian_nama.'
+                                <i class="fa fa-info me-1"> </i> ' . $row->bidang->bidang_keahlian_nama . '
                             </small>
                         </div>
 
                         <div class="text-muted text-truncate mb-1" style="max-width: 100%;">
                             <small>
                                 <i class="fa fa-building me-1"> </i>
-                                '.$row->penyelenggara->penyelenggara_nama.'
+                                ' . $row->penyelenggara->penyelenggara_nama . '
                             </small>
                         </div>
                     </div>
@@ -110,7 +111,7 @@ class LombaController extends Controller
     public function store(Request $request)
     {
         $rules = [
-            'lomba_kode' => 'required|string|max:255',
+            // 'lomba_kode' => 'required|string|max:255',
             'lomba_nama' => 'required|string|max:255',
             'lomba_deskripsi' => 'required|string|max:255',
             'link_website' => 'required|string|max:255',
@@ -135,24 +136,36 @@ class LombaController extends Controller
         $imagePath = null;
         if ($request->hasFile('foto_pamflet')) {
             $file = $request->file('foto_pamflet');
-    
+
             if (!$file->isValid()) {
                 return response()->json(['error' => 'Invalid file'], 400);
             }
-    
+
             $filename = time() . '_' . $file->getClientOriginalName();
             $destinationPath = storage_path('app/public/lomba/foto-pamflet');
             if (!file_exists($destinationPath)) {
                 mkdir($destinationPath, 0775, true);
             }
-    
+
             $file->move($destinationPath, $filename);
             $imagePath = "lomba/foto-pamflet/$filename"; // Simpan path gambar
         }
-        
+
+        $lombaNama = $request->lomba_nama;
+
+        // 1. Buat prefix dari nama lomba (ambil huruf besar awal kata, atau substring)
+        $prefix = strtoupper(Str::slug(Str::words($lombaNama, 2, ''), ''));
+        $prefix = substr(preg_replace('/[^A-Z]/', '', $prefix), 0, 3); // Ambil 3 huruf kapital saja
+
+        // 2. Tambahkan angka random untuk membuat kode unik
+        do {
+            $randomNumber = rand(100, 999); // 3 digit angka
+            $kode = $prefix . $randomNumber; // Misal: HCK123
+        } while (LombaModel::where('lomba_kode', $kode)->exists());
+
         try {
             $lomba = LombaModel::create([
-                'lomba_kode' => $request->lomba_kode,
+                'lomba_kode' => $kode,
                 'lomba_nama' => $request->lomba_nama,
                 'lomba_deskripsi' => $request->lomba_deskripsi,
                 'link_website' => $request->link_website,
@@ -172,7 +185,7 @@ class LombaController extends Controller
             }
             return response()->json(['status' => false, 'message' => 'Gagal menambahkan data baru: ' . $e->getMessage()], 500);
         }
-       
+
 
         return response()->json([
             'status' => true,
@@ -226,22 +239,22 @@ class LombaController extends Controller
         $imagePath = $lomba->foto_pamflet;
         if ($request->hasFile('foto_pamflet')) {
             $file = $request->file('foto_pamflet');
-    
+
             if (!$file->isValid()) {
                 return response()->json(['error' => 'Invalid file'], 400);
             }
-    
+
             $filename = time() . '_' . $file->getClientOriginalName();
             $destinationPath = storage_path('app/public/lomba/foto-pamflet');
             if (!file_exists($destinationPath)) {
                 mkdir($destinationPath, 0775, true);
             }
-    
+
             $file->move($destinationPath, $filename);
             $imagePath = "lomba/foto-pamflet/$filename"; // Simpan path gambar
         }
 
-        $update_data =[
+        $update_data = [
             'lomba_kode' => $request->lomba_kode,
             'lomba_nama' => $request->lomba_nama,
             'lomba_deskripsi' => $request->lomba_deskripsi,
