@@ -618,7 +618,7 @@
                             <span class="text-2xl">{{ $emoji }}</span>
                             <div>
                                 <p class="font-semibold text-gray-800">{{ $mahasiswa->nama }}</p>
-                                <p class="text-sm text-gray-500">{{ $mahasiswa->prodi ?? 'Program Studi Tidak Diketahui' }}</p>
+                                <p class="text-sm text-gray-500">{{ $mahasiswa->kelas->prodi->prodi_nama ?? 'Program Studi Tidak Diketahui' }}</p>
                             </div>
                         </div>
                         <span class="px-3 py-1 text-sm font-semibold text-white rounded-full {{ $bgColor }}">
