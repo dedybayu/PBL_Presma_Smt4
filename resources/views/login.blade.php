@@ -98,16 +98,25 @@
                         </div>
                     @endif
 
-                    <button type="submit"
-                        class="w-full py-3 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold rounded-lg transition duration-300">
-                        Masuk
+                    <button type="submit" id="btn-login"
+                        class="w-full py-3 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold rounded-lg transition duration-300 flex justify-center items-center">
+                        <span id="btn-login-text">Masuk</span>
+                        <svg id="btn-login-spinner" class="hidden ml-2 w-5 h-5 animate-spin text-white" fill="none"
+                            viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor"
+                                stroke-width="4"></circle>
+                            <path class="opacity-75" fill="currentColor"
+                                d="M4 12a8 8 0 018-8v4l3-3-3-3v4a8 8 0 108 8h-2a6 6 0 11-6-6z">
+                            </path>
+                        </svg>
                     </button>
+
                 </form>
             </div>
 
             <div class="hidden md:block md:w-1/2 bg-indigo-100">
                 <div class="h-full w-full bg-no-repeat bg-center bg-contain"
-                    style="background-image: url('{{asset('assets/images/login-image.png')}}');">
+                    style="background-image: url('{{ asset('assets/images/login-image.png') }}');">
                 </div>
             </div>
         </div>
@@ -150,6 +159,10 @@
             const usernameError = document.getElementById('usernameError');
             const passwordError = document.getElementById('passwordError');
 
+            const btnLogin = document.getElementById('btn-login');
+            const btnText = document.getElementById('btn-login-text');
+            const btnSpinner = document.getElementById('btn-login-spinner');
+
             let valid = true;
             usernameError.classList.add('hidden');
             passwordError.classList.add('hidden');
@@ -165,6 +178,11 @@
             }
 
             if (valid) {
+                // Ubah tombol ke mode loading
+                btnLogin.disabled = true;
+                btnText.textContent = "Memproses...";
+                btnSpinner.classList.remove("hidden");
+
                 document.getElementById('loginForm').submit();
             }
         }
