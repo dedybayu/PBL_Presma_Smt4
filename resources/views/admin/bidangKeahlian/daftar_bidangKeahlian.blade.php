@@ -24,8 +24,8 @@
         </div>
 
         <div class="card-body">
-            <div class="table-responsive">
-                <table class="table table-bordered table-sm table-striped table-hover" id="table-bidangKeahlian">
+            <div class="table-responsive w-100">
+                <table class="table table-bordered table-sm table-striped table-hover w-100" id="table-bidangKeahlian">
                     <thead>
                         <tr>
                             <th>No</th>

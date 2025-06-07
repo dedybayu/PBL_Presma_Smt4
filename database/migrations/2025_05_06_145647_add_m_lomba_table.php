@@ -15,11 +15,12 @@ return new class extends Migration
             $table->id('lomba_id');
             $table->string('lomba_kode')->unique();
             $table->string('lomba_nama');
-            $table->string('lomba_deskripsi');
+            $table->text('lomba_deskripsi');
             $table->string('link_website');
             $table->unsignedBigInteger('tingkat_lomba_id');
             $table->unsignedBigInteger('bidang_keahlian_id');
             $table->unsignedBigInteger('penyelenggara_id');
+            $table->string('jumlah_anggota')->default(1);
             $table->date('tanggal_mulai');
             $table->date('tanggal_selesai');
             $table->string('foto_pamflet');

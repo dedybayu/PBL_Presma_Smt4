@@ -20,8 +20,13 @@
         </div>
         <div class="form-group">
             <label for="lomba_deskripsi">deskripsi lomba</label>
-            <input type="text" name="lomba_deskripsi" id="lomba_deskripsi" class="form-control">
+            <textarea name="lomba_deskripsi" id="lomba_deskripsi" class="form-control" rows="3"></textarea>
             <small id="error-lomba_deskripsi" class="text-danger"></small>
+        </div>
+        <div class="form-group">
+            <label for="lomba_deskripsi">Jumlah Anggota</label>
+            <input type="text" name="jumlah_anggota" id="Jumlah_anggota" class="form-control">
+            <small id="error-jumlah_anggota" class="text-danger"></small>
         </div>
         <div class="form-group">
             <label for="link_website">Link Website Lomba</label>

@@ -1,4 +1,4 @@
-<form action="{{ url('/mahasiswa/')}}" method="POST" enctype="multipart/form-data" id="form_create">
+<form action="{{ url('/mahasiswa/') }}" method="POST" enctype="multipart/form-data" id="form_create">
     @csrf
     {{-- @method('PUT') --}}
     <div class="modal-header">
@@ -13,7 +13,7 @@
                 <div class="text-center">
                     <img id="profileImage" class="img-thumbnail rounded-circle mb-3"
                         style="width: 160px; height: 160px; object-fit: cover;"
-                        src="{{asset('assets/images/user.png') }}" alt="Profile picture">
+                        src="{{ asset('assets/images/user.png') }}" alt="Profile picture">
 
                     <div class="mt-2">
                         <input type="file" id="foto_profile" name="foto_profile" class="d-none" accept="image/*"
@@ -54,10 +54,11 @@
                     <label>Prodi</label>
                     <select class="form-select" id="mahasiswa_prodi" name="prodi_id" style="width: 100%">
                         <option value="" disabled selected>- Pilih Prodi -</option>
-                        @foreach($prodi as $item)
+                        @foreach ($prodi as $item)
                             <option value="{{ $item->prodi_id }}">{{ $item->prodi_nama }}</option>
                         @endforeach
                     </select>
+                    <small id="error-prodi_id" class="error-text form-text text-danger"></small>
                 </div>
             </div>
             <div class="col-md-6">
@@ -65,12 +66,13 @@
                     <label>Kelas</label>
                     <select class="form-select" id="mahasiswa_kelas" name="kelas_id" style="width: 100%">
                         <option value="" disabled selected>- Pilih Kelas -</option>
-                        @foreach($kelas as $item)
+                        @foreach ($kelas as $item)
                             <option value="{{ $item->kelas_id }}" data-prodi-id="{{ $item->prodi_id }}">
                                 {{ $item->kelas_nama }}
                             </option>
                         @endforeach
                     </select>
+                    <small id="error-kelas_id" class="error-text form-text text-danger"></small>
                 </div>
             </div>
             <div class="col-md-6">
@@ -95,11 +97,19 @@
             <small id="error-alamat" class="error-text form-text text-danger"></small>
         </div>
         <div class="row">
-            <div class="col-md-6">
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label>IPK</label>
+                    <input value="" type="number" name="ipk" id="ipk" class="form-control"
+                        required min="0" max="4" step="0.01">
+                    <small id="error-ipk" class="error-text form-text text-danger"></small>
+                </div>
+            </div>
+            <div class="col-md-3">
                 <div class="form-group">
                     <label>Tahun Angkatan</label>
-                    <input value="" type="number" name="tahun_angkatan" id="tahun_angkatan" class="form-control"
-                        required>
+                    <input value="" type="number" name="tahun_angkatan" id="tahun_angkatan"
+                        class="form-control" required>
                     <small id="error-tahun_angkatan" class="error-text form-text text-danger"></small>
                 </div>
             </div>
@@ -123,7 +133,7 @@
 <script>
     function previewImage(event) {
         var reader = new FileReader();
-        reader.onload = function () {
+        reader.onload = function() {
             var output = document.getElementById('profileImage');
             output.src = reader.result;
         }
@@ -159,22 +169,65 @@
     }
 
 
-    $(document).ready(function () {
+    $(document).ready(function() {
         handleKelasFilterByProdi('#mahasiswa_prodi', '#mahasiswa_kelas');
 
         // Inisialisasi Select2 saat modal dibuka
-        $('#modal-mahasiswa').on('shown.bs.modal', function () {
+        $('#modal-mahasiswa').on('shown.bs.modal', function() {
             initSelect2();
             handleKelasFilterByProdi('#mahasiswa_prodi', '#mahasiswa_kelas');
         });
 
         $("#form_create").validate({
             rules: {
-                username: { required: true, minlength: 3, maxlength: 20 },
-                nama: { required: true, minlength: 3, maxlength: 100 },
-                password: { minlength: 6, maxlength: 20 }
+                username: {
+                    required: true,
+                    minlength: 3,
+                    maxlength: 20
+                },
+                nim: {
+                    required: true,
+                    minlength: 3,
+                    maxlength: 20
+                },
+                nama: {
+                    required: true,
+                    minlength: 3,
+                    maxlength: 100
+                },
+                prodi_id: {
+                    required: true
+                },
+                kelas_id: {
+                    required: true
+                },
+                password: {
+                    required: true,
+                    minlength: 6,
+                    maxlength: 20
+                },
+                no_tlp: {
+                    required: true,
+                    minlength: 6,
+                    maxlength: 20
+                },
+                alamat: {
+                    required: true,
+                    minlength: 6,
+                    maxlength: 200
+                },
+                ipk: {
+                    required: true,
+                    min: 0,
+                    max: 4
+                },
+                tahun_angkatan: {
+                    required: true,
+                    min: 1900,
+                    max: new Date().getFullYear()
+                }
             },
-            submitHandler: function (form) {
+            submitHandler: function(form) {
                 var formData = new FormData(form); // Gunakan FormData untuk menangani file
                 $.ajax({
                     url: form.action,
@@ -182,17 +235,25 @@
                     data: formData,
                     processData: false, // Penting: Agar jQuery tidak memproses data
                     contentType: false, // Penting: Agar tidak diubah menjadi application/x-www-form-urlencoded
-                    success: function (response) {
+                    success: function(response) {
                         if (response.status) {
                             $('#modal-mahasiswa').modal('hide');
-                            Swal.fire({ icon: 'success', title: 'Berhasil', text: response.message });
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Berhasil',
+                                text: response.message
+                            });
                             dataMahasiswa.ajax.reload();
                         } else {
                             $('.error-text').text('');
-                            $.each(response.msgField, function (prefix, val) {
+                            $.each(response.msgField, function(prefix, val) {
                                 $('#error-' + prefix).text(val[0]);
                             });
-                            Swal.fire({ icon: 'error', title: 'Terjadi Kesalahan', text: response.message });
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Terjadi Kesalahan',
+                                text: response.message
+                            });
                         }
                     }
                 });
@@ -200,14 +261,14 @@
             },
 
             errorElement: 'span',
-            errorPlacement: function (error, element) {
+            errorPlacement: function(error, element) {
                 error.addClass('invalid-feedback');
                 element.closest('.form-group').append(error);
             },
-            highlight: function (element, errorClass, validClass) {
+            highlight: function(element, errorClass, validClass) {
                 $(element).addClass('is-invalid');
             },
-            unhighlight: function (element, errorClass, validClass) {
+            unhighlight: function(element, errorClass, validClass) {
                 $(element).removeClass('is-invalid');
             }
         });
@@ -221,14 +282,15 @@
 
         $kelas.prop('disabled', true);
 
-        $prodi.on('change', function () {
+        $prodi.on('change', function() {
             const selectedProdiId = $(this).val();
 
             if (selectedProdiId) {
                 // Filter opsi sesuai prodi
-                const filteredOptions = allOptions.filter(function () {
+                const filteredOptions = allOptions.filter(function() {
                     const prodiId = $(this).data('prodi-id');
-                    return !prodiId || prodiId == selectedProdiId || $(this).val() === ""; // biarkan option kosong tetap ada
+                    return !prodiId || prodiId == selectedProdiId || $(this).val() ===
+                    ""; // biarkan option kosong tetap ada
                 });
 
                 $kelas.empty().append(filteredOptions); // update opsi
@@ -247,5 +309,4 @@
             }
         });
     }
-
 </script>

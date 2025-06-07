@@ -20,6 +20,7 @@ use App\Http\Controllers\MahasiswaPrestasiController;
 use App\Http\Controllers\MahasiswaProfileController;
 use App\Http\Controllers\ProdiController;
 use App\Http\Controllers\PenyelenggaraController;
+use App\Http\Controllers\RekomendasiMahasiswaController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -32,6 +33,9 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
+Route::get('/python', [RekomendasiMahasiswaController::class, 'kalkulasiBobot'])->name('kalkulasiBobot');
+// Route::get('/python_coba', [RekomendasiMahasiswaController::class, 'python_coba'])->name('python_coba');
+// Route::get('/topsis', [RekomendasiMahasiswaController::class, 'rekomendasiByTopsis'])->name('rekomendasiByTopsis');
 
 
 Route::get('/', function () {
@@ -149,6 +153,15 @@ Route::middleware('auth')->group(function () {
             Route::put('/{lomba}', [LombaController::class, 'update'])->name('lomba.update');
             Route::get('/{lomba}/delete', [LombaController::class, 'confirm'])->name('lomba.delete');
             Route::delete('/{lomba}', [LombaController::class, 'destroy'])->name('lomba.destroy');
+        });
+
+        Route::prefix('rekomendasi')->name('rekomendasi.')->group(function () {
+            Route::get('/', [RekomendasiMahasiswaController::class, 'index'])->name('index');
+            Route::post('/list', [RekomendasiMahasiswaController::class, 'list']);
+            Route::get('/refresh', [RekomendasiMahasiswaController::class, 'show_refresh'])->name('show_refresh');
+            Route::post('/refresh', [RekomendasiMahasiswaController::class, 'refresh'])->name('refresh');
+            Route::get('/confirm', [RekomendasiMahasiswaController::class, 'confirm'])->name('confirm');
+            Route::delete('/', [RekomendasiMahasiswaController::class, 'destroy'])->name('destroy');
         });
 
         Route::prefix('bidangKeahlian')->group(function () {

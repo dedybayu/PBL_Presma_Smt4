@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class RekomendasiMahasiswaLomba extends Model
+class RekomendasiMahasiswaLombaModel extends Model
 {
     use HasFactory;
 
@@ -14,6 +14,7 @@ class RekomendasiMahasiswaLomba extends Model
     protected $fillable = [
         'mahasiswa_id',
         'lomba_id',
+        'rank',
     ];
 
     public function mahasiswa()

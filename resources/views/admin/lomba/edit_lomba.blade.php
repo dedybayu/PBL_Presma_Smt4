@@ -23,10 +23,15 @@
             <small id="error-lomba_nama" class="error-text form-text text-danger"></small>
         </div>
         <div class="form-group">
-            <label>Deskripsi Lomba</label>
-            <input type="text" name="lomba_deskripsi" id="lomba_deskripsi" class="form-control"
-                value="{{ $lomba->lomba_deskripsi }}" required>
+            <label for="lomba_deskripsi">Deskripsi Lomba</label>
+            <textarea name="lomba_deskripsi" id="lomba_deskripsi" class="form-control" rows="5" required>{{ $lomba->lomba_deskripsi }}</textarea> {{-- Changed to textarea, value moved inside, added rows --}}
             <small id="error-lomba_deskripsi" class="error-text form-text text-danger"></small>
+        </div>
+        <div class="form-group">
+            <label>Jumlah Anggota</label>
+            <input type="text" name="jumlah_anggota" id="jumlah_anggota" class="form-control"
+                value="{{ $lomba->jumlah_anggota }}" required>
+            <small id="error-jumlah_anggota" class="error-text form-text text-danger"></small>
         </div>
         <div class="form-group">
             <label>Link Website Lomba</label>

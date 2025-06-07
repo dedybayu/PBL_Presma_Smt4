@@ -30,7 +30,7 @@
             <span aria-hidden="true">&times;</span>
         </button>
     </div>
-    <div class="modal-body" style="max-height: 70vh; overflow-y: auto;"> 
+    <div class="modal-body" style="max-height: 70vh; overflow-y: auto;">
         <div class="row">
             <div class="col-md-12 mt-2">
                 <div class="card">
@@ -40,8 +40,7 @@
                             style="position: relative; width: 100%; max-width: 100%; aspect-ratio: 16 / 9; overflow: hidden; background: #eee;">
                             <a href="{{ asset('storage/' . $lomba->foto_pamflet) }}" target="_blank">
                                 <img id="preview-pamflet" src="{{ asset('storage/' . $lomba->foto_pamflet) }}"
-                                    alt="Pamflet"
-                                    style="width: 100%; height: 100%; object-fit: contain; display: block;">
+                                    alt="Pamflet" style="width: 100%; height: 100%; object-fit: contain; display: block;">
                             </a>
                         </div>
                     </div>
@@ -60,6 +59,10 @@
             <tr>
                 <th class="text-right col-3">deskripsi lomba :</th>
                 <td class="col-9">{{ $lomba->lomba_deskripsi }}</td>
+            </tr>
+            <tr>
+                <th class="text-right col-3">Jumlah anggota :</th>
+                <td class="col-9">{{ $lomba->jumlah_anggota }}</td>
             </tr>
             <tr>
                 <th class="text-right col-3">Link Website terkait :</th>
@@ -86,6 +89,38 @@
                 <td class="col-9">{{ $lomba->tanggal_selesai }}</td>
             </tr>
         </table>
+
+
+        @if ($lomba->rekomendasi->count() > 0)
+            <h5 class="modal-title mt-5">Rekomendasi Mahasiswa</h5>
+            <table class="table table-sm table-bordered table-striped">
+                <thead>
+                    <tr>
+                        <th>No</th>
+                        <th>NIM</th>
+                        <th>Nama Mahasiswa</th>
+                        <th>Aksi</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach ($lomba->rekomendasi as $i => $rekomendasi)
+                        <tr>
+                            <td>{{ $i + 1 }}</td>
+                            <td>{{ $rekomendasi->mahasiswa->nim ?? '-' }}</td>
+                            <td>{{ $rekomendasi->mahasiswa->nama ?? '-' }}</td>
+                            <td>
+                                <button
+                                    onclick="modalAction('{{ url('/mahasiswa/' . $rekomendasi->mahasiswa->mahasiswa_id . '/show') }}')"
+                                    class="btn btn-info btn-sm mt-1 mb-1"><i class="fa fa-eye"></i>
+                                    Detail
+                                </button>
+                            </td>
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        @endif
+
     </div> {{-- End of modal-body --}}
 
     {{-- The modal-footer should be directly inside modal-content, after modal-body --}}

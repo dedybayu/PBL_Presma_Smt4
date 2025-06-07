@@ -39,6 +39,14 @@
     <div class="min-h-screen flex justify-center items-center text-gray-900 px-4">
         <div class="bg-white shadow-lg rounded-xl overflow-hidden flex w-full max-w-4xl">
             <div class="w-full md:w-1/2 p-8 space-y-6">
+                <a href="/">
+                    <button class="flex items-center text-blue-600 hover:text-blue-800 font-semibold">
+                        <svg class="w-5 h-5 mr-1" fill="none" stroke="currentColor" stroke-width="2"
+                            viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"></path>
+                        </svg>Kembali
+                    </button>
+                </a>
                 <div class="text-center">
                     <img src="../assets/images/presapp-logo.png" alt="Logo" class="w-28 mx-auto mb-4" />
                     <h1 class="text-2xl font-bold text-indigo-600">Selamat Datang</h1>
@@ -104,7 +112,7 @@
     </div>
 
     <script>
-        document.addEventListener("DOMContentLoaded", function () {
+        document.addEventListener("DOMContentLoaded", function() {
             const alertBox = document.getElementById("alert-2");
             const closeBtn = document.getElementById("close-alert");
 

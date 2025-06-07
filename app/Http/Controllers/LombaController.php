@@ -68,10 +68,6 @@ class LombaController extends Controller
                     </div>
                     ';
                 })
-                ->addColumn('deskripsi', function ($row) {
-                    // return collect(explode(' ', $row->lomba_deskripsi))->take(5)->implode(' ') . '...';
-                    return collect(explode(' ', $row->lomba_deskripsi))->take(3)->implode(' ') . '...';
-                })
                 ->addColumn('link', function ($row) {
                     // return collect(explode(' ', $row->lomba_deskripsi))->take(5)->implode(' ') . '...';
                     return collect(explode(' ', $row->link_website))->take(3)->implode(' ') . '...';
@@ -121,6 +117,7 @@ class LombaController extends Controller
             'tingkat_lomba_id' => 'required|exists:m_tingkat_lomba,tingkat_lomba_id',
             'bidang_keahlian_id' => 'required|exists:m_bidang_keahlian,bidang_keahlian_id',
             'penyelenggara_id' => 'required|exists:m_penyelenggara,penyelenggara_id',
+            'jumlah_anggota' => 'required|string|max:255',
             'tanggal_mulai' => 'required|date|date_format:Y-m-d',
             'tanggal_selesai' => 'required|date|date_format:Y-m-d',
             'foto_pamflet' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
@@ -162,11 +159,12 @@ class LombaController extends Controller
                 'tingkat_lomba_id' => $request->tingkat_lomba_id,
                 'bidang_keahlian_id' => $request->bidang_keahlian_id,
                 'penyelenggara_id' => $request->penyelenggara_id,
+                'jumlah_anggota' => $request->jumlah_anggota,
                 'tanggal_mulai' => $request->tanggal_mulai,
                 'tanggal_selesai' => $request->tanggal_selesai,
                 'foto_pamflet' => $imagePath,
                 'user_id' => auth()->user()->user_id,
-                'status_verifikasi' => 2
+                'status_verifikasi' => 1
             ]);
         } catch (\Throwable $e) {
             if (isset($lomba)) {
@@ -184,6 +182,7 @@ class LombaController extends Controller
 
     public function show(LombaModel $lomba)
     {
+        // dd($lomba->rekomendasi->mahasiswa);
         $tingkat = TingkatLombaModel::all();
         $bidang = BidangKeahlianModel::all();
         $penyelenggara = PenyelenggaraModel::all();
@@ -208,6 +207,7 @@ class LombaController extends Controller
             'tingkat_lomba_id' => 'required|exists:m_tingkat_lomba,tingkat_lomba_id',
             'bidang_keahlian_id' => 'required|exists:m_bidang_keahlian,bidang_keahlian_id',
             'penyelenggara_id' => 'required|exists:m_penyelenggara,penyelenggara_id',
+            'jumlah_anggota' => 'required|string|max:255',
             'tanggal_mulai' => 'required|date|date_format:Y-m-d',
             'tanggal_selesai' => 'required|date|date_format:Y-m-d',
             'foto_pamflet' => 'nullable|mimes:jpeg,png,jpg',
@@ -249,6 +249,7 @@ class LombaController extends Controller
             'tingkat_lomba_id' => $request->tingkat_lomba_id,
             'bidang_keahlian_id' => $request->bidang_keahlian_id,
             'penyelenggara_id' => $request->penyelenggara_id,
+            'jumlah_anggota' => $request->jumlah_anggota,
             'tanggal_mulai' => $request->tanggal_mulai,
             'tanggal_selesai' => $request->tanggal_selesai,
             'foto_pamflet' => $imagePath,

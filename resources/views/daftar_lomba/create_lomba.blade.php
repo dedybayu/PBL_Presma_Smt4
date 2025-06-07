@@ -61,6 +61,11 @@
             </select>
         </div>
         <div class="form-group">
+            <label for="link_website">Jumlah Anggota</label>
+            <input type="text" name="jumlah_anggota" id="jumlah_anggota" class="form-control">
+            <small id="error-jumlah_anggota" class="text-danger"></small>
+        </div>
+        <div class="form-group">
             <label for="tanggal_mulai">tanggal mulai</label>
             <input type="date" name="tanggal_mulai" id="tanggal_mulai" class="form-control">
             <small id="error-tanggal-mulai" class="text-danger"></small>

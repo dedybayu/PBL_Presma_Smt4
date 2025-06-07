@@ -53,7 +53,7 @@
 
 <body class="overflow-x-hidden antialiased">
     <!-- Header Section -->
-    <header class="sticky top-0 z-50 w-full h-16 bg-opacity-75">
+    <header class="sticky top-0 z-50 w-full h-24 md:h-16 bg-opacity-75">
         <div
             class="container flex items-center justify-center h-full max-w-6xl px-8 mx-auto sm:justify-between xl:px-0">
 
@@ -72,18 +72,15 @@
                 <a href="#testimonials" class="font-bold duration-100 transition-color hover:text-indigo-600">Bintang
                     Prestasi</a>
                 <div class="flex flex-col block w-full font-medium border-t border-gray-200 md:hidden">
-                    <a href="{{ route('login') }}" class="w-full py-2 font-bold text-center text-pink-500">Masuk</a>
                     <a href="{{ route('login') }}"
-                        class="relative inline-block w-full px-5 py-3 text-sm leading-none text-center text-white bg-indigo-700 fold-bold">Mulai</a>
+                        class="relative inline-block w-full px-5 py-3 text-sm leading-none text-center text-white bg-indigo-700 fold-bold">Masuk</a>
                 </div>
             </nav>
 
             <div
                 class="absolute left-0 flex-col items-center justify-center hidden w-full pb-8 mt-48 border-b border-gray-200 md:relative md:w-auto md:bg-transparent md:border-none md:mt-0 md:flex-row md:p-0 md:items-end md:flex md:justify-between">
                 <a href="{{ route('login') }}"
-                    class="relative z-40 px-3 py-2 mr-0 text-sm font-bold text-pink-500 md:px-5 lg:text-white sm:mr-3 md:mt-0">Masuk</a>
-                <a href="{{ route('login') }}"
-                    class="relative z-40 inline-block w-auto h-full px-5 py-3 text-sm font-bold leading-none text-white transition-all transition duration-100 duration-300 bg-indigo-700 rounded shadow-md fold-bold lg:bg-white lg:text-indigo-700 sm:w-full lg:shadow-none hover:shadow-xl">Mulai</a>
+                    class="relative z-40 inline-block w-auto h-full px-5 py-3 text-sm font-bold leading-none text-white transition-all transition duration-100 duration-300 bg-indigo-700 rounded shadow-md fold-bold lg:bg-white lg:text-indigo-700 sm:w-full lg:shadow-none hover:shadow-xl">Masuk</a>
 
             </div>
 
@@ -112,12 +109,14 @@
                     <stop stop-color="#657DE9" offset="0%" />
                     <stop stop-color="#1C0FD7" offset="100%" />
                 </linearGradient>
-                <filter x="-4.7%" y="-3.3%" width="109.3%" height="109.3%" filterUnits="objectBoundingBox" id="a">
+                <filter x="-4.7%" y="-3.3%" width="109.3%" height="109.3%" filterUnits="objectBoundingBox"
+                    id="a">
                     <feOffset dy="8" in="SourceAlpha" result="shadowOffsetOuter1" />
                     <feGaussianBlur stdDeviation="8" in="shadowOffsetOuter1" result="shadowBlurOuter1" />
                     <feColorMatrix values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.15 0" in="shadowBlurOuter1" />
                 </filter>
-                <filter x="-4.7%" y="-3.3%" width="109.3%" height="109.3%" filterUnits="objectBoundingBox" id="d">
+                <filter x="-4.7%" y="-3.3%" width="109.3%" height="109.3%" filterUnits="objectBoundingBox"
+                    id="d">
                     <feOffset dy="8" in="SourceAlpha" result="shadowOffsetOuter1" />
                     <feGaussianBlur stdDeviation="8" in="shadowOffsetOuter1" result="shadowBlurOuter1" />
                     <feColorMatrix values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.2 0" in="shadowBlurOuter1" />
@@ -155,12 +154,13 @@
                 <p class="pr-0 mb-8 text-base text-gray-600 sm:text-lg xl:text-xl lg:pr-20">Apakah Anda siap untuk
                     memulai perjalanan Anda dan mulai melacak prestasi akademik terbaik Anda?</p>
                 <a href="#_"
-                    class="relative self-start inline-block w-auto px-8 py-4 mx-auto mt-0 text-base font-bold text-white bg-indigo-600 border-t border-gray-200 rounded-md shadow-xl sm:mt-1 fold-bold lg:mx-0">Daftar
-                    Hari Ini!</a>
+                    class="relative self-start inline-block w-auto px-8 py-4 mx-auto mt-0 text-base font-bold text-white bg-indigo-600 border-t border-gray-200 rounded-md shadow-xl sm:mt-1 fold-bold lg:mx-0">
+                    Mulai Sekarang</a>
                 <svg class="absolute left-0 max-w-md mt-24 -ml-64 left-svg" viewBox="0 0 423 423"
                     xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
                     <defs>
-                        <linearGradient x1="100%" y1="0%" x2="4.48%" y2="0%" id="linearGradient-1">
+                        <linearGradient x1="100%" y1="0%" x2="4.48%" y2="0%"
+                            id="linearGradient-1">
                             <stop stop-color="#5C54DB" offset="0%" />
                             <stop stop-color="#6A82E7" offset="100%" />
                         </linearGradient>
@@ -172,7 +172,8 @@
                         </filter>
                         <rect id="path-2" x="63" y="504" width="300" height="300" rx="40" />
                     </defs>
-                    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" opacity=".9">
+                    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"
+                        opacity=".9">
                         <g id="Desktop-HD" transform="translate(-39 -531)">
                             <g id="Hero" transform="translate(43 83)">
                                 <g id="Rectangle-6" transform="rotate(45 213 654)">
@@ -186,7 +187,7 @@
             </div>
             <div class="relative z-10 flex flex-col items-end justify-center w-full h-full lg:w-1/2 ms:pl-10">
                 <div class="container relative left-0 w-full max-w-4xl lg:absolute xl:max-w-6xl lg:w-screen">
-                    <img src="https://cdn.devdojo.com/images/september2020/macbook-mockup.png"
+                    <img src="{{asset('assets/images/macbook-mockup.png')}}"
                         class="w-full h-auto mt-20 mb-20 ml-0 lg:mt-24 xl:mt-40 lg:mb-0 lg:h-full lg:-ml-12">
                 </div>
             </div>
@@ -219,12 +220,13 @@
                         <svg class="relative w-20 h-20" viewBox="0 0 58 58" xmlns="http://www.w3.org/2000/svg"
                             xmlns:xlink="http://www.w3.org/1999/xlink">
                             <defs>
-                                <linearGradient x1="0%" y1="0%" x2="100%" y2="100%" id="linearGradient-1TriangleIcon1">
+                                <linearGradient x1="0%" y1="0%" x2="100%" y2="100%"
+                                    id="linearGradient-1TriangleIcon1">
                                     <stop stop-color="#9C09DB" offset="0%" />
                                     <stop stop-color="#1C0FD7" offset="100%" />
                                 </linearGradient>
-                                <filter x="-14%" y="-10%" width="128%" height="128%" filterUnits="objectBoundingBox"
-                                    id="filter-3TriangleIcon1">
+                                <filter x="-14%" y="-10%" width="128%" height="128%"
+                                    filterUnits="objectBoundingBox" id="filter-3TriangleIcon1">
                                     <feOffset dy="2" in="SourceAlpha" result="shadowOffsetOuter1" />
                                     <feGaussianBlur stdDeviation="2" in="shadowOffsetOuter1"
                                         result="shadowBlurOuter1" />
@@ -236,7 +238,8 @@
                                     d="M17.947 0h14.106c6.24 0 8.503.65 10.785 1.87a12.721 12.721 0 015.292 5.292C49.35 9.444 50 11.707 50 17.947v14.106c0 6.24-.65 8.503-1.87 10.785a12.721 12.721 0 01-5.292 5.292C40.556 49.35 38.293 50 32.053 50H17.947c-6.24 0-8.503-.65-10.785-1.87a12.721 12.721 0 01-5.292-5.292C.65 40.556 0 38.293 0 32.053V17.947c0-6.24.65-8.503 1.87-10.785A12.721 12.721 0 017.162 1.87C9.444.65 11.707 0 17.947 0z"
                                     id="path-2TriangleIcon1" />
                             </defs>
-                            <g id="Page-1TriangleIcon1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                            <g id="Page-1TriangleIcon1" stroke="none" stroke-width="1" fill="none"
+                                fill-rule="evenodd">
                                 <g id="Desktop-HDTriangleIcon1" transform="translate(-291 -1278)">
                                     <g id="FeaturesTriangleIcon1" transform="translate(170 915)">
                                         <g id="Group-9TriangleIcon1" transform="translate(0 365)">
@@ -262,7 +265,8 @@
                         <h4 class="relative mt-6 text-lg font-bold">Manajemen Data Lomba</h4>
                         <p class="relative mt-2 text-base text-center text-gray-600">Mendaftar lomba, melihat kategori
                             lomba, dan melihat rekomendasi pembimbing</p>
-                        <a href="#_" class="relative flex mt-2 text-sm font-medium text-indigo-500 underline">Pelajari
+                        <a href="#_"
+                            class="relative flex mt-2 text-sm font-medium text-indigo-500 underline">Pelajari
                             Lebih Lanjut</a>
                     </div>
                 </div>
@@ -282,12 +286,13 @@
                         <svg class="relative w-20 h-20" viewBox="0 0 58 58" xmlns="http://www.w3.org/2000/svg"
                             xmlns:xlink="http://www.w3.org/1999/xlink">
                             <defs>
-                                <linearGradient x1="0%" y1="0%" x2="100%" y2="100%" id="linearGradient-1Icon2">
+                                <linearGradient x1="0%" y1="0%" x2="100%" y2="100%"
+                                    id="linearGradient-1Icon2">
                                     <stop stop-color="#F2C314" offset="0%" />
                                     <stop stop-color="#FC3832" offset="100%" />
                                 </linearGradient>
-                                <filter x="-14%" y="-10%" width="128%" height="128%" filterUnits="objectBoundingBox"
-                                    id="filter-3Icon2">
+                                <filter x="-14%" y="-10%" width="128%" height="128%"
+                                    filterUnits="objectBoundingBox" id="filter-3Icon2">
                                     <feOffset dy="2" in="SourceAlpha" result="shadowOffsetOuter1" />
                                     <feGaussianBlur stdDeviation="2" in="shadowOffsetOuter1"
                                         result="shadowBlurOuter1" />
@@ -307,10 +312,11 @@
                                                 <g id="Rectangle-9Icon2">
                                                     <use fill="#000" filter="url(#filter-3Icon2)"
                                                         xlink:href="#path-2Icon2" />
-                                                    <use fill="url(#linearGradient-1Icon2)" xlink:href="#path-2Icon2" />
+                                                    <use fill="url(#linearGradient-1Icon2)"
+                                                        xlink:href="#path-2Icon2" />
                                                 </g>
-                                                <g id="machine-learningIcon2" transform="translate(14 12)" fill="#FFF"
-                                                    fill-rule="nonzero">
+                                                <g id="machine-learningIcon2" transform="translate(14 12)"
+                                                    fill="#FFF" fill-rule="nonzero">
                                                     <path
                                                         d="M10.554 21.418v-2.68c-1.1-.204-1.932-1.143-1.932-2.271 0-.468.143-.903.388-1.267l-2.32-1.662L4.367 15.2a2.254 2.254 0 01-.005 2.541l5.28 4.05c.268-.182.577-.311.911-.373zm.892 0c.334.062.643.191.912.373l5.28-4.05a2.254 2.254 0 01-.006-2.54l-2.321-1.663L12.99 15.2c.245.364.388.8.388 1.267 0 1.128-.832 2.067-1.932 2.27v2.681zm1.538.997c.25.365.394.803.394 1.274C13.378 24.965 12.314 26 11 26s-2.378-1.035-2.378-2.311c0-.471.145-.91.394-1.274l-5.28-4.05c-.385.26-.853.413-1.358.413C1.065 18.778 0 17.743 0 16.467c0-1.129.832-2.068 1.932-2.27v-2.393C.832 11.6 0 10.662 0 9.534c0-1.277 1.065-2.312 2.378-2.312.505 0 .973.153 1.358.414l5.28-4.05a2.254 2.254 0 01-.394-1.275C8.622 1.035 9.686 0 11 0s2.378 1.035 2.378 2.311c0 .471-.145.91-.394 1.274l5.28 4.05c.385-.26.853-.413 1.358-.413C20.935 7.222 22 8.257 22 9.533c0 1.129-.832 2.068-1.932 2.27v2.393c1.1.203 1.932 1.142 1.932 2.27 0 1.277-1.065 2.312-2.378 2.312-.505 0-.973-.153-1.358-.414l-5.28 4.05zm-9.243-7.843L5.937 13l-2.196-1.572c-.27.183-.58.314-.917.376v2.392c.336.062.647.193.917.376zm.627-3.772l2.321 1.662L9.01 10.8a2.254 2.254 0 01-.388-1.267c0-1.128.832-2.067 1.932-2.27V4.582a2.403 2.403 0 01-.912-.373l-5.28 4.05a2.254 2.254 0 01.006 2.54zm13.89 3.772c.27-.183.582-.314.918-.376v-2.392a2.403 2.403 0 01-.917-.376L16.063 13l2.196 1.572zm-.62-6.313l-5.28-4.05a2.403 2.403 0 01-.912.373v2.68c1.1.204 1.932 1.143 1.932 2.271 0 .468-.143.903-.388 1.267l2.32 1.662 2.322-1.662a2.254 2.254 0 01.005-2.541zm-8 6.313A2.415 2.415 0 0111 14.156c.507 0 .977.154 1.363.416L14.559 13l-2.196-1.572a2.415 2.415 0 01-1.363.416c-.507 0-.977-.154-1.363-.416L7.441 13l2.196 1.572zM11 10.978c.821 0 1.486-.647 1.486-1.445 0-.797-.665-1.444-1.486-1.444s-1.486.647-1.486 1.444c0 .798.665 1.445 1.486 1.445zm0 6.933c.821 0 1.486-.647 1.486-1.444 0-.798-.665-1.445-1.486-1.445s-1.486.647-1.486 1.445c0 .797.665 1.444 1.486 1.444zm8.622-6.933c.82 0 1.486-.647 1.486-1.445 0-.797-.665-1.444-1.486-1.444s-1.487.647-1.487 1.444c0 .798.666 1.445 1.487 1.445zm0 6.933c.82 0 1.486-.647 1.486-1.444 0-.798-.665-1.445-1.486-1.445s-1.487.647-1.487 1.445c0 .797.666 1.444 1.487 1.444zM2.378 10.978c.821 0 1.487-.647 1.487-1.445 0-.797-.666-1.444-1.487-1.444-.82 0-1.486.647-1.486 1.444 0 .798.665 1.445 1.486 1.445zm0 6.933c.821 0 1.487-.647 1.487-1.444 0-.798-.666-1.445-1.487-1.445-.82 0-1.486.647-1.486 1.445 0 .797.665 1.444 1.486 1.444zM11 25.133c.821 0 1.486-.646 1.486-1.444 0-.798-.665-1.445-1.486-1.445s-1.486.647-1.486 1.445.665 1.444 1.486 1.444zm0-21.377c.821 0 1.486-.647 1.486-1.445S11.821.867 11 .867s-1.486.646-1.486 1.444c0 .798.665 1.445 1.486 1.445z"
                                                         id="ShapeIcon2" />
@@ -324,7 +330,8 @@
                         <h4 class="relative mt-6 text-lg font-bold">Verifikasi Data</h4>
                         <p class="relative mt-2 text-base text-center text-gray-600">Mengajukan verifikasi data oleh
                             mahasiswa dan melakukan verifikasi data oleh admin</p>
-                        <a href="#_" class="relative flex mt-2 text-sm font-medium text-indigo-500 underline">Pelajari
+                        <a href="#_"
+                            class="relative flex mt-2 text-sm font-medium text-indigo-500 underline">Pelajari
                             Lebih Lanjut</a>
                     </div>
                 </div>
@@ -344,12 +351,13 @@
                         <svg class="relative w-20 h-20" viewBox="0 0 58 58" xmlns="http://www.w3.org/2000/svg"
                             xmlns:xlink="http://www.w3.org/1999/xlink">
                             <defs>
-                                <linearGradient x1="0%" y1="0%" x2="100%" y2="100%" id="linearGradient-1Icon3">
+                                <linearGradient x1="0%" y1="0%" x2="100%" y2="100%"
+                                    id="linearGradient-1Icon3">
                                     <stop stop-color="#32FBFC" offset="0%" />
                                     <stop stop-color="#3214F2" offset="100%" />
                                 </linearGradient>
-                                <filter x="-14%" y="-10%" width="128%" height="128%" filterUnits="objectBoundingBox"
-                                    id="filter-3Icon3">
+                                <filter x="-14%" y="-10%" width="128%" height="128%"
+                                    filterUnits="objectBoundingBox" id="filter-3Icon3">
                                     <feOffset dy="2" in="SourceAlpha" result="shadowOffsetOuter1" />
                                     <feGaussianBlur stdDeviation="2" in="shadowOffsetOuter1"
                                         result="shadowBlurOuter1" />
@@ -369,7 +377,8 @@
                                                 <g id="Rectangle-9Icon3">
                                                     <use fill="#000" filter="url(#filter-3Icon3)"
                                                         xlink:href="#path-2Icon3" />
-                                                    <use fill="url(#linearGradient-1Icon3)" xlink:href="#path-2Icon3" />
+                                                    <use fill="url(#linearGradient-1Icon3)"
+                                                        xlink:href="#path-2Icon3" />
                                                 </g>
                                                 <g id="smart-notificationsIcon3" transform="translate(15 11)"
                                                     fill="#FFF" fill-rule="nonzero">
@@ -386,7 +395,8 @@
                         <h4 class="relative mt-6 text-lg font-bold">Laporan & Analisis</h4>
                         <p class="relative mt-2 text-base text-center text-gray-600">Melihat laporan prestasi, melihat
                             statistik serta grafik, dan ekspor data</p>
-                        <a href="#_" class="relative flex mt-2 text-sm font-medium text-indigo-500 underline">Pelajari
+                        <a href="#_"
+                            class="relative flex mt-2 text-sm font-medium text-indigo-500 underline">Pelajari
                             Lebih Lanjut</a>
                     </div>
                 </div>
@@ -401,7 +411,8 @@
         data-aos="fade-up" data-aos-delay="400">
         <div class="max-w-6xl mx-auto">
             <div class="flex-col items-center ">
-                <div class="flex flex-col items-center justify-center w-full h-full max-w-2xl pr-8 mx-auto text-center">
+                <div
+                    class="flex flex-col items-center justify-center w-full h-full max-w-2xl pr-8 mx-auto text-center">
                     <p class="my-5 text-base font-medium tracking-tight text-indigo-500 uppercase">MAHASISWA UNGGUL
                     </p>
                     <h2
@@ -411,19 +422,21 @@
                     </p>
 
                 </div>
-                <div class="flex flex-col items-center justify-center max-w-2xl py-8 mx-auto xl:flex-row xl:max-w-full">
+                <div
+                    class="flex flex-col items-center justify-center max-w-2xl py-8 mx-auto xl:flex-row xl:max-w-full">
                     <div class="w-full xl:w-1/2 xl:pr-8">
                         <blockquote
                             class="flex flex-col-reverse items-center justify-between w-full col-span-1 p-6 text-center transition-all duration-200 bg-gray-100 rounded-lg md:flex-row md:text-left hover:bg-white hover:shadow ease">
                             <div class="flex flex-col pr-8">
                                 <div class="relative pl-12">
-                                    <p class="mt-2 text-base text-gray-600">Juara 1 Lomba Makan Kelereng Tingkat Dunia
+                                    <p class="mt-2 text-base text-gray-600">Juara  Lomba Makan Kelereng Tingkat Dunia
                                         Lain
                                     </p>
                                 </div>
 
-                                <h3 class="pl-12 mt-3 text-base font-medium leading-5 text-gray-800 truncate">ZiGal<span
-                                        class="mt-1 text-sm leading-5 text-gray-500 truncate">- TI-2B</span></h3>
+                                <h3 class="pl-12 mt-3 text-base font-medium leading-5 text-gray-800 truncate">
+                                    ZiGal<span class="mt-1 text-sm leading-5 text-gray-500 truncate">- TI-2B</span>
+                                </h3>
                                 <p class="mt-1 text-sm leading-5 text-gray-500 truncate"></p>
                             </div>
                             <img class="flex-shrink-0 object-cover w-35 h-35 mb-5 bg-gray-300 rounded-full md:mb-0"
@@ -470,7 +483,8 @@
                                 </div>
 
                                 <h3 class="pl-12 mt-3 text-base font-medium leading-5 text-gray-800 truncate">Mei-Mei
-                                    <span class="mt-1 text-sm leading-5 text-gray-500 truncate">- TI-2B</span></h3>
+                                    <span class="mt-1 text-sm leading-5 text-gray-500 truncate">- TI-2B</span>
+                                </h3>
                                 <p class="mt-1 text-sm leading-5 text-gray-500 truncate"></p>
                             </div>
                             <img class="flex-shrink-0 object-cover w-35 h-35 mb-5 bg-gray-300 rounded-full md:mb-0"
@@ -513,7 +527,8 @@
                     <li><a href="#_"
                             class="inline-block px-3 py-2 text-gray-500 no-underline hover:text-gray-600">Privacy</a>
                     </li>
-                    <li><a href="#_" class="inline-block px-3 py-2 text-gray-500 no-underline hover:text-gray-600">Terms
+                    <li><a href="#_"
+                            class="inline-block px-3 py-2 text-gray-500 no-underline hover:text-gray-600">Terms
                             of
                             Service</a></li>
                 </ul>
@@ -559,19 +574,19 @@
             once: true // Mencegah animasi ulang saat scroll kembali
         });
 
-        window.addEventListener("scroll", function () {
+        window.addEventListener("scroll", function() {
             var header = document.querySelector("header");
             if (window.scrollY > 0) {
                 // header.classList.add("bg-blue-400");  // Menambahkan background biru
-                header.style.backgroundColor = "rgba(59, 130, 246, 0.8)";  // Set background dengan transparansi
+                header.style.backgroundColor = "rgba(59, 130, 246, 0.8)"; // Set background dengan transparansi
             } else {
                 // header.classList.remove("bg-blue-400");  // Menghapus background biru
-                header.style.backgroundColor = "rgba(59, 130, 246, 0)";  // Menghapus transparansi (full transparan)
+                header.style.backgroundColor = "rgba(59, 130, 246, 0)"; // Menghapus transparansi (full transparan)
             }
 
         });
         if (document.getElementById('nav-mobile-btn')) {
-            document.getElementById('nav-mobile-btn').addEventListener('click', function () {
+            document.getElementById('nav-mobile-btn').addEventListener('click', function() {
                 if (this.classList.contains('close')) {
                     document.getElementById('nav').classList.add('hidden');
                     this.classList.remove('close');

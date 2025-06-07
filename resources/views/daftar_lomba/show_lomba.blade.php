@@ -16,10 +16,10 @@
     </x-slot:title>
 
     @php
-        $bgColor = match($lomba->status_verifikasi) {
-            '1' => 'rgba(0, 255, 85, 0.144)',    // Hijau
-            '0' => 'rgba(255, 0, 0, 0.144)',     // Merah
-            default => 'rgba(255, 251, 0, 0.144)' // Kuning
+        $bgColor = match ($lomba->status_verifikasi) {
+            '1' => 'rgba(0, 255, 85, 0.144)', // Hijau
+            '0' => 'rgba(255, 0, 0, 0.144)', // Merah
+            default => 'rgba(255, 251, 0, 0.144)', // Kuning
         };
     @endphp
 
@@ -65,6 +65,10 @@
                     <td class="col-9">{{ $lomba->penyelenggara->penyelenggara_nama ?? '-' }}</td>
                 </tr>
                 <tr>
+                    <th class="text-right col-3">Jumlah Anggota:</th>
+                    <td class="col-9">{{ $lomba->jumlah_anggota ?? '-' }}</td>
+                </tr>
+                <tr>
                     <th class="text-right col-3">Tingkat Lomba:</th>
                     <td class="col-9">{{ $lomba->tingkat->tingkat_lomba_nama ?? '-' }}</td>
                 </tr>
@@ -90,27 +94,31 @@
             <div class="mt-4">
                 <h5>Pamflet Lomba</h5>
                 @if ($lomba->foto_pamflet && file_exists(public_path('storage/' . $lomba->foto_pamflet)))
-                    <img src="{{ asset('storage/' . $lomba->foto_pamflet) }}"
-                         alt="Pamflet Lomba"
-                         style="max-width: 100%; height: auto; border: 1px solid #ccc; padding: 4px; border-radius: 8px;">
+                    <img src="{{ asset('storage/' . $lomba->foto_pamflet) }}" alt="Pamflet Lomba"
+                        style="max-width: 100%; height: auto; border: 1px solid #ccc; padding: 4px; border-radius: 8px;">
                 @else
                     <p class="text-muted">Pamflet tidak tersedia</p>
                 @endif
             </div>
 
-            <div class="d-flex justify-content-between mt-4">
-                <a href="{{ route('daftar_lomba.index') }}" class="btn btn-primary"><i class="fa fa-arrow-left"></i> Kembali</a>
-                <div>
-                    <a href="{{ route('daftar_lomba.edit', $lomba->lomba_id) }}" class="btn btn-success"><i class="fa fa-edit"></i> Edit</a>
-                    <button onclick="modalDelete('{{ route('daftar_lomba.confirm', $lomba->lomba_id) }}')" class="btn btn-danger"><i class="fa fa-trash"></i> Hapus</button>
+            @if (auth()->user()->user_id == $lomba->user_id)
+                <div class="d-flex justify-content-between mt-4">
+                    <a href="{{ route('daftar_lomba.index') }}" class="btn btn-primary"><i
+                            class="fa fa-arrow-left"></i> Kembali</a>
+                    <div>
+                        <a href="{{ route('daftar_lomba.edit', $lomba->lomba_id) }}" class="btn btn-success"><i
+                                class="fa fa-edit"></i> Edit</a>
+                        <button onclick="modalDelete('{{ route('daftar_lomba.confirm', $lomba->lomba_id) }}')"
+                            class="btn btn-danger"><i class="fa fa-trash"></i> Hapus</button>
+                    </div>
                 </div>
-            </div>
+            @endif
         </div>
     </div>
 
     <x-slot:modal>
-        <div id="modal-delete" class="modal fade animate shake" tabindex="-1" role="dialog"
-             data-backdrop="static" data-keyboard="false" aria-hidden="true">
+        <div id="modal-delete" class="modal fade animate shake" tabindex="-1" role="dialog" data-backdrop="static"
+            data-keyboard="false" aria-hidden="true">
             <div class="modal-dialog modal-xs" role="document">
                 <div class="modal-content"></div>
             </div>
@@ -121,13 +129,13 @@
         <script>
             function modalDelete(url) {
                 $("#modal-delete .modal-content").html("");
-                $.get(url, function (response) {
+                $.get(url, function(response) {
                     $("#modal-delete .modal-content").html(response);
                     $("#modal-delete").modal("show");
                 });
             }
 
-            $('#modal-delete').on('hidden.bs.modal', function () {
+            $('#modal-delete').on('hidden.bs.modal', function() {
                 $("#modal-delete .modal-content").html("");
             });
         </script>

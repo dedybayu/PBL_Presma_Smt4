@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Validator;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use Yajra\DataTables\DataTables;
+use Illuminate\Support\Facades\Log;
 
 class MahasiswaController extends Controller
 {
@@ -113,7 +114,7 @@ class MahasiswaController extends Controller
             // dd($request->file('foto_profile'));
 
             $rules = [
-                'username' => 'required|max:20|unique:m_user,username',
+                'username' => 'required|unique:m_user,username',
                 'nama' => 'required|max:100',
                 'email' => 'required|email|unique:m_mahasiswa,email',
                 'no_tlp' => 'nullable|max:20',
@@ -122,6 +123,7 @@ class MahasiswaController extends Controller
                 'kelas_id' => 'required',
                 'alamat' => 'nullable',
                 'foto_profile' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+                'ipk' => 'required|numeric',
                 'password' => 'nullable|min:6|max:20'
             ];
             $validator = Validator::make($request->all(), $rules);
@@ -185,6 +187,7 @@ class MahasiswaController extends Controller
                 'no_tlp' => $request->no_tlp,
                 'alamat' => $request->alamat,
                 'tahun_angkatan' => $request->tahun_angkatan,
+                'ipk' => $request->ipk,
                 'foto_profile' => $imagePath
             ];
 
@@ -215,8 +218,8 @@ class MahasiswaController extends Controller
     {
         // $mahasiswa = MahasiswaModel::find($id);
 
-        $kelas = KelasModel::select('kelas_id', 'kelas_nama');
-        $prodi = ProdiModel::select('prodi_id', 'prodi_nama');
+        $kelas = KelasModel::select('kelas_id', 'kelas_nama', 'prodi_id')->get();
+        $prodi = ProdiModel::select('prodi_id', 'prodi_nama')->get();
         return view('admin.mahasiswa.edit_mahasiswa')->with(['kelas' => $kelas, 'prodi' => $prodi, 'mahasiswa' => $mahasiswa]);
     }
 
@@ -232,6 +235,14 @@ class MahasiswaController extends Controller
             $rules = [
                 'username' => 'required|max:20|unique:m_user,username,' . $mahasiswa->user->user_id . ',user_id',
                 'nama' => 'required|max:100',
+                'email' => 'required|email|unique:m_mahasiswa,email,' . $mahasiswa->mahasiswa_id . ',mahasiswa_id',
+                'no_tlp' => 'nullable|max:20',
+                'nim' => 'required|unique:m_mahasiswa,nim,' . $mahasiswa->mahasiswa_id . ',mahasiswa_id',
+                'prodi_id' => 'required',
+                'kelas_id' => 'required',
+                'alamat' => 'nullable',
+                'foto_profile' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+                'ipk' => 'required|numeric',
                 'password' => 'nullable|min:6|max:20'
             ];
             $validator = Validator::make($request->all(), $rules);
@@ -310,6 +321,8 @@ class MahasiswaController extends Controller
                     'no_tlp' => $request->no_tlp,
                     'alamat' => $request->alamat,
                     'tahun_angkatan' => $request->tahun_angkatan,
+                    'kelas_id' => $request->kelas_id,
+                    'ipk' => $request->ipk,
                     'foto_profile' => $imagePath
                 ];
                 $mahasiswa->update($data_mahasiswa);
@@ -359,139 +372,143 @@ class MahasiswaController extends Controller
 
     
     public function import()
-{
-    return view('admin.mahasiswa.import_mahasiswa');
-}
+    {
+        return view('admin.mahasiswa.import_mahasiswa');
+    }
 
-public function import_ajax(Request $request)
-{
-    if ($request->ajax() || $request->wantsJson()) {
-        $rules = [
-            'file_mahasiswa' => ['required', 'mimes:xlsx', 'max:1024']
-        ];
+    public function import_ajax(Request $request)
+    {
+        if ($request->ajax() || $request->wantsJson()) {
+            $rules = [
+                'file_mahasiswa' => ['required', 'mimes:xlsx', 'max:1024']
+            ];
 
-        $validator = Validator::make($request->all(), $rules);
-        if ($validator->fails()) {
-            return response()->json([
-                'status' => false,
-                'message' => 'Validasi gagal saat upload file.',
-                'msgField' => $validator->errors()
-            ]);
-        }
+            $validator = Validator::make($request->all(), $rules);
+            if ($validator->fails()) {
+                return response()->json([
+                    'status' => false,
+                    'message' => 'Validasi gagal saat upload file.',
+                    'msgField' => $validator->errors()
+                ]);
+            }
 
-        $file = $request->file('file_mahasiswa');
-        $reader = IOFactory::createReader('Xlsx');
-        $reader->setReadDataOnly(true);
-        $spreadsheet = $reader->load($file->getRealPath());
-        $sheet = $spreadsheet->getActiveSheet();
-        $data = $sheet->toArray(null, false, true, true);
+            $file = $request->file('file_mahasiswa');
+            $reader = IOFactory::createReader('Xlsx');
+            $reader->setReadDataOnly(true);
+            $spreadsheet = $reader->load($file->getRealPath());
+            $sheet = $spreadsheet->getActiveSheet();
+            $data = $sheet->toArray(null, false, true, true);
 
-        $inserted = 0;
-        $levelId = \App\Models\LevelModel::where('level_kode', 'MHS')->value('level_id');
+            $inserted = 0;
+            $levelId = \App\Models\LevelModel::where('level_kode', 'MHS')->value('level_id');
 
-        if (count($data) > 1) {
-            foreach ($data as $baris => $value) {
-                if ($baris == 1) continue; // Header
+            if (count($data) > 1) {
+                foreach ($data as $baris => $value) {
+                    if ($baris == 1) continue; // Header
 
-                try {
-                    $user = UserModel::create([
-                        'username' => trim($value['A']),
-                        'password' => bcrypt(trim($value['B'])),
-                        'level_id' => 1,
-                        'created_at' => now()
-                    ]);
+                    try {
+                        $user = UserModel::create([
+                            'username' => trim($value['A']),
+                            'password' => bcrypt(trim($value['B'])),
+                            'level_id' => $levelId,
+                            'created_at' => now()
+                        ]);
 
-                    MahasiswaModel::create([
-                        'user_id' => $user->user_id,
-                        'tahun_angkatan' => trim($value['C']),
-                        'nim' => trim($value['D']),
-                        'nama' => trim($value['E']),
-                        'email' => trim($value['F']),
-                        'no_tlp' => trim($value['G']),
-                        'alamat' => trim($value['H']),
-                        'kelas_id' => trim($value['I']),
-                        'foto_profile' => null // Tidak bisa upload gambar via Excel
-                    ]);
+                        MahasiswaModel::create([
+                            'user_id' => $user->user_id,
+                            'nim' => trim($value['C']),
+                            'nama' => trim($value['D']),
+                            'email' => trim($value['E']),
+                            'no_tlp' => trim($value['F']),
+                            'alamat' => trim($value['G']),
+                            'tahun_angkatan' => trim($value['H']),
+                            'kelas_id' => trim($value['I']),
+                            'ipk' => isset($value['J']) ? (float)trim($value['J']) : null,
+                            'foto_profile' => null
+                        ]);
 
-                    $inserted++;
-                } catch (\Exception $e) {
-                    continue; // Skip error, lanjut baris berikutnya
+                        $inserted++;
+                    } catch (\Exception $e) {
+                        Log::error("Import gagal di baris {$baris}: " . $e->getMessage());
+                        continue; // Skip error, lanjut baris berikutnya
+                    }
                 }
+
+                return response()->json([
+                    'status' => true,
+                    'message' => "Import selesai. Total data disimpan: $inserted"
+                ]);
             }
 
             return response()->json([
-                'status' => true,
-                'message' => "Import selesai. Total data disimpan: $inserted"
+                'status' => false,
+                'message' => 'Tidak ada data pada file.'
             ]);
         }
 
-        return response()->json([
-            'status' => false,
-            'message' => 'Tidak ada data pada file.'
-        ]);
+        return redirect('/');
     }
 
-    return redirect('/');
-}
+    public function export_excel()
+    {
+        $mahasiswa = MahasiswaModel::with(['user', 'kelas'])->orderBy('mahasiswa_id')->get();
 
-public function export_excel()
-{
-    $mahasiswa = MahasiswaModel::with(['user', 'kelas'])->orderBy('mahasiswa_id')->get();
+        $spreadsheet = new Spreadsheet();
+        $sheet = $spreadsheet->getActiveSheet();
 
-    $spreadsheet = new Spreadsheet();
-    $sheet = $spreadsheet->getActiveSheet();
+        // Header
+        $sheet->setCellValue('A1', 'No');
+        $sheet->setCellValue('B1', 'Username');
+        $sheet->setCellValue('C1', 'Password'); // tidak diekspor, hanya dummy
+        $sheet->setCellValue('D1', 'NIM');
+        $sheet->setCellValue('E1', 'Nama');
+        $sheet->setCellValue('F1', 'Email');
+        $sheet->setCellValue('G1', 'No Telepon');
+        $sheet->setCellValue('H1', 'Alamat');
+        $sheet->setCellValue('I1', 'Tahun Angkatan');
+        $sheet->setCellValue('J1', 'Kelas');
+        $sheet->setCellValue('K1', 'IPK');
 
-    // Header
-    $sheet->setCellValue('A1', 'No');
-    $sheet->setCellValue('B1', 'Username');
-    $sheet->setCellValue('C1', 'Password'); // tidak diekspor, hanya dummy
-    $sheet->setCellValue('D1', 'NIM');
-    $sheet->setCellValue('E1', 'Nama');
-    $sheet->setCellValue('F1', 'Email');
-    $sheet->setCellValue('G1', 'No Telepon');
-    $sheet->setCellValue('H1', 'Alamat');
-    $sheet->setCellValue('I1', 'Tahun Angkatan');
-    $sheet->setCellValue('J1', 'Kelas');
+        $sheet->getStyle('A1:K1')->getFont()->setBold(true);
 
-    $sheet->getStyle('A1:K1')->getFont()->setBold(true);
+        $baris = 2;
+        $no = 1;
+        foreach ($mahasiswa as $m) {
+            $sheet->setCellValue("A$baris", $no++);
+            $sheet->setCellValue("B$baris", $m->user->username ?? '-');
+            $sheet->setCellValue("C$baris", '********'); // Password disembunyikan
+            $sheet->setCellValue("D$baris", $m->nim);
+            $sheet->setCellValue("E$baris", $m->nama);
+            $sheet->setCellValue("F$baris", $m->email);
+            $sheet->setCellValue("G$baris", $m->no_tlp);
+            $sheet->setCellValue("H$baris", $m->alamat);
+            $sheet->setCellValue("I$baris", $m->tahun_angkatan);
+            $sheet->setCellValue("J$baris", $m->kelas->kelas_nama ?? '-');
+            $sheet->setCellValue("K$baris", $m->ipk ?? '-');
+            $baris++;
+        }
 
-    $baris = 2;
-    $no = 1;
-    foreach ($mahasiswa as $m) {
-        $sheet->setCellValue("A$baris", $no++);
-        $sheet->setCellValue("B$baris", $m->user->username ?? '-');
-        $sheet->setCellValue("C$baris", '********'); // Password disembunyikan
-        $sheet->setCellValue("D$baris", $m->nim);
-        $sheet->setCellValue("E$baris", $m->nama);
-        $sheet->setCellValue("F$baris", $m->email);
-        $sheet->setCellValue("G$baris", $m->no_tlp);
-        $sheet->setCellValue("H$baris", $m->alamat);
-        $sheet->setCellValue("I$baris", $m->tahun_angkatan);
-        $sheet->setCellValue("J$baris", $m->kelas->kelas_nama ?? '-');
-        $baris++;
+        // Auto width
+        foreach (range('A', 'K') as $col) {
+            $sheet->getColumnDimension($col)->setAutoSize(true);
+        }
+
+        $filename = 'Data_Mahasiswa_' . date('Y-m-d_H-i-s') . '.xlsx';
+
+        // Bersihkan output buffer
+        if (ob_get_length()) {
+            ob_end_clean();
+        }
+
+        // Header untuk download
+        header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+        header("Content-Disposition: attachment; filename=\"$filename\"");
+        header('Cache-Control: max-age=0');
+
+        // Simpan file ke output
+        $writer = \PhpOffice\PhpSpreadsheet\IOFactory::createWriter($spreadsheet, 'Xlsx');
+        $writer->save('php://output');
+        exit;
     }
-
-    // Auto width
-    foreach (range('A', 'K') as $col) {
-        $sheet->getColumnDimension($col)->setAutoSize(true);
-    }
-
-    $filename = 'Data_Mahasiswa_' . date('Y-m-d_H-i-s') . '.xlsx';
-
-    // Bersihkan output buffer
-    if (ob_get_length()) {
-        ob_end_clean();
-    }
-
-    // Header untuk download
-    header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-    header("Content-Disposition: attachment; filename=\"$filename\"");
-    header('Cache-Control: max-age=0');
-
-    // Simpan file ke output
-    $writer = \PhpOffice\PhpSpreadsheet\IOFactory::createWriter($spreadsheet, 'Xlsx');
-    $writer->save('php://output');
-    exit;
-}
 
 }
