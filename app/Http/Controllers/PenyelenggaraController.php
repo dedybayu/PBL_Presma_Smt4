@@ -50,9 +50,9 @@ class PenyelenggaraController extends Controller
                     return $row->kota->provinsi->negara->negara_nama ?? '-';
                 })
                 ->addColumn('aksi', function ($row) {
-                    $btn = '<button onclick="modalAction(\'' . url('/penyelenggara/' . $row->penyelenggara_id . '/show') . '\')" class="btn btn-info btn-sm"><i class="fa fa-eye"></i> Detail</button> ';
-                    $btn .= '<button onclick="modalAction(\'' . url('/penyelenggara/' . $row->penyelenggara_id . '/edit') . '\')" class="btn btn-warning btn-sm"><i class="fa fa-pen"></i> Edit</button> ';
-                    $btn .= '<button onclick="modalAction(\'' . url('/penyelenggara/' . $row->penyelenggara_id . '/confirm-delete') . '\')" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i> Hapus</button> ';
+                    $btn = '<button onclick="modalAction(\'' . url('/penyelenggara/' . $row->penyelenggara_id . '/show') . '\')" class="btn btn-info btn-sm mt-1 mb-1"><i class="fa fa-eye"></i> Detail</button> ';
+                    $btn .= '<button onclick="modalAction(\'' . url('/penyelenggara/' . $row->penyelenggara_id . '/edit') . '\')" class="btn btn-warning btn-sm mt-1 mb-1"><i class="fa fa-pen"></i> Edit</button> ';
+                    $btn .= '<button onclick="modalAction(\'' . url('/penyelenggara/' . $row->penyelenggara_id . '/confirm-delete') . '\')" class="btn btn-danger btn-sm mt-1 mb-1"><i class="fa fa-trash"></i> Hapus</button> ';
                     return $btn;
                 })
                 ->rawColumns(['aksi'])

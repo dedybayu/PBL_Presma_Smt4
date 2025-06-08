@@ -36,8 +36,8 @@ class ProdiController extends Controller
                 })
                 ->addColumn('aksi', function ($row) {
                     return '
-                        <a href="' . route('prodi.edit', $row->prodi_id) . '" class="btn btn-warning btn-sm">Edit</a>
-                        <button data-url="' . route('prodi.destroy', $row->prodi_id) . '" class="btn btn-danger btn-sm btn-delete">Hapus</button>
+                        <a href="' . route('prodi.edit', $row->prodi_id) . '" class="btn btn-warning btn-sm mt-1 mb-1">Edit</a>
+                        <button data-url="' . route('prodi.destroy', $row->prodi_id) . '" class="btn btn-danger btn-sm mt-1 mb-1 btn-delete">Hapus</button>
                     ';
                 })
                 ->rawColumns(['info', 'aksi'])
