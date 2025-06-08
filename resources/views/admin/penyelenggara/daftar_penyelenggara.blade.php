@@ -105,7 +105,7 @@
                         { data: 'DT_RowIndex', className: "text-center", orderable: false, searchable: false },
                         { data: 'nama', orderable: true, searchable: true },
                         { data: 'kota', orderable: true, searchable: true },
-                        { data: 'aksi', className: "text-center", orderable: false, searchable: false }
+                        { data: 'aksi', orderable: false, searchable: false }
                     ]
                 });
 
