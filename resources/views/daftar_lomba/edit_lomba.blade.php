@@ -33,15 +33,15 @@
                 @csrf
                 @method('PUT')
                 <div class="row">
-                    <div class="col-md-6">
+                    {{-- <div class="col-md-6">
                         <div class="form-group">
                             <label>Kode Lomba</label>
                             <input type="text" name="lomba_kode" id="lomba_kode" class="form-control"
                                 value="{{ $lomba->lomba_kode }}">
                             <small id="error-lomba_kode" class="error-text form-text text-danger"></small>
                         </div>
-                    </div>
-                    <div class="col-md-6">
+                    </div> --}}
+                    <div class="col-md-12">
                         <div class="form-group">
                             <label>Nama Lomba</label>
                             <input type="text" name="lomba_nama" id="lomba_nama" class="form-control"
