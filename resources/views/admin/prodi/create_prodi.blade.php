@@ -9,8 +9,8 @@
 
     <div class="modal-body">
         <div class="form-group">
-            <label for="info">Info</label>
-            <input type="text" name="info" id="info" class="form-control">
+            <label for="info">Nama Prodi</label>
+            <input type="text" name="prodi_nama" id="prodi_nama" class="form-control">
             <small id="error-info" class="text-danger"></small>
         </div>
 

@@ -115,7 +115,7 @@ Route::middleware('auth')->group(function () {
             Route::post('/', [ProdiController::class, 'store'])->name('prodi.store');
             Route::get('/{prodi}/edit', [ProdiController::class, 'edit'])->name('prodi.edit');
             Route::put('/{prodi}', [ProdiController::class, 'update'])->name('prodi.update');
-            Route::get('/{prodi}/delete', [ProdiController::class, 'confirm'])->name('prodi.delete');
+            Route::get('/{prodi}/confirm-delete', [ProdiController::class, 'confirmDelete'])->name('prodi.confirm-delete'); // jika ingin pakai konfirmasi hapus
             Route::delete('/{prodi}', [ProdiController::class, 'destroy'])->name('prodi.destroy');
         });
         Route::prefix('penyelenggara')->group(function () {

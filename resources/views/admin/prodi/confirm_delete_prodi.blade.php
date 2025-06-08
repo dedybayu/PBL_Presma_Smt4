@@ -30,7 +30,7 @@
         </div>
         <table class="table table-sm table-bordered table-striped">
             <tr>
-                <th class="text-right col-3">Info :</th>
+                <th class="text-right col-3">Nama Prodi :</th>
                 <td class="col-9">{{ $prodi->prodi_nama }}</td>
             </tr>
             <tr>
