@@ -206,7 +206,7 @@ class MahasiswaDosenLombaController extends Controller
                 'tanggal_selesai' => $request->tanggal_selesai,
                 'foto_pamflet' => $imagePath,
                 'user_id' => auth()->user()->user_id,
-                'status_verifikasi' => 2
+                'status_verifikasi' => null
             ]);
         } catch (\Throwable $e) {
             if (isset($lomba)) {

@@ -25,7 +25,11 @@
 
     <div class="mb-3 card">
         <div class="card-header-tab card-header">
-            <h3 class="card-title"><i class="fa fa-trophy"></i> {{ $lomba->lomba_nama }}</h3>
+            <h3 class="card-title"><i class="fa fa-trophy"></i> {{ $lomba->lomba_nama }}
+                @if ($lomba->status_verifikasi === null)
+                    (Belum Diverifikasi)
+                @endif
+            </h3>
         </div>
 
         <div class="card-body">
