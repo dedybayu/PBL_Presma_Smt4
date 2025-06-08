@@ -130,7 +130,7 @@
                 <!-- Gambar  -->
                 <div
                     style="position: relative; width: 100%; max-width: auto; aspect-ratio: 16 / 9; overflow: hidden; background: #eee;">
-                    <img id="preview-pamflet" src="{{ asset('storage/' . $lomba->foto_pamflet) }}" alt="Pamflet"
+                    <img id="preview-pamflet" src="{{ file_exists(public_path('storage/' . $lomba->foto_pamflet)) ? asset('storage/' . $lomba->foto_pamflet) : asset('assets/images/broken-image.png') }}" alt="Pamflet"
                         style="width: 100%; height: 100%; object-fit: contain; display: block;">
                 </div>
                 <div class="form-group mt-2">
