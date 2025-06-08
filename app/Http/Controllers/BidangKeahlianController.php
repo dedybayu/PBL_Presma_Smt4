@@ -13,7 +13,8 @@ class BidangKeahlianController extends Controller
     public function index()
     {
         $bidangKeahlian = BidangKeahlianModel::all();
-        return view("admin.bidangKeahlian.daftar_bidangKeahlian")->with(["bidangKeahlian" => $bidangKeahlian]);
+        $kategori = KategoriBidangKeahlianModel:: all();
+        return view("admin.bidangKeahlian.daftar_bidangKeahlian")->with(["bidangKeahlian" => $bidangKeahlian, 'kategori' => $kategori]);
     }
 
     public function list(Request $request)
@@ -21,8 +22,8 @@ class BidangKeahlianController extends Controller
         if ($request->ajax()) {
             $query = BidangKeahlianModel::with('kategoriBidangKeahlian');
 
-            if ($request->bidang_keahlian_id) {
-                $query->where('bidang_keahlian_id', $request->bidang_keahlian_id);
+            if($request->kategori_bidang_keahlian_id){
+                $query->where('kategori_bidang_keahlian_id', $request->kategori_bidang_keahlian_id);
             }
 
             $bidangKeahlian = $query->get();
