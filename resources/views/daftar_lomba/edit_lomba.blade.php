@@ -49,11 +49,10 @@
                             <small id="error-lomba_nama" class="error-text form-text text-danger"></small>
                         </div>
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-md-12">
                         <div class="form-group">
-                            <label>Deskripsi Lomba</label>
-                            <input type="text" name="lomba_deskripsi" id="lomba_deskripsi" class="form-control"
-                                value="{{ $lomba->lomba_deskripsi }}">
+                            <label for="lomba_deskripsi">Deskripsi Lomba<span style="color: red;">*</span></label>
+                            <textarea name="lomba_deskripsi" id="lomba_deskripsi" class="form-control" rows="5" required>{{ $lomba->lomba_deskripsi }}</textarea> {{-- Changed to textarea, value moved inside, added rows --}}
                             <small id="error-lomba_deskripsi" class="error-text form-text text-danger"></small>
                         </div>
                     </div>
@@ -73,7 +72,7 @@
                                 @foreach ($tingkat as $k)
                                     <option value="{{ $k->tingkat_lomba_id }}"
                                         {{ $lomba->tingkat_lomba_id == $k->tingkat_lomba_id ? 'selected' : '' }}>
-                                        {{ $k->lomba_nama }}
+                                        {{ $k->tingkat_lomba_nama }}
                                     </option>
                                 @endforeach
                             </select>

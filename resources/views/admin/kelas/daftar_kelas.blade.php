@@ -108,7 +108,7 @@
                         { data: 'kode', orderable: true, searchable: true },
                         { data: 'nama', orderable: true, searchable: true },
                         { data: 'prodi', orderable: true, searchable: true },
-                        { data: 'aksi', className: "text-center", orderable: false, searchable: false }
+                        { data: 'aksi', orderable: false, searchable: false }
                     ]
                 });
 
