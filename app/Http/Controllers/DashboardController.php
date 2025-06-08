@@ -56,18 +56,28 @@ class DashboardController extends Controller
 
         // Chart Prestasi per tingkat lomba
         $prestasiPerTingkat = DB::table('m_tingkat_lomba as tingkat')
-            ->leftJoin('m_lomba as lomba', 'tingkat.tingkat_lomba_id', '=', 'lomba.tingkat_lomba_id')
-            ->leftJoin('t_prestasi as prestasi', 'lomba.lomba_id', '=', 'prestasi.lomba_id')
+            ->leftJoin('m_lomba as lomba', function ($join) {
+                $join->on('tingkat.tingkat_lomba_id', '=', 'lomba.tingkat_lomba_id')
+                    ->where('lomba.status_verifikasi', 1);
+            })
+            ->leftJoin('t_prestasi as prestasi', function ($join) {
+                $join->on('lomba.lomba_id', '=', 'prestasi.lomba_id')
+                    ->where('prestasi.status_verifikasi', 1);
+            })
             ->select('tingkat.tingkat_lomba_id', 'tingkat.tingkat_lomba_nama', DB::raw('COUNT(prestasi.prestasi_id) as total_prestasi'))
             ->groupBy('tingkat.tingkat_lomba_id', 'tingkat.tingkat_lomba_nama')
             ->get();
 
         // Chart Lomba per tingkat
         $lombaPerTingkat = DB::table('m_tingkat_lomba as tingkat')
-            ->leftJoin('m_lomba as lomba', 'tingkat.tingkat_lomba_id', '=', 'lomba.tingkat_lomba_id')
+            ->leftJoin('m_lomba as lomba', function ($join) {
+                $join->on('tingkat.tingkat_lomba_id', '=', 'lomba.tingkat_lomba_id')
+                    ->where('lomba.status_verifikasi', 1);
+            })
             ->select('tingkat.tingkat_lomba_id', 'tingkat.tingkat_lomba_nama', DB::raw('COUNT(lomba.lomba_id) as total_lomba'))
             ->groupBy('tingkat.tingkat_lomba_id', 'tingkat.tingkat_lomba_nama')
             ->get();
+
 
         // Jumlah lomba per bulan
         $jadwalLombaPerBulan = DB::table('m_lomba')
@@ -108,7 +118,7 @@ class DashboardController extends Controller
             ->where('mahasiswa_id', auth()->user()->mahasiswa->mahasiswa_id ?? null)
             ->where('status_verifikasi', 1)
             ->orderByDesc('created_at')
-            ->limit(5)
+            ->limit(3)
             ->get();
 
         // Ambil data mahasiswa bimbingan
@@ -120,7 +130,7 @@ class DashboardController extends Controller
                 $query->where('dosen_id', $dosenId);
             })
             ->orderBy('created_at', 'desc')
-            ->limit(5)
+            ->limit(3)
             ->get(['mahasiswa_id', 'nim', 'nama', 'kelas_id', 'foto_profile']);
         }
 
