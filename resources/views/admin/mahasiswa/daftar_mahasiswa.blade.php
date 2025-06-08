@@ -135,8 +135,8 @@
                         dataType: "json",
                         type: "POST",
                         data: function (d) {
-                            d.prodi_id = $('#prodi_id').val();
-                            d.kelas_id = $('#kelas_id').val();
+                            d.prodi_id = $('#mhs-prodi_id').val();
+                            d.kelas_id = $('#mhs-kelas_id').val();
                         }
                     },
                     columns: [

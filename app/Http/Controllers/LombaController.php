@@ -32,6 +32,17 @@ class LombaController extends Controller
                 $lomba->where('bidang_keahlian_id', $request->bidang_keahlian_id);
             }
 
+            if ($request->status_verifikasi) {
+                if ($request->status_verifikasi == 2) {
+                    $lomba->whereNull('status_verifikasi');
+                } else if ($request->status_verifikasi == 3) {
+                    $lomba->where('status_verifikasi', 0);
+                } else {
+                    $lomba->where('status_verifikasi', $request->status_verifikasi);
+
+                }
+            }
+
             $lomba = $lomba->get();
 
 
@@ -48,19 +59,19 @@ class LombaController extends Controller
                         . $row->lomba_nama .
                         '</div>
 
-                        <div class="text-muted text-truncate mb-1" style="max-width: 100%;">
+                        <div class="text-muted text-truncate" style="max-width: 100%;">
                             <small>
-                                <i class="fa fa-envelope me-1"> </i>' . $row->tingkat->tingkat_lomba_nama .
+                                <i class="fa fa-envelope me-1"> </i> ' . $row->tingkat->tingkat_lomba_nama .
                         '</small>
                         </div>
 
-                        <div class="text-muted text-truncate mb-1" style="max-width: 100%;">
+                        <div class="text-muted text-truncate" style="max-width: 100%;">
                             <small>
                                 <i class="fa fa-info me-1"> </i> ' . $row->bidang->bidang_keahlian_nama . '
                             </small>
                         </div>
 
-                        <div class="text-muted text-truncate mb-1" style="max-width: 100%;">
+                        <div class="text-muted text-truncate" style="max-width: 100%;">
                             <small>
                                 <i class="fa fa-building me-1"> </i>
                                 ' . $row->penyelenggara->penyelenggara_nama . '
@@ -80,18 +91,18 @@ class LombaController extends Controller
                     return $row->tanggal_selesai . '...';
                 })
                 ->addColumn('status_verifikasi', function ($row) {
-                    if ($row->status_verifikasi == 1) {
+                    if ($row->status_verifikasi === 1) {
                         return '<span class="badge bg-success" style="color: white;">Terverifikasi</span>';
-                    } else if ($row->status_verifikasi == 0) {
+                    } else if ($row->status_verifikasi === 0) {
                         return '<span class="badge bg-danger" style="color: white;">Ditolak</span>';
                     } else {
                         return '<span class="badge bg-warning"style="color: white;">Belum Diverifikasi</span>';
                     }
                 })
                 ->addColumn('aksi', function ($row) {
-                    $btn = '<button onclick="modalAction(\'' . url('/lomba/' . $row->lomba_id . '/show') . '\')" class="btn btn-info btn-sm"><i class="fa fa-eye"></i> Detail</button> ';
-                    $btn .= '<button onclick="modalAction(\'' . url('/lomba/' . $row->lomba_id . '/edit') . '\')" class="btn btn-sm btn-warning" title="Edit"><i class="fa fa-pen"></i> Edit</button> ';
-                    $btn .= '<button onclick="modalAction(\'' . url('/lomba/' . $row->lomba_id . '/delete') . '\')" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i> Hapus</button> ';
+                    $btn = '<button onclick="modalAction(\'' . url('/lomba/' . $row->lomba_id . '/show') . '\')" class="btn btn-info btn-sm mt-1 mb-1"><i class="fa fa-eye"></i> Detail</button> ';
+                    $btn .= '<button onclick="modalAction(\'' . url('/lomba/' . $row->lomba_id . '/edit') . '\')" class="btn btn-warning btn-sm mt-1 mb-1 " title="Edit"><i class="fa fa-pen"></i> Edit</button> ';
+                    $btn .= '<button onclick="modalAction(\'' . url('/lomba/' . $row->lomba_id . '/delete') . '\')" class="btn btn-danger btn-sm mt-1 mb-1"><i class="fa fa-trash"></i> Hapus</button> ';
                     // return '<div class="">' . $btn . '</div>';
                     return $btn;
                 })
@@ -120,11 +131,16 @@ class LombaController extends Controller
             'penyelenggara_id' => 'required|exists:m_penyelenggara,penyelenggara_id',
             'jumlah_anggota' => 'required|string|max:255',
             'tanggal_mulai' => 'required|date|date_format:Y-m-d',
-            'tanggal_selesai' => 'required|date|date_format:Y-m-d',
+            'tanggal_selesai' => 'required|date|date_format:Y-m-d|after_or_equal:tanggal_mulai',
             'foto_pamflet' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ];
 
-        $validator = Validator::make($request->all(), $rules);
+        $customMessages = [
+            'tanggal_selesai.after_or_equal' => 'Tanggal selesai harus setelah tanggal mulai.',
+        ];
+
+
+        $validator = Validator::make($request->all(), $rules, $customMessages);
         if ($validator->fails()) {
             return response()->json([
                 'status' => false,
@@ -213,7 +229,7 @@ class LombaController extends Controller
     public function update(Request $request, LombaModel $lomba)
     {
         $rules = [
-            'lomba_kode' => 'required|string|max:255',
+            // 'lomba_kode' => 'required|string|max:255',
             'lomba_nama' => 'required|string|max:255',
             'lomba_deskripsi' => 'required|string|max:255',
             'link_website' => 'required|string|max:255',
@@ -222,12 +238,16 @@ class LombaController extends Controller
             'penyelenggara_id' => 'required|exists:m_penyelenggara,penyelenggara_id',
             'jumlah_anggota' => 'required|string|max:255',
             'tanggal_mulai' => 'required|date|date_format:Y-m-d',
-            'tanggal_selesai' => 'required|date|date_format:Y-m-d',
+            'tanggal_selesai' => 'required|date|date_format:Y-m-d|after_or_equal:tanggal_mulai',
             'foto_pamflet' => 'nullable|mimes:jpeg,png,jpg',
             'status_verifikasi' => 'required|integer|in:0,1,2'
         ];
 
-        $validator = Validator::make($request->all(), $rules);
+        $customMessages = [
+            'tanggal_selesai.after_or_equal' => 'Tanggal selesai harus setelah tanggal mulai.',
+        ];
+
+        $validator = Validator::make($request->all(), $rules, $customMessages);
 
         if ($validator->fails()) {
             return response()->json([
@@ -254,8 +274,20 @@ class LombaController extends Controller
             $imagePath = "lomba/foto-pamflet/$filename"; // Simpan path gambar
         }
 
+        $lombaNama = $request->lomba_nama;
+
+        // 1. Buat prefix dari nama lomba (ambil huruf besar awal kata, atau substring)
+        $prefix = strtoupper(Str::slug(Str::words($lombaNama, 2, ''), ''));
+        $prefix = substr(preg_replace('/[^A-Z]/', '', $prefix), 0, 3); // Ambil 3 huruf kapital saja
+
+        // 2. Tambahkan angka random untuk membuat kode unik
+        do {
+            $randomNumber = rand(100, 999); // 3 digit angka
+            $kode = $prefix . $randomNumber; // Misal: HCK123
+        } while (LombaModel::where('lomba_kode', $kode)->exists());
+
         $update_data = [
-            'lomba_kode' => $request->lomba_kode,
+            'lomba_kode' => $kode,
             'lomba_nama' => $request->lomba_nama,
             'lomba_deskripsi' => $request->lomba_deskripsi,
             'link_website' => $request->link_website,
@@ -287,7 +319,7 @@ class LombaController extends Controller
     public function destroy(LombaModel $lomba)
     {
         try {
-            $lomba->delete();
+            $lomba->rekomendasi()->delete();
 
             return response()->json([
                 'status' => true,

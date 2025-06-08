@@ -13,7 +13,8 @@ class BidangKeahlianController extends Controller
     public function index()
     {
         $bidangKeahlian = BidangKeahlianModel::all();
-        return view("admin.bidangKeahlian.daftar_bidangKeahlian")->with(["bidangKeahlian" => $bidangKeahlian]);
+        $kategori = KategoriBidangKeahlianModel:: all();
+        return view("admin.bidangKeahlian.daftar_bidangKeahlian")->with(["bidangKeahlian" => $bidangKeahlian, 'kategori' => $kategori]);
     }
 
     public function list(Request $request)
@@ -21,8 +22,8 @@ class BidangKeahlianController extends Controller
         if ($request->ajax()) {
             $query = BidangKeahlianModel::with('kategoriBidangKeahlian');
 
-            if ($request->bidang_keahlian_id) {
-                $query->where('bidang_keahlian_id', $request->bidang_keahlian_id);
+            if($request->kategori_bidang_keahlian_id){
+                $query->where('kategori_bidang_keahlian_id', $request->kategori_bidang_keahlian_id);
             }
 
             $bidangKeahlian = $query->get();
@@ -40,9 +41,9 @@ class BidangKeahlianController extends Controller
                     return $row->kategoriBidangKeahlian->kategori_bidang_keahlian_nama ?? '-';
                 })
                 ->addColumn('aksi', function ($row) {
-                    $btn = '<button onclick="modalAction(\'' . url('/bidangKeahlian/' . $row->bidang_keahlian_id . '/show') . '\')" class="btn btn-info btn-sm"><i class="fa fa-eye"></i> Detail</button> ';
-                    $btn .= '<button onclick="modalAction(\'' . url('/bidangKeahlian/' . $row->bidang_keahlian_id . '/edit') . '\')" class="btn btn-sm btn-warning" title="Edit"><i class="fa fa-pen"></i> Edit</button> ';
-                    $btn .= '<button onclick="modalAction(\'' . url('/bidangKeahlian/' . $row->bidang_keahlian_id . '/delete') . '\')" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i> Hapus</button> ';
+                    $btn = '<button onclick="modalAction(\'' . url('/bidangKeahlian/' . $row->bidang_keahlian_id . '/show') . '\')" class="btn btn-info btn-sm mt-1 mb-1"><i class="fa fa-eye"></i> Detail</button> ';
+                    $btn .= '<button onclick="modalAction(\'' . url('/bidangKeahlian/' . $row->bidang_keahlian_id . '/edit') . '\')" class="btn btn-sm btn-warning mt-1 mb-1" title="Edit"><i class="fa fa-pen"></i> Edit</button> ';
+                    $btn .= '<button onclick="modalAction(\'' . url('/bidangKeahlian/' . $row->bidang_keahlian_id . '/delete') . '\')" class="btn btn-danger btn-sm mt-1 mb-1"><i class="fa fa-trash"></i> Hapus</button> ';
                     return $btn;
                 })
                 ->rawColumns(['aksi'])

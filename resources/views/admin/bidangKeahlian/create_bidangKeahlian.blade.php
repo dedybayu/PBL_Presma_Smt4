@@ -9,19 +9,19 @@
 
     <div class="modal-body">
         <div class="form-group">
-            <label for="bidang_keahlian_kode">Kode Bidang Keahlian</label>
+            <label for="bidang_keahlian_kode">Kode Bidang Keahlian<span style="color: red;">*</span></label>
             <input type="text" name="bidang_keahlian_kode" id="bidang_keahlian_kode" class="form-control">
             <small id="error-bidang_keahlian_kode" class="text-danger"></small>
         </div>
 
         <div class="form-group">
-            <label for="bidang_keahlian_nama">Nama Bidang Keahlian</label>
+            <label for="bidang_keahlian_nama">Nama Bidang Keahlian<span style="color: red;">*</span></label>
             <input type="text" name="bidang_keahlian_nama" id="bidang_keahlian_nama" class="form-control">
             <small id="error-bidang_keahlian_nama" class="text-danger"></small>
         </div>
 
         <div class="form-group">
-            <label for="kategori_bidang_keahlian_id">Kategori Bidang Keahlian</label>
+            <label for="kategori_bidang_keahlian_id">Kategori Bidang Keahlian<span style="color: red;">*</span></label>
             <select name="kategori_bidang_keahlian_id" id="kategori_bidang_keahlian_id" class="form-control">
                 <option value="" disabled selected>- Pilih Kategori Bidang Keahlian -</option>
                 @foreach($kategoriBidangKeahlian as $item)

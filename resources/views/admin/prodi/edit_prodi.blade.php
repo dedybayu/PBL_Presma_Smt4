@@ -11,8 +11,8 @@
 
     <div class="modal-body">
         <div class="form-group">
-            <label>Info</label>
-            <input type="text" name="info" id="info" class="form-control" value="{{ $prodi->prodi_nama }}">
+            <label>Nama Prodi</label>
+            <input type="text" name="prodi_nama" id="prodi_nama" class="form-control" value="{{ $prodi->prodi_nama }}">
             <small id="error-info" class="text-danger"></small>
         </div>
         

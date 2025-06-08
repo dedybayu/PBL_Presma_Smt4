@@ -16,78 +16,115 @@
         <div class="card-header-tab card-header">
             <h3 class="card-title">Daftar Bidang Keahlian</h3>
             <div class="btn-actions-pane-right text-capitalize">
-                <button onclick="modalAction('{{ url('/bidangKeahlian/create') }}')"
-                    class="btn btn-sm btn-success mt-1">
+                <button onclick="modalAction('{{ url('/bidangKeahlian/create') }}')" class="btn btn-sm btn-success mt-1">
                     <i class="fa fa-plus"></i> Tambah Bidang Keahlian
                 </button>
             </div>
         </div>
 
         <div class="card-body">
-            <div class="table-responsive w-100">
-                <table class="table table-bordered table-sm table-striped table-hover w-100" id="table-bidangKeahlian">
-                    <thead>
-                        <tr>
-                            <th>No</th>
-                            <th>Kode</th>
-                            <th>Nama</th>
-                            <th>Kategori</th>
-                            <th>Aksi</th>
-                        </tr>
-                    </thead>
-                </table>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group row">
+                        <label class="col-12 col-md-1 control-label col-form-label">Filter:</label>
+                        <div class="col-12 col-md-3 mb-2 mb-md-0">
+                            <select class="form-control" id="filter_kategori_id" name="kategori_bidang_keahlian_id">
+                                <option value="">- Semua -</option>
+                                @foreach($kategori as $item)
+                                    <option value="{{ $item->kategori_bidang_keahlian_id }}">{{ $item->kategori_bidang_keahlian_nama }}</option>
+                                @endforeach
+                            </select>
+                            <small class="form-text text-muted">Filter Kategori</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+                <div class="table-responsive w-100">
+                    <table class="table table-bordered table-sm table-striped table-hover w-100"
+                        id="table-bidangKeahlian">
+                        <thead>
+                            <tr>
+                                <th>No</th>
+                                <th>Kode</th>
+                                <th>Nama</th>
+                                <th>Kategori</th>
+                                <th>Aksi</th>
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
             </div>
         </div>
-    </div>
 
-    <x-slot:modal>
-        <div id="modal-bidangKeahlian" class="modal fade animate shake" tabindex="-1" role="dialog"
-            data-backdrop="static" data-keyboard="false" aria-hidden="true">
-            <div class="modal-dialog modal-lg" role="document">
-                <div class="modal-content"></div>
+        <x-slot:modal>
+            <div id="modal-bidangKeahlian" class="modal fade animate shake" tabindex="-1" role="dialog"
+                data-backdrop="static" data-keyboard="false" aria-hidden="true">
+                <div class="modal-dialog modal-lg" role="document">
+                    <div class="modal-content"></div>
+                </div>
             </div>
-        </div>
-    </x-slot:modal>
+        </x-slot:modal>
 
-    <x-slot:js>
-        <script>
-            function modalAction(url) {
-                $("#modal-bidangKeahlian .modal-content").html("");
-                $.get(url, function (response) {
-                    $("#modal-bidangKeahlian .modal-content").html(response);
-                    $("#modal-bidangKeahlian").modal("show");
-                });
-            }
+        <x-slot:js>
+            <script>
+                function modalAction(url) {
+                    $("#modal-bidangKeahlian .modal-content").html("");
+                    $.get(url, function(response) {
+                        $("#modal-bidangKeahlian .modal-content").html(response);
+                        $("#modal-bidangKeahlian").modal("show");
+                    });
+                }
 
-            $('#modal-bidangKeahlian').on('hidden.bs.modal', function () {
-                $("#modal-bidangKeahlian .modal-content").html("");
-            });
-
-            var dataBidangKeahlian;
-            $(document).ready(function () {
-                dataBidangKeahlian = $('#table-bidangKeahlian').DataTable({
-                    serverSide: true,
-                    ajax: {
-                        url: "{{ url('bidangKeahlian/list') }}",
-                        dataType: "json",
-                        type: "POST",
-                        data: function (d) {
-                            d.bidang_id = $('#filter_bidang_id').val();
-                        }
-                    },
-                    columns: [
-                        { data: 'DT_RowIndex', className: "text-center", orderable: false, searchable: false },
-                        { data: 'bidang_keahlian_kode', orderable: true, searchable: true },
-                        { data: 'bidang_keahlian_nama', orderable: true, searchable: true },
-                        { data: 'kategori', orderable: true, searchable: true },
-                        { data: "aksi", className: "", orderable: false, searchable: false }
-                    ]
+                $('#modal-bidangKeahlian').on('hidden.bs.modal', function() {
+                    $("#modal-bidangKeahlian .modal-content").html("");
                 });
 
-                $('#bidangKeahlian_id').on('change', function () {
-                    dataBidangKeahlian.ajax.reload();
+                var dataBidangKeahlian;
+                $(document).ready(function() {
+                    dataBidangKeahlian = $('#table-bidangKeahlian').DataTable({
+                        serverSide: true,
+                        ajax: {
+                            url: "{{ url('bidangKeahlian/list') }}",
+                            dataType: "json",
+                            type: "POST",
+                            data: function(d) {
+                                d.kategori_bidang_keahlian_id = $('#filter_kategori_id').val();
+                            }
+                        },
+                        columns: [{
+                                data: 'DT_RowIndex',
+                                className: "text-center",
+                                orderable: false,
+                                searchable: false
+                            },
+                            {
+                                data: 'bidang_keahlian_kode',
+                                orderable: true,
+                                searchable: true
+                            },
+                            {
+                                data: 'bidang_keahlian_nama',
+                                orderable: true,
+                                searchable: true
+                            },
+                            {
+                                data: 'kategori',
+                                orderable: true,
+                                searchable: true
+                            },
+                            {
+                                data: "aksi",
+                                className: "",
+                                orderable: false,
+                                searchable: false
+                            }
+                        ]
+                    });
+
+                    $('#filter_kategori_id').on('change', function() {
+                        dataBidangKeahlian.ajax.reload();
+                    });
                 });
-            });
-        </script>
-    </x-slot:js>
+            </script>
+        </x-slot:js>
 </x-layout>

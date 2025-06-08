@@ -3,21 +3,20 @@
 namespace App\Http\Controllers;
 
 use App\Models\BidangKeahlianModel;
+use App\Models\KotaModel;
 use App\Models\LombaModel;
+use App\Models\RekomendasiMahasiswaLombaModel;
 use App\Models\TingkatLombaModel;
 use App\Models\PenyelenggaraModel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
+use Str;
 
 class MahasiswaDosenLombaController extends Controller
 {
     public function index(Request $request)
     {
-
-        // $mahasiswaId = optional($user->mahasiswa)->mahasiswa_id;
-        // $dosenId = optional($user->dosen)->dosen_id;
-
         $search = $request->search;
         $tingkatLombaId = $request->tingkat_lomba_id;
         $bidangKeahlianId = $request->bidang_keahlian_id;
@@ -25,43 +24,79 @@ class MahasiswaDosenLombaController extends Controller
 
         $user = auth()->user();
 
-        $query = LombaModel::with(['penyelenggara', 'tingkat', 'bidang'])
+        $baseLombaQuery = LombaModel::with(['penyelenggara', 'tingkat', 'bidang'])
             ->where(function ($q) use ($user) {
                 $q->where('status_verifikasi', 1)
                     ->orWhere('user_id', $user->user_id);
             });
 
+        $applyFilters = function ($query) use ($search, $tingkatLombaId, $bidangKeahlianId, $statusVerifikasi) {
+            if ($search) {
+                $query->where(function ($q) use ($search) {
+                    $q->where('lomba_nama', 'like', "%{$search}%")
+                        ->orWhereHas('penyelenggara', function ($q2) use ($search) {
+                            $q2->where('penyelenggara_nama', 'like', "%{$search}%");
+                        });
+                });
+            }
 
+            if ($tingkatLombaId) {
+                $query->where('tingkat_lomba_id', $tingkatLombaId);
+            }
 
-        if ($search) {
-            $query->where(function ($q) use ($search) {
-                $q->where('lomba_nama', 'like', "%{$search}%")
-                    ->orWhereHas('penyelenggara', function ($q2) use ($search) {
-                        $q2->where('penyelenggara_nama', 'like', "%{$search}%");
-                    });
-            });
-        }
+            // if ($statusVerifikasi !== null && $statusVerifikasi !== '') {
+            //     $query->where('status_verifikasi', $statusVerifikasi);
+            // }
 
-        if ($tingkatLombaId) {
-            $query->where('tingkat_lomba_id', $tingkatLombaId);
-        }
+            if ($bidangKeahlianId) {
+                $query->whereHas('bidang', function ($q) use ($bidangKeahlianId) {
+                    $q->where('bidang_keahlian_id', $bidangKeahlianId);
+                });
+            }
 
-        if ($statusVerifikasi !== null && $statusVerifikasi !== '') {
-            $query->where('status_verifikasi', $statusVerifikasi);
-        }
+            return $query;
+        };
 
-        if ($bidangKeahlianId) {
-            $query->whereHas('bidang', function ($q) use ($bidangKeahlianId) {
-                $q->where('bidang_keahlian_id', $bidangKeahlianId);
-            });
-        }
-
-        $lomba = $query->orderBy('tanggal_selesai', 'desc')->paginate(10);
         $tingkat_lomba = TingkatLombaModel::all();
         $bidang_keahlian = BidangKeahlianModel::all();
 
-        return view('daftar_lomba.daftar_lomba', compact('lomba', 'tingkat_lomba', 'bidang_keahlian'));
+        if ($user->hasRole('MHS')) {
+            $mahasiswa_id = $user->mahasiswa->mahasiswa_id;
+
+            $rekomendasi_ids = RekomendasiMahasiswaLombaModel::where('mahasiswa_id', $mahasiswa_id)
+                ->pluck('lomba_id')
+                ->unique()
+                ->toArray();
+
+            $rekomendasi_lomba = LombaModel::with(['penyelenggara', 'tingkat', 'bidang'])
+                ->whereIn('lomba_id', $rekomendasi_ids);
+
+            $rekomendasi_lomba = $applyFilters($rekomendasi_lomba)
+                ->orderBy('tanggal_selesai', 'desc')
+                ->paginate(4, ['*'], 'rekomendasi_page');
+
+            $query = clone $baseLombaQuery;
+            if (!empty($rekomendasi_ids)) {
+                $query->whereNotIn('lomba_id', $rekomendasi_ids);
+            }
+            $query = $applyFilters($query);
+            $lomba = $query->orderBy('tanggal_selesai', 'desc')
+                ->paginate(8, ['*'], 'lomba_page');
+
+            return view('daftar_lomba.daftar_lomba', compact(
+                'lomba',
+                'rekomendasi_lomba',
+                'tingkat_lomba',
+                'bidang_keahlian'
+            ));
+        } else {
+            $query = $applyFilters($baseLombaQuery);
+            $lomba = $query->orderBy('tanggal_selesai', 'desc')->paginate(8, ['*'], 'lomba_page');
+
+            return view('daftar_lomba.daftar_lomba', compact('lomba', 'tingkat_lomba', 'bidang_keahlian'));
+        }
     }
+
 
 
     public function show($id)
@@ -78,24 +113,36 @@ class MahasiswaDosenLombaController extends Controller
         $tingkat = TingkatLombaModel::all();
         $bidang = BidangKeahlianModel::all();
         $penyelenggara = PenyelenggaraModel::all();
-        return view('daftar_lomba.create_lomba')->with(['tingkat' => $tingkat, 'bidang' => $bidang, 'penyelenggara' => $penyelenggara]);
+        $kota = KotaModel::all();
+        return view('daftar_lomba.create_lomba')->with([
+            'tingkat' => $tingkat,
+            'bidang' => $bidang,
+            'penyelenggara' => $penyelenggara,
+            'kota' => $kota
+        ]);
     }
 
     public function store(Request $request)
     {
         $rules = [
-            'lomba_kode' => 'required|string|max:255',
+            // 'lomba_kode' => 'required|string|max:255',
             'lomba_nama' => 'required|string|max:255',
             'lomba_deskripsi' => 'required|string|max:255',
             'link_website' => 'required|string|max:255',
             'tingkat_lomba_id' => 'required|exists:m_tingkat_lomba,tingkat_lomba_id',
             'bidang_keahlian_id' => 'required|exists:m_bidang_keahlian,bidang_keahlian_id',
-            'penyelenggara_id' => 'required|exists:m_penyelenggara,penyelenggara_id',
+            'penyelenggara_id' => 'required',
             'jumlah_anggota => required|max:5',
             'tanggal_mulai' => 'required|date|date_format:Y-m-d',
-            'tanggal_selesai' => 'required|date|date_format:Y-m-d',
+            'tanggal_selesai' => 'required|date|date_format:Y-m-d|after_or_equal:tanggal_mulai',
             'foto_pamflet' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ];
+
+        // Tambahkan validasi khusus jika penyelenggara_id adalah 'other'
+        if ($request->penyelenggara_id === 'other') {
+            $rules['penyelenggara_nama'] = 'required|string|max:255';
+            $rules['kota_id'] = 'required|exists:m_kota,kota_id';
+        }
 
         $validator = Validator::make($request->all(), $rules);
         if ($validator->fails()) {
@@ -124,21 +171,42 @@ class MahasiswaDosenLombaController extends Controller
             $imagePath = "lomba/foto-pamflet/$filename"; // Simpan path gambar
         }
 
+        $penyelenggara_id = $request->penyelenggara_id;
+        //PENYELENGGARA
+        if ($request->penyelenggara_id === 'other') {
+            $penyelenggara_id = PenyelenggaraModel::create([
+                'penyelenggara_nama' => $request->penyelenggara_nama,
+                'kota_id' => $request->kota_id
+            ])->penyelenggara_id;
+        }
+
+        $lombaNama = $request->lomba_nama;
+
+        // 1. Buat prefix dari nama lomba (ambil huruf besar awal kata, atau substring)
+        $prefix = strtoupper(Str::slug(Str::words($lombaNama, 2, ''), ''));
+        $prefix = substr(preg_replace('/[^A-Z]/', '', $prefix), 0, 3); // Ambil 3 huruf kapital saja
+
+        // 2. Tambahkan angka random untuk membuat kode unik
+        do {
+            $randomNumber = rand(100, 999); // 3 digit angka
+            $kode = $prefix . $randomNumber; // Misal: HCK123
+        } while (LombaModel::where('lomba_kode', $kode)->exists());
+
         try {
             $lomba = LombaModel::create([
-                'lomba_kode' => $request->lomba_kode,
+                'lomba_kode' => $kode,
                 'lomba_nama' => $request->lomba_nama,
                 'lomba_deskripsi' => $request->lomba_deskripsi,
                 'link_website' => $request->link_website,
                 'tingkat_lomba_id' => $request->tingkat_lomba_id,
                 'bidang_keahlian_id' => $request->bidang_keahlian_id,
-                'penyelenggara_id' => $request->penyelenggara_id,
-                'jumlah_anggota' => $request -> jumlah_anggota,
+                'penyelenggara_id' => $penyelenggara_id,
+                'jumlah_anggota' => $request->jumlah_anggota,
                 'tanggal_mulai' => $request->tanggal_mulai,
                 'tanggal_selesai' => $request->tanggal_selesai,
                 'foto_pamflet' => $imagePath,
                 'user_id' => auth()->user()->user_id,
-                'status_verifikasi' => 2
+                'status_verifikasi' => null
             ]);
         } catch (\Throwable $e) {
             if (isset($lomba)) {
@@ -183,8 +251,8 @@ class MahasiswaDosenLombaController extends Controller
     public function update(Request $request, $id)
     {
         $user = auth()->user();
-        $mahasiswaId = optional($user->mahasiswa)->mahasiswa_id;
-        $dosenId = optional($user->dosen)->dosen_id;
+        // $mahasiswaId = optional($user->mahasiswa)->mahasiswa_id;
+        // $dosenId = optional($user->dosen)->dosen_id;
 
         $lomba = LombaModel::findOrFail($id);
 
@@ -196,7 +264,7 @@ class MahasiswaDosenLombaController extends Controller
         }
 
         $rules = [
-            'lomba_kode' => 'required|string|max:255',
+            // 'lomba_kode' => 'required|string|max:255',
             'lomba_nama' => 'required|string|max:255',
             'lomba_deskripsi' => 'required|string|max:255',
             'link_website' => 'required|string|max:255',
@@ -219,6 +287,7 @@ class MahasiswaDosenLombaController extends Controller
         }
 
         $imagePath = $lomba->foto_pamflet;
+        $oldImagePath = $lomba->foto_pamflet;
         if ($request->hasFile('foto_pamflet')) {
             $file = $request->file('foto_pamflet');
             if ($file->isValid()) {
@@ -229,21 +298,35 @@ class MahasiswaDosenLombaController extends Controller
                 }
                 $file->move($destinationPath, $filename);
                 $imagePath = "lomba/foto-pamflet/$filename";
+                FileController::deleteFile($oldImagePath);
             }
         }
 
+        $lombaNama = $request->lomba_nama;
+
+        // 1. Buat prefix dari nama lomba (ambil huruf besar awal kata, atau substring)
+        $prefix = strtoupper(Str::slug(Str::words($lombaNama, 2, ''), ''));
+        $prefix = substr(preg_replace('/[^A-Z]/', '', $prefix), 0, 3); // Ambil 3 huruf kapital saja
+
+        // 2. Tambahkan angka random untuk membuat kode unik
+        do {
+            $randomNumber = rand(100, 999); // 3 digit angka
+            $kode = $prefix . $randomNumber; // Misal: HCK123
+        } while (LombaModel::where('lomba_kode', $kode)->exists());
+
         $lomba->update([
-            'lomba_kode' => $request->lomba_kode,
+            'lomba_kode' => $kode,
             'lomba_nama' => $request->lomba_nama,
             'lomba_deskripsi' => $request->lomba_deskripsi,
             'link_website' => $request->link_website,
             'tingkat_lomba_id' => $request->tingkat_lomba_id,
             'bidang_keahlian_id' => $request->bidang_keahlian_id,
             'penyelenggara_id' => $request->penyelenggara_id,
-            'jumlah_anggota' => $request -> jumlah_anggota,
+            'jumlah_anggota' => $request->jumlah_anggota,
             'tanggal_mulai' => $request->tanggal_mulai,
             'tanggal_selesai' => $request->tanggal_selesai,
-            'foto_pamflet' => $imagePath
+            'foto_pamflet' => $imagePath,
+            'status_verifikasi' => null
         ]);
 
         return response()->json([
@@ -280,7 +363,8 @@ class MahasiswaDosenLombaController extends Controller
 
         try {
             if ($lomba->foto_pamflet && file_exists(storage_path("app/public/{$lomba->foto_pamflet}"))) {
-                unlink(storage_path("app/public/{$lomba->foto_pamflet}"));
+                FileController::deleteFile($lomba->foto_pamflet);
+                // unlink(storage_path("app/public/{$lomba->foto_pamflet}"));
             }
 
             $lomba->delete();

@@ -210,7 +210,7 @@
                 $("#modal-delete .modal-content").html("");
             });
 
-            var dataPrestasi
+            // var dataPrestasi
             $(document).ready(function() {
                 $('#tingkat_lomba_id, #status_verifikasi').select2({
                     theme: 'bootstrap-5',

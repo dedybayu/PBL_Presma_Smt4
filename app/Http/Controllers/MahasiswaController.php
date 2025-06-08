@@ -81,9 +81,9 @@ class MahasiswaController extends Controller
                     return collect(explode(' ', $row->alamat))->take(5)->implode(' ') . '...';
                 })
                 ->addColumn('aksi', function ($row) {
-                    $btn = '<button onclick="modalAction(\'' . url('/mahasiswa/' . $row->mahasiswa_id . '/show') . '\')" class="btn btn-info btn-sm"><i class="fa fa-eye"></i> Detail</button> ';
-                    $btn .= '<button onclick="modalAction(\'' . url('/mahasiswa/' . $row->mahasiswa_id . '/edit') . '\')" class="btn btn-sm btn-warning" title="Edit"><i class="fa fa-pen"></i> Edit</button> ';
-                    $btn .= '<button onclick="modalAction(\'' . url('/mahasiswa/' . $row->mahasiswa_id . '/confirm-delete') . '\')" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i> Hapus</button> ';
+                    $btn = '<button onclick="modalAction(\'' . url('/mahasiswa/' . $row->mahasiswa_id . '/show') . '\')" class="btn btn-info btn-sm mt-1 mb-1"><i class="fa fa-eye"></i> Detail</button> ';
+                    $btn .= '<button onclick="modalAction(\'' . url('/mahasiswa/' . $row->mahasiswa_id . '/edit') . '\')" class="btn btn-sm btn-warning mt-1 mb-1" title="Edit"><i class="fa fa-pen"></i> Edit</button> ';
+                    $btn .= '<button onclick="modalAction(\'' . url('/mahasiswa/' . $row->mahasiswa_id . '/confirm-delete') . '\')" class="btn btn-danger btn-sm mt-1 mb-1"><i class="fa fa-trash"></i> Hapus</button> ';
                     // return '<div class="">' . $btn . '</div>';
                     return $btn;
                 })
@@ -202,13 +202,9 @@ class MahasiswaController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show($id)
+    public function show(MahasiswaModel $mahasiswa)
     {
-        $mahasiswa = MahasiswaModel::find($id);
-        $prestasi = PrestasiModel::all();
-        // $kelas = KelasModel::select('kelas_id', 'kelas_nama');
-        // $prodi = ProdiModel::select('prodi_id', 'prodi_nama');
-        return view('admin.mahasiswa.show_mahasiswa')->with(['mahasiswa' => $mahasiswa, 'prestasi' => $prestasi]);
+        return view('admin.mahasiswa.show_mahasiswa')->with(['mahasiswa' => $mahasiswa]);
     }
 
     /**
@@ -216,8 +212,6 @@ class MahasiswaController extends Controller
      */
     public function edit(MahasiswaModel $mahasiswa)
     {
-        // $mahasiswa = MahasiswaModel::find($id);
-
         $kelas = KelasModel::select('kelas_id', 'kelas_nama', 'prodi_id')->get();
         $prodi = ProdiModel::select('prodi_id', 'prodi_nama')->get();
         return view('admin.mahasiswa.edit_mahasiswa')->with(['kelas' => $kelas, 'prodi' => $prodi, 'mahasiswa' => $mahasiswa]);
@@ -229,9 +223,6 @@ class MahasiswaController extends Controller
     public function update(Request $request, MahasiswaModel $mahasiswa)
     {
         if ($request->ajax() || $request->wantsJson()) {
-            // dd($request);
-            // dd($request->file('foto_profile'));
-
             $rules = [
                 'username' => 'required|max:20|unique:m_user,username,' . $mahasiswa->user->user_id . ',user_id',
                 'nama' => 'required|max:100',

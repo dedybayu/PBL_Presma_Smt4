@@ -25,80 +25,124 @@
 
     <div class="mb-3 card">
         <div class="card-header-tab card-header">
-            <h3 class="card-title"><i class="fa fa-trophy"></i> {{ $lomba->lomba_nama }}</h3>
+            <h3 class="card-title"><i class="fa fa-trophy"></i> {{ $lomba->lomba_nama }}
+                @if ($lomba->status_verifikasi === null)
+                    (Belum Diverifikasi)
+                @endif
+            </h3>
         </div>
 
         <div class="card-body">
-            <table class="table table-sm table-bordered table-blue-striped">
-                <tr>
-                    <th class="text-right col-3">Kode Lomba:</th>
-                    <td class="col-9">{{ $lomba->lomba_kode ?? '-' }}</td>
-                </tr>
-                <tr>
-                    <th class="text-right col-3">Nama Lomba:</th>
-                    <td class="col-9">{{ $lomba->lomba_nama ?? '-' }}</td>
-                </tr>
-                <tr>
-                    <th class="text-right col-3">Deskripsi:</th>
-                    <td class="col-9">{{ $lomba->lomba_deskripsi ?? '-' }}</td>
-                </tr>
-                <tr>
-                    <th class="text-right col-3">Tanggal Mulai:</th>
-                    <td class="col-9">{{ $lomba->tanggal_mulai ?? '-' }}</td>
-                </tr>
-                <tr>
-                    <th class="text-right col-3">Tanggal Selesai:</th>
-                    <td class="col-9">{{ $lomba->tanggal_selesai ?? '-' }}</td>
-                </tr>
-                <tr>
-                    <th class="text-right col-3">Link Website:</th>
-                    <td class="col-9">
-                        @if ($lomba->link_website)
-                            <a href="{{ $lomba->link_website }}" target="_blank">{{ $lomba->link_website }}</a>
-                        @else
-                            -
-                        @endif
-                    </td>
-                </tr>
-                <tr>
-                    <th class="text-right col-3">Penyelenggara:</th>
-                    <td class="col-9">{{ $lomba->penyelenggara->penyelenggara_nama ?? '-' }}</td>
-                </tr>
-                <tr>
-                    <th class="text-right col-3">Jumlah Anggota:</th>
-                    <td class="col-9">{{ $lomba->jumlah_anggota ?? '-' }}</td>
-                </tr>
-                <tr>
-                    <th class="text-right col-3">Tingkat Lomba:</th>
-                    <td class="col-9">{{ $lomba->tingkat->tingkat_lomba_nama ?? '-' }}</td>
-                </tr>
-                <tr>
-                    <th class="text-right col-3">Bidang Keahlian:</th>
-                    <td class="col-9">{{ $lomba->bidang->bidang_keahlian_nama ?? '-' }}</td>
-                </tr>
-                <tr>
-                    <th class="text-right col-3">Status Verifikasi:</th>
-                    <td class="col-9">
-                        @if ($lomba->status_verifikasi === 1)
-                            <span class="badge bg-success">Terverifikasi</span>
-                        @elseif ($lomba->status_verifikasi === 0)
-                            <span class="badge bg-danger">Ditolak</span>
-                        @else
-                            <span class="badge bg-warning">Menunggu Verifikasi</span>
-                        @endif
-                    </td>
-                </tr>
-            </table>
+            <div class="main-body">
+                <div class="row gutters-sm">
+                    <div class="col-md-12">
+                        <div class="card mb-3">
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-sm-3">
+                                        <h6 class="mb-0">Kode</h6>
+                                    </div>
+                                    <div class="col-sm-9 text-secondary">
+                                        {{ $lomba->lomba_kode }}
+                                    </div>
+                                </div>
+                                <hr>
+                                <div class="row">
+                                    <div class="col-sm-3">
+                                        <h6 class="mb-0">Nama Lomba</h6>
+                                    </div>
+                                    <div class="col-sm-9 text-secondary">
+                                        {{ $lomba->lomba_nama }}
+                                    </div>
+                                </div>
+                                <hr>
+                                <div class="row">
+                                    <div class="col-sm-3">
+                                        <h6 class="mb-0">Link Website</h6>
+                                    </div>
+                                    <div class="col-sm-9 text-secondary">
+                                        <a href="{{ $lomba->link_website }}"
+                                            target="_blank">{{ $lomba->link_website }}</a>
+                                    </div>
+                                </div>
+                                <hr>
+                                <div class="row">
+                                    <div class="col-sm-3">
+                                        <h6 class="mb-0">Jumlah Anggota (Dalam 1 Tim)</h6>
+                                    </div>
+                                    <div class="col-sm-9 text-secondary">
+                                        {{ $lomba->jumlah_anggota }}
+                                    </div>
+                                </div>
+                                <hr>
+                                <div class="row">
+                                    <div class="col-sm-3">
+                                        <h6 class="mb-0">Bidang Keahlian</h6>
+                                    </div>
+                                    <div class="col-sm-9 text-secondary">
+                                        {{ $lomba->bidang->bidang_keahlian_nama }}
+                                    </div>
+                                </div>
+                                <hr>
+                                <div class="row">
+                                    <div class="col-sm-3">
+                                        <h6 class="mb-0">Penyelenggara</h6>
+                                    </div>
+                                    <div class="col-sm-9 text-secondary">
+                                        {{ $lomba->penyelenggara->penyelenggara_nama }}
+                                    </div>
+                                </div>
+                                <hr>
+                                <div class="row">
+                                    <div class="col-sm-3">
+                                        <h6 class="mb-0">Tanggal Mulai</h6>
+                                    </div>
+                                    <div class="col-sm-9 text-secondary">
+                                        {{ \Carbon\Carbon::parse($lomba->tanggal_mulai)->translatedFormat('d F Y') }}
+                                    </div>
+                                </div>
+                                <hr>
+                                <div class="row">
+                                    <div class="col-sm-3">
+                                        <h6 class="mb-0">Tanggal Selesai</h6>
+                                    </div>
+                                    <div class="col-sm-9 text-secondary">
+                                        {{ \Carbon\Carbon::parse($lomba->tanggal_selesai)->translatedFormat('d F Y') }}
+                                    </div>
+                                </div>
+                                <hr>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-header-tab card-header">
+                    <h3 class="card-title"><i class="fa fa-trophy"> Deskripsi Lomba</i></h3>
+                </div>
+                <div class="card-body">
+                    <p class="card-text mb-0">
+                        {{ $lomba->lomba_deskripsi }}
+                    </p>
+                </div>
+            </div>
 
             {{-- Preview Pamflet --}}
-            <div class="mt-4">
-                <h5>Pamflet Lomba</h5>
-                @if ($lomba->foto_pamflet && file_exists(public_path('storage/' . $lomba->foto_pamflet)))
-                    <img src="{{ asset('storage/' . $lomba->foto_pamflet) }}" alt="Pamflet Lomba"
-                        style="max-width: 100%; height: auto; border: 1px solid #ccc; padding: 4px; border-radius: 8px;">
-                @else
-                    <p class="text-muted">Pamflet tidak tersedia</p>
-                @endif
+            <div class="card mt-5">
+                <div class="card-header-tab card-header">
+                    <h3 class="card-title"><i class="fa fa-trophy"> Pamflet Lomba</i></h3>
+                </div>
+                <div class="card-body">
+                    <div
+                        style="position: relative; width: 100%; max-width: 100%; aspect-ratio: 16 / 9; overflow: hidden; background: #eee;">
+                        <a href="{{ asset('storage/' . $lomba->foto_pamflet) }}" target="_blank">
+                            <img id="preview-pamflet"
+                                src="{{ file_exists(public_path('storage/' . $lomba->foto_pamflet)) ? asset('storage/' . $lomba->foto_pamflet) : asset('assets/images/broken-image.png') }}"
+                                alt="Pamflet"
+                                style="width: 100%; height: 100%; object-fit: contain; display: block; border: 1px solid #ccc; padding: 4px; border-radius: 8px;">
+                        </a>
+                    </div>
+                </div>
             </div>
 
             @if (auth()->user()->user_id == $lomba->user_id)

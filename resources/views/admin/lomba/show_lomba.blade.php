@@ -31,66 +31,119 @@
         </button>
     </div>
     <div class="modal-body" style="max-height: 70vh; overflow-y: auto;">
-        <div class="row">
-            <div class="col-md-12 mt-2">
-                <div class="card">
-                    <div class="card-body">
-                        <h5 class="card-title">Foto Pamflet</h5>
-                        <div
-                            style="position: relative; width: 100%; max-width: 100%; aspect-ratio: 16 / 9; overflow: hidden; background: #eee;">
-                            <a href="{{ asset('storage/' . $lomba->foto_pamflet) }}" target="_blank">
-                                <img id="preview-pamflet" src="{{ asset('storage/' . $lomba->foto_pamflet) }}"
-                                    alt="Pamflet" style="width: 100%; height: 100%; object-fit: contain; display: block;">
-                            </a>
+        <div class="container mt-4">
+            <div class="main-body">
+                <div class="row gutters-sm">
+                    <div class="col-md-12">
+                        <div class="card mb-3">
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-sm-3">
+                                        <h6 class="mb-0">Kode</h6>
+                                    </div>
+                                    <div class="col-sm-9 text-secondary">
+                                        {{ $lomba->lomba_kode }}
+                                    </div>
+                                </div>
+                                <hr>
+                                <div class="row">
+                                    <div class="col-sm-3">
+                                        <h6 class="mb-0">Nama Lomba</h6>
+                                    </div>
+                                    <div class="col-sm-9 text-secondary">
+                                        {{ $lomba->lomba_nama }}
+                                    </div>
+                                </div>
+                                <hr>
+                                <div class="row">
+                                    <div class="col-sm-3">
+                                        <h6 class="mb-0">Link Website</h6>
+                                    </div>
+                                    <div class="col-sm-9 text-secondary">
+                                        <a href="{{ $lomba->link_website }}" target="_blank">{{ $lomba->link_website }}</a>
+                                    </div>
+                                </div>
+                                <hr>
+                                <div class="row">
+                                    <div class="col-sm-3">
+                                        <h6 class="mb-0">Jumlah Anggota (Dalam 1 Tim)</h6>
+                                    </div>
+                                    <div class="col-sm-9 text-secondary">
+                                        {{ $lomba->jumlah_anggota }}
+                                    </div>
+                                </div>
+                                <hr>
+                                <div class="row">
+                                    <div class="col-sm-3">
+                                        <h6 class="mb-0">Bidang Keahlian</h6>
+                                    </div>
+                                    <div class="col-sm-9 text-secondary">
+                                        {{ $lomba->bidang->bidang_keahlian_nama }}
+                                    </div>
+                                </div>
+                                <hr>
+                                <div class="row">
+                                    <div class="col-sm-3">
+                                        <h6 class="mb-0">Penyelenggara</h6>
+                                    </div>
+                                    <div class="col-sm-9 text-secondary">
+                                        {{ $lomba->penyelenggara->penyelenggara_nama }}
+                                    </div>
+                                </div>
+                                <hr>
+                                <div class="row">
+                                    <div class="col-sm-3">
+                                        <h6 class="mb-0">Tanggal Mulai</h6>
+                                    </div>
+                                    <div class="col-sm-9 text-secondary">
+                                        {{ \Carbon\Carbon::parse($lomba->tanggal_mulai)->translatedFormat('d F Y') }}
+                                    </div>
+                                </div>
+                                <hr>
+                                <div class="row">
+                                    <div class="col-sm-3">
+                                        <h6 class="mb-0">Tanggal Selesai</h6>
+                                    </div>
+                                    <div class="col-sm-9 text-secondary">
+                                        {{ \Carbon\Carbon::parse($lomba->tanggal_selesai)->translatedFormat('d F Y') }}
+                                    </div>
+                                </div>
+                                <hr>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-header-tab card-header">
+                    <h3 class="card-title"><i class="fa fa-trophy"> Deskripsi Lomba</i></h3>
+                </div>
+                <div class="card-body">
+                    <p class="card-text mb-0">
+                        {{ $lomba->lomba_deskripsi }}
+                    </p>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-12 mt-3">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">Foto Pamflet</h5>
+                            <div
+                                style="position: relative; width: 100%; max-width: 100%; aspect-ratio: 16 / 9; overflow: hidden; background: #eee;">
+                                <a href="{{ asset('storage/' . $lomba->foto_pamflet) }}" target="_blank">
+                                    <img id="preview-pamflet"
+                                        src="{{ file_exists(public_path('storage/' . $lomba->foto_pamflet)) ? asset('storage/' . $lomba->foto_pamflet) : asset('assets/images/broken-image.png') }}"
+                                        alt="Pamflet"
+                                        style="width: 100%; height: 100%; object-fit: contain; display: block;">
+                                </a>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        <table class="table table-sm table-bordered table-striped">
-            <tr>
-                <th class="text-right col-3">Kode lomba :</th>
-                <td class="col-9">{{ $lomba->lomba_kode }}</td>
-            </tr>
-            <tr>
-                <th class="text-right col-3">nama lomba :</th>
-                <td class="col-9">{{ $lomba->lomba_nama }}</td>
-            </tr>
-            <tr>
-                <th class="text-right col-3">deskripsi lomba :</th>
-                <td class="col-9">{{ $lomba->lomba_deskripsi }}</td>
-            </tr>
-            <tr>
-                <th class="text-right col-3">Jumlah anggota :</th>
-                <td class="col-9">{{ $lomba->jumlah_anggota }}</td>
-            </tr>
-            <tr>
-                <th class="text-right col-3">Link Website terkait :</th>
-                <td class="col-9">{{ $lomba->link_website }}</td>
-            </tr>
-            <tr>
-                <th class="text-right col-3">tingkat lomba :</th>
-                <td class="col-9">{{ $lomba->tingkat->tingkat_lomba_nama }}</td>
-            </tr>
-            <tr>
-                <th class="text-right col-3">bidang lomba :</th>
-                <td class="col-9">{{ $lomba->bidang->bidang_keahlian_nama }}</td>
-            </tr>
-            <tr>
-                <th class="text-right col-3">penyelanggara lomba :</th>
-                <td class="col-9">{{ $lomba->penyelenggara->penyelenggara_nama }}</td>
-            </tr>
-            <tr>
-                <th class="text-right col-3">tanggal mulai :</th>
-                <td class="col-9">{{ $lomba->tanggal_mulai }}</td>
-            </tr>
-            <tr>
-                <th class="text-right col-3">tanggal selesai :</th>
-                <td class="col-9">{{ $lomba->tanggal_selesai }}</td>
-            </tr>
-        </table>
-
-
         @if ($lomba->rekomendasi->count() > 0)
             <h5 class="modal-title mt-5">Rekomendasi Mahasiswa</h5>
             <table class="table table-sm table-bordered table-striped">

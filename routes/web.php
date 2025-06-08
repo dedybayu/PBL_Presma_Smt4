@@ -59,7 +59,7 @@ Route::middleware('auth')->group(function () {
         Route::prefix('mahasiswa')->group(function () {
             Route::get('/', [MahasiswaController::class, 'index'])->name('mahasiswa.index');
             Route::post('/list', [MahasiswaController::class, 'list']);
-            Route::get('/{id}/show', [MahasiswaController::class, 'show'])->name('mahasiswa.show');
+            Route::get('/{mahasiswa}/show', [MahasiswaController::class, 'show'])->name('mahasiswa.show');
             Route::get('/create', [MahasiswaController::class, 'create'])->name('mahasiswa.create');
             Route::post('/', [MahasiswaController::class, 'store'])->name('mahasiswa.store');
             Route::get('/{mahasiswa}/edit', [MahasiswaController::class, 'edit'])->name('mahasiswa.edit');
@@ -115,7 +115,7 @@ Route::middleware('auth')->group(function () {
             Route::post('/', [ProdiController::class, 'store'])->name('prodi.store');
             Route::get('/{prodi}/edit', [ProdiController::class, 'edit'])->name('prodi.edit');
             Route::put('/{prodi}', [ProdiController::class, 'update'])->name('prodi.update');
-            Route::get('/{prodi}/delete', [ProdiController::class, 'confirm'])->name('prodi.delete');
+            Route::get('/{prodi}/confirm-delete', [ProdiController::class, 'confirmDelete'])->name('prodi.confirm-delete'); // jika ingin pakai konfirmasi hapus
             Route::delete('/{prodi}', [ProdiController::class, 'destroy'])->name('prodi.destroy');
         });
         Route::prefix('penyelenggara')->group(function () {
@@ -123,9 +123,9 @@ Route::middleware('auth')->group(function () {
             Route::post('/list', [PenyelenggaraController::class, 'list'])->name('penyelenggara.list');
             Route::get('/create', [PenyelenggaraController::class, 'create'])->name('penyelenggara.create');
             Route::post('/', [PenyelenggaraController::class, 'store'])->name('penyelenggara.store');
-            Route::get('/{id}/show', [PenyelenggaraController::class, 'show'])->name('penyelenggara.show');
-            Route::get('/{id}/edit', [PenyelenggaraController::class, 'edit'])->name('penyelenggara.edit');
-            Route::put('/{id}', [PenyelenggaraController::class, 'update'])->name('penyelenggara.update');
+            Route::get('/{penyelenggara}/show', [PenyelenggaraController::class, 'show'])->name('penyelenggara.show');
+            Route::get('/{penyelenggara}/edit', [PenyelenggaraController::class, 'edit'])->name('penyelenggara.edit');
+            Route::put('/{penyelenggara}', [PenyelenggaraController::class, 'update'])->name('penyelenggara.update');
             Route::get('/{penyelenggara}/confirm-delete', [PenyelenggaraController::class, 'confirmDelete'])->name('penyelenggara.confirm-delete');
             Route::delete('/{penyelenggara}', [PenyelenggaraController::class, 'destroy'])->name('penyelenggara.destroy');
             Route::get('/import', [PenyelenggaraController::class, 'import']);
@@ -228,8 +228,8 @@ Route::middleware('auth')->group(function () {
     Route::middleware(['role:MHS,DOS'])->group(function () {
         Route::prefix('daftar_lomba')->name('daftar_lomba.')->group(function () {
             Route::get('/', [MahasiswaDosenLombaController::class, 'index'])->name('index');
-            Route::get('/create', [MahasiswaDosenLombaController::class, 'create'])->name('lomba.create');
-            Route::post('/', [MahasiswaDosenLombaController::class, 'store'])->name('lomba.store');
+            Route::get('/create', [MahasiswaDosenLombaController::class, 'create'])->name('create');
+            Route::post('/', [MahasiswaDosenLombaController::class, 'store'])->name('store');
             Route::get('/{lomba}', [MahasiswaDosenLombaController::class, 'show'])->name('show');
             Route::get('/{lomba}/edit', [MahasiswaDosenLombaController::class, 'edit'])->name('edit');
             Route::put('/{lomba}', [MahasiswaDosenLombaController::class, 'update'])->name('update');

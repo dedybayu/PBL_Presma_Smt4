@@ -1,4 +1,4 @@
-<form action="{{ url('/prestasi/')}}" method="POST" enctype="multipart/form-data" id="form_create">
+<form action="{{ url('/prestasi/') }}" method="POST" enctype="multipart/form-data" id="form_create">
     @csrf
     {{-- @method('PUT') --}}
     <div class="modal-header">
@@ -7,21 +7,22 @@
             <span aria-hidden="true">&times;</span>
         </button>
     </div>
-    <div class="modal-body">
+    <div class="modal-body" style="max-height: 70vh; overflow-y: auto;">
         <div class="row">
             <div class="col-md-6">
                 <div class="form-group">
-                    <label>Nama Prestasi</label>
-                    <input value="" type="text" name="prestasi_nama" id="prestasi_nama" class="form-control" required>
+                    <label>Nama Prestasi<span style="color: red;">*</span></label>
+                    <input value="" type="text" name="prestasi_nama" id="prestasi_nama" class="form-control"
+                        required>
                     <small id="error-prestasi_nama" class="error-text form-text text-danger"></small>
                 </div>
             </div>
             <div class="col-md-6">
                 <div class="form-group">
-                    <label>Pilih Lomba</label>
+                    <label>Pilih Lomba<span style="color: red;">*</span></label>
                     <select class="form-select" id="prestasi_lomba" name="lomba_id" style="width: 100%">
                         <option value="" disabled selected>- Pilih Lomba -</option>
-                        @foreach($lomba as $item)
+                        @foreach ($lomba as $item)
                             <option value="{{ $item->lomba_id }}">{{ $item->lomba_nama }}</option>
                         @endforeach
                     </select>
@@ -29,10 +30,10 @@
             </div>
             <div class="col-md-6">
                 <div class="form-group">
-                    <label>Pilih Mahasiswa</label>
+                    <label>Pilih Mahasiswa<span style="color: red;">*</span></label>
                     <select class="form-select" id="prestasi_mahasiswa" name="mahasiswa_id" style="width: 100%">
                         <option value="" disabled selected>- Pilih Mahasiswa -</option>
-                        @foreach($mahasiswa as $item)
+                        @foreach ($mahasiswa as $item)
                             <option value="{{ $item->mahasiswa_id }}">({{ $item->nim }}) {{ $item->nama }}</option>
                         @endforeach
                     </select>
@@ -40,19 +41,20 @@
             </div>
             <div class="col-md-6">
                 <div class="form-group">
-                    <label>Pilih Dosen Pembimbing</label>
+                    <label>Pilih Dosen Pembimbing<span style="color: red;">*</span></label>
                     <select class="form-select" id="prestasi_dosbim" name="dosen_id" style="width: 100%">
                         <option value="" disabled selected>- Pilih Dosen -</option>
-                        @foreach($dosen as $item)
+                        @foreach ($dosen as $item)
                             <option value="{{ $item->dosen_id }}">({{ $item->nidn }}) {{ $item->nama }}</option>
                         @endforeach
                     </select>
                 </div>
-            </div>            
+            </div>
             <div class="col-md-6">
                 <div class="form-group">
-                    <label>Tanggal</label>
-                    <input value="" type="date" name="tanggal_perolehan" id="tanggal_perolehan" class="form-control" required>
+                    <label>Tanggal Perolehan<span style="color: red;">*</span></label>
+                    <input value="" type="date" name="tanggal_perolehan" id="tanggal_perolehan"
+                        class="form-control" required>
                     <small id="error-file_bukti_foto" class="error-text form-text text-danger"></small>
                 </div>
             </div>
@@ -60,7 +62,7 @@
             </div>
             <div class="col-md-6">
                 <div class="form-group">
-                    <label>Juara</label>
+                    <label>Juara<span style="color: red;">*</span></label>
                     <select class="form-select" id="prestasi_juara" name="juara" style="width: 100%">
                         <option value="" disabled selected>- Pilih Juara -</option>
                         <option value="1">Juara 1</option>
@@ -72,51 +74,134 @@
             </div>
             <div class="col-md-6">
                 <div class="form-group" id="juara_lain">
-                    <label>Nama Kategori Juara</label>
+                    <label>Nama Kategori Juara<span style="color: red;">*</span></label>
                     <input value="" type="text" name="nama_juara" id="juara_lain" class="form-control"
                         placeholder="Contoh : Best Writer">
                     <small id="error-nama_juara" class="error-text form-text text-danger"></small>
                 </div>
             </div>
-            <div class="col-md-6">
-                <div class="form-group">
-                    <label>Foto Sertifikat</label>
-                    <input value="" type="file" name="file_sertifikat" id="file_sertifikat" class="form-control"
-                        accept="image/*" required>
-                    <small id="error-file_sertifikat" class="error-text form-text text-danger"></small>
+            <div class="col-md-6 mt-2">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Foto Sertifikat</h5>
+                        <!-- Gambar Sertifikat -->
+                        <div
+                            style="position: relative; width: 100%; max-width: 600px; aspect-ratio: 16 / 9; overflow: hidden; background: #eee;">
+                            <img id="preview-sertifikat"
+                                src="{{ asset('assets/images/image-dummy.png') }}"
+                                alt="Sertifikat"
+                                style="width: 100%; height: 100%; object-fit: contain; display: block;">
+                        </div>
+                        <div class="form-group mt-2">
+                            <!-- Sertifikat -->
+                            <input type="file" name="file_sertifikat" id="file_sertifikat" class="form-control"
+                                accept="image/*" onchange="previewImage(event)" data-target="preview-sertifikat">
+
+                            <small class="form-text text-muted">Abaikan jika tidak ingin diubah</small>
+                            <small id="error-file_sertifikat" class="error-text form-text text-danger"></small>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <div class="col-md-6">
-                <div class="form-group">
-                    <label>Bukti Foto</label>
-                    <input value="" type="file" name="file_bukti_foto" id="file_bukti_foto" class="form-control"
-                        accept="image/*" required>
-                    <small id="error-file_bukti_foto" class="error-text form-text text-danger"></small>
+            <div class="col-md-6 mt-2">
+                <div class="card">
+
+                    <div class="card-body">
+                        <h5 class="card-title">Bukti Foto</h5>
+                        <!-- Gambar Bukti Foto -->
+                        <div
+                            style="position: relative; width: 100%; max-width: 600px; aspect-ratio: 16 / 9; overflow: hidden; background: #eee;">
+                            <img id="preview-bukti"
+                                src="{{ asset('assets/images/image-dummy.png') }}"
+                                class="card-img-top" alt="Bukti Foto"
+                                style="width: 100%; height: 100%; object-fit: contain; display: block;">
+                        </div>
+
+                        <div class="form-group mt-2">
+                            <!-- Bukti Foto -->
+                            <input type="file" name="file_bukti_foto" id="file_bukti_foto" class="form-control"
+                                accept="image/*" onchange="previewImage(event)" data-target="preview-bukti">
+
+                            <small class="form-text text-muted">Abaikan jika tidak ingin diubah</small>
+                            <small id="error-file_bukti_foto" class="error-text form-text text-danger"></small>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <div class="col-md-6">
-                <div class="form-group">
-                    <label>Surat Tugas</label>
-                    <input value="" type="file" name="file_surat_tugas" id="file_surat_tugas" class="form-control"
-                        accept="image/*" required>
-                    <small id="error-file_surat_tugas" class="error-text form-text text-danger"></small>
+            <div class="col-md-6 mt-5">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Surat Tugas</h5>
+                        <!-- Gambar Surat Tugas -->
+                        <div
+                            style="position: relative; width: 100%; max-width: 600px; aspect-ratio: 16 / 9; overflow: hidden; background: #eee;">
+                            <img id="preview-surat_tugas"
+                                src="{{ asset('assets/images/image-dummy.png') }}"
+                                class="card-img-top" alt="Surat Tugas"
+                                style="width: 100%; height: 100%; object-fit: contain; display: block;">
+                        </div>
+                        <div class="form-group mt-2">
+                            <!-- Bukti Foto -->
+                            <input type="file" name="file_surat_tugas" id="file_surat_tugas" class="form-control"
+                                accept="image/*" onchange="previewImage(event)" data-target="preview-surat_tugas">
+
+                            <small class="form-text text-muted">Abaikan jika tidak ingin diubah</small>
+                            <small id="error-file_surat_tugas" class="error-text form-text text-danger"></small>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <div class="col-md-6">
-                <div class="form-group">
-                    <label>Surat Undangan</label>
-                    <input value="" type="file" name="file_surat_undangan" id="file_surat_undangan" class="form-control"
-                        accept="image/*" required>
-                    <small id="error-file_surat_undangan" class="error-text form-text text-danger"></small>
+
+            <div class="col-md-6 mt-5">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Surat Undangan</h5>
+                        <!-- Gambar Surat Undangan -->
+                        <div
+                            style="position: relative; width: 100%; max-width: 600px; aspect-ratio: 16 / 9; overflow: hidden; background: #eee;">
+                            <img id="preview-surat_undangan"
+                                src="{{ asset('assets/images/image-dummy.png') }}"
+                                class="card-img-top" alt="Surat Undangan"
+                                style="width: 100%; height: 100%; object-fit: contain; display: block;">
+                        </div>
+
+                        <div class="form-group mt-2">
+                            <!-- Bukti Foto -->
+                            <input type="file" name="file_surat_undangan" id="file_surat_undangan" class="form-control"
+                                accept="image/*" onchange="previewImage(event)" data-target="preview-surat_undangan">
+
+                            <small class="form-text text-muted">Abaikan jika tidak ingin diubah</small>
+                            <small id="error-file_surat_undangan" class="error-text form-text text-danger"></small>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <div class="col-md-12">
-                <div class="form-group">
-                    <label>Proposal</label>
-                    <input value="" type="file" name="file_proposal" id="file_proposal" class="form-control" accept="application/pdf">
-                    <small id="error-file_surat_undangan" class="error-text form-text text-danger"></small>
-                </div>
-            </div>
+            <div class="col-md-12 mt-5">
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title">File Proposal</h5>
+                                <div style="position: relative; width: 100%; height: 500px; border: 1px solid #ccc;">
+                                    <iframe id="preview-proposal"
+                                        width="100%" height="100%" style="border: none;"></iframe>
+                                        <div
+                                            style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; background-color: rgba(255, 255, 255, 0.85);">
+                                            <p id="no-proposal" style="color: #666; font-size: 18px;">Tambahkan Proposal Jika Ada</p>
+                                        </div>
+                                </div>
+
+
+
+                                <div class="form-group mt-2">
+                                    <input type="file" name="file_proposal" id="file_proposal" class="form-control"
+                                        accept="application/pdf" onchange="previewProposal(event)">
+
+                                    <small class="form-text text-muted">Abaikan jika tidak ingin diubah</small>
+                                    <small id="error-file_proposal" class="error-text form-text text-danger"></small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
 
         </div>
     </div>
@@ -135,6 +220,54 @@
         });
     }
 
+    function previewImage(event) {
+        const fileInput = event.target;
+        const targetId = fileInput.getAttribute('data-target');
+        const image = document.getElementById(targetId);
+        const file = fileInput.files[0];
+
+        if (file && file.type.startsWith('image/')) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                image.src = e.target.result;
+            };
+            reader.readAsDataURL(file);
+
+            // Kosongkan pesan error jika valid
+            const errorElement = fileInput.nextElementSibling?.nextElementSibling;
+            if (errorElement) errorElement.textContent = '';
+        } else {
+            const errorElement = fileInput.nextElementSibling?.nextElementSibling;
+            if (errorElement) errorElement.textContent = "File bukan gambar yang valid.";
+        }
+    }
+
+    function previewProposal(event) {
+        const fileInput = event.target;
+        const file = fileInput.files[0];
+        const embed = document.getElementById('preview-proposal');
+
+        if (file && file.type === 'application/pdf') {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                embed.src = e.target.result;
+
+                // Hapus elemen "Tidak ada proposal" jika ada
+                const noProposalText = document.getElementById('no-proposal');
+                if (noProposalText) {
+                    noProposalText.parentElement.remove(); // atau gunakan noProposalText.remove();
+                }
+            };
+            reader.readAsDataURL(file);
+
+            const errorElement = document.getElementById('error-file_proposal');
+            if (errorElement) errorElement.textContent = '';
+        } else {
+            const errorElement = document.getElementById('error-file_proposal');
+            if (errorElement) errorElement.textContent = "File harus berupa PDF.";
+        }
+    }
+
     function toggleJuaraLain() {
         const selected = document.getElementById('prestasi_juara').value;
         const juaraLainGroup = document.querySelector('#juara_lain');
@@ -150,15 +283,15 @@
         }
     }
 
-    $(document).ready(function () {
+    $(document).ready(function() {
         initSelect2();
         toggleJuaraLain();
 
-        $('#prestasi_juara').on('change', function () {
+        $('#prestasi_juara').on('change', function() {
             toggleJuaraLain();
         });
 
-        $('#modal-prestasi').on('shown.bs.modal', function () {
+        $('#modal-prestasi').on('shown.bs.modal', function() {
             initSelect2();
         });
 
@@ -182,7 +315,7 @@
                     required: true
                 },
                 nama_juara: {
-                    required: function () {
+                    required: function() {
                         return $('#prestasi_juara').val() === '4';
                     },
                     minlength: 3
@@ -227,7 +360,7 @@
                 }
             },
 
-            submitHandler: function (form) {
+            submitHandler: function(form) {
                 var formData = new FormData(form);
                 $.ajax({
                     url: form.action,
@@ -235,7 +368,7 @@
                     data: formData,
                     processData: false,
                     contentType: false,
-                    success: function (response) {
+                    success: function(response) {
                         if (response.status) {
                             $('#modal-prestasi').modal('hide');
                             Swal.fire({
@@ -246,7 +379,7 @@
                             dataPrestasi.ajax.reload();
                         } else {
                             $('.error-text').text('');
-                            $.each(response.msgField, function (prefix, val) {
+                            $.each(response.msgField, function(prefix, val) {
                                 $('#error-' + prefix).text(val[0]);
                             });
                             Swal.fire({
@@ -261,14 +394,14 @@
             },
 
             errorElement: 'span',
-            errorPlacement: function (error, element) {
+            errorPlacement: function(error, element) {
                 error.addClass('invalid-feedback');
                 element.closest('.form-group').append(error);
             },
-            highlight: function (element) {
+            highlight: function(element) {
                 $(element).addClass('is-invalid');
             },
-            unhighlight: function (element) {
+            unhighlight: function(element) {
                 $(element).removeClass('is-invalid');
             }
         });

@@ -105,7 +105,7 @@
                         <!-- Gambar Sertifikat -->
                         <div
                             style="position: relative; width: 100%; max-width: 600px; aspect-ratio: 16 / 9; overflow: hidden; background: #eee;">
-                            <img id="preview-sertifikat" src="{{ asset('storage/' . $prestasi->file_sertifikat) }}"
+                            <img id="preview-sertifikat" src="{{ file_exists(public_path('storage/' . $prestasi->file_sertifikat)) ? asset('storage/' . $prestasi->file_sertifikat) : asset('assets/images/broken-image.png') }}"
                                 alt="Sertifikat"
                                 style="width: 100%; height: 100%; object-fit: contain; display: block;">
                         </div>
@@ -133,7 +133,7 @@
                         <!-- Gambar Bukti Foto -->
                         <div
                             style="position: relative; width: 100%; max-width: 600px; aspect-ratio: 16 / 9; overflow: hidden; background: #eee;">
-                            <img id="preview-bukti" src="{{ asset('storage/' . $prestasi->file_bukti_foto) }}"
+                            <img id="preview-bukti" src="{{ file_exists(public_path('storage/' . $prestasi->file_bukti_foto)) ? asset('storage/' . $prestasi->file_bukti_foto) : asset('assets/images/broken-image.png') }}"
                                 class="card-img-top" alt="Bukti Foto"
                                 style="width: 100%; height: 100%; object-fit: contain; display: block;">
                         </div>
@@ -161,7 +161,7 @@
                         <!-- Gambar Surat Tugas -->
                         <div
                             style="position: relative; width: 100%; max-width: 600px; aspect-ratio: 16 / 9; overflow: hidden; background: #eee;">
-                            <img id="preview-surat_tugas" src="{{ asset('storage/' . $prestasi->file_surat_tugas) }}"
+                            <img id="preview-surat_tugas" src="{{ file_exists(public_path('storage/' . $prestasi->file_surat_tugas)) ? asset('storage/' . $prestasi->file_surat_tugas) : asset('assets/images/broken-image.png') }}"
                                 class="card-img-top" alt="Surat Tugas"
                                 style="width: 100%; height: 100%; object-fit: contain; display: block;">
                         </div>
@@ -190,7 +190,7 @@
                         <div
                             style="position: relative; width: 100%; max-width: 600px; aspect-ratio: 16 / 9; overflow: hidden; background: #eee;">
                             <img id="preview-surat_undangan"
-                                src="{{ asset('storage/' . $prestasi->file_surat_undangan) }}" class="card-img-top"
+                                src="{{ file_exists(public_path('storage/' . $prestasi->file_surat_undangan)) ? asset('storage/' . $prestasi->file_surat_undangan) : asset('assets/images/broken-image.png') }}" class="card-img-top"
                                 alt="Surat Undangan"
                                 style="width: 100%; height: 100%; object-fit: contain; display: block;">
                         </div>
@@ -216,17 +216,22 @@
                     <div class="card-body">
                         <h5 class="card-title">File Proposal</h5>
                         <div style="position: relative; width: 100%; height: 500px; border: 1px solid #ccc;">
-                            <iframe id="preview-proposal"
-                                src="{{ $prestasi->file_proposal ? asset('storage/' . $prestasi->file_proposal) : '' }}"
-                                width="100%" height="100%" style="border: none;"></iframe>
+                                <iframe id="preview-proposal"
+                                    src="{{ $prestasi->file_proposal && file_exists(public_path('storage/' . $prestasi->file_proposal)) ? asset('storage/' . $prestasi->file_proposal) : '' }}"
+                                    width="100%" height="100%" style="border: none;"></iframe>
 
-                            @if (!$prestasi->file_proposal)
-                                <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-                                                    display: flex; align-items: center; justify-content: center;
-                                                    background-color: rgba(255, 255, 255, 0.85);">
-                                    <p id="no-proposal" style="color: #666; font-size: 18px;">Tidak ada proposal</p>
-                                </div>
-                            @endif
+                                @if (!$prestasi->file_proposal)
+                                    <div
+                                        style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; background-color: rgba(255, 255, 255, 0.85);">
+                                        <p id="no-proposal" style="color: #666; font-size: 18px;">Tidak ada proposal</p>
+                                    </div>
+                                @endif
+                                @if (!file_exists(public_path('storage/' . $prestasi->file_proposal)))
+                                    <div
+                                        style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; background-color: rgba(255, 255, 255, 0.85);">
+                                        <p id="no-proposal" style="color: #666; font-size: 18px;">File proposal tidak ditemukan</p>
+                                    </div>
+                                @endif
                         </div>
 
 
