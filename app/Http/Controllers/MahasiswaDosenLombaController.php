@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\BidangKeahlianModel;
 use App\Models\LombaModel;
+use App\Models\RekomendasiMahasiswaLombaModel;
 use App\Models\TingkatLombaModel;
 use App\Models\PenyelenggaraModel;
 use Illuminate\Http\Request;
@@ -12,27 +13,22 @@ use Illuminate\Support\Facades\Validator;
 
 class MahasiswaDosenLombaController extends Controller
 {
-    public function index(Request $request)
-    {
+public function index(Request $request)
+{
+    $search = $request->search;
+    $tingkatLombaId = $request->tingkat_lomba_id;
+    $bidangKeahlianId = $request->bidang_keahlian_id;
+    $statusVerifikasi = $request->status_verifikasi;
 
-        // $mahasiswaId = optional($user->mahasiswa)->mahasiswa_id;
-        // $dosenId = optional($user->dosen)->dosen_id;
+    $user = auth()->user();
 
-        $search = $request->search;
-        $tingkatLombaId = $request->tingkat_lomba_id;
-        $bidangKeahlianId = $request->bidang_keahlian_id;
-        $statusVerifikasi = $request->status_verifikasi;
+    $baseLombaQuery = LombaModel::with(['penyelenggara', 'tingkat', 'bidang'])
+        ->where(function ($q) use ($user) {
+            $q->where('status_verifikasi', 1)
+                ->orWhere('user_id', $user->user_id);
+        });
 
-        $user = auth()->user();
-
-        $query = LombaModel::with(['penyelenggara', 'tingkat', 'bidang'])
-            ->where(function ($q) use ($user) {
-                $q->where('status_verifikasi', 1)
-                    ->orWhere('user_id', $user->user_id);
-            });
-
-
-
+    $applyFilters = function ($query) use ($search, $tingkatLombaId, $bidangKeahlianId, $statusVerifikasi) {
         if ($search) {
             $query->where(function ($q) use ($search) {
                 $q->where('lomba_nama', 'like', "%{$search}%")
@@ -56,12 +52,49 @@ class MahasiswaDosenLombaController extends Controller
             });
         }
 
-        $lomba = $query->orderBy('tanggal_selesai', 'desc')->paginate(10);
-        $tingkat_lomba = TingkatLombaModel::all();
-        $bidang_keahlian = BidangKeahlianModel::all();
+        return $query;
+    };
+
+    $tingkat_lomba = TingkatLombaModel::all();
+    $bidang_keahlian = BidangKeahlianModel::all();
+
+    if ($user->hasRole('MHS')) {
+        $mahasiswa_id = $user->mahasiswa->mahasiswa_id;
+
+        $rekomendasi_ids = RekomendasiMahasiswaLombaModel::where('mahasiswa_id', $mahasiswa_id)
+            ->pluck('lomba_id')
+            ->unique()
+            ->toArray();
+
+        $rekomendasi_lomba = LombaModel::with(['penyelenggara', 'tingkat', 'bidang'])
+            ->whereIn('lomba_id', $rekomendasi_ids);
+
+        $rekomendasi_lomba = $applyFilters($rekomendasi_lomba)
+            ->orderBy('tanggal_selesai', 'desc')
+            ->paginate(4, ['*'], 'rekomendasi_page');
+
+        $query = clone $baseLombaQuery;
+        if (!empty($rekomendasi_ids)) {
+            $query->whereNotIn('lomba_id', $rekomendasi_ids);
+        }
+        $query = $applyFilters($query);
+        $lomba = $query->orderBy('tanggal_selesai', 'desc')
+            ->paginate(8, ['*'], 'lomba_page');
+
+        return view('daftar_lomba.daftar_lomba', compact(
+            'lomba',
+            'rekomendasi_lomba',
+            'tingkat_lomba',
+            'bidang_keahlian'
+        ));
+    } else {
+        $query = $applyFilters($baseLombaQuery);
+        $lomba = $query->orderBy('tanggal_selesai', 'desc')->paginate(8, ['*'], 'lomba_page');
 
         return view('daftar_lomba.daftar_lomba', compact('lomba', 'tingkat_lomba', 'bidang_keahlian'));
     }
+}
+
 
 
     public function show($id)
@@ -133,7 +166,7 @@ class MahasiswaDosenLombaController extends Controller
                 'tingkat_lomba_id' => $request->tingkat_lomba_id,
                 'bidang_keahlian_id' => $request->bidang_keahlian_id,
                 'penyelenggara_id' => $request->penyelenggara_id,
-                'jumlah_anggota' => $request -> jumlah_anggota,
+                'jumlah_anggota' => $request->jumlah_anggota,
                 'tanggal_mulai' => $request->tanggal_mulai,
                 'tanggal_selesai' => $request->tanggal_selesai,
                 'foto_pamflet' => $imagePath,
@@ -240,7 +273,7 @@ class MahasiswaDosenLombaController extends Controller
             'tingkat_lomba_id' => $request->tingkat_lomba_id,
             'bidang_keahlian_id' => $request->bidang_keahlian_id,
             'penyelenggara_id' => $request->penyelenggara_id,
-            'jumlah_anggota' => $request -> jumlah_anggota,
+            'jumlah_anggota' => $request->jumlah_anggota,
             'tanggal_mulai' => $request->tanggal_mulai,
             'tanggal_selesai' => $request->tanggal_selesai,
             'foto_pamflet' => $imagePath
