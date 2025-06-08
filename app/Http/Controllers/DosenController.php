@@ -147,9 +147,9 @@ class DosenController extends Controller
     }
 }
 
-    public function show($id)
+    public function show(DosenModel $dosen)
     {
-        $dosen = DosenModel::find($id)->with('prestasi')->first();
+        // $dosen = DosenModel::find($id)->with('prestasi')->first();
         return view('admin.dosen.show_dosen')->with(['dosen' => $dosen]);
     }
 
