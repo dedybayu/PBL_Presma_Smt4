@@ -35,10 +35,9 @@ class ProdiController extends Controller
                     return $row->prodi_kode;
                 })
                 ->addColumn('aksi', function ($row) {
-                    return '
-                        <a href="' . route('prodi.edit', $row->prodi_id) . '" class="btn btn-warning btn-sm mt-1 mb-1">Edit</a>
-                        <button data-url="' . route('prodi.destroy', $row->prodi_id) . '" class="btn btn-danger btn-sm mt-1 mb-1 btn-delete">Hapus</button>
-                    ';
+                    $btn = '<button onclick="modalAction(\'' . url('/prodi/' . $row->prodi_id . '/edit') . '\')" class="btn btn-warning btn-sm mt-1 mb-1"><i class="fa fa-pen"></i> Edit</button> ';
+                    $btn .= '<button onclick="modalAction(\'' . url('/prodi/' . $row->prodi_id . '/confirm-delete') . '\')" class="btn btn-danger btn-sm mt-1 mb-1"><i class="fa fa-trash"></i> Hapus</button>';
+                    return $btn;
                 })
                 ->rawColumns(['info', 'aksi'])
                 ->make(true);
