@@ -17,7 +17,7 @@
         </div>
     </div>
 @else
-    <form action="{{route('prestasi.update_verifikasi', $prestasi->prestasi_id)}}" method="POST"
+    <form action="{{ route('prestasi.update_verifikasi', $prestasi->prestasi_id) }}" method="POST"
         id="form-edit-verifikasi-prestasi">
         @csrf
         @method('PUT')
@@ -29,48 +29,102 @@
             </button>
         </div>
         <div class="modal-body" style="max-height: 70vh; overflow-y: auto;">
-            <table class="table table-sm table-bordered table-striped">
-                <tr>
-                    <th class="text-right col-3">NIM :</th>
-                    <td class="col-9">{{ $prestasi->mahasiswa->nim }}</td>
-                </tr>
-                <tr>
-                    <th class="text-right col-3">Mahasiswa :</th>
-                    <td class="col-9">{{ $prestasi->mahasiswa->nama ?? '-' }}</td>
-                </tr>
-                <tr>
-                    <th class="text-right col-3">Prestasi :</th>
-                    <td class="col-9">{{ $prestasi->prestasi_nama ?? '-' }}</td>
-                </tr>
-                <tr>
-                    <th class="text-right col-3">Lomba :</th>
-                    <td class="col-9">{{ $prestasi->lomba->lomba_nama ?? '-' }}</td>
-                </tr>
-                <tr>
-                    <th class="text-right col-3">Juara :</th>
-                    <td class="col-9">{{ $prestasi->nama_juara ?? '-' }}</td>
-                </tr>
-                <tr>
-                    <th class="text-right col-3">Tingkat :</th>
-                    <td class="col-9">{{ $prestasi->lomba->tingkat->tingkat_lomba_nama ?? '-' }}</td>
-                </tr>
-                <tr>
-                    <th class="text-right col-3">Poin :</th>
-                    <td class="col-9">{{ $prestasi->poin ?? '-' }}</td>
-                </tr>
-                <tr>
-                    <th class="text-right col-3">Status Verifikasi :</th>
-                    <td class="col-9">
-                        @if ($prestasi->status_verifikasi === 1)
-                            Terverifikasi
-                        @elseif ($prestasi->status_verifikasi === 0)
-                            Ditolak
-                        @else
-                            Menunggu Verifikasi
-                        @endif
-                    </td>
-                </tr>
-            </table>
+            <div class="main-body">
+                <div class="row gutters-sm">
+                    <div class="col-md-12">
+                        <div class="card mb-3">
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-sm-3">
+                                        <h6 class="mb-0">Nama Mahasiswa</h6>
+                                    </div>
+                                    <div class="col-sm-9 text-secondary">
+                                        {{ $prestasi->mahasiswa->nama }}
+                                    </div>
+                                </div>
+                                <hr>
+                                <div class="row">
+                                    <div class="col-sm-3">
+                                        <h6 class="mb-0">NIM</h6>
+                                    </div>
+                                    <div class="col-sm-9 text-secondary">
+                                        {{ $prestasi->mahasiswa->nim }}
+                                    </div>
+                                </div>
+                                <hr>
+                                <div class="row">
+                                    <div class="col-sm-3">
+                                        <h6 class="mb-0">Prestasi</h6>
+                                    </div>
+                                    <div class="col-sm-9 text-secondary">
+                                        {{ $prestasi->prestasi_nama }}
+                                    </div>
+                                </div>
+                                <hr>
+                                <div class="row">
+                                    <div class="col-sm-3">
+                                        <h6 class="mb-0">Nama Prestasi</h6>
+                                    </div>
+                                    <div class="col-sm-9 text-secondary">
+                                        {{ $prestasi->lomba->lomba_nama }}
+                                    </div>
+                                </div>
+                                <hr>
+                                                                <div class="row">
+                                    <div class="col-sm-3">
+                                        <h6 class="mb-0">Tanggal Perolehan</h6>
+                                    </div>
+                                    <div class="col-sm-9 text-secondary">
+                                        {{ \Carbon\Carbon::parse($prestasi->tanggal_perolehan)->translatedFormat('d F Y') }}
+                                    </div>
+                                </div>
+                                <hr>
+                                <div class="row">
+                                    <div class="col-sm-3">
+                                        <h6 class="mb-0">Juara</h6>
+                                    </div>
+                                    <div class="col-sm-9 text-secondary">
+                                        {{ $prestasi->nama_juara }}
+                                    </div>
+                                </div>
+                                <hr>
+                                <div class="row">
+                                    <div class="col-sm-3">
+                                        <h6 class="mb-0">Tingkat</h6>
+                                    </div>
+                                    <div class="col-sm-9 text-secondary">
+                                        {{ $prestasi->lomba->tingkat->tingkat_lomba_nama }}
+                                    </div>
+                                </div>
+                                <hr>
+                                <div class="row">
+                                    <div class="col-sm-3">
+                                        <h6 class="mb-0">Poin</h6>
+                                    </div>
+                                    <div class="col-sm-9 text-secondary">
+                                        {{ $prestasi->poin }}
+                                    </div>
+                                </div>
+                                <hr>
+                                <div class="row">
+                                    <div class="col-sm-3">
+                                        <h6 class="mb-0">Status Verifikasi</h6>
+                                    </div>
+                                    <div class="col-sm-9 text-secondary">
+                                        @if ($prestasi->status_verifikasi == '1')
+                                            <span class="badge badge-success">Terverifikasi</span>
+                                        @elseif($prestasi->status_verifikasi == '0')
+                                            <span class="badge badge-danger">Ditolak</span>
+                                        @else
+                                            <span class="badge badge-warning">Menunggu Verifikasi</span>
+                                        @endif
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
             <div class="row">
                 <div class="col-md-6 mt-2">
@@ -81,7 +135,8 @@
                             <div
                                 style="position: relative; width: 100%; max-width: 600px; aspect-ratio: 16 / 9; overflow: hidden; background: #eee;">
                                 <a href="{{ asset('storage/' . $prestasi->file_sertifikat) }}" target="_blank">
-                                    <img id="preview-sertifikat" src="{{ asset('storage/' . $prestasi->file_sertifikat) }}"
+                                    <img id="preview-sertifikat"
+                                        src="{{ file_exists(public_path('storage/' . $prestasi->file_sertifikat)) ? asset('storage/' . $prestasi->file_sertifikat) : asset('assets/images/broken-image.png') }}"
                                         alt="Sertifikat"
                                         style="width: 100%; height: 100%; object-fit: contain; display: block;">
                                 </a>
@@ -97,7 +152,8 @@
                             <div
                                 style="position: relative; width: 100%; max-width: 600px; aspect-ratio: 16 / 9; overflow: hidden; background: #eee;">
                                 <a href="{{ asset('storage/' . $prestasi->file_bukti_foto) }}" target="_blank">
-                                    <img id="preview-bukti-foto" src="{{ asset('storage/' . $prestasi->file_bukti_foto) }}"
+                                    <img id="preview-bukti-foto"
+                                        src="{{ file_exists(public_path('storage/' . $prestasi->file_bukti_foto)) ? asset('storage/' . $prestasi->file_bukti_foto) : asset('assets/images/broken-image.png') }}"
                                         alt="Bukti Foto"
                                         style="width: 100%; height: 100%; object-fit: contain; display: block;">
                                 </a>
@@ -114,7 +170,8 @@
                                 style="position: relative; width: 100%; max-width: 600px; aspect-ratio: 16 / 9; overflow: hidden; background: #eee;">
                                 <a href="{{ asset('storage/' . $prestasi->file_surat_tugas) }}" target="_blank">
                                     <img id="preview-surat_tugas"
-                                        src="{{ asset('storage/' . $prestasi->file_surat_tugas) }}" alt="surat_tugas"
+                                        src="{{ file_exists(public_path('storage/' . $prestasi->file_surat_tugas)) ? asset('storage/' . $prestasi->file_surat_tugas) : asset('assets/images/broken-image.png') }}"
+                                        alt="surat_tugas"
                                         style="width: 100%; height: 100%; object-fit: contain; display: block;">
                                 </a>
                             </div>
@@ -130,7 +187,8 @@
                                 style="position: relative; width: 100%; max-width: 600px; aspect-ratio: 16 / 9; overflow: hidden; background: #eee;">
                                 <a href="{{ asset('storage/' . $prestasi->file_surat_undangan) }}" target="_blank">
                                     <img id="preview-surat_undangan"
-                                        src="{{ asset('storage/' . $prestasi->file_surat_undangan) }}" alt="surat_undangan"
+                                        src="{{ file_exists(public_path('storage/' . $prestasi->file_surat_undangan)) ? asset('storage/' . $prestasi->file_surat_undangan) : asset('assets/images/broken-image.png') }}"
+                                        alt="surat_undangan"
                                         style="width: 100%; height: 100%; object-fit: contain; display: block;">
                                 </a>
                             </div>
@@ -168,22 +226,26 @@
                                 <div class="col-md-4 mt-2">
                                     <div class="form-group">
                                         <label>Status Verifikasi</label>
-                                        <select name="status_verifikasi" id="prestasi_status_verifikasi" class="form-control">
-                                            <option value="" disabled>- Pilih Verifikasi -</option>
-                                            <option value="1" {{ $prestasi->status_verifikasi === 1 ? 'selected' : '' }}
-                                                style="background-color: rgba(0, 255, 85, 0.144)">
-                                                Terverifikasi</option>
-                                            <option value="0" {{ $prestasi->status_verifikasi === 0 ? 'selected' : '' }}
-                                                style="background-color: rgba(255, 0, 0, 0.144)">
-                                                Ditolak</option>
-                                            <option value="" {{ $prestasi->status_verifikasi === null ? 'selected' : '' }}
-                                                style="background-color: rgba(255, 255, 0, 0.144)">
-                                                Menunggu Verifikasi</option>
-                                            </option>
-                                        </select>
+                                        <div class="d-flex gap-3">
+                                            <div class="form-check form-check-inline"
+                                                style="background-color: rgba(0, 255, 85, 0.144); padding: 8px; border-radius: 5px;">
+                                                <input class="form-check-input" type="radio" name="status_verifikasi"
+                                                    id="verifikasi_1" value="1"
+                                                    {{ $prestasi->status_verifikasi === 1 ? 'checked' : '' }}>
+                                                <label class="form-check-label" for="verifikasi_1">Terverifikasi</label>
+                                            </div>
+                                            <div class="form-check form-check-inline"
+                                                style="background-color: rgba(255, 0, 0, 0.144); padding: 8px; border-radius: 5px;">
+                                                <input class="form-check-input" type="radio" name="status_verifikasi"
+                                                    id="verifikasi_0" value="0"
+                                                    {{ $prestasi->status_verifikasi === 0 ? 'checked' : '' }}>
+                                                <label class="form-check-label" for="verifikasi_0">Ditolak</label>
+                                            </div>
+                                        </div>
                                         <small id="error-status_verifikasi"
                                             class="error-text form-text text-danger"></small>
                                     </div>
+
                                 </div>
                                 <div class="col-md-8 mt-2">
                                     <div class="form-group">
@@ -214,10 +276,10 @@
             });
         }
 
-        $(document).ready(function () {
+        $(document).ready(function() {
             initSelect2();
 
-            $('#modal-prestasi').on('shown.bs.modal', function () {
+            $('#modal-prestasi').on('shown.bs.modal', function() {
                 initSelect2();
             });
             $("#form-edit-verifikasi-prestasi").validate({
@@ -234,13 +296,13 @@
                         required: "Masukkan status verifikasi"
                     }
                 },
-                submitHandler: function (form) {
+                submitHandler: function(form) {
                     var formData = new FormData(form);
                     $.ajax({
                         url: form.action,
                         type: form.method,
                         data: $(form).serialize(),
-                        success: function (response) {
+                        success: function(response) {
                             if (response.status) {
                                 $('#modal-prestasi').modal('hide');
                                 Swal.fire({
@@ -251,7 +313,7 @@
                                 dataPrestasi.ajax.reload();
                             } else {
                                 $('.error-text').text('');
-                                $.each(response.msgField, function (prefix, val) {
+                                $.each(response.msgField, function(prefix, val) {
                                     $('#error-' + prefix).text(val[0]);
                                 });
                                 Swal.fire({
@@ -266,14 +328,14 @@
                 },
 
                 errorElement: 'span',
-                errorPlacement: function (error, element) {
+                errorPlacement: function(error, element) {
                     error.addClass('invalid-feedback');
                     element.closest('.form-group').append(error);
                 },
-                highlight: function (element) {
+                highlight: function(element) {
                     $(element).addClass('is-invalid');
                 },
-                unhighlight: function (element) {
+                unhighlight: function(element) {
                     $(element).removeClass('is-invalid');
                 }
             });

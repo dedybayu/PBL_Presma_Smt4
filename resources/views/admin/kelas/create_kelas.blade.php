@@ -9,19 +9,19 @@
 
     <div class="modal-body">
         <div class="form-group">
-            <label for="kelas_kode">Kode Kelas</label>
+            <label for="kelas_kode">Kode Kelas<span style="color: red;">*</span></label>
             <input type="text" name="kelas_kode" id="kelas_kode" class="form-control">
             <small id="error-kelas_kode" class="text-danger"></small>
         </div>
 
         <div class="form-group">
-            <label for="kelas_nama">Nama Kelas</label>
+            <label for="kelas_nama">Nama Kelas<span style="color: red;">*</span></label>
             <input type="text" name="kelas_nama" id="kelas_nama" class="form-control">
             <small id="error-kelas_nama" class="text-danger"></small>
         </div>
 
         <div class="form-group">
-            <label for="prodi_id">Program Studi</label>
+            <label for="prodi_id">Program Studi<span style="color: red;">*</span></label>
             <select name="prodi_id" id="prodi_id" class="form-control">
                 <option value="">- Pilih Program Studi -</option>
                 @foreach($prodi as $p)

@@ -9,13 +9,13 @@
 
     <div class="modal-body">
         <div class="form-group">
-            <label for="kategori_bidang_keahlian_kode">Kode Bidang Keahlian</label>
+            <label for="kategori_bidang_keahlian_kode">Kode Bidang Keahlian<span style="color: red;">*</span></label>
             <input type="text" name="kategori_bidang_keahlian_kode" id="kategori_bidang_keahlian_kode" class="form-control">
             <small id="error-kategori_bidang_keahlian_kode" class="text-danger"></small>
         </div>
 
         <div class="form-group">
-            <label for="kategori_bidang_keahlian_nama">Nama Bidang Keahlian</label>
+            <label for="kategori_bidang_keahlian_nama">Nama Bidang Keahlian<span style="color: red;">*</span></label>
             <input type="text" name="kategori_bidang_keahlian_nama" id="kategori_bidang_keahlian_nama" class="form-control">
             <small id="error-kategori_bidang_keahlian_nama" class="text-danger"></small>
         </div>

@@ -55,19 +55,19 @@
 
                 <div class="col-md-6">
                     <div class="form-group">
-                        <label>Username</label>
+                        <label>Username<span style="color: red;">*</span></label>
                         <input value="{{ $mahasiswa->user->username }}" type="text" name="username" id="username"
                             class="form-control" required>
                         <small id="error-username" class="error-text form-text text-danger"></small>
                     </div>
                     <div class="form-group">
-                        <label>NIM</label>
+                        <label>NIM<span style="color: red;">*</span></label>
                         <input value="{{ $mahasiswa->nim }}" type="number" name="nim" id="nim"
                             class="form-control" required>
                         <small id="error-nim" class="error-text form-text text-danger"></small>
                     </div>
                     <div class="form-group">
-                        <label>Nama</label>
+                        <label>Nama<span style="color: red;">*</span></label>
                         <input value="{{ $mahasiswa->nama }}" type="text" name="nama" id="nama"
                             class="form-control" required>
                         <small id="error-nama" class="error-text form-text text-danger"></small>
@@ -75,7 +75,7 @@
                 </div>
                 <div class="col-md-6">
                     <div class="form-group">
-                        <label>Prodi</label>
+                        <label>Prodi<span style="color: red;">*</span></label>
                         <select class="form-select" id="mahasiswa_prodi" name="prodi_id" style="width: 100%">
                             <option value="" disabled selected>- Pilih Prodi -</option>
                             @foreach ($prodi as $item)
@@ -87,7 +87,7 @@
                 </div>
                 <div class="col-md-6">
                     <div class="form-group">
-                        <label>Kelas</label>
+                        <label>Kelas<span style="color: red;">*</span></label>
                         <select class="form-select" id="mahasiswa_kelas" name="kelas_id" style="width: 100%">
                             <option value="" disabled selected>- Pilih Kelas -</option>
                             @foreach ($kelas as $item)
@@ -101,7 +101,7 @@
                 </div>
                 <div class="col-md-6">
                     <div class="form-group">
-                        <label>Email</label>
+                        <label>Email<span style="color: red;">*</span></label>
                         <input value="{{ $mahasiswa->email }}" type="email" name="email" id="email"
                             class="form-control" required>
                         <small id="error-email" class="error-text form-text text-danger"></small>
@@ -109,7 +109,7 @@
                 </div>
                 <div class="col-md-6">
                     <div class="form-group">
-                        <label>No. Tlp</label>
+                        <label>No. Tlp<span style="color: red;">*</span></label>
                         <input value="{{ $mahasiswa->no_tlp }}" type="text" name="no_tlp" id="no_tlp"
                             class="form-control" required>
                         <small id="error-no_tlp" class="error-text form-text text-danger"></small>
@@ -118,7 +118,7 @@
             </div>
 
             <div class="form-group">
-                <label>Alamat</label>
+                <label>Alamat<span style="color: red;">*</span></label>
                 <input value="{{ $mahasiswa->alamat }}" type="text" name="alamat" id="alamat"
                     class="form-control" required>
                 <small id="error-alamat" class="error-text form-text text-danger"></small>
@@ -127,7 +127,7 @@
             <div class="row">
                 <div class="col-md-3">
                 <div class="form-group">
-                    <label>IPK</label>
+                    <label>IPK<span style="color: red;">*</span></label>
                     <input value="{{ $mahasiswa->ipk }}" type="number" name="ipk" id="ipk" class="form-control"
                         required min="0" max="4" step="0.01">
                     <small id="error-ipk" class="error-text form-text text-danger"></small>
@@ -135,7 +135,7 @@
                 </div>
                 <div class="col-md-3">
                     <div class="form-group">
-                        <label>Tahun Angkatan</label>
+                        <label>Tahun Angkatan<span style="color: red;">*</span></label>
                         <input value="{{ $mahasiswa->tahun_angkatan }}" type="number" name="tahun_angkatan"
                             id="tahun_angkatan" class="form-control" required>
                         <small id="error-tahun_angkatan" class="error-text form-text text-danger"></small>

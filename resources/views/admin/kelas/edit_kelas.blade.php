@@ -11,19 +11,19 @@
 
     <div class="modal-body">
         <div class="form-group">
-            <label>Kode Kelas</label>
+            <label>Kode Kelas<span style="color: red;">*</span></label>
             <input type="text" name="kelas_kode" id="kelas_kode" class="form-control" value="{{ $kelas->kelas_kode }}" required>
             <small id="error-kelas_kode" class="error-text form-text text-danger"></small>
         </div>
 
         <div class="form-group">
-            <label>Nama Kelas</label>
+            <label>Nama Kelas<span style="color: red;">*</span></label>
             <input type="text" name="kelas_nama" id="kelas_nama" class="form-control" value="{{ $kelas->kelas_nama }}" required>
             <small id="error-kelas_nama" class="error-text form-text text-danger"></small>
         </div>
 
         <div class="form-group">
-            <label>Program Studi</label>
+            <label>Program Studi<span style="color: red;">*</span></label>
             <select name="prodi_id" id="prodi_id" class="form-control" required>
                 <option value="">-- Pilih Program Studi --</option>
                 @foreach($prodi as $p)

@@ -34,31 +34,31 @@
 
             <div class="col-md-6">
                 <div class="form-group">
-                    <label>Username</label>
+                    <label>Username<span style="color: red;">*</span></label>
                     <input value="" type="text" name="username" id="username" class="form-control" required>
                     <small id="error-username" class="error-text form-text text-danger"></small>
                 </div>
                 <div class="form-group">
-                    <label>NIDN</label>
+                    <label>NIDN<span style="color: red;">*</span></label>
                     <input value="" type="text" name="nidn" id="nidn" class="form-control" required>
                     <small id="error-nidn" class="error-text form-text text-danger"></small>
                 </div>
                 <div class="form-group">
-                    <label>Nama</label>
+                    <label>Nama<span style="color: red;">*</span></label>
                     <input value="" type="text" name="nama" id="nama" class="form-control" required>
                     <small id="error-nama" class="error-text form-text text-danger"></small>
                 </div>
             </div>
             <div class="col-md-6">
                 <div class="form-group">
-                    <label>Email</label>
+                    <label>Email<span style="color: red;">*</span></label>
                     <input value="" type="email" name="email" id="email" class="form-control" required>
                     <small id="error-email" class="error-text form-text text-danger"></small>
                 </div>
             </div>
             <div class="col-md-6">
                 <div class="form-group">
-                    <label>No. Tlp</label>
+                    <label>No. Tlp<span style="color: red;">*</span></label>
                     <input value="" type="text" name="no_tlp" id="no_tlp" class="form-control" required>
                     <small id="error-no_tlp" class="error-text form-text text-danger"></small>
                 </div>

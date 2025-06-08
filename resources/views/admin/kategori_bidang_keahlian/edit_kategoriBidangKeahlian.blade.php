@@ -12,14 +12,14 @@
 
     <div class="modal-body">
         <div class="form-group">
-            <label>Kode Bidang Keahlian</label>
+            <label>Kode Bidang Keahlian<span style="color: red;">*</span></label>
             <input type="text" name="kategori_bidang_keahlian_kode" id="kategori_bidang_keahlian_kode" class="form-control"
                 value="{{ $kategoriBidangKeahlian->kategori_bidang_keahlian_kode }}">
             <small id="error-kategori_bidang_keahlian_kode" class="text-danger"></small>
         </div>
 
         <div class="form-group">
-            <label>Nama Bidang Keahlian</label>
+            <label>Nama Bidang Keahlian<span style="color: red;">*</span></label>
             <input type="text" name="kategori_bidang_keahlian_nama" id="kategori_bidang_keahlian_nama" class="form-control"
                 value="{{ $kategoriBidangKeahlian->kategori_bidang_keahlian_nama }}">
             <small id="error-kategori_bidang_keahlian_nama" class="text-danger"></small>

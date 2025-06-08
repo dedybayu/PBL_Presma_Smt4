@@ -11,14 +11,14 @@
         <div class="row">
             <div class="col-md-6">
                 <div class="form-group">
-                    <label>Nama Prestasi</label>
+                    <label>Nama Prestasi<span style="color: red;">*</span></label>
                     <input value="" type="text" name="prestasi_nama" id="prestasi_nama" class="form-control" required>
                     <small id="error-prestasi_nama" class="error-text form-text text-danger"></small>
                 </div>
             </div>
             <div class="col-md-6">
                 <div class="form-group">
-                    <label>Pilih Lomba</label>
+                    <label>Pilih Lomba<span style="color: red;">*</span></label>
                     <select class="form-select" id="prestasi_lomba" name="lomba_id" style="width: 100%">
                         <option value="" disabled selected>- Pilih Lomba -</option>
                         @foreach($lomba as $item)
@@ -29,7 +29,7 @@
             </div>
             <div class="col-md-6">
                 <div class="form-group">
-                    <label>Pilih Mahasiswa</label>
+                    <label>Pilih Mahasiswa<span style="color: red;">*</span></label>
                     <select class="form-select" id="prestasi_mahasiswa" name="mahasiswa_id" style="width: 100%">
                         <option value="" disabled selected>- Pilih Mahasiswa -</option>
                         @foreach($mahasiswa as $item)
@@ -40,7 +40,7 @@
             </div>
             <div class="col-md-6">
                 <div class="form-group">
-                    <label>Pilih Dosen Pembimbing</label>
+                    <label>Pilih Dosen Pembimbing<span style="color: red;">*</span></label>
                     <select class="form-select" id="prestasi_dosbim" name="dosen_id" style="width: 100%">
                         <option value="" disabled selected>- Pilih Dosen -</option>
                         @foreach($dosen as $item)
@@ -51,7 +51,7 @@
             </div>            
             <div class="col-md-6">
                 <div class="form-group">
-                    <label>Tanggal</label>
+                    <label>Tanggal Perolehan<span style="color: red;">*</span></label>
                     <input value="" type="date" name="tanggal_perolehan" id="tanggal_perolehan" class="form-control" required>
                     <small id="error-file_bukti_foto" class="error-text form-text text-danger"></small>
                 </div>
@@ -60,7 +60,7 @@
             </div>
             <div class="col-md-6">
                 <div class="form-group">
-                    <label>Juara</label>
+                    <label>Juara<span style="color: red;">*</span></label>
                     <select class="form-select" id="prestasi_juara" name="juara" style="width: 100%">
                         <option value="" disabled selected>- Pilih Juara -</option>
                         <option value="1">Juara 1</option>
@@ -72,7 +72,7 @@
             </div>
             <div class="col-md-6">
                 <div class="form-group" id="juara_lain">
-                    <label>Nama Kategori Juara</label>
+                    <label>Nama Kategori Juara<span style="color: red;">*</span></label>
                     <input value="" type="text" name="nama_juara" id="juara_lain" class="form-control"
                         placeholder="Contoh : Best Writer">
                     <small id="error-nama_juara" class="error-text form-text text-danger"></small>
@@ -80,7 +80,7 @@
             </div>
             <div class="col-md-6">
                 <div class="form-group">
-                    <label>Foto Sertifikat</label>
+                    <label>Foto Sertifikat<span style="color: red;">*</span></label>
                     <input value="" type="file" name="file_sertifikat" id="file_sertifikat" class="form-control"
                         accept="image/*" required>
                     <small id="error-file_sertifikat" class="error-text form-text text-danger"></small>
@@ -88,7 +88,7 @@
             </div>
             <div class="col-md-6">
                 <div class="form-group">
-                    <label>Bukti Foto</label>
+                    <label>Bukti Foto<span style="color: red;">*</span></label>
                     <input value="" type="file" name="file_bukti_foto" id="file_bukti_foto" class="form-control"
                         accept="image/*" required>
                     <small id="error-file_bukti_foto" class="error-text form-text text-danger"></small>
@@ -96,7 +96,7 @@
             </div>
             <div class="col-md-6">
                 <div class="form-group">
-                    <label>Surat Tugas</label>
+                    <label>Surat Tugas<span style="color: red;">*</span></label>
                     <input value="" type="file" name="file_surat_tugas" id="file_surat_tugas" class="form-control"
                         accept="image/*" required>
                     <small id="error-file_surat_tugas" class="error-text form-text text-danger"></small>
@@ -104,7 +104,7 @@
             </div>
             <div class="col-md-6">
                 <div class="form-group">
-                    <label>Surat Undangan</label>
+                    <label>Surat Undangan<span style="color: red;">*</span></label>
                     <input value="" type="file" name="file_surat_undangan" id="file_surat_undangan" class="form-control"
                         accept="image/*" required>
                     <small id="error-file_surat_undangan" class="error-text form-text text-danger"></small>

@@ -12,14 +12,14 @@
 
     <div class="modal-body">
         <div class="form-group">
-            <label>Nama Penyelenggara</label>
+            <label>Nama Penyelenggara<span style="color: red;">*</span></label>
             <input type="text" name="penyelenggara_nama" id="penyelenggara_nama" class="form-control"
                 value="{{ $penyelenggara->penyelenggara_nama }}">
             <small id="error-penyelenggara_nama" class="text-danger"></small>
         </div>
 
         <div class="form-group">
-            <label for="kota_id">Kota</label>
+            <label for="kota_id">Kota<span style="color: red;">*</span></label>
             <select name="kota_id" id="kota_id" class="form-control">
                 <option value="">- Pilih kota -</option>
                 @foreach($kota as $k)
