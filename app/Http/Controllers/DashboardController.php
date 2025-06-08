@@ -118,7 +118,7 @@ class DashboardController extends Controller
             ->where('mahasiswa_id', auth()->user()->mahasiswa->mahasiswa_id ?? null)
             ->where('status_verifikasi', 1)
             ->orderByDesc('created_at')
-            ->limit(5)
+            ->limit(3)
             ->get();
 
         // Ambil data mahasiswa bimbingan
@@ -130,7 +130,7 @@ class DashboardController extends Controller
                 $query->where('dosen_id', $dosenId);
             })
             ->orderBy('created_at', 'desc')
-            ->limit(5)
+            ->limit(3)
             ->get(['mahasiswa_id', 'nim', 'nama', 'kelas_id', 'foto_profile']);
         }
 
