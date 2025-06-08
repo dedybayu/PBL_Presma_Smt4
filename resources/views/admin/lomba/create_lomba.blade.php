@@ -11,35 +11,35 @@
         <div class="row">
             <div class="col-md-12">
                 <div class="form-group">
-                    <label for="lomba_nama">Nama Lomba</label>
+                    <label for="lomba_nama">Nama Lomba<span style="color: red;">*</span></label>
                     <input type="text" name="lomba_nama" id="lomba_nama" class="form-control">
                     <small id="error-lomba_nama" class="text-danger"></small>
                 </div>
             </div>
             <div class="col-md-12">
                 <div class="form-group">
-                    <label for="lomba_deskripsi">Deskripsi lomba</label>
+                    <label for="lomba_deskripsi">Deskripsi lomba<span style="color: red;">*</span></label>
                     <textarea name="lomba_deskripsi" id="lomba_deskripsi" class="form-control" rows="3"></textarea>
                     <small id="error-lomba_deskripsi" class="text-danger"></small>
                 </div>
             </div>
             <div class="col-md-6">
                 <div class="form-group">
-                    <label for="lomba_deskripsi">Jumlah Anggota</label>
-                    <input type="text" name="jumlah_anggota" id="Jumlah_anggota" class="form-control">
+                    <label for="lomba_deskripsi">Jumlah Anggota<span style="color: red;">*</span></label>
+                    <input type="number" name="jumlah_anggota" id="Jumlah_anggota" class="form-control">
                     <small id="error-jumlah_anggota" class="text-danger"></small>
                 </div>
             </div>
             <div class="col-md-6">
                 <div class="form-group">
-                    <label for="link_website">Link Website Lomba</label>
+                    <label for="link_website">Link Website Lomba<span style="color: red;">*</span></label>
                     <input type="text" name="link_website" id="link_website" class="form-control">
                     <small id="error-link_website" class="text-danger"></small>
                 </div>
             </div>
             <div class="col-md-6">
                 <div class="form-group">
-                    <label for="tingkat_lomba_id">Tingkat Lomba</label>
+                    <label for="tingkat_lomba_id">Tingkat Lomba<span style="color: red;">*</span></label>
                     <select name="tingkat_lomba_id" id="tingkat_lomba_id" class="form-control">
                         <option value="">- Pilih tingkat -</option>
                         @foreach ($tingkat as $k)
@@ -51,7 +51,7 @@
             </div>
             <div class="col-md-6">
                 <div class="form-group">
-                    <label>Bidang</label>
+                    <label>Bidang<span style="color: red;">*</span></label>
                     <select class="form-select" id="bidang_keahlian_id_create" name="bidang_keahlian_id"
                         style="width: 100%">
                         <option value="" disabled selected>- Pilih bidang -</option>
@@ -61,11 +61,12 @@
                             </option>
                         @endforeach
                     </select>
+                    <small id="error-bidang_keahlian_id" class="text-danger"></small>
                 </div>
             </div>
             <div class="col-md-6">
                 <div class="form-group">
-                    <label>Penyelenggara</label>
+                    <label>Penyelenggara<span style="color: red;">*</span></label>
                     <select class="form-select" id="penyelenggara_id" name="penyelenggara_id" style="width: 100%">
                         <option value="" disabled selected>- Pilih penyelenggara -</option>
                         @foreach ($penyelenggara as $item)
@@ -74,18 +75,19 @@
                             </option>
                         @endforeach
                     </select>
+                    <small id="error-penyelenggara_id" class="text-danger"></small>
                 </div>
             </div>
             <div class="col-md-6">
                 <div class="form-group">
-                    <label for="tanggal_mulai">tanggal mulai</label>
+                    <label for="tanggal_mulai">tanggal mulai<span style="color: red;">*</span></label>
                     <input type="date" name="tanggal_mulai" id="tanggal_mulai" class="form-control">
                     <small id="error-tanggal-mulai" class="text-danger"></small>
                 </div>
             </div>
             <div class="col-md-6">
                 <div class="form-group">
-                    <label for="tanggal_selesai">tanggal_selesai</label>
+                    <label for="tanggal_selesai">tanggal_selesai<span style="color: red;">*</span></label>
                     <input type="date" name="tanggal_selesai" id="tanggal_selesai" class="form-control">
                     <small id="error-tanggal_selesai" class="text-danger"></small>
                 </div>
@@ -93,7 +95,7 @@
         </div>
         <div class="card">
             <div class="card-body">
-                <h5 class="card-title">Foto Pamflet</h5>
+                <h5 class="card-title">Foto Pamflet<span style="color: red;">*</span></h5>
                 <!-- Gambar  -->
                 <div
                     style="position: relative; width: 100%; max-width: auto; aspect-ratio: 16 / 9; overflow: hidden; background: #eee;">
@@ -102,15 +104,9 @@
                 </div>
                 <div class="form-group mt-2">
                     <!-- Foto preview-pamflet -->
-                    <input type="file" name="foto_pamflet" id="foto_pamflet" class="form-control" accept="image/*"
-                        onchange="previewImage(event)" data-target="preview-pamflet">
-
-                    <!-- Custom upload button -->
-                    {{-- <button type="button" class="btn btn-primary"
-                        onclick="document.getElementById('foto_pamflet').click()"><i class="fa fa-upload"></i>
-                        Upload Foto Pamflet</button> --}}
-
-                    <small class="form-text text-muted">Abaikan jika tidak ingin diubah</small>
+                    <input type="file" name="foto_pamflet" id="foto_pamflet" class="form-control"
+                        accept="image/*" onchange="previewImage(event)" data-target="preview-pamflet">
+                    <small class="form-text text-muted">Maksimal 2MB</small>
                     <small id="error-foto_pamflet" class="error-text form-text text-danger"></small>
                 </div>
             </div>
@@ -169,6 +165,15 @@
                     minlength: 3,
                     maxlength: 255
                 },
+                lomba_deskripsi: {
+                    required: true
+                },
+                jumlah_anggota: {
+                    required: true
+                },
+                link_website: {
+                    required: true
+                },
                 tingkat_lomba_id: {
                     required: true
                 },
@@ -184,8 +189,9 @@
                 tanggal_selesai: {
                     required: true
                 },
-                status_verifikasi: {
-                    required: true
+                foto_pamflet: {
+                    required: true,
+                    extension: "jpg|jpeg|png",
                 },
             },
             submitHandler: function(form) {

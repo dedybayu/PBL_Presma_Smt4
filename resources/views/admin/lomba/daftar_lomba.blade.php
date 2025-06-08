@@ -38,24 +38,43 @@
                             <select class="form-select" id="bidang_keahlian_id" name="bidang_keahlian_id"
                                 style="width: 100%">
                                 <option value="">- Semua -</option>
-                                @foreach($bidang as $item)
+                                @foreach ($bidang as $item)
                                     <option value="{{ $item->bidang_keahlian_id }}">{{ $item->bidang_keahlian_nama }}
                                     </option>
                                 @endforeach
                             </select>
                             <small class="form-text text-muted">Filter bidang</small>
                         </div>
-                        {{-- <div class="col-12 col-md-3 mb-2 mb-md-0">
-                            <select class="form-select" id="kelas_id" name="kelas_id" style="width: 100%">
-                                <option value="">- Semua -</option>
-                                @foreach($kelas as $item)
-                                <option value="{{ $item->kelas_id }}" data-prodi-id="{{ $item->prodi_id }}">
-                                    {{ $item->kelas_nama }}
-                                </option>
-                                @endforeach
-                            </select>
-                            <small class="form-text text-muted">Filter Kelas</small>
-                        </div> --}}
+                        <div class="col-12 col-md-4 mb-2 mb-md-0">
+                            <div class="d-flex align-items-center">
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="status_verifikasi"
+                                        id="verifikasi_1" value="1">
+                                    <label class="form-check-label" for="verifikasi_1">Terverifikasi</label>
+                                </div>
+
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="status_verifikasi"
+                                        id="verifikasi_2" value="2">
+                                    <label class="form-check-label" for="verifikasi_2">Menunggu</label>
+                                </div>
+
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="status_verifikasi"
+                                        id="verifikasi_0" value="3">
+                                    <label class="form-check-label" for="verifikasi_0">Ditolak</label>
+                                </div>
+
+                                <button type="button" class="btn btn-sm btn-secondary ms-2"
+                                    onclick="clearStatusVerifikasi()">
+                                    Clear
+                                </button>
+                            </div>
+
+                            <!-- Keterangan dipindah ke bawah -->
+                            <small class="form-text text-muted mt-1">Filter Status</small>
+                        </div>
+
                     </div>
                 </div>
             </div>
@@ -91,24 +110,30 @@
 
     <x-slot:js>
         <script>
+            function clearStatusVerifikasi() {
+                const radios = document.getElementsByName('status_verifikasi');
+                radios.forEach(radio => radio.checked = false);
+                dataLomba.ajax.reload();
+            }
+
             function modalAction(url) {
                 // Kosongkan modal sebelum memuat konten baru
                 $("#modal-lomba .modal-content").html("");
 
                 // Panggil modal melalui AJAX
-                $.get(url, function (response) {
+                $.get(url, function(response) {
                     $("#modal-lomba .modal-content").html(response);
                     $("#modal-lomba").modal("show");
                 });
             }
 
             // Bersihkan isi modal setelah ditutup
-            $('#modal-lomba').on('hidden.bs.modal', function () {
+            $('#modal-lomba').on('hidden.bs.modal', function() {
                 $("#modal-lomba .modal-content").html("");
             });
 
             var dataLomba
-            $(document).ready(function () {
+            $(document).ready(function() {
                 // handleKelasFilterByBidang('#bidang_keahlian_id');
 
                 $('#bidang_keahlian_id').select2({
@@ -128,25 +153,64 @@
                         url: "{{ url('lomba/list') }}",
                         dataType: "json",
                         type: "POST",
-                        data: function (d) {
+                        data: function(d) {
                             d.bidang_keahlian_id = $('#bidang_keahlian_id').val();
-
+                            d.status_verifikasi = $('input[name=status_verifikasi]:checked').val();
                         }
                     },
-                    columns: [
-                        { data: "DT_RowIndex", className: "text-center", orderable: false, searchable: false },
-                        { data: "lomba_kode", className: "", orderable: true, searchable: true },
-                        { data: "info", className: "", orderable: true, searchable: true },
-                        { data: "link", className: "", orderable: true, searchable: true },
-                        { data: "tanggal_mulai", className: "", orderable: true, searchable: true },
-                        { data: "tanggal_selesai", className: "", orderable: false, searchable: true },
-                        { data: "status_verifikasi", className: "", orderable: false, searchable: true },
-                        { data: "aksi", className: "", orderable: false, searchable: false }
+                    columns: [{
+                            data: "DT_RowIndex",
+                            className: "text-center",
+                            orderable: false,
+                            searchable: false
+                        },
+                        {
+                            data: "lomba_kode",
+                            className: "",
+                            orderable: true,
+                            searchable: true
+                        },
+                        {
+                            data: "info",
+                            className: "",
+                            orderable: true,
+                            searchable: true
+                        },
+                        {
+                            data: "link",
+                            className: "",
+                            orderable: true,
+                            searchable: true
+                        },
+                        {
+                            data: "tanggal_mulai",
+                            className: "",
+                            orderable: true,
+                            searchable: true
+                        },
+                        {
+                            data: "tanggal_selesai",
+                            className: "",
+                            orderable: false,
+                            searchable: true
+                        },
+                        {
+                            data: "status_verifikasi",
+                            className: "",
+                            orderable: false,
+                            searchable: true
+                        },
+                        {
+                            data: "aksi",
+                            className: "",
+                            orderable: false,
+                            searchable: false
+                        }
                     ]
                 });
 
 
-                $('#bidang_keahlian_id').on('change', function () {
+                $('#bidang_keahlian_id, input[name=status_verifikasi]').on('change', function() {
                     dataLomba.ajax.reload();
                 });
 

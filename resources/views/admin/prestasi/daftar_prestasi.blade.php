@@ -38,18 +38,49 @@
                             <select class="form-select" id="tingkat_lomba_id" name="tingkat_lomba_id"
                                 style="width: 100%">
                                 <option value="">- Semua -</option>
-                                @foreach($tingkat_lomba as $item)
-                                    <option value="{{ $item->tingkat_lomba_id }}">{{ $item->tingkat_lomba_nama }}</option>
+                                @foreach ($tingkat_lomba as $item)
+                                    <option value="{{ $item->tingkat_lomba_id }}">{{ $item->tingkat_lomba_nama }}
+                                    </option>
                                 @endforeach
                             </select>
                             <small class="form-text text-muted">Filter Tingkat Lomba</small>
+                        </div>
+                        <div class="col-12 col-md-4 mb-2 mb-md-0">
+                            <div class="d-flex align-items-center">
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="status_verifikasi"
+                                        id="verifikasi_1" value="1">
+                                    <label class="form-check-label" for="verifikasi_1">Terverifikasi</label>
+                                </div>
+
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="status_verifikasi"
+                                        id="verifikasi_2" value="2">
+                                    <label class="form-check-label" for="verifikasi_2">Menunggu</label>
+                                </div>
+
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="status_verifikasi"
+                                        id="verifikasi_0" value="3">
+                                    <label class="form-check-label" for="verifikasi_0">Ditolak</label>
+                                </div>
+
+                                <button type="button" class="btn btn-sm btn-secondary ms-2"
+                                    onclick="clearStatusVerifikasi()">
+                                    Clear
+                                </button>
+                            </div>
+
+                            <!-- Keterangan dipindah ke bawah -->
+                            <small class="form-text text-muted mt-1">Filter Status</small>
                         </div>
                     </div>
                 </div>
             </div>
 
             <div class="table-responsive w-100">
-                <table style="width: 100%;" id="table-prestasi" class="table table-hover table-striped table-bordered w-100">
+                <table style="width: 100%;" id="table-prestasi"
+                    class="table table-hover table-striped table-bordered w-100">
                     <thead>
                         <tr>
                             <th>No</th>
@@ -83,24 +114,30 @@
 
     <x-slot:js>
         <script>
+            function clearStatusVerifikasi() {
+                const radios = document.getElementsByName('status_verifikasi');
+                radios.forEach(radio => radio.checked = false);
+                dataPrestasi.ajax.reload();
+            }
+
             function modalAction(url) {
                 // Kosongkan modal sebelum memuat konten baru
                 $("#modal-prestasi .modal-content").html("");
 
                 // Panggil modal melalui AJAX
-                $.get(url, function (response) {
+                $.get(url, function(response) {
                     $("#modal-prestasi .modal-content").html(response);
                     $("#modal-prestasi").modal("show");
                 });
             }
 
             // Bersihkan isi modal setelah ditutup
-            $('#modal-prestasi').on('hidden.bs.modal', function () {
+            $('#modal-prestasi').on('hidden.bs.modal', function() {
                 $("#modal-prestasi .modal-content").html("");
             });
 
             var dataPrestasi
-            $(document).ready(function () {
+            $(document).ready(function() {
                 $('#tingkat_lomba_id').select2({
                     theme: 'bootstrap-5',
                     placeholder: "- Semua -",
@@ -118,27 +155,76 @@
                         url: "{{ url('prestasi/list') }}",
                         dataType: "json",
                         type: "POST",
-                        data: function (d) {
+                        data: function(d) {
                             d.tingkat_lomba_id = $('#tingkat_lomba_id').val();
-                            // d.kelas_id = $('#kelas_id').val();
+                            d.status_verifikasi = $('input[name=status_verifikasi]:checked').val();
                         }
                     },
-                    columns: [
-                        { data: "DT_RowIndex", className: "text-center", orderable: false, searchable: false },
-                        { data: "nim", className: "", orderable: true, searchable: true },
-                        { data: "mahasiswa", className: "", orderable: true, searchable: true },
-                        { data: "prestasi_nama", className: "", orderable: true, searchable: true },
-                        { data: "lomba", className: "", orderable: false, searchable: true },
-                        { data: "juara", className: "", orderable: false, searchable: true },
-                        { data: "tingkat", className: "", orderable: false, searchable: true },
-                        { data: "poin", className: "", orderable: false, searchable: true },
-                        { data: "status_verifikasi", className: "", orderable: false, searchable: true },
-                        { data: "aksi", className: "", orderable: false, searchable: false }
+                    columns: [{
+                            data: "DT_RowIndex",
+                            className: "text-center",
+                            orderable: false,
+                            searchable: false
+                        },
+                        {
+                            data: "nim",
+                            className: "",
+                            orderable: true,
+                            searchable: true
+                        },
+                        {
+                            data: "mahasiswa",
+                            className: "",
+                            orderable: true,
+                            searchable: true
+                        },
+                        {
+                            data: "prestasi_nama",
+                            className: "",
+                            orderable: true,
+                            searchable: true
+                        },
+                        {
+                            data: "lomba",
+                            className: "",
+                            orderable: false,
+                            searchable: true
+                        },
+                        {
+                            data: "juara",
+                            className: "",
+                            orderable: false,
+                            searchable: true
+                        },
+                        {
+                            data: "tingkat",
+                            className: "",
+                            orderable: false,
+                            searchable: true
+                        },
+                        {
+                            data: "poin",
+                            className: "",
+                            orderable: false,
+                            searchable: true
+                        },
+                        {
+                            data: "status_verifikasi",
+                            className: "",
+                            orderable: false,
+                            searchable: true
+                        },
+                        {
+                            data: "aksi",
+                            className: "",
+                            orderable: false,
+                            searchable: false
+                        }
                     ]
                 });
 
 
-                $('#tingkat_lomba_id').on('change', function () {
+                $('#tingkat_lomba_id, input[name=status_verifikasi]').on('change', function() {
                     dataPrestasi.ajax.reload();
                 });
 

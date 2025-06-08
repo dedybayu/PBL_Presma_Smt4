@@ -37,6 +37,17 @@ class AdminPrestasiController extends Controller
                 });
             }
 
+            if ($request->status_verifikasi) {
+                // dd($request->status_verifikasi);
+                if ($request->status_verifikasi == 2) {
+                    $prestasi->whereNull('status_verifikasi');
+                } else if ($request->status_verifikasi == 3) {
+                    $prestasi->where('status_verifikasi', 0);
+                } else {
+                    $prestasi->where('status_verifikasi', $request->status_verifikasi);
+                }
+            }
+
             $prestasi = $prestasi->get();
 
             return DataTables::of($prestasi)
