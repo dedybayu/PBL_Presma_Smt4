@@ -287,6 +287,7 @@ class MahasiswaDosenLombaController extends Controller
         }
 
         $imagePath = $lomba->foto_pamflet;
+        $oldImagePath = $lomba->foto_pamflet;
         if ($request->hasFile('foto_pamflet')) {
             $file = $request->file('foto_pamflet');
             if ($file->isValid()) {
@@ -297,6 +298,7 @@ class MahasiswaDosenLombaController extends Controller
                 }
                 $file->move($destinationPath, $filename);
                 $imagePath = "lomba/foto-pamflet/$filename";
+                FileController::deleteFile($oldImagePath);
             }
         }
 
@@ -361,7 +363,8 @@ class MahasiswaDosenLombaController extends Controller
 
         try {
             if ($lomba->foto_pamflet && file_exists(storage_path("app/public/{$lomba->foto_pamflet}"))) {
-                unlink(storage_path("app/public/{$lomba->foto_pamflet}"));
+                FileController::deleteFile($lomba->foto_pamflet);
+                // unlink(storage_path("app/public/{$lomba->foto_pamflet}"));
             }
 
             $lomba->delete();
