@@ -89,7 +89,7 @@
             <div class="col-md-6">
                 <div class="form-group">
                     <label>Tanggal Mulai<span style="color: red;">*</span></label>
-                    <input type="text" name="tanggal_mulai" id="tanggal_mulai" class="form-control"
+                    <input type="date" name="tanggal_mulai" id="tanggal_mulai" class="form-control"
                         value="{{ $lomba->tanggal_mulai }}" required>
                     <small id="error-tanggal_mulai" class="error-text form-text text-danger"></small>
                 </div>
@@ -97,7 +97,7 @@
             <div class="col-md-6">
                 <div class="form-group">
                     <label>Tanggal Selesai<span style="color: red;">*</span></label>
-                    <input type="text" name="tanggal_selesai" id="tanggal_selesai" class="form-control"
+                    <input type="date" name="tanggal_selesai" id="tanggal_selesai" class="form-control"
                         value="{{ $lomba->tanggal_selesai }}" required>
                     <small id="error-tanggal_selesai" class="error-text form-text text-danger"></small>
                 </div>
@@ -130,8 +130,9 @@
                 <!-- Gambar  -->
                 <div
                     style="position: relative; width: 100%; max-width: auto; aspect-ratio: 16 / 9; overflow: hidden; background: #eee;">
-                    <img id="preview-pamflet" src="{{ file_exists(public_path('storage/' . $lomba->foto_pamflet)) ? asset('storage/' . $lomba->foto_pamflet) : asset('assets/images/broken-image.png') }}" alt="Pamflet"
-                        style="width: 100%; height: 100%; object-fit: contain; display: block;">
+                    <img id="preview-pamflet"
+                        src="{{ file_exists(public_path('storage/' . $lomba->foto_pamflet)) ? asset('storage/' . $lomba->foto_pamflet) : asset('assets/images/broken-image.png') }}"
+                        alt="Pamflet" style="width: 100%; height: 100%; object-fit: contain; display: block;">
                 </div>
                 <div class="form-group mt-2">
                     <!-- Foto preview-pamflet -->
@@ -185,6 +186,12 @@
         $('#modal-lomba').on('shown.bs.modal', function() {
             initSelect2();
         });
+        // Tambahkan method kustom untuk membandingkan tanggal
+        $.validator.addMethod("afterStartDate", function(value, element) {
+            const startDate = $('#tanggal_mulai').val();
+            if (!startDate || !value) return true; // biarkan validasi 'required' yang menangani
+            return new Date(value) >= new Date(startDate);
+        }, "Tanggal selesai harus setelah atau sama dengan tanggal mulai.");
 
         $("#form-edit-lomba").validate({
             rules: {
@@ -215,7 +222,8 @@
                     required: true
                 },
                 tanggal_selesai: {
-                    required: true
+                    required: true,
+                    afterStartDate: true
                 },
                 status_verifikasi: {
                     required: true

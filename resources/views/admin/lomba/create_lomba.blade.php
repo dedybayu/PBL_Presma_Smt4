@@ -158,6 +158,13 @@
             initSelect2();
         });
 
+        // Tambahkan method kustom untuk membandingkan tanggal
+        $.validator.addMethod("afterStartDate", function(value, element) {
+            const startDate = $('#tanggal_mulai').val();
+            if (!startDate || !value) return true; // biarkan validasi 'required' yang menangani
+            return new Date(value) >= new Date(startDate);
+        }, "Tanggal selesai harus setelah atau sama dengan tanggal mulai.");
+
         $("#form-tambah-lomba").validate({
             rules: {
                 lomba_nama: {
@@ -184,15 +191,18 @@
                     required: true
                 },
                 tanggal_mulai: {
-                    required: true
+                    required: true,
+                    date: true
                 },
                 tanggal_selesai: {
-                    required: true
+                    required: true,
+                    date: true,
+                    afterStartDate: true
                 },
                 foto_pamflet: {
                     required: true,
-                    extension: "jpg|jpeg|png",
-                },
+                    extension: "jpg|jpeg|png"
+                }
             },
             submitHandler: function(form) {
                 var formData = new FormData(form);

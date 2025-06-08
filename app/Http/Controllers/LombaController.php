@@ -131,11 +131,16 @@ class LombaController extends Controller
             'penyelenggara_id' => 'required|exists:m_penyelenggara,penyelenggara_id',
             'jumlah_anggota' => 'required|string|max:255',
             'tanggal_mulai' => 'required|date|date_format:Y-m-d',
-            'tanggal_selesai' => 'required|date|date_format:Y-m-d',
+            'tanggal_selesai' => 'required|date|date_format:Y-m-d|after_or_equal:tanggal_mulai',
             'foto_pamflet' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ];
 
-        $validator = Validator::make($request->all(), $rules);
+        $customMessages = [
+            'tanggal_selesai.after_or_equal' => 'Tanggal selesai harus setelah tanggal mulai.',
+        ];
+
+
+        $validator = Validator::make($request->all(), $rules, $customMessages);
         if ($validator->fails()) {
             return response()->json([
                 'status' => false,
@@ -233,12 +238,16 @@ class LombaController extends Controller
             'penyelenggara_id' => 'required|exists:m_penyelenggara,penyelenggara_id',
             'jumlah_anggota' => 'required|string|max:255',
             'tanggal_mulai' => 'required|date|date_format:Y-m-d',
-            'tanggal_selesai' => 'required|date|date_format:Y-m-d',
+            'tanggal_selesai' => 'required|date|date_format:Y-m-d|after_or_equal:tanggal_mulai',
             'foto_pamflet' => 'nullable|mimes:jpeg,png,jpg',
             'status_verifikasi' => 'required|integer|in:0,1,2'
         ];
 
-        $validator = Validator::make($request->all(), $rules);
+        $customMessages = [
+            'tanggal_selesai.after_or_equal' => 'Tanggal selesai harus setelah tanggal mulai.',
+        ];
+
+        $validator = Validator::make($request->all(), $rules, $customMessages);
 
         if ($validator->fails()) {
             return response()->json([
