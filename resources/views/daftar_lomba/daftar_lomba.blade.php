@@ -52,7 +52,7 @@
                                 </select>
                                 <small class="form-text text-muted">Filter Bidang Keahlian</small>
                             </div>
-                            <div class="col-12 col-md-4 mb-2 mb-md-0">
+                            {{-- <div class="col-12 col-md-4 mb-2 mb-md-0">
                                 <select class="form-select" id="status_verifikasi" name="status_verifikasi"
                                     style="width: 100%">
                                     <option value="">- Semua -</option>
@@ -67,7 +67,7 @@
                                     </option>
                                 </select>
                                 <small class="form-text text-muted">Filter Status Verifikasi</small>
-                            </div>
+                            </div> --}}
                         </div>
                     </div>
                     <div class="col-md-4">
@@ -114,7 +114,7 @@
                                                 <div
                                                     style="position: relative; width: 100%; height: 100%; aspect-ratio: 1 / 1; border-radius: 16px 0 0 16px; overflow: hidden;">
                                                     @if ($lmb->foto_pamflet)
-                                                        <img src="{{ file_exists(public_path('storage/' . $lmb->foto_pamflet)) ? asset('storage/' . $lmb->foto_pamflet) : asset('assets/images/image-dummy.png') }}"
+                                                        <img src="{{ file_exists(public_path('storage/' . $lmb->foto_pamflet)) ? asset('storage/' . $lmb->foto_pamflet) : asset('assets/images/broken-image.png') }}"
                                                             alt="Pamflet Lomba" alt="Poster Lomba"
                                                             style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover;">
                                                     @else
@@ -228,7 +228,7 @@
                                                 <div
                                                     style="position: relative; width: 100%; height: 100%; aspect-ratio: 1 / 1; border-radius: 16px 0 0 16px; overflow: hidden;">
                                                     @if ($lmb->foto_pamflet)
-                                                        <img src="{{ file_exists(public_path('storage/' . $lmb->foto_pamflet)) ? asset('storage/' . $lmb->foto_pamflet) : asset('assets/images/image-dummy.png') }}"
+                                                        <img src="{{ file_exists(public_path('storage/' . $lmb->foto_pamflet)) ? asset('storage/' . $lmb->foto_pamflet) : asset('assets/images/broken-image.png') }}"
                                                             alt="Pamflet Lomba" alt="Poster Lomba"
                                                             style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover;">
                                                     @else
@@ -368,7 +368,7 @@
             });
 
             $(document).ready(function() {
-                $('#tingkat_lomba_id, #status_verifikasi, #bidang_keahlian_id').select2({
+                $('#tingkat_lomba_id, #bidang_keahlian_id').select2({
                     theme: 'bootstrap-5',
                     placeholder: "- Semua -",
                     allowClear: true,

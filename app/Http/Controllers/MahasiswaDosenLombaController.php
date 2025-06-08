@@ -42,9 +42,9 @@ public function index(Request $request)
             $query->where('tingkat_lomba_id', $tingkatLombaId);
         }
 
-        if ($statusVerifikasi !== null && $statusVerifikasi !== '') {
-            $query->where('status_verifikasi', $statusVerifikasi);
-        }
+        // if ($statusVerifikasi !== null && $statusVerifikasi !== '') {
+        //     $query->where('status_verifikasi', $statusVerifikasi);
+        // }
 
         if ($bidangKeahlianId) {
             $query->whereHas('bidang', function ($q) use ($bidangKeahlianId) {

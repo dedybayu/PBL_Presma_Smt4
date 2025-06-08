@@ -60,7 +60,7 @@
                                         <h6 class="mb-0">Link Website</h6>
                                     </div>
                                     <div class="col-sm-9 text-secondary">
-                                        {{ $lomba->link_website }}
+                                        <a href="{{ $lomba->link_website }}" target="_blank">{{ $lomba->link_website }}</a>
                                     </div>
                                 </div>
                                 <hr>
@@ -75,7 +75,7 @@
                                 <hr>
                                 <div class="row">
                                     <div class="col-sm-3">
-                                        <h6 class="mb-0">Bidang Lomba</h6>
+                                        <h6 class="mb-0">Bidang Keahlian</h6>
                                     </div>
                                     <div class="col-sm-9 text-secondary">
                                         {{ $lomba->bidang->bidang_keahlian_nama }}
