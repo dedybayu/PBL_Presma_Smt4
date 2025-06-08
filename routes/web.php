@@ -228,8 +228,8 @@ Route::middleware('auth')->group(function () {
     Route::middleware(['role:MHS,DOS'])->group(function () {
         Route::prefix('daftar_lomba')->name('daftar_lomba.')->group(function () {
             Route::get('/', [MahasiswaDosenLombaController::class, 'index'])->name('index');
-            Route::get('/create', [MahasiswaDosenLombaController::class, 'create'])->name('lomba.create');
-            Route::post('/', [MahasiswaDosenLombaController::class, 'store'])->name('lomba.store');
+            Route::get('/create', [MahasiswaDosenLombaController::class, 'create'])->name('create');
+            Route::post('/', [MahasiswaDosenLombaController::class, 'store'])->name('store');
             Route::get('/{lomba}', [MahasiswaDosenLombaController::class, 'show'])->name('show');
             Route::get('/{lomba}/edit', [MahasiswaDosenLombaController::class, 'edit'])->name('edit');
             Route::put('/{lomba}', [MahasiswaDosenLombaController::class, 'update'])->name('update');

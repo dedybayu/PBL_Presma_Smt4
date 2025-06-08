@@ -15,9 +15,12 @@
             <h3 class="card-title mt-2 mb-2"> Daftar Lomba <i class="fa fa-trophy"></i></h3>
             <div class="btn-actions-pane-right text-capitalize">
                 {{-- <button class="btn-wide btn-outline-2x mr-md-2 btn btn-outline-focus btn-sm">View All</button> --}}
-                <button onclick="modalAction('{{ url('/daftar_lomba/create') }}')" class="btn btn-sm btn-success mt-1">
+                <a href="{{ route('daftar_lomba.create') }}">
+                                    <button class="btn btn-sm btn-success mt-1">
                     <i class="fa fa-plus"></i> Tambah data
                 </button>
+                </a>
+
             </div>
         </div>
 

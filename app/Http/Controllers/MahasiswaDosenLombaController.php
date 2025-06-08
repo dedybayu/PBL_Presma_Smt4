@@ -10,6 +10,7 @@ use App\Models\PenyelenggaraModel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
+use Str;
 
 class MahasiswaDosenLombaController extends Controller
 {
@@ -117,7 +118,7 @@ public function index(Request $request)
     public function store(Request $request)
     {
         $rules = [
-            'lomba_kode' => 'required|string|max:255',
+            // 'lomba_kode' => 'required|string|max:255',
             'lomba_nama' => 'required|string|max:255',
             'lomba_deskripsi' => 'required|string|max:255',
             'link_website' => 'required|string|max:255',
@@ -157,9 +158,21 @@ public function index(Request $request)
             $imagePath = "lomba/foto-pamflet/$filename"; // Simpan path gambar
         }
 
+                $lombaNama = $request->lomba_nama;
+
+        // 1. Buat prefix dari nama lomba (ambil huruf besar awal kata, atau substring)
+        $prefix = strtoupper(Str::slug(Str::words($lombaNama, 2, ''), ''));
+        $prefix = substr(preg_replace('/[^A-Z]/', '', $prefix), 0, 3); // Ambil 3 huruf kapital saja
+
+        // 2. Tambahkan angka random untuk membuat kode unik
+        do {
+            $randomNumber = rand(100, 999); // 3 digit angka
+            $kode = $prefix . $randomNumber; // Misal: HCK123
+        } while (LombaModel::where('lomba_kode', $kode)->exists());
+        
         try {
             $lomba = LombaModel::create([
-                'lomba_kode' => $request->lomba_kode,
+                'lomba_kode' => $kode,
                 'lomba_nama' => $request->lomba_nama,
                 'lomba_deskripsi' => $request->lomba_deskripsi,
                 'link_website' => $request->link_website,
