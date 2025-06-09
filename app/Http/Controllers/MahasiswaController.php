@@ -173,7 +173,7 @@ class MahasiswaController extends Controller
             $data_user = [
                 'username' => $request->username,
                 'password' => $request->password,
-                'level_' => LevelModel::where('level_kode', 'MHS')->first()->level_id
+                'level_id' => LevelModel::where('level_kode', 'MHS')->first()->level_id
             ];
             $userId = UserModel::create($data_user)->user_id;
 
@@ -194,7 +194,7 @@ class MahasiswaController extends Controller
             $mahasiswa = MahasiswaModel::create($data_mahasiswa);
             return response()->json(['status' => true, 'message' => 'Data Mahasiswa berhasil ditambahkan']);
             } catch (\Exception $e) {
-                return response()->json(['status' => false, 'message' => 'Terjadi kesalahan pada server']);
+                return response()->json(['status' => false, 'message' => 'Terjadi kesalahan pada server', 'error' => $e]);
             }
         }
     }

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\DosenModel;
+use App\Models\LevelModel;
 use App\Models\UserModel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -120,7 +121,7 @@ class DosenController extends Controller
                     $user = UserModel::create([
                         'username' => $request->username,
                         'password' => bcrypt($request->password),
-                        'level_id' => 2, // Asumsi level_id untuk dosen adalah 2
+                        'level_id' => LevelModel::where('level_kode', 'DOS')->first()->level_id, // Asumsi level_id untuk dosen adalah 2
                     ]);
             
                     // Buat dosen baru
