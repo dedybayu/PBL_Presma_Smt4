@@ -156,15 +156,12 @@
                         </div>
                         <div class="form-group mt-2">
                             <!-- Foto preview-pamflet -->
-                            <input type="file" name="foto_pamflet" id="foto_pamflet" class="d-none"
-                                accept="image/*" onchange="previewImage(event)" data-target="preview-pamflet">
+                            <div class="row col-md-6">
+                                <input type="file" name="foto_pamflet" id="foto_pamflet" class="form-control"
+                                    accept="image/*" onchange="previewImage(event)" data-target="preview-pamflet">
+                            </div>
 
-                            <!-- Custom upload button -->
-                            <button type="button" class="btn btn-primary"
-                                onclick="document.getElementById('foto_pamflet').click()"><i class="fa fa-upload"></i>
-                                Upload Foto Pamflet</button>
-
-                            <small class="form-text text-muted">Abaikan jika tidak ingin diubah</small>
+                            <small class="form-text text-muted">Maksimal 2MB</small>
                             <small id="error-foto_pamflet" class="error-text form-text text-danger"></small>
                         </div>
                     </div>
@@ -196,26 +193,6 @@
 
     <x-slot:js>
         <script>
-            // document.addEventListener("DOMContentLoaded", function() {
-            //     const penyelenggaraSelect = document.getElementById("penyelenggara_id");
-            //     const tambahPenyelenggara = document.getElementById("tambah-penyelenggara");
-            //     const tambahKota = document.getElementById("tambah-kota-penyelenggara");
-
-            //     penyelenggaraSelect.addEventListener("change", function() {
-            //         const selectedValue = penyelenggaraSelect.value;
-
-            //         if (selectedValue === "other") {
-            //             // Menampilkan input tambahan jika memilih "Lainnya"
-            //             tambahPenyelenggara.style.display = "block";
-            //             tambahKota.style.display = "block";
-            //         } else {
-            //             // Menyembunyikan input tambahan jika memilih penyelenggara dari daftar
-            //             tambahPenyelenggara.style.display = "none";
-            //             tambahKota.style.display = "none";
-            //         }
-            //     });
-            // });
-
             function previewImage(event) {
                 const fileInput = event.target;
                 const targetId = fileInput.getAttribute('data-target');
