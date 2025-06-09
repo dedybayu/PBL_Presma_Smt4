@@ -35,7 +35,7 @@
                 <div class="row">
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label>Nama Prestasi</label>
+                            <label>Nama Prestasi<span style="color: red;">*</span></label>
                             <input type="text" name="prestasi_nama" id="prestasi_nama" class="form-control"
                                 value="{{ $prestasi->prestasi_nama }}">
                             <small id="error-prestasi_nama" class="error-text form-text text-danger"></small>
@@ -44,7 +44,7 @@
 
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label>Lomba</label>
+                            <label>Lomba<span style="color: red;">*</span></label>
                             <select name="lomba_id" id="prestasi_lomba" class="form-control">
                                 <option value="" disabled>- Pilih Lomba -</option>
                                 @foreach ($lomba as $l)
@@ -60,7 +60,7 @@
 
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label>Dosen Pembimbing</label>
+                            <label>Dosen Pembimbing<span style="color: red;">*</span></label>
                             <select name="dosen_id" id="prestasi_dosbim" class="form-control">
                                 <option value="">-- Pilih Dosen Pembimbing --</option>
                                 @foreach ($dosen as $d)
@@ -77,7 +77,7 @@
 
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label>Tanggal</label>
+                            <label>Tanggal Perolehan<span style="color: red;">*</span></label>
                             <input type="date" name="tanggal_perolehan" id="tanggal_perolehan" class="form-control"
                                 value="{{ $prestasi->tanggal_perolehan }}">
                             <small id="error-tanggal_perolehan" class="error-text form-text text-danger"></small>
@@ -86,7 +86,7 @@
 
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label>Juara</label>
+                            <label>Juara<span style="color: red;">*</span></label>
                             <select name="juara" id="prestasi_juara" class="form-control">
                                 <option value="" disabled>- Pilih Juara -</option>
                                 <option value="1" {{ $prestasi->juara == 1 ? 'selected' : '' }}>Juara 1</option>
@@ -101,7 +101,7 @@
 
                     <div class="col-md-6">
                         <div class="form-group" id="juara_lain">
-                            <label>Nama Kategori Juara</label>
+                            <label>Nama Kategori Juara<span style="color: red;">*</span></label>
                             <input type="text" name="nama_juara" id="nama_juara" class="form-control"
                                 value="{{ $prestasi->nama_juara }}" placeholder="Contoh: Best Writer">
                             <small id="error-nama_juara" class="error-text form-text text-danger"></small>

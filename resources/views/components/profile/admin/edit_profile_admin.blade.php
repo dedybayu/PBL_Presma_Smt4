@@ -28,7 +28,7 @@
         <div class="row">
             <div class="mb-3 col-md-6">
                 <div class="form-group">
-                    <label>Nama</label>
+                    <label>Nama<span style="color: red;">*</span></label>
                     <input value="{{ auth()->user()->admin->user->nama }}" type="text" name="nama"
                         id="nama" class="form-control" required>
                     <small id="error-nama" class="error-text form-text text-danger"></small>
@@ -36,7 +36,7 @@
             </div>
             <div class="mb-3 col-md-6">
                 <div class="form-group">
-                    <label>Username</label>
+                    <label>Username<span style="color: red;">*</span></label>
                     <input value="{{ auth()->user()->admin->user->username }}" type="text" name="username"
                         id="username" class="form-control" required>
                     <small id="error-username" class="error-text form-text text-danger"></small>
@@ -44,7 +44,7 @@
             </div>
             <div class="mb-3 col-md-6">
                 <div class="form-group">
-                    <label class="form-label">Email</label>
+                    <label class="form-label">Email<span style="color: red;">*</span></label>
                     <input type="text" class="form-control" id="email" name="email"
                         value="{{ auth()->user()->admin->email }}">
                     <small id="error-email" class="error-text form-text text-danger"></small>
@@ -52,7 +52,7 @@
             </div>
             <div class="mb-3 col-md-6">
                 <div class="form-group">
-                    <label class="form-label">No. Telepon</label>
+                    <label class="form-label">No. Telepon<span style="color: red;">*</span></label>
                     <input type="text" class="form-control" id="no_tlp" name="no_tlp"
                         value="{{ auth()->user()->admin->no_tlp }}">
                     <small id="error-no_tlp" class="error-text form-text text-danger"></small>

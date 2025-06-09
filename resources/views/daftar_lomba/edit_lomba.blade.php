@@ -40,17 +40,9 @@
                 @csrf
                 @method('PUT')
                 <div class="row">
-                    {{-- <div class="col-md-6">
-                        <div class="form-group">
-                            <label>Kode Lomba</label>
-                            <input type="text" name="lomba_kode" id="lomba_kode" class="form-control"
-                                value="{{ $lomba->lomba_kode }}">
-                            <small id="error-lomba_kode" class="error-text form-text text-danger"></small>
-                        </div>
-                    </div> --}}
                     <div class="col-md-12">
                         <div class="form-group">
-                            <label>Nama Lomba</label>
+                            <label>Nama Lomba<span style="color: red;">*</span></label>
                             <input type="text" name="lomba_nama" id="lomba_nama" class="form-control"
                                 value="{{ $lomba->lomba_nama }}">
                             <small id="error-lomba_nama" class="error-text form-text text-danger"></small>
@@ -58,14 +50,14 @@
                     </div>
                     <div class="col-md-12">
                         <div class="form-group">
-                            <label>Deskripsi Lomba</label>
+                            <label>Deskripsi Lomba<span style="color: red;">*</span></label>
                             <textarea name="lomba_deskripsi" id="lomba_deskripsi" class="form-control" rows="3">{{ ltrim($lomba->lomba_deskripsi) }}</textarea>
                             <small id="error-lomba_deskripsi" class="error-text form-text text-danger"></small>
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label>Link Website Lomba</label>
+                            <label>Link Website Lomba<span style="color: red;">*</span></label>
                             <input type="text" name="link_website" id="link_website" class="form-control"
                                 value="{{ $lomba->link_website }}">
                             <small id="error-link_website" class="error-text form-text text-danger"></small>
@@ -73,7 +65,7 @@
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label>Tingkat</label>
+                            <label>Tingkat<span style="color: red;">*</span></label>
                             <select name="tingkat_lomba_id" id="tingkat_lomba_id" class="form-control">
                                 <option value="" disabled>- Pilih Tingkat -</option>
                                 @foreach ($tingkat as $k)
@@ -88,7 +80,7 @@
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label>Bidang Keahlian</label>
+                            <label>Bidang Keahlian<span style="color: red;">*</span></label>
                             <select name="bidang_keahlian_id" id="bidang_keahlian_id_edit" class="form-control">
                                 <option value="">-- Pilih Bidang --</option>
                                 @foreach ($bidang as $item)
@@ -104,7 +96,7 @@
 
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label>Jumlah Anggota</label>
+                            <label>Jumlah Anggota<span style="color: red;">*</span></label>
                             <input type="text" name="jumlah_anggota" id="jumlah_anggota" class="form-control"
                                 value="{{ $lomba->jumlah_anggota }}">
                             <small id="error-jumlah_anggota" class="error-text form-text text-danger"></small>
@@ -112,7 +104,7 @@
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label>Tanggal Mulai</label>
+                            <label>Tanggal Mulai<span style="color: red;">*</span></label>
                             <input type="date" name="tanggal_mulai" id="tanggal_mulai" class="form-control"
                                 value="{{ $lomba->tanggal_mulai }}" required>
                             <small id="error-tanggal_mulai" class="error-text form-text text-danger"></small>
@@ -120,7 +112,7 @@
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label>Tanggal Selesai</label>
+                            <label>Tanggal Selesai<span style="color: red;">*</span></label>
                             <input type="date" name="tanggal_selesai" id="tanggal_selesai" class="form-control"
                                 value="{{ $lomba->tanggal_selesai }}" required>
                             <small id="error-tanggal_selesai" class="error-text form-text text-danger"></small>
@@ -128,7 +120,7 @@
                     </div>
                     <div class="col-md-4">
                         <div class="form-group">
-                            <label>Penyelenggara</label>
+                            <label>Penyelenggara<span style="color: red;">*</span></label>
                             <select name="penyelenggara_id" id="penyelenggara_id" class="form-control">
                                 <option value="">-- Pilih Penyelenggara --</option>
                                 <option value="other">Lainnya (Tambahkan Penyelenggara)</option>

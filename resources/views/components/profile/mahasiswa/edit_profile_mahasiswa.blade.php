@@ -38,7 +38,7 @@
             </div>
             <div class="mb-3 col-md-6">
                 <div class="form-group">
-                    <label>Username</label>
+                    <label>Username<span style="color: red;">*</span></label>
                     <input value="{{ auth()->user()->mahasiswa->user->username }}" type="text" name="username"
                         id="username" class="form-control" required>
                     <small id="error-username" class="error-text form-text text-danger"></small>
@@ -46,7 +46,7 @@
             </div>
             <div class="mb-3 col-md-6">
                 <div class="form-group">
-                    <label class="form-label">Email</label>
+                    <label class="form-label">Email<span style="color: red;">*</span></label>
                     <input type="text" class="form-control" id="email" name="email"
                         value="{{ auth()->user()->mahasiswa->email }}">
                     <small id="error-email" class="error-text form-text text-danger"></small>
@@ -54,7 +54,7 @@
             </div>
             <div class="mb-3 col-md-6">
                 <div class="form-group">
-                    <label class="form-label">No. Telepon</label>
+                    <label class="form-label">No. Telepon<span style="color: red;">*</span></label>
                     <input type="text" class="form-control" id="no_tlp" name="no_tlp"
                         value="{{ auth()->user()->mahasiswa->no_tlp }}">
                     <small id="error-no_tlp" class="error-text form-text text-danger"></small>
@@ -72,7 +72,7 @@
             </div>
             <div class="mb-3 col-md-12">
                 <div class="form-group">
-                    <label class="form-label">Alamat</label>
+                    <label class="form-label">Alamat<span style="color: red;">*</span></label>
                     <input type="text" class="form-control" id="alamat" name="alamat"
                         value="{{ auth()->user()->mahasiswa->alamat }}">
                     <small id="error-alamat" class="error-text form-text text-danger"></small>

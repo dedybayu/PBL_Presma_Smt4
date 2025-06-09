@@ -10,12 +10,12 @@
     </div>
     <div class="modal-body">
         <div class="form-group">
-            <label>Masukan Password Lama</label>
+            <label>Masukan Password Lama<span style="color: red;">*</span></label>
             <input type="password" name="old_password" class="form-control" placeholder="Masukan password lama">
             <small id="error-old_password" class="error-text form-text text-danger"></small>
         </div>
         <div class="form-group">
-            <label>Masukan Password Baru</label>
+            <label>Masukan Password Baru<span style="color: red;">*</span></label>
             <input type="password" name="new_password" class="form-control" placeholder="Masukan password baru">
         </div>
     </div>

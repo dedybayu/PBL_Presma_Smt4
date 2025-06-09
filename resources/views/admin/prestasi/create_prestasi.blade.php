@@ -189,8 +189,6 @@
                                         </div>
                                 </div>
 
-
-
                                 <div class="form-group mt-2">
                                     <input type="file" name="file_proposal" id="file_proposal" class="form-control"
                                         accept="application/pdf" onchange="previewProposal(event)">

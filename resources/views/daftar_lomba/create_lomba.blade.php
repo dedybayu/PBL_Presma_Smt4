@@ -146,7 +146,7 @@
 
                 <div class="card">
                     <div class="card-body">
-                        <h5 class="card-title">Foto Pamflet</h5>
+                        <h5 class="card-title">Foto Pamflet<span style="color: red;">*</span></h5>
                         <!-- Gambar  -->
                         <div
                             style="position: relative; width: 100%; max-width: auto; aspect-ratio: 16 / 9; overflow: hidden; background: #eee;">
@@ -166,9 +166,11 @@
                         </div>
                     </div>
                 </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-warning" data-dismiss="modal">Batal</button>
-                    <button type="submit" class="btn btn-primary">Simpan</button>
+                <div class="mt-5 d-flex justify-content-end">
+                    <a href="{{ route('daftar_lomba.index') }}">
+                        <button type="button" class="btn btn-warning mr-2" data-dismiss="modal">Batal</button>
+                    </a>
+                    <button type="submit" class="btn btn-primary ml-2">Simpan</button>
                 </div>
             </form>
         </div>
