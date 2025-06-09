@@ -17,71 +17,79 @@
     <div class="row">
         <!-- Total Lomba -->
         <div class="col-md-6 col-xl-3">
-            <div class="card mb-3 widget-content bg-primary">
-                <div class="widget-content-wrapper text-white">
-                    <div class="widget-content-left">
-                        <div class="widget-heading">Total Lomba</div>
-                        <div class="widget-subheading">Jumlah event lomba</div>
-                    </div>
-                    <div class="widget-content-right">
-                        <div class="widget-numbers text-white">
-                            <span id="total-lomba">{{ $totalLomba }}</span>
+            <a href="{{ route('lomba.index') }}" class="text-decoration-none">
+                <div class="card mb-3 widget-content bg-primary">
+                    <div class="widget-content-wrapper text-white">
+                        <div class="widget-content-left">
+                            <div class="widget-heading">Total Lomba</div>
+                            <div class="widget-subheading">Jumlah event lomba</div>
+                        </div>
+                        <div class="widget-content-right">
+                            <div class="widget-numbers text-white">
+                                <span id="total-lomba">{{ $totalLomba }}</span>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
+            </a>
         </div>
 
         <!-- Lomba Terverifikasi -->
         <div class="col-md-6 col-xl-3">
-            <div class="card mb-3 widget-content bg-success">
-                <div class="widget-content-wrapper text-white">
-                    <div class="widget-content-left">
-                        <div class="widget-heading">Terverifikasi</div>
-                        <div class="widget-subheading">Lomba disetujui</div>
-                    </div>
-                    <div class="widget-content-right">
-                        <div class="widget-numbers text-white">
-                            <span id="lomba-verifikasi">{{ $lombaVerifikasi }}</span>
+            <a href="{{ route('lomba.index') }}" class="text-decoration-none">
+                <div class="card mb-3 widget-content bg-success">
+                    <div class="widget-content-wrapper text-white">
+                        <div class="widget-content-left">
+                            <div class="widget-heading">Terverifikasi</div>
+                            <div class="widget-subheading">Lomba disetujui</div>
+                        </div>
+                        <div class="widget-content-right">
+                            <div class="widget-numbers text-white">
+                                <span id="lomba-verifikasi">{{ $lombaVerifikasi }}</span>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
+            </a>
         </div>
 
         <!-- Lomba Pending -->
         <div class="col-md-6 col-xl-3">
-            <div class="card mb-3 widget-content bg-warning">
-                <div class="widget-content-wrapper text-white">
-                    <div class="widget-content-left">
-                        <div class="widget-heading">Pending</div>
-                        <div class="widget-subheading">Menunggu verifikasi</div>
-                    </div>
-                    <div class="widget-content-right">
-                        <div class="widget-numbers text-white">
-                            <span id="lomba-pending">{{ $lombaPending }}</span>
+            <a href="{{ route('lomba.index') }}" class="text-decoration-none">
+                <div class="card mb-3 widget-content bg-warning">
+                    <div class="widget-content-wrapper text-white">
+                        <div class="widget-content-left">
+                            <div class="widget-heading">Pending</div>
+                            <div class="widget-subheading">Menunggu verifikasi</div>
+                        </div>
+                        <div class="widget-content-right">
+                            <div class="widget-numbers text-white">
+                                <span id="lomba-pending">{{ $lombaPending }}</span>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
+            </a>
         </div>
 
         <!-- Lomba Ditolak -->
         <div class="col-md-6 col-xl-3">
-            <div class="card mb-3 widget-content bg-danger">
-                <div class="widget-content-wrapper text-white">
-                    <div class="widget-content-left">
-                        <div class="widget-heading">Ditolak</div>
-                        <div class="widget-subheading">Lomba ditolak</div>
-                    </div>
-                    <div class="widget-content-right">
-                        <div class="widget-numbers text-white">
-                            <span id="lomba-ditolak">{{ $lombaDitolak }}</span>
+            <a href="{{ route('lomba.index') }}" class="text-decoration-none">
+                <div class="card mb-3 widget-content bg-danger">
+                    <div class="widget-content-wrapper text-white">
+                        <div class="widget-content-left">
+                            <div class="widget-heading">Ditolak</div>
+                            <div class="widget-subheading">Lomba ditolak</div>
+                        </div>
+                        <div class="widget-content-right">
+                            <div class="widget-numbers text-white">
+                                <span id="lomba-ditolak">{{ $lombaDitolak }}</span>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
+        </a>
     </div>
 
     <!-- Dashboard Prestasi -->
@@ -89,71 +97,79 @@
     <div class="row">
         <!-- Total Prestasi -->
         <div class="col-md-6 col-xl-3">
-            <div class="card mb-3 widget-content bg-primary">
-                <div class="widget-content-wrapper text-white">
-                    <div class="widget-content-left">
-                        <div class="widget-heading">Total Prestasi</div>
-                        <div class="widget-subheading">Jumlah event prestasi</div>
-                    </div>
-                    <div class="widget-content-right">
-                        <div class="widget-numbers text-white">
-                            <span id="total-prestasi">{{ $totalPrestasi }}</span>
+            <a href="{{ route('prestasi.index') }}" class="text-decoration-none">
+                <div class="card mb-3 widget-content bg-primary">
+                    <div class="widget-content-wrapper text-white">
+                        <div class="widget-content-left">
+                            <div class="widget-heading">Total Prestasi</div>
+                            <div class="widget-subheading">Jumlah event prestasi</div>
+                        </div>
+                        <div class="widget-content-right">
+                            <div class="widget-numbers text-white">
+                                <span id="total-prestasi">{{ $totalPrestasi }}</span>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
+            </a>
         </div>
 
         <!-- Prestasi Terverifikasi -->
         <div class="col-md-6 col-xl-3">
-            <div class="card mb-3 widget-content bg-success">
-                <div class="widget-content-wrapper text-white">
-                    <div class="widget-content-left">
-                        <div class="widget-heading">Terverifikasi</div>
-                        <div class="widget-subheading">Prestasi disetujui</div>
-                    </div>
-                    <div class="widget-content-right">
-                        <div class="widget-numbers text-white">
-                            <span id="prestasi-verifikasi">{{ $prestasiVerifikasi }}</span>
+            <a href="{{ route('prestasi.index') }}" class="text-decoration-none">
+                <div class="card mb-3 widget-content bg-success">
+                    <div class="widget-content-wrapper text-white">
+                        <div class="widget-content-left">
+                            <div class="widget-heading">Terverifikasi</div>
+                            <div class="widget-subheading">Prestasi disetujui</div>
+                        </div>
+                        <div class="widget-content-right">
+                            <div class="widget-numbers text-white">
+                                <span id="prestasi-verifikasi">{{ $prestasiVerifikasi }}</span>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
+            </a>
         </div>
 
         <!-- Prestasi Pending -->
         <div class="col-md-6 col-xl-3">
-            <div class="card mb-3 widget-content bg-warning">
-                <div class="widget-content-wrapper text-white">
-                    <div class="widget-content-left">
-                        <div class="widget-heading">Pending</div>
-                        <div class="widget-subheading">Menunggu verifikasi</div>
-                    </div>
-                    <div class="widget-content-right">
-                        <div class="widget-numbers text-white">
-                            <span id="prestasi-pending">{{ $prestasiPending }}</span>
+            <a href="{{ route('prestasi.index') }}" class="text-decoration-none">
+                <div class="card mb-3 widget-content bg-warning">
+                    <div class="widget-content-wrapper text-white">
+                        <div class="widget-content-left">
+                            <div class="widget-heading">Pending</div>
+                            <div class="widget-subheading">Menunggu verifikasi</div>
+                        </div>
+                        <div class="widget-content-right">
+                            <div class="widget-numbers text-white">
+                                <span id="prestasi-pending">{{ $prestasiPending }}</span>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
+            </a>
         </div>
 
         <!-- Prestasi Ditolak -->
         <div class="col-md-6 col-xl-3">
-            <div class="card mb-3 widget-content bg-danger">
-                <div class="widget-content-wrapper text-white">
-                    <div class="widget-content-left">
-                        <div class="widget-heading">Ditolak</div>
-                        <div class="widget-subheading">Prestasi ditolak</div>
-                    </div>
-                    <div class="widget-content-right">
-                        <div class="widget-numbers text-white">
-                            <span id="prestasi-ditolak">{{ $prestasiDitolak }}</span>
+            <a href="{{ route('prestasi.index') }}" class="text-decoration-none">
+                <div class="card mb-3 widget-content bg-danger">
+                    <div class="widget-content-wrapper text-white">
+                        <div class="widget-content-left">
+                            <div class="widget-heading">Ditolak</div>
+                            <div class="widget-subheading">Prestasi ditolak</div>
+                        </div>
+                        <div class="widget-content-right">
+                            <div class="widget-numbers text-white">
+                                <span id="prestasi-ditolak">{{ $prestasiDitolak }}</span>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
+        </a>
     </div>
 
     <div class="row" style="align-items: stretch;">
@@ -176,7 +192,7 @@
             <div class="card mb-3 flex-fill d-flex flex-column">
                 <div class="card-header-tab card-header">
                     <div class="card-header-title font-size-lg text-capitalize fw-normal text-truncate w-100">
-                        Ranking Mahasiswa Peraih Prestasi Terbanyak
+                        Ranking Mahasiswa Berdasarkan Poin Prestasi
                     </div>
                 </div>
                 <div class="card-body flex-grow-1 overflow-auto">
@@ -204,8 +220,9 @@
                                     @endif
                                     <strong>{{ $mahasiswa->nama }}</strong>
                                 </div>
-                                <span class="badge {{ $badgeClass }} rounded-pill">
-                                    {{ $mahasiswa->total_prestasi }} Prestasi
+                                <span class="badge {{ $badgeClass }} rounded-pill text-end">
+                                    {{ $mahasiswa->total_poin }} Poin <br>
+                                    <small class="fw-normal">{{ $mahasiswa->total_prestasi }} Prestasi</small>
                                 </span>
                             </li>
                         @endforeach

@@ -100,10 +100,14 @@ class DashboardController extends Controller
         // Top mahasiswa dengan prestasi terbanyak
         $topMahasiswaPrestasi = DB::table('t_prestasi')
             ->join('m_mahasiswa as mahasiswa', 't_prestasi.mahasiswa_id', '=', 'mahasiswa.mahasiswa_id')
-            ->where('t_prestasi.status_verifikasi', 1) // Hanya ambil prestasi terverifikasi
-            ->select('mahasiswa.nama', DB::raw('COUNT(t_prestasi.prestasi_id) as total_prestasi'))
+            ->where('t_prestasi.status_verifikasi', 1)
+            ->select(
+                'mahasiswa.nama',
+                DB::raw('SUM(t_prestasi.poin) as total_poin'),
+                DB::raw('COUNT(t_prestasi.prestasi_id) as total_prestasi')
+            )
             ->groupBy('mahasiswa.mahasiswa_id', 'mahasiswa.nama')
-            ->orderByDesc('total_prestasi')
+            ->orderByDesc('total_poin')
             ->limit(8)
             ->get();
 
