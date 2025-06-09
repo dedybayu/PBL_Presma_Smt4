@@ -45,7 +45,7 @@ class DashboardController extends Controller
         // Statistik Lomba
         $totalLomba = LombaModel::count();
         $lombaVerifikasi = LombaModel::where('status_verifikasi', 1)->count(); // Terverifikasi
-        $lombaPending = LombaModel::where('status_verifikasi', 2)->count();    // Pending (Menunggu)
+        $lombaPending = LombaModel::where('status_verifikasi', null)->count();    // Pending (Menunggu)
         $lombaDitolak = LombaModel::where('status_verifikasi', 0)->count();    // Ditolak
 
         // Statistik Prestasi
@@ -71,7 +71,7 @@ class DashboardController extends Controller
         // Chart Lomba per tingkat
         $lombaPerTingkat = DB::table('m_tingkat_lomba as tingkat')
             ->leftJoin('m_lomba as lomba', function ($join) {
-                $join->on('tingkat.tingkat_lomba_id', '=', 'lomba.tingkat_lomba_id')
+                $join->on('tingkat.tingkat_lomba_id', '=', 'lomba.tingkat_lomba_id')    
                     ->where('lomba.status_verifikasi', 1);
             })
             ->select('tingkat.tingkat_lomba_id', 'tingkat.tingkat_lomba_nama', DB::raw('COUNT(lomba.lomba_id) as total_lomba'))
