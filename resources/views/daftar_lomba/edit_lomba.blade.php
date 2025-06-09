@@ -177,7 +177,7 @@
                                 <div
                                     style="position: relative; width: 100%; max-width: auto; aspect-ratio: 16 / 9; overflow: hidden; background: #eee;">
                                     <img id="preview-pamflet"
-                                        src="{{ file_exists($lomba->foto_pamflet) ? asset($lomba->foto_pamflet) : asset('assets/images/broken-image.png') }}"
+                                        src="{{ file_exists('storage/' . $lomba->foto_pamflet) ? asset('storage/' . $lomba->foto_pamflet) : asset('assets/images/broken-image.png') }}"
                                         alt="Pamflet"
                                         style="width: 100%; height: 100%; object-fit: contain; display: block;">
                                 </div>
