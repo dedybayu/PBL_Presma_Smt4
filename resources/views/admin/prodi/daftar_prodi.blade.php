@@ -74,7 +74,7 @@
                         { data: "DT_RowIndex", className: "text-center", orderable: false, searchable: false },
                         { data: "info", orderable: false, searchable: true },
                         { data: "kode", orderable: false, searchable: true },
-                        { data: "aksi", className: "text-center", orderable: false, searchable: false }
+                        { data: "aksi", orderable: false, searchable: false }
                     ]
                 });
 
