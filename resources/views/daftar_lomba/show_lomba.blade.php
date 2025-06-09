@@ -14,15 +14,7 @@
     <x-slot:title>
         Detail Lomba: {{ $lomba->lomba_nama }}
     </x-slot:title>
-
-    @php
-        $bgColor = match ($lomba->status_verifikasi) {
-            '1' => 'rgba(0, 255, 85, 0.144)', // Hijau
-            '0' => 'rgba(255, 0, 0, 0.144)', // Merah
-            default => 'rgba(255, 251, 0, 0.144)', // Kuning
-        };
-    @endphp
-
+    
     <div class="mb-3 card">
         <div class="card-header-tab card-header">
             <h3 class="card-title"><i class="fa fa-trophy"></i> {{ $lomba->lomba_nama }}

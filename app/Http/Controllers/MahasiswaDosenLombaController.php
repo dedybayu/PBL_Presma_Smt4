@@ -240,8 +240,9 @@ class MahasiswaDosenLombaController extends Controller
         $tingkat = TingkatLombaModel::all();
         $bidang = BidangKeahlianModel::all();
         $penyelenggara = PenyelenggaraModel::all();
+        $kota = KotaModel::all();
 
-        return view('daftar_lomba.edit_lomba', compact('lomba', 'tingkat', 'bidang', 'penyelenggara'));
+        return view('daftar_lomba.edit_lomba', compact('lomba', 'tingkat', 'bidang', 'penyelenggara', 'kota'));
     }
 
 
@@ -270,7 +271,7 @@ class MahasiswaDosenLombaController extends Controller
             'link_website' => 'required|string|max:255',
             'tingkat_lomba_id' => 'required|exists:m_tingkat_lomba,tingkat_lomba_id',
             'bidang_keahlian_id' => 'required|exists:m_bidang_keahlian,bidang_keahlian_id',
-            'penyelenggara_id' => 'required|exists:m_penyelenggara,penyelenggara_id',
+            'penyelenggara_id' => 'required',
             'jumlah_anggota => required|max:5',
             'tanggal_mulai' => 'required|date|date_format:Y-m-d',
             'tanggal_selesai' => 'required|date|date_format:Y-m-d',
@@ -302,6 +303,16 @@ class MahasiswaDosenLombaController extends Controller
             }
         }
 
+                $penyelenggara_id = $request->penyelenggara_id;
+        //PENYELENGGARA
+        if ($request->penyelenggara_id === 'other') {
+            $penyelenggara_id = PenyelenggaraModel::create([
+                'penyelenggara_nama' => $request->penyelenggara_nama,
+                'kota_id' => $request->kota_id
+            ])->penyelenggara_id;
+        }
+
+
         $lombaNama = $request->lomba_nama;
 
         // 1. Buat prefix dari nama lomba (ambil huruf besar awal kata, atau substring)
@@ -321,7 +332,7 @@ class MahasiswaDosenLombaController extends Controller
             'link_website' => $request->link_website,
             'tingkat_lomba_id' => $request->tingkat_lomba_id,
             'bidang_keahlian_id' => $request->bidang_keahlian_id,
-            'penyelenggara_id' => $request->penyelenggara_id,
+            'penyelenggara_id' => $penyelenggara_id,
             'jumlah_anggota' => $request->jumlah_anggota,
             'tanggal_mulai' => $request->tanggal_mulai,
             'tanggal_selesai' => $request->tanggal_selesai,
