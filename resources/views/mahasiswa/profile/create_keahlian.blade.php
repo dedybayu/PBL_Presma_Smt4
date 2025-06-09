@@ -9,7 +9,7 @@
     </div>
     <div class="modal-body">
         <div class="form-group">
-            <label>Kategori Bidang Keahlian</label>
+            <label>Kategori Bidang Keahlian<span style="color: red;">*</span></label>
             <select name="bidang_keahlian_id" id="bidang_keahlian_id" class="form-control">
                 <option value="" disabled selected>- Pilih Kategori Bidang Keahlian -</option>
                 @foreach ($bidangKeahlian as $item)
@@ -21,7 +21,7 @@
         </div>
         <div class="card">
             <div class="card-body">
-                <h5 class="card-title">Foto Sertifikat</h5>
+                <h5 class="card-title">Foto Sertifikat<span style="color: red;">*</span></h5>
                 <!-- Gambar Sertifikat -->
                 <div
                     style="position: relative; width: 100%; max-width: full; aspect-ratio: 16 / 9; overflow: hidden; background: #eee;">

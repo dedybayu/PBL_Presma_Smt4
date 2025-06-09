@@ -38,7 +38,7 @@
     <div class="background-image"></div>
     <div class="gray-overlay"></div>
 
-    <div class="min-h-screen flex justify-center items-center text-gray-900 px-4">
+    <div class="min-h-screen w-full flex justify-center items-center text-gray-900 px-4 text-center">
         <div class="bg-white shadow-lg rounded-xl overflow-hidden flex w-full max-w-4xl">
             <div class="w-full md:w-1/2 p-8 space-y-6">
                 <a href="/">
@@ -62,8 +62,8 @@
                     <div>
                         <input id="username" name="username" value="{{ old('username') }}"
                             class="w-full px-4 py-3 rounded-lg bg-gray-100 border border-gray-300 placeholder-gray-500 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-400"
-                            type="text" placeholder="NIM/NIP/Username" />
-                        <p id="usernameError" class="text-red-500 text-sm mt-1 hidden">NIM/NIP/Username harus diisi.</p>
+                            type="text" placeholder="Username" />
+                        <p id="usernameError" class="text-red-500 text-sm mt-1 hidden">Username harus diisi.</p>
                     </div>
 
                     <div class="relative">

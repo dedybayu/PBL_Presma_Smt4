@@ -9,7 +9,7 @@
     </div>
     <div class="modal-body">
         <div class="form-group">
-            <label>Pilih Kategori Bidang Keahlian</label>
+            <label>Pilih Bidang Keahlian<span style="color: red;">*</span></label>
             <select name="bidang_keahlian_id" id="bidang_keahlian_id" class="form-control">
                 <option value="" disabled selected>- Pilih Bidang Keahlian -</option>
                 @foreach ($bidangKeahlian as $item)
