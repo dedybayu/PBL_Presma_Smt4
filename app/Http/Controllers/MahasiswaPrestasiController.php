@@ -96,7 +96,7 @@ class MahasiswaPrestasiController extends Controller
                 'file_bukti_foto' => 'required|mimes:jpg,jpeg,png|max:2048',
                 'file_surat_tugas' => 'required|mimes:jpg,jpeg,png|max:2048',
                 'file_surat_undangan' => 'required|mimes:jpg,jpeg,png|max:2048',
-                'file_proposal' => 'required|mimes:pdf|max:4096',
+                'file_proposal' => 'mimes:pdf|max:4096',
             ];
             $validator = Validator::make($request->all(), $rules);
 
