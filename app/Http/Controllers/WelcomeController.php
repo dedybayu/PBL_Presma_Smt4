@@ -10,19 +10,25 @@ class WelcomeController extends Controller
 {
     public function index()
     {
-        $topMahasiswaPrestasi = MahasiswaModel::select('mahasiswa_id', 'nama', 'kelas_id')
-            ->with([
-                'kelas.prodi',
-            ])
-            ->withSum([
-                'prestasi as total_poin' => function ($query) {
-                    $query->where('status_verifikasi', 1);
-                }
-            ], 'poin')
-            ->having('total_poin', '>', 0)
-            ->orderByDesc('total_poin')
-            ->limit(5)
-            ->get();
+$topMahasiswaPrestasi = MahasiswaModel::select('mahasiswa_id', 'nama', 'kelas_id')
+    ->with([
+        'kelas.prodi',
+    ])
+    ->withSum([
+        'prestasi as total_poin' => function ($query) {
+            $query->where('status_verifikasi', 1);
+        }
+    ], 'poin')
+    ->withCount([
+        'prestasi as total_prestasi' => function ($query) {
+            $query->where('status_verifikasi', 1);
+        }
+    ])
+    ->having('total_poin', '>', 0)
+    ->orderByDesc('total_poin')
+    ->limit(5)
+    ->get();
+
 
 
 
