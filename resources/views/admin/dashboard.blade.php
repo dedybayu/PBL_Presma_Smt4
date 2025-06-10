@@ -208,17 +208,22 @@
                                 };
                             @endphp
                             <li class="list-group-item d-flex justify-content-between align-items-center">
-                                <div>
+                                <div class="d-flex align-items-center">
                                     @if ($rank == 1)
-                                        <span style="font-size: 2rem">🥇</span>
+                                        <span style="font-size: 2rem; margin-right: 1rem;">🥇</span>
                                     @elseif ($rank == 2)
-                                        <span style="font-size: 2rem">🥈</span>
+                                        <span style="font-size: 2rem; margin-right: 1rem;">🥈</span>
                                     @elseif ($rank == 3)
-                                        <span style="font-size: 2rem">🥉</span>
+                                        <span style="font-size: 2rem; margin-right: 1rem;">🥉</span>
                                     @else
-                                        <span class="badge bg-light text-dark me-2">{{ $rank }}</span>
+                                        <span class="badge bg-light text-dark me-2" style="margin-right: 1rem ">{{ $rank }}</span>
                                     @endif
-                                    <strong>{{ $mahasiswa->nama }}</strong>
+                                    <div>
+                                        <strong>{{ $mahasiswa->nama }}</strong>
+                                        <div class="text-muted" style="font-size: 0.9rem;">
+                                            {{ $mahasiswa->kelas->prodi->prodi_nama ?? 'Program Studi Tidak Diketahui' }}
+                                        </div>
+                                    </div>
                                 </div>
                                 <span class="badge {{ $badgeClass }} rounded-pill">
                                     {{ $mahasiswa->total_prestasi }} Prestasi
