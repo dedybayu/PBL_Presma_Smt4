@@ -273,14 +273,17 @@ class RekomendasiMahasiswaController extends Controller
                 "mahasiswa_id" => $mahasiswa->mahasiswa_id,
                 "ipk" => $mahasiswa->ipk,
                 "keahlian" => self::kesesuaianKeahlian($mahasiswa->keahlian, $lomba->bidang),
-                "jumlah_prestasi" => $mahasiswa->prestasi()->where('status_verifikasi', 1)->count(),
+                "jumlah_prestasi" => $mahasiswa->prestasi->where('status_verifikasi', 1)->count(),
                 "kesesuaian_bidang_prestasi" => self::kesesuaianBidangPrestasi($mahasiswa->prestasi, $lomba->bidang),
-                "tingkat_lomba_prestasi" => self::tingkatLombaPrestasi($mahasiswa->prestasi),
-                "poin_prestasi" => self::totalPoinMahasiswa($mahasiswa->prestasi),
+                "tingkat_lomba_prestasi" => self::tingkatLombaPrestasi($mahasiswa->prestasi->where('status_verifikasi', 1)),
+                "poin_prestasi" => $mahasiswa->prestasi()->where('status_verifikasi', 1)->sum('poin'),
+                // "poin_prestasi" => self::totalPoinMahasiswa($mahasiswa->prestasi),
                 "minat" => self::kesesuaianMinat($mahasiswa->minat, $lomba->bidang),
                 "organisasi" => count($mahasiswa->organisasi)
             ];
         }
+
+        // dd($allternatif);
         return $allternatif;
     }
 
@@ -366,7 +369,7 @@ class RekomendasiMahasiswaController extends Controller
             'PRO' => 30,  // Provinsi
             'KAB' => 10   // Kabupaten
         ];
-        $poin = 0;
+        // $poin = 0;
         foreach ($prioritas as $kode => $poin) {
             foreach ($listPrestasiMahasiswa as $prestasi) {
                 if (

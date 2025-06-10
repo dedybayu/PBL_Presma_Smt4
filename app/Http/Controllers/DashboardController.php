@@ -98,15 +98,21 @@ class DashboardController extends Controller
             });
 
         // Top mahasiswa dengan prestasi terbanyak
-        $topMahasiswaPrestasi = DB::table('t_prestasi')
-            ->join('m_mahasiswa as mahasiswa', 't_prestasi.mahasiswa_id', '=', 'mahasiswa.mahasiswa_id')
-            ->where('t_prestasi.status_verifikasi', 1)
-            ->select(
-                'mahasiswa.nama',
-                DB::raw('SUM(t_prestasi.poin) as total_poin'),
-                DB::raw('COUNT(t_prestasi.prestasi_id) as total_prestasi')
-            )
-            ->groupBy('mahasiswa.mahasiswa_id', 'mahasiswa.nama')
+        $topMahasiswaPrestasi = MahasiswaModel::select('mahasiswa_id', 'nama', 'kelas_id')
+            ->with([
+                'kelas.prodi',
+            ])
+            ->withSum([
+                'prestasi as total_poin' => function ($query) {
+                    $query->where('status_verifikasi', 1);
+                }
+            ], 'poin')
+            ->withCount([
+                'prestasi as total_prestasi' => function ($query) {
+                    $query->where('status_verifikasi', 1);
+                }
+            ])
+            ->having('total_poin', '>', 0)
             ->orderByDesc('total_poin')
             ->limit(3)
             ->get();
