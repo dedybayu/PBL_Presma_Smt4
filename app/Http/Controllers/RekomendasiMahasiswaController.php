@@ -273,7 +273,7 @@ class RekomendasiMahasiswaController extends Controller
                 "mahasiswa_id" => $mahasiswa->mahasiswa_id,
                 "ipk" => $mahasiswa->ipk,
                 "keahlian" => self::kesesuaianKeahlian($mahasiswa->keahlian, $lomba->bidang),
-                "jumlah_prestasi" => count($mahasiswa->prestasi),
+                "jumlah_prestasi" => $mahasiswa->prestasi()->where('status_verifikasi', 1)->count(),
                 "kesesuaian_bidang_prestasi" => self::kesesuaianBidangPrestasi($mahasiswa->prestasi, $lomba->bidang),
                 "tingkat_lomba_prestasi" => self::tingkatLombaPrestasi($mahasiswa->prestasi),
                 "poin_prestasi" => self::totalPoinMahasiswa($mahasiswa->prestasi),
