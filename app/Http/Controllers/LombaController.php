@@ -124,7 +124,7 @@ class LombaController extends Controller
         $rules = [
             // 'lomba_kode' => 'required|string|max:255',
             'lomba_nama' => 'required|string|max:255',
-            'lomba_deskripsi' => 'required|string|max:255',
+            'lomba_deskripsi' => 'required|string',
             'link_website' => 'required|string|max:255',
             'tingkat_lomba_id' => 'required|exists:m_tingkat_lomba,tingkat_lomba_id',
             'bidang_keahlian_id' => 'required|exists:m_bidang_keahlian,bidang_keahlian_id',
@@ -231,7 +231,7 @@ class LombaController extends Controller
         $rules = [
             // 'lomba_kode' => 'required|string|max:255',
             'lomba_nama' => 'required|string|max:255',
-            'lomba_deskripsi' => 'required|string|max:255',
+            'lomba_deskripsi' => 'required|string',
             'link_website' => 'required|string|max:255',
             'tingkat_lomba_id' => 'required|exists:m_tingkat_lomba,tingkat_lomba_id',
             'bidang_keahlian_id' => 'required|exists:m_bidang_keahlian,bidang_keahlian_id',
