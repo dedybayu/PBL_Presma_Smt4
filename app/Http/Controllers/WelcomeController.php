@@ -14,15 +14,16 @@ class WelcomeController extends Controller
             ->with([
                 'kelas.prodi',
             ])
-            ->withCount([
-                'prestasi as total_prestasi' => function ($query) {
+            ->withSum([
+                'prestasi as total_poin' => function ($query) {
                     $query->where('status_verifikasi', 1);
                 }
-            ])
-            ->having('total_prestasi', '>', 0)
-            ->orderByDesc('total_prestasi')
+            ], 'poin')
+            ->having('total_poin', '>', 0)
+            ->orderByDesc('total_poin')
             ->limit(5)
             ->get();
+
 
 
         $daftarLomba = LombaModel::where('status_verifikasi', 1)

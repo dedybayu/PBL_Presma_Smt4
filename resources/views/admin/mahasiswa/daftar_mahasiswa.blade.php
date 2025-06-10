@@ -73,6 +73,7 @@
                             <th>Info</th>
                             <th>Kelas</th>
                             <th>Alamat</th>
+                            <th>Total Poin</th>
                             <th>Aksi</th>
                         </tr>
                     </thead>
@@ -145,6 +146,7 @@
                         { data: "info", className: "", orderable: true, searchable: true },
                         { data: "kelas", className: "", orderable: true, searchable: true },
                         { data: "alamat", className: "", orderable: false, searchable: true },
+                        { data: "poin_prestasi", className: "", orderable: true, searchable: true },
                         { data: "aksi", className: "", orderable: false, searchable: false }
                     ]
                 });

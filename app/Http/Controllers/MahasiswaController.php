@@ -34,7 +34,7 @@ class MahasiswaController extends Controller
     public function list(Request $request)
     {
         if ($request->ajax()) {
-            $mahasiswas = MahasiswaModel::with('kelas');
+            $mahasiswas = MahasiswaModel::with('kelas', 'prestasi');
 
             if ($request->prodi_id) {
                 $mahasiswas->whereHas('kelas', function ($query) use ($request) {
@@ -79,6 +79,9 @@ class MahasiswaController extends Controller
                 })
                 ->addColumn('alamat', function ($row) {
                     return collect(explode(' ', $row->alamat))->take(5)->implode(' ') . '...';
+                })
+                ->addColumn('poin_prestasi', function ($row) {
+                    return $row->prestasi->sum('poin');
                 })
                 ->addColumn('aksi', function ($row) {
                     $btn = '<button onclick="modalAction(\'' . url('/mahasiswa/' . $row->mahasiswa_id . '/show') . '\')" class="btn btn-info btn-sm mt-1 mb-1"><i class="fa fa-eye"></i> Detail</button> ';
