@@ -14,8 +14,8 @@
     </x-slot:title>
 
     <div class="row" style="align-items: stretch;">
-        <!-- Grafik Lomba per Bulan -->
-        <div class="col-md-9 d-flex">
+        <!-- Daftar Lomba -->
+        <div class="col-md-8 d-flex">
             <div class="card mb-3 flex-fill d-flex flex-column">
                 <div class="card-header-tab card-header">
                     <div class="card-header-title font-size-lg text-capitalize fw-normal text-truncate w-100">
@@ -61,7 +61,7 @@
         </div>
 
         <!-- Top 5 Mahasiswa Peraih Prestasi -->
-        <div class="col-md-3">
+        <div class="col-md-4">
             <div class="card mb-3 flex-fill d-flex flex-column">
                 <div class="card-header-tab card-header">
                     <div class="card-header-title font-size-lg text-capitalize fw-normal text-truncate w-100">
@@ -93,9 +93,8 @@
                                     @endif
                                     <strong>{{ $mahasiswa->nama }}</strong>
                                 </div>
-                                <span class="badge {{ $badgeClass }} rounded-pill text-end">
-                                    {{ $mahasiswa->total_poin }} Poin <br>
-                                    <small class="fw-normal">{{ $mahasiswa->total_prestasi }} Prestasi</small>
+                                <span class="badge {{ $badgeClass }} rounded-pill">
+                                    {{ $mahasiswa->total_prestasi }} Prestasi
                                 </span>
                             </li>
                         @endforeach
@@ -104,7 +103,7 @@
             </div>
 
             <!-- Mahasiswa Bimbingan -->
-            <div class="card mb-3 flex-fill d-flex flex-column">
+            <div class="card mb-4 flex-fill d-flex flex-column">
                 <div class="card-header-tab card-header">
                     <div class="card-header-title font-size-lg text-capitalize fw-normal text-truncate w-100">
                         Mahasiswa Bimbingan
