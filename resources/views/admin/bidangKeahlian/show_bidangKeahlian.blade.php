@@ -24,39 +24,37 @@
         </button>
     </div>
     <div class="modal-body">
-        <div class="main-body">
-            <div class="row gutters-sm">
-                <div class="col-md-12">
-                    <div class="card mb-3">
-                        <div class="card-body">
-                            <div class="row">
-                                <div class="col-sm-3">
-                                    <h6 class="mb-0">Kode Bidang Keahlian</h6>
-                                </div>
-                                <div class="col-sm-9 text-secondary">
-                                    {{ $bidangKeahlian->bidang_keahlian_kode }}
-                                </div>
+        <div class="row gutters-sm">
+            <div class="col-md-12">
+                <div class="card mb-3">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <h6 class="mb-0">Kode Bidang Keahlian</h6>
                             </div>
-                            <hr>
-                            <div class="row">
-                                <div class="col-sm-3">
-                                    <h6 class="mb-0">Nama Bidang Keahlian</h6>
-                                </div>
-                                <div class="col-sm-9 text-secondary">
-                                    {{ $bidangKeahlian->bidang_keahlian_nama }}
-                                </div>
+                            <div class="col-sm-9 text-secondary">
+                                {{ $bidangKeahlian->bidang_keahlian_kode }}
                             </div>
-                            <hr>
-                            <div class="row">
-                                <div class="col-sm-3">
-                                    <h6 class="mb-0">Kategori Bidang Keahlian</h6>
-                                </div>
-                                <div class="col-sm-9 text-secondary">
-                                    {{ $bidangKeahlian->kategoriBidangKeahlian->kategori_bidang_keahlian_nama }}
-                                </div>
-                            </div>
-                            <hr>
                         </div>
+                        <hr>
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <h6 class="mb-0">Nama Bidang Keahlian</h6>
+                            </div>
+                            <div class="col-sm-9 text-secondary">
+                                {{ $bidangKeahlian->bidang_keahlian_nama }}
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <h6 class="mb-0">Kategori Bidang Keahlian</h6>
+                            </div>
+                            <div class="col-sm-9 text-secondary">
+                                {{ $bidangKeahlian->kategoriBidangKeahlian->kategori_bidang_keahlian_nama }}
+                            </div>
+                        </div>
+                        <hr>
                     </div>
                 </div>
             </div>
