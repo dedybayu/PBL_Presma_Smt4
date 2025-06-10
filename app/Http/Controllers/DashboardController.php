@@ -108,13 +108,13 @@ class DashboardController extends Controller
             )
             ->groupBy('mahasiswa.mahasiswa_id', 'mahasiswa.nama')
             ->orderByDesc('total_poin')
-            ->limit(8)
+            ->limit(3)
             ->get();
 
         // Ambil daftar lomba 
         $daftarLomba = LombaModel::where('status_verifikasi', 1)
             ->orderBy('tanggal_mulai', 'desc')
-            ->limit(10)
+            ->limit(8)
             ->get(['lomba_id', 'lomba_nama', 'tanggal_mulai', 'foto_pamflet']);
 
         // Ambil data prestasi

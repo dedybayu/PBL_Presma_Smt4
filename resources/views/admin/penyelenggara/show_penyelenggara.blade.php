@@ -24,22 +24,54 @@
         </button>
     </div>
     <div class="modal-body">
-        <table class="table table-sm table-bordered table-striped">
-            <tr>
-                <th class="text-right col-4">Nama Penyelenggara :</th>
-                <td class="col-8">{{ $penyelenggara->penyelenggara_nama }}</td>
-            </tr>
-            <tr>
-                <th class="text-right col-4">Kota :</th>
-                <td class="col-8">{{ $penyelenggara->kota->kota_nama ?? '-' }}</td>
-            </tr>
-            <tr>
-                <th class="text-right col-4">Negara :</th>
-                <td class="col-8">{{ $penyelenggara->kota->provinsi->negara->negara_nama ?? '-' }}</td>
-            </tr>
-        </table>
+        <div class="main-body">
+            <div class="row gutters-sm">
+                <div class="col-md-12">
+                    <div class="card mb-3">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-sm-3">
+                                    <h6 class="mb-0">Nama Penyelenggara</h6>
+                                </div>
+                                <div class="col-sm-9 text-secondary">
+                                    {{ $penyelenggara->penyelenggara_nama }}
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="row">
+                                <div class="col-sm-3">
+                                    <h6 class="mb-0">Kota</h6>
+                                </div>
+                                <div class="col-sm-9 text-secondary">
+                                    {{ $penyelenggara->kota->kota_nama ?? '-' }}
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="row">
+                                <div class="col-sm-3">
+                                    <h6 class="mb-0">Provinsi</h6>
+                                </div>
+                                <div class="col-sm-9 text-secondary">
+                                    {{ $penyelenggara->kota->provinsi->provinsi_nama ?? '-' }}
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="row">
+                                <div class="col-sm-3">
+                                    <h6 class="mb-0">Negara</h6>
+                                </div>
+                                <div class="col-sm-9 text-secondary">
+                                    {{ $penyelenggara->kota->provinsi->negara->negara_nama ?? '-' }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
         <div class="modal-footer">
-            <button onclick="modalAction('{{ url('/penyelenggara/' . $penyelenggara->penyelenggara_id . '/edit') }}')" class="btn btn-success btn-sm">Edit</button>
+            <button onclick="modalAction('{{ url('/penyelenggara/' . $penyelenggara->penyelenggara_id . '/edit') }}')"
+                class="btn btn-success btn-sm">Edit</button>
             <button type="button" data-dismiss="modal" class="btn btn-primary btn-sm">Close</button>
         </div>
     </div>

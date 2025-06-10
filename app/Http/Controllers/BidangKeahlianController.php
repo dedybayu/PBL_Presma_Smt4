@@ -88,9 +88,9 @@ class BidangKeahlianController extends Controller
         ]);
     }
 
-    public function show($id)
+    public function show(BidangKeahlianModel $bidangKeahlian)
     {
-        $bidangKeahlian = BidangKeahlianModel::find($id);
+        // $bidangKeahlian = BidangKeahlianModel::find($id);
         return view('admin.bidangKeahlian.show_bidangKeahlian')->with(['bidangKeahlian' => $bidangKeahlian]);
     }
 
@@ -103,9 +103,9 @@ class BidangKeahlianController extends Controller
         ]);
     }
 
-    public function update(Request $request, $id)
+    public function update(Request $request, BidangKeahlianModel $bidangKeahlian)
     {
-        $bidangKeahlian = BidangKeahlianModel::findOrFail($id);
+        // $bidangKeahlian = BidangKeahlianModel::findOrFail($id);
 
         $rules = [
             'bidang_keahlian_kode' => 'required|string|max:255',

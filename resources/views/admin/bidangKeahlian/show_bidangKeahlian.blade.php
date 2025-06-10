@@ -24,18 +24,44 @@
         </button>
     </div>
     <div class="modal-body">
-        <table class="table table-sm table-bordered table-striped">
-            <tr>
-                <th class="text-right col-4">Kode Bidang Keahlian :</th>
-                <td class="col-8">{{ $bidangKeahlian->bidang_keahlian_kode }}</td>
-            </tr>
-            <tr>
-                <th class="text-right col-4">Nama Bidang Keahlian :</th>
-                <td class="col-8">{{ $bidangKeahlian->bidang_keahlian_nama }}</td>
-            </tr>
-        </table>
+        <div class="row gutters-sm">
+            <div class="col-md-12">
+                <div class="card mb-3">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <h6 class="mb-0">Kode Bidang Keahlian</h6>
+                            </div>
+                            <div class="col-sm-9 text-secondary">
+                                {{ $bidangKeahlian->bidang_keahlian_kode }}
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <h6 class="mb-0">Nama Bidang Keahlian</h6>
+                            </div>
+                            <div class="col-sm-9 text-secondary">
+                                {{ $bidangKeahlian->bidang_keahlian_nama }}
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <h6 class="mb-0">Kategori Bidang Keahlian</h6>
+                            </div>
+                            <div class="col-sm-9 text-secondary">
+                                {{ $bidangKeahlian->kategoriBidangKeahlian->kategori_bidang_keahlian_nama }}
+                            </div>
+                        </div>
+                        <hr>
+                    </div>
+                </div>
+            </div>
+        </div>
         <div class="modal-footer">
-            <button onclick="modalAction('{{ url('/bidangKeahlian/' . $bidangKeahlian->bidang_keahlian_id . '/edit') }}')" class="btn btn-success btn-sm">Edit</button>
+            <button onclick="modalAction('{{ url('/bidangKeahlian/' . $bidangKeahlian->bidang_keahlian_id . '/edit') }}')"
+                class="btn btn-success btn-sm">Edit</button>
             <button type="button" data-dismiss="modal" class="btn btn-primary btn-sm">Close</button>
         </div>
     </div>

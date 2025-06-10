@@ -220,9 +220,8 @@
                                     @endif
                                     <strong>{{ $mahasiswa->nama }}</strong>
                                 </div>
-                                <span class="badge {{ $badgeClass }} rounded-pill text-end">
-                                    {{ $mahasiswa->total_poin }} Poin <br>
-                                    <small class="fw-normal">{{ $mahasiswa->total_prestasi }} Prestasi</small>
+                                <span class="badge {{ $badgeClass }} rounded-pill">
+                                    {{ $mahasiswa->total_prestasi }} Prestasi
                                 </span>
                             </li>
                         @endforeach
