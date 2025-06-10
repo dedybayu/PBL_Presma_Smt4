@@ -320,6 +320,7 @@ class LombaController extends Controller
     {
         try {
             $lomba->rekomendasi()->delete();
+            $lomba->delete(); //Kurang iki jir
 
             return response()->json([
                 'status' => true,
