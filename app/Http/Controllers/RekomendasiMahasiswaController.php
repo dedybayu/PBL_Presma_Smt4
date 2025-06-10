@@ -224,35 +224,6 @@ class RekomendasiMahasiswaController extends Controller
         }
     }
 
-    public static function kalkulasiBobot__(LombaModel $lomba)
-    {
-        $allLomba = LombaModel::with([
-            'bidang.kategoriBidangKeahlian',
-            'penyelenggara.kota.provinsi.negara',
-            'tingkat'
-        ])
-            ->where('tanggal_selesai', '<', Carbon::now())
-            ->where('status_verifikasi', 1)
-            ->get();
-
-        $response = Http::post('http://127.0.0.1:8000/api/psi', [
-            "kriteria" => ["benefit", "benefit", "benefit", "benefit", "benefit", "benefit", "benefit", "benefit"],
-            "mahasiswa" => self::getAlternatif($allLomba[0])
-        ]);
-
-        if ($response->successful()) {
-            $bobot = $response->json()['bobot'];
-            // Misalnya ingin mencetak atau memproses bobotnya
-            dd($bobot);
-        } else {
-            Log::error('Gagal menghitung bobot dengan PSI', [
-                'status' => $response->status(),
-                'body' => $response->body()
-            ]);
-        }
-    }
-
-
     private static function getAlternatif(LombaModel $lomba)
     {
         $allMahasiswa = MahasiswaModel::with(
