@@ -14,7 +14,7 @@
 
     <div class="mb-3 card">
         <div class="card-header-tab card-header">
-            <h3 class="card-title"> Portfolio Performance
+            <h3 class="card-title"> Daftar Lomba
             </h3>
             <div class="btn-actions-pane-right text-capitalize">
                 {{-- <button class="btn-wide btn-outline-2x mr-md-2 btn btn-outline-focus btn-sm">View All</button> --}}

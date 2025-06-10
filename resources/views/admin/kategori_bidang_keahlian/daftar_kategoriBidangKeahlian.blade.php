@@ -14,11 +14,11 @@
 
     <div class="mb-3 card">
         <div class="card-header-tab card-header">
-            <h3 class="card-title">Daftar Bidang Keahlian</h3>
+            <h3 class="card-title">Daftar Kategori Bidang Keahlian</h3>
             <div class="btn-actions-pane-right text-capitalize">
                 <button onclick="modalAction('{{ url('/KategoriBidangKeahlian/create') }}')"
                     class="btn btn-sm btn-success mt-1">
-                    <i class="fa fa-plus"></i> Tambah Bidang Keahlian
+                    <i class="fa fa-plus"></i> Tambah
                 </button>
             </div>
         </div>
