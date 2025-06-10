@@ -41,7 +41,7 @@
                 <div class="form-group">
                     <label for="tingkat_lomba_id">Tingkat Lomba<span style="color: red;">*</span></label>
                     <select name="tingkat_lomba_id" id="tingkat_lomba_id" class="form-control">
-                        <option value="">- Pilih tingkat -</option>
+                        <option value="">- Pilih Tingkat -</option>
                         @foreach ($tingkat as $k)
                             <option value="{{ $k->tingkat_lomba_id }}">{{ $k->tingkat_lomba_nama }}</option>
                         @endforeach
@@ -54,7 +54,7 @@
                     <label>Bidang<span style="color: red;">*</span></label>
                     <select class="form-select" id="bidang_keahlian_id_create" name="bidang_keahlian_id"
                         style="width: 100%">
-                        <option value="" disabled selected>- Pilih bidang -</option>
+                        <option value="" disabled selected>- Pilih Bidang -</option>
                         @foreach ($bidang as $item)
                             <option value="{{ $item->bidang_keahlian_id }}">
                                 {{ $item->bidang_keahlian_nama }}
@@ -68,7 +68,7 @@
                 <div class="form-group">
                     <label>Penyelenggara<span style="color: red;">*</span></label>
                     <select class="form-select" id="penyelenggara_id" name="penyelenggara_id" style="width: 100%">
-                        <option value="" disabled selected>- Pilih penyelenggara -</option>
+                        <option value="" disabled selected>- Pilih Penyelenggara -</option>
                         @foreach ($penyelenggara as $item)
                             <option value="{{ $item->penyelenggara_id }}">
                                 {{ $item->penyelenggara_nama }}
@@ -80,14 +80,14 @@
             </div>
             <div class="col-md-6">
                 <div class="form-group">
-                    <label for="tanggal_mulai">tanggal mulai<span style="color: red;">*</span></label>
+                    <label for="tanggal_mulai">Tanggal Mulai<span style="color: red;">*</span></label>
                     <input type="date" name="tanggal_mulai" id="tanggal_mulai" class="form-control">
                     <small id="error-tanggal-mulai" class="text-danger"></small>
                 </div>
             </div>
             <div class="col-md-6">
                 <div class="form-group">
-                    <label for="tanggal_selesai">tanggal_selesai<span style="color: red;">*</span></label>
+                    <label for="tanggal_selesai">Tanggal Selesai<span style="color: red;">*</span></label>
                     <input type="date" name="tanggal_selesai" id="tanggal_selesai" class="form-control">
                     <small id="error-tanggal_selesai" class="text-danger"></small>
                 </div>
@@ -145,7 +145,7 @@
         // Hanya inisialisasi jika belum di-init
         $('#bidang_keahlian_id_create, #penyelenggara_id').select2({
             theme: 'bootstrap-5',
-            placeholder: "- Pilih Bidang -",
+            // placeholder: "- Pilih Bidang -",
             width: '100%',
             dropdownParent: $('#modal-lomba') // ⬅️ INI PENTING!
         });
