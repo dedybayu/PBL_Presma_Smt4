@@ -127,6 +127,7 @@ class RekomendasiMahasiswaController extends Controller
 
     public static function rekomendasiByTopsis()
     {
+        
         $allLomba = LombaModel::with([
             'bidang.kategoriBidangKeahlian',
             'penyelenggara.kota.provinsi.negara',
@@ -140,20 +141,15 @@ class RekomendasiMahasiswaController extends Controller
         RekomendasiMahasiswaLombaModel::truncate();
 
         foreach ($allLomba as $lomba) {
-            if ($lomba[0] || $lomba[1]) {
-                continue;
-            }
             $response = Http::post('http://127.0.0.1:8000/api/topsis', [
                 "jumlah_anggota" => $lomba->jumlah_anggota,
                 "bobot" => self::getBobot($lomba),
-                // "bobot" => [0.15, 0.1, 0.15, 0.2, 0.1, 0.1, 0.1, 0.1],
                 "kriteria" => ["benefit", "benefit", "benefit", "benefit", "benefit", "benefit", "benefit", "benefit"],
                 "mahasiswa" => self::getAlternatif($lomba)
             ]);
 
             if ($response->successful()) {
                 foreach ($response->json() as $mahasiswa) {
-                    // dd($mahasiswa[ra]);
                     RekomendasiMahasiswaLombaModel::create([
                         "mahasiswa_id" => $mahasiswa['mahasiswa_id'],
                         "lomba_id" => $lomba->lomba_id,
@@ -201,7 +197,7 @@ class RekomendasiMahasiswaController extends Controller
                     ]);
                 }
             } else {
-                Log::error('Gagal mendapatkan data dari TOPSIS API', [
+                Log::error('Gagal mendapatkan data dari SAW API', [
                     'status' => $response->status(),
                     'body' => $response->body()
                 ]);
@@ -227,6 +223,7 @@ class RekomendasiMahasiswaController extends Controller
             ]);
         }
     }
+
     public static function kalkulasiBobot__(LombaModel $lomba)
     {
         $allLomba = LombaModel::with([
@@ -269,7 +266,8 @@ class RekomendasiMahasiswaController extends Controller
 
         $allternatif = [];
         foreach ($allMahasiswa as $mahasiswa) {
-            $allternatif[] = [
+            $allternatif[] =
+            [
                 "mahasiswa_id" => $mahasiswa->mahasiswa_id,
                 "ipk" => $mahasiswa->ipk,
                 "keahlian" => self::kesesuaianKeahlian($mahasiswa->keahlian, $lomba->bidang),
@@ -277,13 +275,12 @@ class RekomendasiMahasiswaController extends Controller
                 "kesesuaian_bidang_prestasi" => self::kesesuaianBidangPrestasi($mahasiswa->prestasi, $lomba->bidang),
                 "tingkat_lomba_prestasi" => self::tingkatLombaPrestasi($mahasiswa->prestasi->where('status_verifikasi', 1)),
                 "poin_prestasi" => $mahasiswa->prestasi()->where('status_verifikasi', 1)->sum('poin'),
-                // "poin_prestasi" => self::totalPoinMahasiswa($mahasiswa->prestasi),
-                "minat" => self::kesesuaianMinat($mahasiswa->minat, $lomba->bidang),
+                "minat" => self::kesesuaianMinat( $mahasiswa->minat, $lomba->bidang),
                 "organisasi" => count($mahasiswa->organisasi)
             ];
         }
 
-        // dd($allternatif);
+        // dd(json_encode($allternatif));
         return $allternatif;
     }
 
@@ -338,14 +335,14 @@ class RekomendasiMahasiswaController extends Controller
         return $poin;
     }
 
-    private static function kesesuaianBidangPrestasi($ListrestasiMahasiswa, BidangKeahlianModel $bidangKeahlian)
+    private static function kesesuaianBidangPrestasi($ListPrestasiMahasiswa, BidangKeahlianModel $bidangKeahlian)
     {
         // dd($bidangKeahlian);
         $poin = 0;
-        if ($ListrestasiMahasiswa->isEmpty()) {
+        if ($ListPrestasiMahasiswa->isEmpty()) {
             // dd('null'); // Tidak ada keahlian mahasiswa
         } else {
-            foreach ($ListrestasiMahasiswa as $prestasi) {
+            foreach ($ListPrestasiMahasiswa as $prestasi) {
                 if ($prestasi->status_verifikasi === 0) {
                     continue;
                 }
@@ -360,6 +357,46 @@ class RekomendasiMahasiswaController extends Controller
         // dd($poin); // Debug isi
         return $poin;
     }
+    // private static function jumlahPrestasiSebidang($ListPrestasiMahasiswa, BidangKeahlianModel $bidangKeahlian)
+    // {
+    //     // dd($bidangKeahlian);
+    //     $jml = 0;
+    //     if ($ListPrestasiMahasiswa->isEmpty()) {
+    //         // dd('null'); // Tidak ada keahlian mahasiswa
+    //     } else {
+    //         foreach ($ListPrestasiMahasiswa as $prestasi) {
+    //             if ($prestasi->status_verifikasi === 0) {
+    //                 continue;
+    //             }
+    //             if ($prestasi->lomba->bidang->bidang_keahlian_id === $bidangKeahlian->bidang_keahlian_id) {
+    //                 $jml += 1;
+    //             }
+    //         }
+    //     }
+
+    //     // dd($poin); // Debug isi
+    //     return $jml;
+    // }
+    // private static function jumlahPrestasiSekategoriBidang($ListPrestasiMahasiswa, BidangKeahlianModel $bidangKeahlian)
+    // {
+    //     // dd($bidangKeahlian);
+    //     $jml = 0;
+    //     if ($ListPrestasiMahasiswa->isEmpty()) {
+    //         // dd('null'); // Tidak ada keahlian mahasiswa
+    //     } else {
+    //         foreach ($ListPrestasiMahasiswa as $prestasi) {
+    //             if ($prestasi->status_verifikasi === 0) {
+    //                 continue;
+    //             }
+    //             if ($prestasi->lomba->bidang->kategoriBidangKeahlian->kategori_bidang_keahlian_id === $bidangKeahlian->kategoriBidangKeahlian->kategori_bidang_keahlian_id) {
+    //                 $jml += 1;
+    //             }
+    //         }
+    //     }
+
+    //     // dd($poin); // Debug isi
+    //     return $jml;
+    // }
 
     private static function tingkatLombaPrestasi($listPrestasiMahasiswa)
     {
@@ -418,67 +455,34 @@ class RekomendasiMahasiswaController extends Controller
     public function python_coba()
     {
         $response = Http::post('http://127.0.0.1:8000/api/topsis', [
-            "bobot" => [0.15, 0.1, 0.15, 0.1, 0.1, 0.1, 0.1, 0.1],
+            "jumlah_anggota" => 2, // tambahkan ini
+            "bobot" => [0.15, 0.1, 0.15, 0.0, 0, 0.2, 0.2, 0.1],
             "kriteria" => ["benefit", "benefit", "benefit", "benefit", "benefit", "benefit", "benefit", "benefit"],
             "mahasiswa" => [
                 [
                     "mahasiswa_id" => 1,
-                    "ipk" => 3.7,
-                    "keahlian" => 6,
-                    "jumlah_prestasi" => 4,
-                    "kesesuaian_bidang_prestasi" => 6,
-                    "tingkat_lomba_prestasi" => 2,
-                    "poin_prestasi" => 200,
-                    "minat" => 2,
-                    "organisasi" => 75
+                    "ipk" => 0,
+                    "keahlian" => 0,
+                    "jumlah_prestasi" => 0,
+                    "kesesuaian_bidang_prestasi" => 0,
+                    "tingkat_lomba_prestasi" => 0,
+                    "poin_prestasi" => 0,
+                    "minat" => 0,
+                    "organisasi" => 0
                 ],
                 [
                     "mahasiswa_id" => 2,
-                    "ipk" => 3.5,
-                    "keahlian" => 5,
-                    "jumlah_prestasi" => 6,
-                    "kesesuaian_bidang_prestasi" => 4,
-                    "tingkat_lomba_prestasi" => 2,
-                    "poin_prestasi" => 250,
-                    "minat" => 2,
-                    "organisasi" => 65
-                ],
-                [
-                    "mahasiswa_id" => 3,
-                    "ipk" => 3.85,
-                    "keahlian" => 8,
-                    "jumlah_prestasi" => 8,
-                    "kesesuaian_bidang_prestasi" => 8,
-                    "tingkat_lomba_prestasi" => 4,
-                    "poin_prestasi" => 350,
-                    "minat" => 1,
-                    "organisasi" => 90
-                ],
-                [
-                    "mahasiswa_id" => 4,
-                    "ipk" => 3.3,
-                    "keahlian" => 3,
-                    "jumlah_prestasi" => 2,
-                    "kesesuaian_bidang_prestasi" => 2,
-                    "tingkat_lomba_prestasi" => 1,
-                    "poin_prestasi" => 100,
-                    "minat" => 3,
-                    "organisasi" => 50
-                ],
-                [
-                    "mahasiswa_id" => 5,
-                    "ipk" => 3.6,
-                    "keahlian" => 6,
-                    "jumlah_prestasi" => 5,
-                    "kesesuaian_bidang_prestasi" => 7,
-                    "tingkat_lomba_prestasi" => 3,
-                    "poin_prestasi" => 280,
-                    "minat" => 2,
-                    "organisasi" => 85
+                    "ipk" => 0,
+                    "keahlian" => 0,
+                    "jumlah_prestasi" => 0,
+                    "kesesuaian_bidang_prestasi" => 0,
+                    "tingkat_lomba_prestasi" => 0,
+                    "poin_prestasi" => 0,
+                    "minat" => 0,
+                    "organisasi" => 0
                 ]
             ]
         ]);
-
 
         return $response->json(); // bisa juga ->body() untuk raw response
     }
