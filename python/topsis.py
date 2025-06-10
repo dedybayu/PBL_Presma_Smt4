@@ -11,7 +11,10 @@ class Topsis:
         self.X = dataframe.iloc[:, 1:].values
 
     def normalize_matrix(self):
-        return self.X / np.sqrt((self.X ** 2).sum(axis=0))
+        denominator = np.sqrt((self.X ** 2).sum(axis=0))
+        denominator[denominator == 0] = 1  # Hindari pembagian dengan nol
+        return self.X / denominator
+
 
     def weighted_normalized_matrix(self, norm_matrix):
         
@@ -26,7 +29,12 @@ class Topsis:
         return np.sqrt(((V - ideal) ** 2).sum(axis=1))
 
     def closeness_coefficient(self, D_plus, D_minus):
-        return D_minus / (D_plus + D_minus)
+        denominator = D_plus + D_minus
+        # Hindari pembagian 0/0 → jika 0, beri nilai C = 0
+        with np.errstate(invalid='ignore', divide='ignore'):
+            C = np.where(denominator == 0, 0, D_minus / denominator)
+        return C
+
 
     def run(self):
         norm = self.normalize_matrix()
