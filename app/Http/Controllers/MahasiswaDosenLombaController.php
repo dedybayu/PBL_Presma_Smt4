@@ -127,7 +127,7 @@ class MahasiswaDosenLombaController extends Controller
         $rules = [
             // 'lomba_kode' => 'required|string|max:255',
             'lomba_nama' => 'required|string|max:255',
-            'lomba_deskripsi' => 'required|string|max:255',
+            'lomba_deskripsi' => 'required|string',
             'link_website' => 'required|string|max:255',
             'tingkat_lomba_id' => 'required|exists:m_tingkat_lomba,tingkat_lomba_id',
             'bidang_keahlian_id' => 'required|exists:m_bidang_keahlian,bidang_keahlian_id',
@@ -135,7 +135,7 @@ class MahasiswaDosenLombaController extends Controller
             'jumlah_anggota => required|max:5',
             'tanggal_mulai' => 'required|date|date_format:Y-m-d',
             'tanggal_selesai' => 'required|date|date_format:Y-m-d|after_or_equal:tanggal_mulai',
-            'foto_pamflet' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'foto_pamflet' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
         ];
 
         // Tambahkan validasi khusus jika penyelenggara_id adalah 'other'
@@ -267,7 +267,7 @@ class MahasiswaDosenLombaController extends Controller
         $rules = [
             // 'lomba_kode' => 'required|string|max:255',
             'lomba_nama' => 'required|string|max:255',
-            'lomba_deskripsi' => 'required|string|max:255',
+            'lomba_deskripsi' => 'required|string',
             'link_website' => 'required|string|max:255',
             'tingkat_lomba_id' => 'required|exists:m_tingkat_lomba,tingkat_lomba_id',
             'bidang_keahlian_id' => 'required|exists:m_bidang_keahlian,bidang_keahlian_id',
@@ -275,7 +275,7 @@ class MahasiswaDosenLombaController extends Controller
             'jumlah_anggota => required|max:5',
             'tanggal_mulai' => 'required|date|date_format:Y-m-d',
             'tanggal_selesai' => 'required|date|date_format:Y-m-d',
-            'foto_pamflet' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'foto_pamflet' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
         ];
 
         $validator = Validator::make($request->all(), $rules);
