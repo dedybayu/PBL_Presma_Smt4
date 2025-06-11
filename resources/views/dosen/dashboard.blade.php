@@ -24,29 +24,37 @@
                 </div>
                 <div class="card-body d-flex flex-column">
                     @if ($daftarLomba->isEmpty())
-                        <p class="text-center text-muted flex-grow-1 d-flex align-items-center justify-content-center">Belum ada lomba.</p>
+                        <p class="text-center text-muted flex-grow-1 d-flex align-items-center justify-content-center">
+                            Belum ada lomba.</p>
                     @else
                         <ul class="list-group list-group-flush">
                             @foreach ($daftarLomba as $lomba)
-                                <li class="list-group-item d-flex align-items-center">
-                                    <div style="position: relative; width: 60px; height: 60px; aspect-ratio: 1 / 1; border-radius: 8px; overflow: hidden;" class="me-3">
-                                        @php
-                                            $fotoPath = $lomba->foto_pamflet;
-                                            $storageFullPath = storage_path('app/public/' . $fotoPath);
-                                            $fotoUrl = ($fotoPath && file_exists($storageFullPath))
-                                                ? asset('storage/' . $fotoPath) . '?v=' . filemtime($storageFullPath)
-                                                : asset('assets/images/image-dummy.png');
-                                        @endphp
-                                        <img src="{{ $fotoUrl }}"
-                                            alt="{{ $lomba->lomba_nama }}"
-                                            style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover;">
-                                    </div>
+                                <a href="{{ route('daftar_lomba.show', $lomba->lomba_id) }}">
 
-                                    <div style="margin-left: 2rem;">
-                                        <strong>{{ $lomba->lomba_nama }}</strong><br>
-                                        <small class="text-muted">{{ \Carbon\Carbon::parse($lomba->tanggal_mulai)->translatedFormat('d M Y') }}</small>
-                                    </div>
-                                </li>
+                                    <li class="list-group-item d-flex align-items-center">
+                                        <div style="position: relative; width: 60px; height: 60px; aspect-ratio: 1 / 1; border-radius: 8px; overflow: hidden;"
+                                            class="me-3">
+                                            @php
+                                                $fotoPath = $lomba->foto_pamflet;
+                                                $storageFullPath = storage_path('app/public/' . $fotoPath);
+                                                $fotoUrl =
+                                                    $fotoPath && file_exists($storageFullPath)
+                                                        ? asset('storage/' . $fotoPath) .
+                                                            '?v=' .
+                                                            filemtime($storageFullPath)
+                                                        : asset('assets/images/image-dummy.png');
+                                            @endphp
+                                            <img src="{{ $fotoUrl }}" alt="{{ $lomba->lomba_nama }}"
+                                                style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover;">
+                                        </div>
+
+                                        <div style="margin-left: 2rem;">
+                                            <strong>{{ $lomba->lomba_nama }}</strong><br>
+                                            <small
+                                                class="text-muted">{{ \Carbon\Carbon::parse($lomba->tanggal_mulai)->translatedFormat('d M Y') }}</small>
+                                        </div>
+                                    </li>
+                                </a>
                             @endforeach
                         </ul>
 
@@ -73,11 +81,11 @@
                         @foreach ($topMahasiswaPrestasi as $index => $mahasiswa)
                             @php
                                 $rank = $index + 1;
-                                $badgeClass = match($rank) {
+                                $badgeClass = match ($rank) {
                                     1 => 'bg-warning text-white fw-bold',
                                     2 => 'bg-secondary text-white fw-bold',
                                     3 => 'bg-bronze text-white fw-bold',
-                                    default => 'bg-primary text-white'
+                                    default => 'bg-primary text-white',
                                 };
                             @endphp
                             <li class="list-group-item d-flex justify-content-between align-items-center">
@@ -89,7 +97,8 @@
                                     @elseif ($rank == 3)
                                         <span style="font-size: 2rem; margin-right: 1rem;">🥉</span>
                                     @else
-                                        <span class="badge bg-light text-dark me-2" style="margin-right: 1rem ">{{ $rank }}</span>
+                                        <span class="badge bg-light text-dark me-2"
+                                            style="margin-right: 1rem ">{{ $rank }}</span>
                                     @endif
                                     <div>
                                         <strong>{{ $mahasiswa->nama }}</strong>
@@ -147,8 +156,6 @@
 
     <x-slot:js>
         {{-- <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> --}}
-        <script>
-            
-        </script>
+        <script></script>
     </x-slot:js>
 </x-layout>
