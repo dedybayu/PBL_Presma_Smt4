@@ -54,7 +54,7 @@ class AuthController extends Controller
 
         // Jika semua gagal
         return back()
-            ->with(['loginError' => 'Login gagal, periksa kembali NIM/NIDN/Username dan password Anda.'])
+            ->with(['loginError' => 'Login gagal, periksa kembali Username dan password Anda.'])
             ->withInput();
         ;
     }
