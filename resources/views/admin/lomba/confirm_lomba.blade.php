@@ -26,35 +26,35 @@
     <div class="modal-body">
         <div class="alert alert-danger">
             <h5><i class="icon fas fa-ban"></i> Konfirmasi !!!</h5>
-            Apakah Anda ingin menghapus data penyelenggara seperti di bawah ini?
+            Apakah Anda ingin menghapus data lomba dibawah ini ?
         </div>
         <table class="table table-sm table-bordered table-striped">
             <tr>
-                <th class="text-right col-3">Kode lomba :</th>
+                <th class="text-right col-3">Kode Lomba :</th>
                 <td class="col-9">{{ $lomba->lomba_kode }}</td>
             </tr>
             <tr>
-                <th class="text-right col-3">nama lomba :</th>
+                <th class="text-right col-3">Nama Lomba :</th>
                 <td class="col-9">{{ $lomba->lomba_nama }}</td>
             </tr>
             <tr>
-                <th class="text-right col-3">tingkat lomba :</th>
+                <th class="text-right col-3">Tingkat Lomba :</th>
                 <td class="col-9">{{ $lomba->tingkat->tingkat_lomba_nama }}</td>
             </tr>
             <tr>
-                <th class="text-right col-3">bidang lomba :</th>
+                <th class="text-right col-3">Bidang Lomba :</th>
                 <td class="col-9">{{ $lomba->bidang->bidang_keahlian_nama }}</td>
             </tr>
             <tr>
-                <th class="text-right col-3">penyelanggara lomba :</th>
+                <th class="text-right col-3">Penyelanggara Lomba :</th>
                 <td class="col-9">{{ $lomba->penyelenggara->penyelenggara_nama }}</td>
             </tr>
             <tr>
-                <th class="text-right col-3">tanggal mulai  :</th>
+                <th class="text-right col-3">Tanggal Mulai  :</th>
                 <td class="col-9">{{ $lomba->tanggal_mulai }}</td>
             </tr>
             <tr>
-                <th class="text-right col-3">tanggal_selesai :</th>
+                <th class="text-right col-3">Tanggal Selesai :</th>
                 <td class="col-9">{{ $lomba->tanggal_selesai }}</td>
             </tr>
         </table>
