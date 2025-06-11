@@ -6,6 +6,7 @@ use App\Models\BidangKeahlianModel;
 use App\Models\LombaModel;
 use App\Models\PenyelenggaraModel;
 use App\Models\TingkatLombaModel;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
@@ -42,6 +43,23 @@ class LombaController extends Controller
 
                 }
             }
+
+            if ($request->status_waktu) {
+                $now = Carbon::now();
+
+                if ($request->status_waktu == 1) {
+                    // Akan Datang: waktu_mulai di masa depan
+                    $lomba->where('tanggal_mulai', '>', $now);
+                } elseif ($request->status_waktu == 2) {
+                    // Sedang Berlangsung: tanggal_mulai <= now && tanggal_selesai >= now
+                    $lomba->where('tanggal_mulai', '<=', $now)
+                        ->where('tanggal_selesai', '>=', $now);
+                } elseif ($request->status_waktu == 3) {
+                    // Sudah Berlalu: tanggal_selesai di masa lalu
+                    $lomba->where('tanggal_selesai', '<', $now);
+                }
+            }
+
 
             $lomba = $lomba->get();
 

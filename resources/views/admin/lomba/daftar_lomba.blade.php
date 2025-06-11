@@ -75,6 +75,35 @@
                             <small class="form-text text-muted mt-1">Filter Status</small>
                         </div>
 
+                        <div class="col-12 col-md-4 mb-2 mb-md-0">
+                            <div class="d-flex align-items-center">
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="status_waktu" id="verifikasi_waktu_1"
+                                        value="1">
+                                    <label class="form-check-label" for="verifikasi_waktu_1">Akan Datang</label>
+                                </div>
+
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="status_waktu" id="verifikasi_waktu_2"
+                                        value="2">
+                                    <label class="form-check-label" for="verifikasi_waktu_2">Sedang Berlangsung</label>
+                                </div>
+
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="status_waktu" id="verifikasi_waktu_3"
+                                        value="3">
+                                    <label class="form-check-label" for="verifikasi_waktu_3">Sudah Berlalu</label>
+                                </div>
+
+                                <button type="button" class="btn btn-sm btn-secondary ms-2"
+                                    onclick="clearStatusWaktu()">
+                                    Clear
+                                </button>
+                            </div>
+
+                            <!-- Keterangan dipindah ke bawah -->
+                            <small class="form-text text-muted mt-1">Filter Status</small>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -112,6 +141,11 @@
         <script>
             function clearStatusVerifikasi() {
                 const radios = document.getElementsByName('status_verifikasi');
+                radios.forEach(radio => radio.checked = false);
+                dataLomba.ajax.reload();
+            }
+            function clearStatusWaktu() {
+                const radios = document.getElementsByName('status_waktu');
                 radios.forEach(radio => radio.checked = false);
                 dataLomba.ajax.reload();
             }
@@ -156,6 +190,7 @@
                         data: function(d) {
                             d.bidang_keahlian_id = $('#bidang_keahlian_id').val();
                             d.status_verifikasi = $('input[name=status_verifikasi]:checked').val();
+                            d.status_waktu = $('input[name=status_waktu]:checked').val();
                         }
                     },
                     columns: [{
@@ -210,7 +245,7 @@
                 });
 
 
-                $('#bidang_keahlian_id, input[name=status_verifikasi]').on('change', function() {
+                $('#bidang_keahlian_id, input[name=status_verifikasi], input[name=status_waktu]').on('change', function() {
                     dataLomba.ajax.reload();
                 });
 

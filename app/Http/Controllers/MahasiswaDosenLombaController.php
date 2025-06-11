@@ -8,6 +8,7 @@ use App\Models\LombaModel;
 use App\Models\RekomendasiMahasiswaLombaModel;
 use App\Models\TingkatLombaModel;
 use App\Models\PenyelenggaraModel;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
@@ -21,6 +22,7 @@ class MahasiswaDosenLombaController extends Controller
         $tingkatLombaId = $request->tingkat_lomba_id;
         $bidangKeahlianId = $request->bidang_keahlian_id;
         $statusVerifikasi = $request->status_verifikasi;
+        $statusWaktu = $request->status_waktu;
 
         $user = auth()->user();
 
@@ -30,7 +32,7 @@ class MahasiswaDosenLombaController extends Controller
                     ->orWhere('user_id', $user->user_id);
             });
 
-        $applyFilters = function ($query) use ($search, $tingkatLombaId, $bidangKeahlianId, $statusVerifikasi) {
+        $applyFilters = function ($query) use ($search, $tingkatLombaId, $bidangKeahlianId, $statusWaktu) {
             if ($search) {
                 $query->where(function ($q) use ($search) {
                     $q->where('lomba_nama', 'like', "%{$search}%")
@@ -44,9 +46,22 @@ class MahasiswaDosenLombaController extends Controller
                 $query->where('tingkat_lomba_id', $tingkatLombaId);
             }
 
-            // if ($statusVerifikasi !== null && $statusVerifikasi !== '') {
-            //     $query->where('status_verifikasi', $statusVerifikasi);
-            // }
+            if ($statusWaktu) {
+                $now = Carbon::now();
+
+                if ($statusWaktu == 1) {
+                    // Akan Datang
+                    $query->where('tanggal_mulai', '>', $now);
+                } elseif ($statusWaktu == 2) {
+                    // Sedang Berlangsung
+                    $query->where('tanggal_mulai', '<=', $now)
+                        ->where('tanggal_selesai', '>=', $now);
+                } elseif ($statusWaktu == 3) {
+                    // Sudah Berlalu
+                    $query->where('tanggal_selesai', '<', $now);
+                }
+            }
+
 
             if ($bidangKeahlianId) {
                 $query->whereHas('bidang', function ($q) use ($bidangKeahlianId) {
@@ -303,7 +318,7 @@ class MahasiswaDosenLombaController extends Controller
             }
         }
 
-                $penyelenggara_id = $request->penyelenggara_id;
+        $penyelenggara_id = $request->penyelenggara_id;
         //PENYELENGGARA
         if ($request->penyelenggara_id === 'other') {
             $penyelenggara_id = PenyelenggaraModel::create([
