@@ -131,7 +131,7 @@
                                             <div class="col-md-5">
                                                 <a href="{{ route('daftar_lomba.show', $lmb->lomba_id) }}">
                                                     <div
-                                                        style="position: relative; width: 100%; height: 100%; aspect-ratio: 1 / 1; border-radius: 16px 0 0 16px; overflow: hidden;">
+                                                        style="position: relative; width: 100%; height: 100%; aspect-ratio: 1 / 1; border-radius: 16px 16px 16px 16px; overflow: hidden;">
                                                         @if ($lmb->foto_pamflet)
                                                             <img src="{{ file_exists(public_path('storage/' . $lmb->foto_pamflet)) ? asset('storage/' . $lmb->foto_pamflet) : asset('assets/images/broken-image.png') }}"
                                                                 alt="Pamflet Lomba" alt="Poster Lomba"
@@ -245,7 +245,7 @@
                                         <div class="col-md-5">
                                             <a href="{{ route('daftar_lomba.show', $lmb->lomba_id) }}">
                                                 <div
-                                                    style="position: relative; width: 100%; height: 100%; aspect-ratio: 1 / 1; border-radius: 16px 0 0 16px; overflow: hidden;">
+                                                    style="position: relative; width: 100%; height: 100%; aspect-ratio: 1 / 1; border-radius: 16px 16px 16px 16px; overflow: hidden;">
                                                     @if ($lmb->foto_pamflet)
                                                         <img src="{{ file_exists(public_path('storage/' . $lmb->foto_pamflet)) ? asset('storage/' . $lmb->foto_pamflet) : asset('assets/images/broken-image.png') }}"
                                                             alt="Pamflet Lomba" alt="Poster Lomba"
