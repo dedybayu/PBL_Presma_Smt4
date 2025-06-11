@@ -54,22 +54,39 @@
                                 </select>
                                 <small class="form-text text-muted">Filter Bidang Keahlian</small>
                             </div>
-                            {{-- <div class="col-12 col-md-4 mb-2 mb-md-0">
-                                <select class="form-select" id="status_verifikasi" name="status_verifikasi"
-                                    style="width: 100%">
-                                    <option value="">- Semua -</option>
-                                    <option value="1" {{ request('status_verifikasi') == '1' ? 'selected' : '' }}>
-                                        Terverifikasi
-                                    </option>
-                                    <option value="2" {{ request('status_verifikasi') == '2' ? 'selected' : '' }}>
-                                        Menunggu
-                                    </option>
-                                    <option value="0" {{ request('status_verifikasi') == '0' ? 'selected' : '' }}>
-                                        Ditolak
-                                    </option>
-                                </select>
-                                <small class="form-text text-muted">Filter Status Verifikasi</small>
-                            </div> --}}
+                            <div class="col-12 col-md-4 mb-2 mb-md-0">
+                                <div class="d-flex align-items-center">
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" name="status_waktu"
+                                            id="verifikasi_waktu_0" value="0" checked>
+                                        <label class="form-check-label" for="verifikasi_waktu_0">Semua</label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" name="status_waktu"
+                                            id="verifikasi_waktu_1" value="1"
+                                            {{ request('status_waktu') == '1' ? 'checked' : '' }}>
+                                        <label class="form-check-label" for="verifikasi_waktu_1">Akan Datang</label>
+                                    </div>
+
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" name="status_waktu"
+                                            id="verifikasi_waktu_2" value="2"
+                                            {{ request('status_waktu') == '2' ? 'checked' : '' }}>
+                                        <label class="form-check-label" for="verifikasi_waktu_2">Sedang
+                                            Berlangsung</label>
+                                    </div>
+
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" name="status_waktu"
+                                            id="verifikasi_waktu_3" value="3"
+                                            {{ request('status_waktu') == '3' ? 'checked' : '' }}>
+                                        <label class="form-check-label" for="verifikasi_waktu_3">Sudah Berlalu</label>
+                                    </div>
+                                </div>
+
+                                <!-- Keterangan dipindah ke bawah -->
+                                <small class="form-text text-muted mt-1">Filter Status</small>
+                            </div>
                         </div>
                     </div>
                     <div class="col-md-4">
@@ -377,9 +394,10 @@
                     width: '100%' // Gunakan width penuh
                 });
 
-                $('#tingkat_lomba_id, #status_verifikasi, #bidang_keahlian_id').on('change', function() {
-                    $(this).closest('form').submit();
-                });
+                $('#tingkat_lomba_id, #status_verifikasi, #bidang_keahlian_id, input[name=status_waktu]').on('change',
+                    function() {
+                        $(this).closest('form').submit();
+                    });
             });
         </script>
     </x-slot:js>
