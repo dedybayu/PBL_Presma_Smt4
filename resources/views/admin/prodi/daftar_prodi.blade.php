@@ -28,7 +28,7 @@
                     <thead>
                         <tr>
                             <th>No</th>
-                            <th>Info</th>
+                            <th>Nama Prodi</th>
                             <th>Kode Prodi</th>
                             <th>Aksi</th>
                         </tr>
