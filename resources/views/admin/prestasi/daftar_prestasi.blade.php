@@ -205,7 +205,7 @@
                         {
                             data: "poin",
                             className: "",
-                            orderable: false,
+                            orderable: true,
                             searchable: true
                         },
                         {
