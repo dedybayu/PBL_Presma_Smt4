@@ -23,7 +23,25 @@
         </div>
 
         <div class="card-body">
-            <div class="table-responsive w-100">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group row">
+
+                        <label class="col-12 col-md-1 control-label col-form-label">Filter:</label>
+                        <div class="col-12 col-md-3 mb-2 mb-md-0">
+                            <select class="form-select" id="lomba_id" name="lomba_id" style="width: 100%">
+                                <option value="">- Semua -</option>
+                                @foreach ($lomba as $item)
+                                    <option value="{{ $item->lomba_id }}">{{ $item->lomba_nama }}
+                                    </option>
+                                @endforeach
+                            </select>
+                            <small class="form-text text-muted">Filter Tingkat Lomba</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="table-responsive w-100 mt-4">
                 <table class="table table-bordered table-sm table-striped table-hover w-100" id="table-rekomendasi">
                     <thead>
                         <tr>
@@ -68,8 +86,18 @@
                 $("#modal-rekomendasi .modal-content").html("");
             });
 
+            function intiSelect2() {
+                $('#lomba_id').select2({
+                    theme: 'bootstrap-5',
+                    placeholder: "- Semua -",
+                    allowClear: true,
+                    width: '100%' // Gunakan width penuh
+                });
+            }
+
             var dataRekomendasi;
             $(document).ready(function() {
+                intiSelect2();
                 dataRekomendasi = $('#table-rekomendasi').DataTable({
                     serverSide: true,
                     ajax: {
@@ -77,7 +105,7 @@
                         dataType: "json",
                         type: "POST",
                         data: function(d) {
-                            d.bidang_id = $('#filter_bidang_id').val();
+                            d.lomba_id = $('#lomba_id').val();
                         }
                     },
                     columns: [{
@@ -110,7 +138,7 @@
                     ]
                 });
 
-                $('#rekomendasi_id').on('change', function() {
+                $('#lomba_id').on('change', function() {
                     dataRekomendasi.ajax.reload();
                 });
             });
