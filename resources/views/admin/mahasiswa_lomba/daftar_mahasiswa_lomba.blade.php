@@ -16,8 +16,8 @@
         <div class="card-header-tab card-header">
             <h3 class="card-title">Daftar mahasiswa_lomba Mahasiswa</h3>
             <div class="btn-actions-pane-right text-capitalize">
-                <button onclick="modalAction('{{ url('/mahasiswa_lomba/refresh') }}')" class="btn btn-sm btn-success mt-1">
-                    <i class="fa fa-refresh" aria-hidden="true"></i> Perbarui Data
+                <button onclick="modalAction('{{ url('/mahasiswa_lomba/create') }}')" class="btn btn-sm btn-success mt-1">
+                    <i class="fa fa-refresh" aria-hidden="true"></i> Tambah Data
                 </button>
             </div>
         </div>
@@ -54,12 +54,6 @@
                         </tr>
                     </thead>
                 </table>
-            </div>
-
-            <div class="btn-actions-pane-right text-capitalize mt-3">
-                <button onclick="modalAction('{{ url('/mahasiswa_lomba/confirm') }}')" class="btn btn-sm btn-danger mt-1">
-                    <i class="fa fa-trash" aria-hidden="true"></i> Hapus Semua Data
-                </button>
             </div>
         </div>
     </div>
