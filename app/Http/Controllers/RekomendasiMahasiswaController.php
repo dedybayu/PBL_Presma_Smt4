@@ -4,9 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Models\BidangKeahlianModel;
 use App\Models\LombaModel;
+use App\Models\MahasiswaLombaModel;
 use App\Models\MahasiswaModel;
 use App\Models\PrestasiModel;
 use App\Models\RekomendasiMahasiswaLombaModel;
+use Auth;
 use Carbon\Carbon;
 use Doctrine\Inflector\Rules\English\Rules;
 use Http;
@@ -37,9 +39,9 @@ class RekomendasiMahasiswaController extends Controller
                 $query->where('lomba_id', $request->lomba_id);
             }
 
-            $bidangKeahlian = $query->get();
+            $rekomendasi = $query->get();
 
-            return DataTables::of($bidangKeahlian)
+            return DataTables::of($rekomendasi)
                 ->addIndexColumn()
                 ->addColumn('nama_lomba', function ($row) {
                     return $row->lomba->lomba_nama;
@@ -139,6 +141,7 @@ class RekomendasiMahasiswaController extends Controller
         // dd($allLomba);
 
         RekomendasiMahasiswaLombaModel::truncate();
+        MahasiswaLombaModel::where('pengaju', 'SPK')->delete();
 
         foreach ($allLomba as $lomba) {
             $response = Http::post('http://127.0.0.1:8000/api/topsis', [
@@ -154,6 +157,13 @@ class RekomendasiMahasiswaController extends Controller
                         "mahasiswa_id" => $mahasiswa['mahasiswa_id'],
                         "lomba_id" => $lomba->lomba_id,
                         "rank" => $mahasiswa['rank']
+                    ]);
+                    MahasiswaLombaModel::create([
+                        "mahasiswa_id" => $mahasiswa['mahasiswa_id'],
+                        "lomba_id" => $lomba->lomba_id,
+                        'status_verifikasi' => true,
+                        'pengaju' => 'SPK',
+                        'user_id' => Auth::user()->user_id
                     ]);
                 }
             } else {

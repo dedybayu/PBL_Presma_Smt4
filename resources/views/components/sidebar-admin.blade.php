@@ -100,7 +100,7 @@
                         <i class="metismenu-state-icon pe-7s-angle-down caret-left"></i>
                     </a>
                     <ul
-                        class="{{ request()->routeIs('lomba.*', 'penyelenggara.*', 'rekomendasi.*') ? 'mm-show' : '' }}">
+                        class="{{ request()->routeIs('lomba.*', 'penyelenggara.*', 'rekomendasi.*', 'mahasiswa_lomba.*') ? 'mm-show' : '' }}">
                         <li>
                             <a href="{{ route('lomba.index') }}"
                                 class="{{ request()->routeIs('lomba.index') ? 'mm-active' : '' }}">
@@ -120,6 +120,13 @@
                                 class="{{ request()->routeIs('rekomendasi.index') ? 'mm-active' : '' }}">
                                 <i class="metismenu-icon">
                                 </i> Rekomendasi Mahasiswa
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{ route('mahasiswa_lomba.index') }}"
+                                class="{{ request()->routeIs('mahasiswa_lomba.index') ? 'mm-active' : '' }}">
+                                <i class="metismenu-icon">
+                                </i> Mahasiswa Terdaftar
                             </a>
                         </li>
                     </ul>

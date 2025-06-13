@@ -49,6 +49,11 @@ class UserModel extends Authenticatable
         return $this->hasOne(AdminModel::class, 'user_id', 'user_id');
     }
 
+    public function mahasiswa_lomba()
+    {
+        return $this->hasMany(MahasiswaLombaModel::class, 'user_id', 'user_id');
+    }
+
     public function getNamaAttribute()
     {
         return match ($this->level->level_kode) {

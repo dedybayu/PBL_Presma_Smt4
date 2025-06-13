@@ -9,14 +9,14 @@
     </x-slot:css>
 
     <x-slot:title>
-        Daftar Rekomendasi Mahasiswa
+        Mahasiswa yang Terdaftar Lomba
     </x-slot:title>
 
     <div class="mb-3 card">
         <div class="card-header-tab card-header">
-            <h3 class="card-title">Daftar Rekomendasi Mahasiswa</h3>
+            <h3 class="card-title">Daftar mahasiswa_lomba Mahasiswa</h3>
             <div class="btn-actions-pane-right text-capitalize">
-                <button onclick="modalAction('{{ url('/rekomendasi/refresh') }}')" class="btn btn-sm btn-success mt-1">
+                <button onclick="modalAction('{{ url('/mahasiswa_lomba/refresh') }}')" class="btn btn-sm btn-success mt-1">
                     <i class="fa fa-refresh" aria-hidden="true"></i> Perbarui Data
                 </button>
             </div>
@@ -42,21 +42,22 @@
                 </div>
             </div>
             <div class="table-responsive w-100 mt-4">
-                <table class="table table-bordered table-sm table-striped table-hover w-100" id="table-rekomendasi">
+                <table class="table table-bordered table-sm table-striped table-hover w-100" id="table-mahasiswa_lomba">
                     <thead>
                         <tr>
                             <th>No</th>
                             <th>Nama Lomba</th>
-                            <th>Rekomendasi Mahasiswa</th>
+                            <th>Mahasiswa yang Terdaftar</th>
                             <th>NIM Mahasiswa</th>
-                            <th>Rank/Lomba</th>
+                            <th>Status Verifikasi</th>
+                            <th>Aksi</th>
                         </tr>
                     </thead>
                 </table>
             </div>
 
             <div class="btn-actions-pane-right text-capitalize mt-3">
-                <button onclick="modalAction('{{ url('/rekomendasi/confirm') }}')" class="btn btn-sm btn-danger mt-1">
+                <button onclick="modalAction('{{ url('/mahasiswa_lomba/confirm') }}')" class="btn btn-sm btn-danger mt-1">
                     <i class="fa fa-trash" aria-hidden="true"></i> Hapus Semua Data
                 </button>
             </div>
@@ -64,7 +65,7 @@
     </div>
 
     <x-slot:modal>
-        <div id="modal-rekomendasi" class="modal fade animate shake" tabindex="-1" role="dialog"
+        <div id="modal-mahasiswa_lomba" class="modal fade animate shake" tabindex="-1" role="dialog"
             data-backdrop="static" data-keyboard="false" aria-hidden="true">
             <div class="modal-dialog modal-xs" role="document">
                 <div class="modal-content"></div>
@@ -75,15 +76,15 @@
     <x-slot:js>
         <script>
             function modalAction(url) {
-                $("#modal-rekomendasi .modal-content").html("");
+                $("#modal-mahasiswa_lomba .modal-content").html("");
                 $.get(url, function(response) {
-                    $("#modal-rekomendasi .modal-content").html(response);
-                    $("#modal-rekomendasi").modal("show");
+                    $("#modal-mahasiswa_lomba .modal-content").html(response);
+                    $("#modal-mahasiswa_lomba").modal("show");
                 });
             }
 
-            $('#modal-rekomendasi').on('hidden.bs.modal', function() {
-                $("#modal-rekomendasi .modal-content").html("");
+            $('#modal-mahasiswa_lomba').on('hidden.bs.modal', function() {
+                $("#modal-mahasiswa_lomba .modal-content").html("");
             });
 
             function intiSelect2() {
@@ -95,13 +96,13 @@
                 });
             }
 
-            var dataRekomendasi;
+            var data_mahasiswa_lomba;
             $(document).ready(function() {
                 intiSelect2();
-                dataRekomendasi = $('#table-rekomendasi').DataTable({
+                datamahasiswa_lomba = $('#table-mahasiswa_lomba').DataTable({
                     serverSide: true,
                     ajax: {
-                        url: "{{ url('rekomendasi/list') }}",
+                        url: "{{ url('mahasiswa_lomba/list') }}",
                         dataType: "json",
                         type: "POST",
                         data: function(d) {
@@ -120,7 +121,7 @@
                             searchable: true
                         },
                         {
-                            data: 'rekomendasi_mahasiswa',
+                            data: 'mahasiswa_terdaftar',
                             orderable: true,
                             searchable: true
                         },
@@ -130,16 +131,21 @@
                             searchable: true
                         },
                         {
-                            data: 'rank',
-                            orderable: true,
-                            searchable: true
+                            data: 'status_verifikasi',
+                            orderable: false,
+                            searchable: false
+                        },
+                        {
+                            data: 'aksi',
+                            orderable: false,
+                            searchable: false
                         },
 
                     ]
                 });
 
                 $('#lomba_id').on('change', function() {
-                    dataRekomendasi.ajax.reload();
+                    data_mahasiswa_lomba.ajax.reload();
                 });
             });
         </script>

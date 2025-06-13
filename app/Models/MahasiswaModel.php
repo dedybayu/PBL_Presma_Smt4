@@ -68,4 +68,9 @@ class MahasiswaModel extends Model
         return $this->hasMany(MahasiswaOrganisasiModel::class, 'mahasiswa_id', 'mahasiswa_id');
     }
 
+    public function mahasiswa_lomba()
+    {
+        return $this->hasMany(MahasiswaLombaModel::class, 'mahasiswa_id', 'mahasiswa_id');
+    }
+
 }
