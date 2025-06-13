@@ -16,11 +16,13 @@ class MahasiswaTerdaftarLombaController extends Controller
     public function index()
     {
         $lomba = LombaModel::where('status_verifikasi', 1)
+            ->whereHas('mahasiswa_terdaftar') // nama relasi di model
             ->get();
+
         return view('admin.mahasiswa_lomba.daftar_mahasiswa_lomba')->with('lomba', $lomba);
     }
 
-        public function list(Request $request)
+    public function list(Request $request)
     {
         if ($request->ajax()) {
             $query = MahasiswaLombaModel::with([

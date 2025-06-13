@@ -129,7 +129,7 @@ class RekomendasiMahasiswaController extends Controller
 
     public static function rekomendasiByTopsis()
     {
-        
+
         $allLomba = LombaModel::with([
             'bidang.kategoriBidangKeahlian',
             'penyelenggara.kota.provinsi.negara',
@@ -141,7 +141,6 @@ class RekomendasiMahasiswaController extends Controller
         // dd($allLomba);
 
         RekomendasiMahasiswaLombaModel::truncate();
-        MahasiswaLombaModel::where('pengaju', 'SPK')->delete();
 
         foreach ($allLomba as $lomba) {
             $response = Http::post('http://127.0.0.1:8000/api/topsis', [
@@ -152,12 +151,16 @@ class RekomendasiMahasiswaController extends Controller
             ]);
 
             if ($response->successful()) {
+                MahasiswaLombaModel::where('lomba_id', $lomba->lomba_id)
+                    ->where('pengaju', 'SPK')->delete();
+
                 foreach ($response->json() as $mahasiswa) {
                     RekomendasiMahasiswaLombaModel::create([
                         "mahasiswa_id" => $mahasiswa['mahasiswa_id'],
                         "lomba_id" => $lomba->lomba_id,
                         "rank" => $mahasiswa['rank']
                     ]);
+
                     MahasiswaLombaModel::create([
                         "mahasiswa_id" => $mahasiswa['mahasiswa_id'],
                         "lomba_id" => $lomba->lomba_id,
@@ -198,6 +201,9 @@ class RekomendasiMahasiswaController extends Controller
             ]);
 
             if ($response->successful()) {
+                MahasiswaLombaModel::where('lomba_id', $lomba->lomba_id)
+                    ->where('pengaju', 'SPK')->delete();
+
                 foreach ($response->json() as $mahasiswa) {
                     // dd($mahasiswa[ra]);
                     RekomendasiMahasiswaLombaModel::create([
@@ -248,17 +254,17 @@ class RekomendasiMahasiswaController extends Controller
         $allternatif = [];
         foreach ($allMahasiswa as $mahasiswa) {
             $allternatif[] =
-            [
-                "mahasiswa_id" => $mahasiswa->mahasiswa_id,
-                "ipk" => $mahasiswa->ipk,
-                "keahlian" => self::kesesuaianKeahlian($mahasiswa->keahlian, $lomba->bidang),
-                "jumlah_prestasi" => $mahasiswa->prestasi->where('status_verifikasi', 1)->count(),
-                "kesesuaian_bidang_prestasi" => self::kesesuaianBidangPrestasi($mahasiswa->prestasi, $lomba->bidang),
-                "tingkat_lomba_prestasi" => self::tingkatLombaPrestasi($mahasiswa->prestasi->where('status_verifikasi', 1)),
-                "poin_prestasi" => $mahasiswa->prestasi()->where('status_verifikasi', 1)->sum('poin'),
-                "minat" => self::kesesuaianMinat( $mahasiswa->minat, $lomba->bidang),
-                "organisasi" => count($mahasiswa->organisasi)
-            ];
+                [
+                    "mahasiswa_id" => $mahasiswa->mahasiswa_id,
+                    "ipk" => $mahasiswa->ipk,
+                    "keahlian" => self::kesesuaianKeahlian($mahasiswa->keahlian, $lomba->bidang),
+                    "jumlah_prestasi" => $mahasiswa->prestasi->where('status_verifikasi', 1)->count(),
+                    "kesesuaian_bidang_prestasi" => self::kesesuaianBidangPrestasi($mahasiswa->prestasi, $lomba->bidang),
+                    "tingkat_lomba_prestasi" => self::tingkatLombaPrestasi($mahasiswa->prestasi->where('status_verifikasi', 1)),
+                    "poin_prestasi" => $mahasiswa->prestasi()->where('status_verifikasi', 1)->sum('poin'),
+                    "minat" => self::kesesuaianMinat($mahasiswa->minat, $lomba->bidang),
+                    "organisasi" => count($mahasiswa->organisasi)
+                ];
         }
 
         // dd(json_encode($allternatif));

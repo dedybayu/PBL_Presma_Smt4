@@ -17,7 +17,7 @@
             <h3 class="card-title">Daftar mahasiswa_lomba Mahasiswa</h3>
             <div class="btn-actions-pane-right text-capitalize">
                 <button onclick="modalAction('{{ url('/mahasiswa_lomba/create') }}')" class="btn btn-sm btn-success mt-1">
-                    <i class="fa fa-refresh" aria-hidden="true"></i> Tambah Data
+                    <i class="fa fa-plus" aria-hidden="true"></i> Tambah Data
                 </button>
             </div>
         </div>
@@ -93,7 +93,7 @@
             var data_mahasiswa_lomba;
             $(document).ready(function() {
                 intiSelect2();
-                datamahasiswa_lomba = $('#table-mahasiswa_lomba').DataTable({
+                data_mahasiswa_lomba = $('#table-mahasiswa_lomba').DataTable({
                     serverSide: true,
                     ajax: {
                         url: "{{ url('mahasiswa_lomba/list') }}",
