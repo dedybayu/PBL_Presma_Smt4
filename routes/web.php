@@ -1,26 +1,26 @@
 <?php
 
+use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AdminPrestasiController;
 use App\Http\Controllers\AdminProfileController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BidangKeahlianController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\DosenBimbinganController;
 use App\Http\Controllers\DosenController;
 use App\Http\Controllers\DosenPrestasiController;
 use App\Http\Controllers\DosenProfileController;
 use App\Http\Controllers\KategoriBidangKeahlianController;
-use App\Http\Controllers\MahasiswaController;
-use App\Http\Controllers\AdminController;
-use App\Http\Controllers\DosenBimbinganController;
-use App\Http\Controllers\DosenLombaController;
 use App\Http\Controllers\KelasController;
 use App\Http\Controllers\LombaController;
+use App\Http\Controllers\MahasiswaController;
 use App\Http\Controllers\MahasiswaDosenLombaController;
 use App\Http\Controllers\MahasiswaPrestasiController;
 use App\Http\Controllers\MahasiswaProfileController;
+use App\Http\Controllers\MahasiswaLombaDiikutiController;
 use App\Http\Controllers\MahasiswaTerdaftarLombaController;
-use App\Http\Controllers\ProdiController;
 use App\Http\Controllers\PenyelenggaraController;
+use App\Http\Controllers\ProdiController;
 use App\Http\Controllers\RekomendasiMahasiswaController;
 use App\Http\Controllers\WelcomeController;
 use Illuminate\Support\Facades\Route;
@@ -39,7 +39,6 @@ use Illuminate\Support\Facades\Route;
 // Route::get('/python_coba', [RekomendasiMahasiswaController::class, 'python_coba'])->name('python_coba');
 // Route::get('/topsis', [RekomendasiMahasiswaController::class, 'rekomendasiByTopsis'])->name('rekomendasiByTopsis');
 
-
 Route::get('/', function () {
     return view('welcome');
 });
@@ -54,7 +53,6 @@ Route::middleware('auth')->group(function () {
     Route::get('dashboard/data', [DashboardController::class, 'getDashboardData'])->name('dashboard.data');
     Route::get('/logout', [AuthController::class, 'confirmLogout'])->name('logout.index');
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
-
 
     Route::middleware(['role:ADM'])->group(function () {
         Route::prefix('mahasiswa')->group(function () {
@@ -225,7 +223,6 @@ Route::middleware('auth')->group(function () {
         // });
     });
 
-
     Route::middleware(['role:MHS'])->group(function () {
         Route::prefix('prestasiku')->name('mahasiswa.prestasi.')->group(function () {
             Route::get('/', [MahasiswaPrestasiController::class, 'index'])->name('index');
@@ -236,6 +233,17 @@ Route::middleware('auth')->group(function () {
             Route::put('/{prestasi}', [MahasiswaPrestasiController::class, 'update'])->name('update');
             Route::get('/{prestasi}/confirm', [MahasiswaPrestasiController::class, 'confirm'])->name('confirm');
             Route::delete('/{prestasi}', [MahasiswaPrestasiController::class, 'destroy'])->name('destroy');
+        });
+
+        Route::prefix('lomba_diikuti')->name('lomba_diikuti.')->group(function () {
+            Route::get('/', [MahasiswaLombaDiikutiController::class, 'index'])->name('index');
+            Route::get('/create', [MahasiswaLombaDiikutiController::class, 'create'])->name('create');
+            Route::post('/', [MahasiswaLombaDiikutiController::class, 'store'])->name('store');
+            Route::get('/{mahasiswaLomba}', [MahasiswaLombaDiikutiController::class, 'show'])->name('show');
+            Route::get('/{mahasiswaLomba}/edit', [MahasiswaLombaDiikutiController::class, 'edit'])->name('edit');
+            Route::put('/{mahasiswaLomba}', [MahasiswaLombaDiikutiController::class, 'update'])->name('update');
+            Route::get('/{mahasiswaLomba}/confirm', [MahasiswaLombaDiikutiController::class, 'confirm'])->name('confirm');
+            Route::delete('/{mahasiswaLomba}', [MahasiswaLombaDiikutiController::class, 'destroy'])->name('destroy');
         });
     });
 
@@ -251,11 +259,6 @@ Route::middleware('auth')->group(function () {
             Route::delete('/{lomba}', [MahasiswaDosenLombaController::class, 'destroy'])->name('destroy');
         });
     });
-
-
-
-
-
 
     //PROFILE PROFILE PROFILE
 
@@ -305,7 +308,6 @@ Route::middleware('auth')->group(function () {
         Route::delete('/organisasi/{organisasi}', [MahasiswaProfileController::class, 'destroy_organisasi'])->name('organisasi.destroy');
     });
 
-
     Route::middleware('role:DOS')->prefix('profile/dosen')->name('profile.dosen.')->group(function () {
         Route::get('/', [DosenProfileController::class, 'index'])->name('index');
         // Route::get('/profile/dosen/edit', [DosenProfileController::class, 'edit'])->name('profile.dosen.edit');
@@ -322,17 +324,11 @@ Route::middleware('auth')->group(function () {
         Route::post('/update-password', [AdminProfileController::class, 'update_password'])->name('update-password');
     });
 
-
 });
-
-
-
-
 
 // Route::get('/dashboard', function () {
 //     return view('admin.dashboard');
 // });
-
 
 // Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
 // Route::post('/logout', [AuthController::class, 'logout'])->name('logout');

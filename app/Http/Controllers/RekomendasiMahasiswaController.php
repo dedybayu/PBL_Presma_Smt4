@@ -257,12 +257,12 @@ class RekomendasiMahasiswaController extends Controller
                 [
                     "mahasiswa_id" => $mahasiswa->mahasiswa_id,
                     "ipk" => $mahasiswa->ipk,
-                    "keahlian" => self::kesesuaianKeahlian($mahasiswa->keahlian, $lomba->bidang),
+                    "keahlian" => self::kesesuaianKeahlian($mahasiswa->keahlian, $lomba),
                     "jumlah_prestasi" => $mahasiswa->prestasi->where('status_verifikasi', 1)->count(),
-                    "kesesuaian_bidang_prestasi" => self::kesesuaianBidangPrestasi($mahasiswa->prestasi, $lomba->bidang),
+                    "kesesuaian_bidang_prestasi" => self::kesesuaianBidangPrestasi($mahasiswa->prestasi, $lomba),
                     "tingkat_lomba_prestasi" => self::tingkatLombaPrestasi($mahasiswa->prestasi->where('status_verifikasi', 1)),
                     "poin_prestasi" => $mahasiswa->prestasi()->where('status_verifikasi', 1)->sum('poin'),
-                    "minat" => self::kesesuaianMinat($mahasiswa->minat, $lomba->bidang),
+                    "minat" => self::kesesuaianMinat($mahasiswa->minat, $lomba),
                     "organisasi" => count($mahasiswa->organisasi)
                 ];
         }
@@ -282,8 +282,9 @@ class RekomendasiMahasiswaController extends Controller
         return $totalPoin;
     }
 
-    private static function kesesuaianKeahlian($listKeahlian, BidangKeahlianModel $bidangKeahlian)
+    private static function kesesuaianKeahlian($listKeahlian, LombaModel $lomba)
     {
+        $bidangKeahlian = $lomba->bidang;
         // dd($bidangKeahlian);
         $poin = 0;
         if ($listKeahlian->isEmpty()) {
@@ -302,8 +303,9 @@ class RekomendasiMahasiswaController extends Controller
         return $poin;
     }
 
-    private static function kesesuaianMinat($listMinat, BidangKeahlianModel $bidangKeahlian)
+    private static function kesesuaianMinat($listMinat, lombaModel $lomba)
     {
+        $bidangKeahlian = $lomba->bidang;
         // dd($bidangKeahlian);
         $poin = 0;
         if ($listMinat->isEmpty()) {
@@ -322,8 +324,9 @@ class RekomendasiMahasiswaController extends Controller
         return $poin;
     }
 
-    private static function kesesuaianBidangPrestasi($ListPrestasiMahasiswa, BidangKeahlianModel $bidangKeahlian)
+    private static function kesesuaianBidangPrestasi($ListPrestasiMahasiswa, LombaModel $lomba)
     {
+        $bidangKeahlian = $lomba->bidang;
         // dd($bidangKeahlian);
         $poin = 0;
         if ($ListPrestasiMahasiswa->isEmpty()) {

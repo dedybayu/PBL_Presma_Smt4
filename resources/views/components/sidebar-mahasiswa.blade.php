@@ -52,6 +52,12 @@
                         <i class="metismenu-icon pe-7s-flag"></i> Daftar Lomba
                     </a>
                 </li>
+                <li class="">
+                    <a href="{{ route('lomba_diikuti.index') }}"
+                                class="{{ request()->routeIs('lomba_diikuti.*' ) ? 'mm-active' : '' }}">
+                        <i class="metismenu-icon pe-7s-flag"></i> Lomba Yang Diikuti
+                    </a>
+                </li>
             </ul>
         </div>
     </div>

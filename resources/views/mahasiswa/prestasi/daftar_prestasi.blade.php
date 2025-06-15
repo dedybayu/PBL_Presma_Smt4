@@ -73,6 +73,11 @@
                             </button>
                         </div>
                     </div>
+                    <div class="col-md-12">
+                        <span class="badge bg-warning">Menunggu Verifikasi</span>
+                        <span class="badge bg-success">Terverifikasi</span>
+                        <span class="badge bg-danger">Ditolak</span>
+                    </div>
                 </div>
             </form>
 
