@@ -4,9 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Models\BidangKeahlianModel;
 use App\Models\LombaModel;
+use App\Models\MahasiswaLombaModel;
 use App\Models\MahasiswaModel;
 use App\Models\PrestasiModel;
 use App\Models\RekomendasiMahasiswaLombaModel;
+use Auth;
 use Carbon\Carbon;
 use Doctrine\Inflector\Rules\English\Rules;
 use Http;
@@ -37,9 +39,9 @@ class RekomendasiMahasiswaController extends Controller
                 $query->where('lomba_id', $request->lomba_id);
             }
 
-            $bidangKeahlian = $query->get();
+            $rekomendasi = $query->get();
 
-            return DataTables::of($bidangKeahlian)
+            return DataTables::of($rekomendasi)
                 ->addIndexColumn()
                 ->addColumn('nama_lomba', function ($row) {
                     return $row->lomba->lomba_nama;
@@ -127,7 +129,7 @@ class RekomendasiMahasiswaController extends Controller
 
     public static function rekomendasiByTopsis()
     {
-        
+
         $allLomba = LombaModel::with([
             'bidang.kategoriBidangKeahlian',
             'penyelenggara.kota.provinsi.negara',
@@ -149,11 +151,22 @@ class RekomendasiMahasiswaController extends Controller
             ]);
 
             if ($response->successful()) {
+                MahasiswaLombaModel::where('lomba_id', $lomba->lomba_id)
+                    ->where('pengaju', 'SPK')->delete();
+
                 foreach ($response->json() as $mahasiswa) {
                     RekomendasiMahasiswaLombaModel::create([
                         "mahasiswa_id" => $mahasiswa['mahasiswa_id'],
                         "lomba_id" => $lomba->lomba_id,
                         "rank" => $mahasiswa['rank']
+                    ]);
+
+                    MahasiswaLombaModel::create([
+                        "mahasiswa_id" => $mahasiswa['mahasiswa_id'],
+                        "lomba_id" => $lomba->lomba_id,
+                        'status_verifikasi' => true,
+                        'pengaju' => 'SPK',
+                        'user_id' => Auth::user()->user_id
                     ]);
                 }
             } else {
@@ -188,6 +201,9 @@ class RekomendasiMahasiswaController extends Controller
             ]);
 
             if ($response->successful()) {
+                MahasiswaLombaModel::where('lomba_id', $lomba->lomba_id)
+                    ->where('pengaju', 'SPK')->delete();
+
                 foreach ($response->json() as $mahasiswa) {
                     // dd($mahasiswa[ra]);
                     RekomendasiMahasiswaLombaModel::create([
@@ -238,17 +254,17 @@ class RekomendasiMahasiswaController extends Controller
         $allternatif = [];
         foreach ($allMahasiswa as $mahasiswa) {
             $allternatif[] =
-            [
-                "mahasiswa_id" => $mahasiswa->mahasiswa_id,
-                "ipk" => $mahasiswa->ipk,
-                "keahlian" => self::kesesuaianKeahlian($mahasiswa->keahlian, $lomba->bidang),
-                "jumlah_prestasi" => $mahasiswa->prestasi->where('status_verifikasi', 1)->count(),
-                "kesesuaian_bidang_prestasi" => self::kesesuaianBidangPrestasi($mahasiswa->prestasi, $lomba->bidang),
-                "tingkat_lomba_prestasi" => self::tingkatLombaPrestasi($mahasiswa->prestasi->where('status_verifikasi', 1)),
-                "poin_prestasi" => $mahasiswa->prestasi()->where('status_verifikasi', 1)->sum('poin'),
-                "minat" => self::kesesuaianMinat( $mahasiswa->minat, $lomba->bidang),
-                "organisasi" => count($mahasiswa->organisasi)
-            ];
+                [
+                    "mahasiswa_id" => $mahasiswa->mahasiswa_id,
+                    "ipk" => $mahasiswa->ipk,
+                    "keahlian" => self::kesesuaianKeahlian($mahasiswa->keahlian, $lomba),
+                    "jumlah_prestasi" => $mahasiswa->prestasi->where('status_verifikasi', 1)->count(),
+                    "kesesuaian_bidang_prestasi" => self::kesesuaianBidangPrestasi($mahasiswa->prestasi, $lomba),
+                    "tingkat_lomba_prestasi" => self::tingkatLombaPrestasi($mahasiswa->prestasi->where('status_verifikasi', 1)),
+                    "poin_prestasi" => $mahasiswa->prestasi()->where('status_verifikasi', 1)->sum('poin'),
+                    "minat" => self::kesesuaianMinat($mahasiswa->minat, $lomba),
+                    "organisasi" => count($mahasiswa->organisasi)
+                ];
         }
 
         // dd(json_encode($allternatif));
@@ -266,8 +282,9 @@ class RekomendasiMahasiswaController extends Controller
         return $totalPoin;
     }
 
-    private static function kesesuaianKeahlian($listKeahlian, BidangKeahlianModel $bidangKeahlian)
+    private static function kesesuaianKeahlian($listKeahlian, LombaModel $lomba)
     {
+        $bidangKeahlian = $lomba->bidang;
         // dd($bidangKeahlian);
         $poin = 0;
         if ($listKeahlian->isEmpty()) {
@@ -286,8 +303,9 @@ class RekomendasiMahasiswaController extends Controller
         return $poin;
     }
 
-    private static function kesesuaianMinat($listMinat, BidangKeahlianModel $bidangKeahlian)
+    private static function kesesuaianMinat($listMinat, lombaModel $lomba)
     {
+        $bidangKeahlian = $lomba->bidang;
         // dd($bidangKeahlian);
         $poin = 0;
         if ($listMinat->isEmpty()) {
@@ -306,8 +324,9 @@ class RekomendasiMahasiswaController extends Controller
         return $poin;
     }
 
-    private static function kesesuaianBidangPrestasi($ListPrestasiMahasiswa, BidangKeahlianModel $bidangKeahlian)
+    private static function kesesuaianBidangPrestasi($ListPrestasiMahasiswa, LombaModel $lomba)
     {
+        $bidangKeahlian = $lomba->bidang;
         // dd($bidangKeahlian);
         $poin = 0;
         if ($ListPrestasiMahasiswa->isEmpty()) {
