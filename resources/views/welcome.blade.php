@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" type="image/png" href="{{ asset('assets/images/presapp-logo.png') }}" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
 
     <title>PresApp</title>
 
@@ -72,8 +73,9 @@
                 <a href="#prestasi"
                     class="mr-0 font-bold duration-100 md:mr-3 lg:mr-8 transition-color hover:text-indigo-600">Bintang
                     Prestasi</a>
-                <a href="#lomba" class="mr-0 font-bold duration-100 transition-color hover:text-indigo-600">Lomba
+                <a href="#lomba" class="mr-0 font-bold duration-100 md:mr-3 lg:mr-8 transition-color hover:text-indigo-600">Lomba
                     Terbaru</a>
+                <a href="#contact" class="mr-0 font-bold duration-100 transition-color hover:text-indigo-600">Hubungi Kami</a>
                 <div class="flex flex-col block w-full font-medium border-t border-gray-200 md:hidden">
                     <a href="{{ route('login') }}"
                         class="relative inline-block w-full px-5 py-3 text-sm leading-none text-center text-white bg-indigo-700 fold-bold">Masuk</a>
@@ -640,7 +642,7 @@
     <!-- End Prestasi-->
 
     <!-- Daftar Lomba -->
-    <div id="lomba" class="w-full px-8 py-10 border-t border-gray-200 md:py-16 lg:py-24 xl:py-40 xl:px-0 bg-white"
+    <div id="lomba" class="w-full px-8 py-10 border-t border-gray-200 md:py-16 lg:py-24 xl:px-0 bg-white"
         data-aos="fade-up" data-aos-delay="400">
         <div class="max-w-3xl mx-auto text-center">
             <p class="my-5 text-base font-medium tracking-tight text-indigo-500 uppercase">INFO TERKINI</p>
@@ -675,6 +677,17 @@
         </div>
     </div>
     <!-- End Daftar Lomba -->
+
+    <!-- CONTACT -->
+    <div id="contact" class="w-full px-8 py-5 border-t border-gray-200 md:py-16 lg:py-24 xl:px-0 bg-white"
+        data-aos="fade-up" data-aos-delay="400">
+        <div class="max-w-3xl mx-auto text-center">
+            <p class="my-5 text-base font-medium tracking-tight text-indigo-500 uppercase">HUBUNGI KAMI</p>
+            <a href="https://instagram.com/dedybayu_12" target="_blank" class="text-pink-600 hover:text-pink-800 text-xl">
+                <i class="fab fa-instagram"></i>
+            </a>
+        </div>
+    </div>
 
 
     <footer class="px-4 pt-12 pb-8 text-white bg-white border-t border-gray-200" data-aos="fade-up"
