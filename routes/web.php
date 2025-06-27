@@ -172,9 +172,9 @@ Route::middleware('auth')->group(function () {
             Route::get('/{mahasiswaLomba}/show', [MahasiswaTerdaftarLombaController::class, 'show'])->name('show');
             Route::get('/create', [MahasiswaTerdaftarLombaController::class, 'create'])->name('create');
             Route::post('/', [MahasiswaTerdaftarLombaController::class, 'store'])->name('store');
-            Route::get('/{mahasiswaLomba}/edit', [MahasiswaTerdaftarLombaController::class, 'edit'])->name('edit');
-            Route::put('/{mahasiswaLomba}', [MahasiswaTerdaftarLombaController::class, 'update'])->name('update');
-            Route::get('/{mahasiswaLomba}/delete', [MahasiswaTerdaftarLombaController::class, 'confirm'])->name('delete');
+            Route::get('/{mahasiswaLomba}/edit-verifikasi', [MahasiswaTerdaftarLombaController::class, 'edit_verifikasi'])->name('edit-verifikasi');
+            Route::put('/{mahasiswaLomba}', [MahasiswaTerdaftarLombaController::class, 'update_verifikasi'])->name('update-verifikasi');
+            Route::get('/{mahasiswaLomba}/confirm-delete', [MahasiswaTerdaftarLombaController::class, 'confirm'])->name('delete');
             Route::delete('/{mahasiswaLomba}', [MahasiswaTerdaftarLombaController::class, 'destroy'])->name('destroy');
         });
 

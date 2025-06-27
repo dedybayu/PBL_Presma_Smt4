@@ -72,7 +72,7 @@ class MahasiswaPrestasiController extends Controller
     {
         $lomba = LombaModel::where('tanggal_selesai', '<', Carbon::now())
             ->where('status_verifikasi', 1)
-            ->get();;
+            ->get();
         $dosen = DosenModel::all();
         return view('mahasiswa.prestasi.create_prestasi')->with([
             'lomba' => $lomba,

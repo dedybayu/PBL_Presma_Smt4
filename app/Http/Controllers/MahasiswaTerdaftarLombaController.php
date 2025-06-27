@@ -4,8 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Models\LombaModel;
 use App\Models\MahasiswaLombaModel;
+use App\Models\MahasiswaModel;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Validator;
 use Yajra\DataTables\DataTables;
 
 class MahasiswaTerdaftarLombaController extends Controller
@@ -72,7 +74,16 @@ class MahasiswaTerdaftarLombaController extends Controller
      */
     public function create()
     {
-        //
+        $lomba = LombaModel::where('tanggal_selesai', '>', Carbon::now())
+            ->where('status_verifikasi', 1)
+            ->get();
+        $mahasiswa = MahasiswaModel::all();
+
+        return view('admin.mahasiswa_lomba.create_mahasiswa_lomba')
+            ->with([
+                'lomba' => $lomba,
+                'mahasiswa' => $mahasiswa
+            ]);
     }
 
     /**
@@ -80,7 +91,50 @@ class MahasiswaTerdaftarLombaController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        if ($request->ajax()) {
+            $rules = [
+                'lomba_id' => 'required',
+                'mahasiswa_id' => [
+                    'required',
+                    function ($attribute, $value, $fail) use ($request) {
+                        $exists = \App\Models\MahasiswaLombaModel::where('mahasiswa_id', $value)
+                            ->where('lomba_id', $request->lomba_id)
+                            ->exists();
+                        if ($exists) {
+                            $fail('Mahasiswa sudah terdaftar dalam lomba ini');
+                        }
+                    },
+                ],
+            ];
+
+            $validator = Validator::make($request->all(), $rules);
+            if ($validator->fails()) {
+                return response()->json([
+                    'status' => false,
+                    'message' => implode(' ', $validator->errors()->all()),
+                ]);
+            }
+            try {
+                MahasiswaLombaModel::create([
+                    'mahasiswa_id' => $request->mahasiswa_id,
+                    'lomba_id' => $request->lomba_id,
+                    'status_verifikasi' => 1,
+                    'pengaju' => 'ADM',
+                    'user_id' => auth()->user()->user_id,
+                    'created_at' => Carbon::now(),
+                    'updated_at' => Carbon::now(),
+                ]);
+                return response()->json([
+                    'status' => true,
+                    'message' => 'Data Berhasil Disimpan'
+                ]);
+            } catch (\Throwable $th) {
+                return response()->json([
+                    'status' => false,
+                    'message' => $th->getMessage()
+                ]);
+            }
+        }
     }
 
     /**
@@ -94,24 +148,57 @@ class MahasiswaTerdaftarLombaController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(MahasiswaLombaModel $mahasiswaLombaModel)
+    public function edit_verifikasi(MahasiswaLombaModel $mahasiswaLomba)
     {
-        //
+        return view('admin.mahasiswa_lomba.verifikasi_mahasiswa_lomba')->with(['mahasiswa_lomba' => $mahasiswaLomba]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, MahasiswaLombaModel $mahasiswaLombaModel)
+    public function update_verifikasi(Request $request, MahasiswaLombaModel $mahasiswaLomba)
     {
-        //
+        try {
+            $mahasiswaLomba->update([
+                'status_verifikasi' => $request->status_verifikasi
+            ]);
+
+            return response()->json([
+                'status' => true,
+                'message' => 'Status Verifikasi Berhasil Diubah'
+            ]);
+        } catch (\Throwable $th) {
+            return response()->json([
+                'status' => false,
+                'message' => $th->getMessage()
+            ]);
+        }
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     */
+    public function confirm(MahasiswaLombaModel $mahasiswaLomba)
+    {
+        return view('admin.mahasiswa_lomba.confirm_delete_mahasiswa_lomba')->with(['mahasiswa_lomba' => $mahasiswaLomba]);
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(MahasiswaLombaModel $mahasiswaLombaModel)
+    public function destroy(MahasiswaLombaModel $mahasiswaLomba)
     {
-        //
+        try {
+            $mahasiswaLomba->delete();
+            return response()->json([
+                'status' => true,
+                'message' => 'Data Berhasil Dihapus'
+            ]);
+        } catch (\Throwable $th) {
+            return response()->json([
+                'status' => false,
+                'message' => $th->getMessage()
+            ]);
+        }
     }
 }
