@@ -58,7 +58,7 @@ class MahasiswaTerdaftarLombaController extends Controller
                 })
                 ->addColumn('aksi', function ($row) {
                     $btn = '<button onclick="modalAction(\'' . url('/mahasiswa_lomba/' . $row->mahasiswa_lomba_id . '/show') . '\')" class="btn btn-info btn-sm mt-1 mb-1"><i class="fa fa-eye"></i> Detail</button> ';
-                    $btn .= '<button onclick="modalAction(\'' . url('/mahasiswa_lomba/' . $row->mahasiswa_lomba_id . '/edit') . '\')" class="btn btn-sm btn-warning mt-1 mb-1" title="Edit"><i class="fa fa-pen"></i> Edit</button> ';
+                    // $btn .= '<button onclick="modalAction(\'' . url('/mahasiswa_lomba/' . $row->mahasiswa_lomba_id . '/edit') . '\')" class="btn btn-sm btn-warning mt-1 mb-1" title="Edit"><i class="fa fa-pen"></i> Edit</button> ';
                     $btn .= '<button onclick="modalAction(\'' . url('/mahasiswa_lomba/' . $row->mahasiswa_lomba_id . '/confirm-delete') . '\')" class="btn btn-danger btn-sm mt-1 mb-1"><i class="fa fa-trash"></i> Hapus</button> ';
                     return $btn;
                 })

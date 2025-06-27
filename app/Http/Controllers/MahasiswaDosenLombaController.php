@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\BidangKeahlianModel;
 use App\Models\KotaModel;
 use App\Models\LombaModel;
+use App\Models\MahasiswaLombaModel;
 use App\Models\RekomendasiMahasiswaLombaModel;
 use App\Models\TingkatLombaModel;
 use App\Models\PenyelenggaraModel;
@@ -116,8 +117,23 @@ class MahasiswaDosenLombaController extends Controller
 
     public function show($id)
     {
+        $ikutiLomba = false;
+
+        if (auth()->user()->hasRole('MHS')) {
+            $mahasiswaId = auth()->user()->mahasiswa->mahasiswa_id ?? null;
+
+            if ($mahasiswaId) {
+                $sudahIkut = MahasiswaLombaModel::where('mahasiswa_id', $mahasiswaId)
+                    ->where('lomba_id', $id)
+                    ->exists();
+
+                $ikutiLomba = !$sudahIkut; // true jika belum ikut
+            }
+        }
+
+
         $lomba = LombaModel::with(['penyelenggara', 'tingkat', 'bidang'])->findOrFail($id);
-        return view('daftar_lomba.show_lomba', compact('lomba'));
+        return view('daftar_lomba.show_lomba', compact('lomba', 'ikutiLomba'));
     }
 
     /**
