@@ -172,9 +172,9 @@ Route::middleware('auth')->group(function () {
             Route::get('/{mahasiswaLomba}/show', [MahasiswaTerdaftarLombaController::class, 'show'])->name('show');
             Route::get('/create', [MahasiswaTerdaftarLombaController::class, 'create'])->name('create');
             Route::post('/', [MahasiswaTerdaftarLombaController::class, 'store'])->name('store');
-            Route::get('/{mahasiswaLomba}/edit', [MahasiswaTerdaftarLombaController::class, 'edit'])->name('edit');
-            Route::put('/{mahasiswaLomba}', [MahasiswaTerdaftarLombaController::class, 'update'])->name('update');
-            Route::get('/{mahasiswaLomba}/delete', [MahasiswaTerdaftarLombaController::class, 'confirm'])->name('delete');
+            Route::get('/{mahasiswaLomba}/edit-verifikasi', [MahasiswaTerdaftarLombaController::class, 'edit_verifikasi'])->name('edit-verifikasi');
+            Route::put('/{mahasiswaLomba}', [MahasiswaTerdaftarLombaController::class, 'update_verifikasi'])->name('update-verifikasi');
+            Route::get('/{mahasiswaLomba}/confirm-delete', [MahasiswaTerdaftarLombaController::class, 'confirm'])->name('delete');
             Route::delete('/{mahasiswaLomba}', [MahasiswaTerdaftarLombaController::class, 'destroy'])->name('destroy');
         });
 
@@ -238,7 +238,7 @@ Route::middleware('auth')->group(function () {
         Route::prefix('lomba_diikuti')->name('lomba_diikuti.')->group(function () {
             Route::get('/', [MahasiswaLombaDiikutiController::class, 'index'])->name('index');
             Route::get('/create', [MahasiswaLombaDiikutiController::class, 'create'])->name('create');
-            Route::post('/', [MahasiswaLombaDiikutiController::class, 'store'])->name('store');
+            Route::post('/{lomba_id}/store', [MahasiswaLombaDiikutiController::class, 'store'])->name('store');
             Route::get('/{mahasiswaLomba}', [MahasiswaLombaDiikutiController::class, 'show'])->name('show');
             Route::get('/{mahasiswaLomba}/edit', [MahasiswaLombaDiikutiController::class, 'edit'])->name('edit');
             Route::put('/{mahasiswaLomba}', [MahasiswaLombaDiikutiController::class, 'update'])->name('update');
@@ -253,6 +253,7 @@ Route::middleware('auth')->group(function () {
             Route::get('/create', [MahasiswaDosenLombaController::class, 'create'])->name('create');
             Route::post('/', [MahasiswaDosenLombaController::class, 'store'])->name('store');
             Route::get('/{lomba}', [MahasiswaDosenLombaController::class, 'show'])->name('show');
+            Route::get('/{lomba}/ikuti', [MahasiswaLombaDiikutiController::class, 'confirm_ikuti'])->name('ikuti')->middleware('role:MHS');
             Route::get('/{lomba}/edit', [MahasiswaDosenLombaController::class, 'edit'])->name('edit');
             Route::put('/{lomba}', [MahasiswaDosenLombaController::class, 'update'])->name('update');
             Route::get('/{lomba}/confirm', [MahasiswaDosenLombaController::class, 'confirm'])->name('confirm');

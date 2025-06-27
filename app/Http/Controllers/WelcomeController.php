@@ -29,9 +29,6 @@ class WelcomeController extends Controller
             ->limit(5)
             ->get();
 
-
-
-
         $daftarLomba = LombaModel::where('status_verifikasi', 1)
             ->orderBy('created_at', 'desc') // berdasarkan waktu pendaftaran terbaru
             ->limit(3)

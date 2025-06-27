@@ -90,6 +90,12 @@
                             </button>
                         </div>
                     </div>
+                    <div class="col-md-12">
+                        <span class="badge bg-warning">Menunggu Verifikasi</span>
+                        <span class="badge bg-success">Terverifikasi/Tersedia</span>
+                        <span class="badge bg-danger">Ditolak</span>
+                        <span class="badge" style="background-color: rgba(128, 128, 128, 0.2)">Sudah Berakhir</span>
+                    </div>
                 </div>
             </form>
 
@@ -104,9 +110,9 @@
                     @if ($mahasiswa_lomba->count())
                         @foreach ($mahasiswa_lomba as $mhs_lmb)
                             @php
-                                if ($mhs_lmb->lomba->status_verifikasi == '1') {
+                                if ($mhs_lmb->status_verifikasi == '1') {
                                     $bgColor = 'rgba(0, 255, 85, 0.144)'; // Hijau
-                                } elseif ($mhs_lmb->lomba->status_verifikasi == '0') {
+                                } elseif ($mhs_lmb->status_verifikasi == '0') {
                                     $bgColor = 'rgba(255, 0, 0, 0.144)'; // Merah
                                 } else {
                                     $bgColor = 'rgba(255, 255, 0, 0.144)'; // Kuning
@@ -148,7 +154,7 @@
                                                     </p>
                                                 </div>
 
-                                                <a href="{{ route('lomba_diikuti.show', $mhs_lmb->lomba->lomba_id) }}">
+                                                <a href="{{ route('lomba_diikuti.show', $mhs_lmb->mahasiswa_lomba_id) }}">
                                                     <h5 class="card-title">{{ $mhs_lmb->lomba->lomba_nama }}</h5>
                                                 </a>
 

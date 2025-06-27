@@ -118,7 +118,7 @@ class MahasiswaProfileController extends Controller
 
 
 
-            if (!Hash::check($request->old_password, auth()->user()->password)) {
+            if (!Hash::check($request->old_password, (string) auth()->user()->password)) {
                 return response()->json([
                     'status' => false,
                     'message' => 'Password lama salah.'

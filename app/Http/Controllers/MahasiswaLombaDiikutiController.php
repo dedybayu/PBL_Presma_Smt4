@@ -2,6 +2,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\BidangKeahlianModel;
+use App\Models\LombaModel;
 use App\Models\MahasiswaLombaModel;
 use App\Models\TingkatLombaModel;
 use Carbon\Carbon;
@@ -18,10 +19,12 @@ class MahasiswaLombaDiikutiController extends Controller
         $mahasiswa_id = auth()->user()->mahasiswa->mahasiswa_id;
 
         $query = MahasiswaLombaModel::where('mahasiswa_id', $mahasiswa_id)
-            ->where('status_verifikasi', 1)
-            ->with(['lomba' => function ($q) {
-                $q->with(['tingkat', 'bidang', 'penyelenggara']);
-            }]);
+            // ->where('status_verifikasi', 1)
+            ->with([
+                'lomba' => function ($q) {
+                    $q->with(['tingkat', 'bidang', 'penyelenggara']);
+                }
+            ]);
 
         // Filter berdasarkan tingkat lomba
         if (request('tingkat_lomba_id')) {
@@ -72,12 +75,12 @@ class MahasiswaLombaDiikutiController extends Controller
 
         $mahasiswaLomba = $query->paginate(6)->withQueryString(); // withQueryString agar filter tetap di URL saat paginate
 
-        $tingkat         = TingkatLombaModel::all();
+        $tingkat = TingkatLombaModel::all();
         $bidang_keahlian = BidangKeahlianModel::all();
 
         return view('mahasiswa.lomba_diikuti.daftar_lomba_diikuti', [
             'mahasiswa_lomba' => $mahasiswaLomba,
-            'tingkat_lomba'   => $tingkat,
+            'tingkat_lomba' => $tingkat,
             'bidang_keahlian' => $bidang_keahlian,
         ]);
     }
@@ -93,9 +96,23 @@ class MahasiswaLombaDiikutiController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store($lomba_id)
     {
-        //
+        try {
+            MahasiswaLombaModel::create([
+                'mahasiswa_id' => auth()->user()->mahasiswa->mahasiswa_id,
+                'lomba_id' => $lomba_id,
+                'pengaju' => 'MHS',
+                'user_id' => auth()->user()->user_id,
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
+            ]);
+
+            return response()->json(['status' => true, 'message' => 'Pengajuan berhasil dibuat']);
+        } catch (\Exception $e) {
+            return response()->json(['status' => true, 'message' => 'Pengajuan berhasil dibuat']);
+        }
+
     }
 
     /**
@@ -105,6 +122,11 @@ class MahasiswaLombaDiikutiController extends Controller
     {
         // dd($mahasiswaLomba->lomba);
         return view('mahasiswa.lomba_diikuti.show_lomba_diikuti')->with(['lomba' => $mahasiswaLomba->lomba]);
+    }
+
+    public function confirm_ikuti(LombaModel $lomba)
+    {
+        return view('daftar_lomba.confirm_ikuti_lomba')->with(['lomba' => $lomba]);
     }
 
     /**
