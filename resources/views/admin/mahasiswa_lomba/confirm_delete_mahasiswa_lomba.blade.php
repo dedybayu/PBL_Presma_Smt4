@@ -60,7 +60,7 @@
 
     <div class="modal-footer">
         <button type="button" class="btn btn-warning" data-dismiss="modal">Batal</button>
-        <button type="submit" class="btn btn-primary">Simpan</button>
+        <button type="submit" class="btn btn-danger">Hapus</button>
     </div>
 </form>
 

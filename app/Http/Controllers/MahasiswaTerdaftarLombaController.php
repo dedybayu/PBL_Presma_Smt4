@@ -58,13 +58,22 @@ class MahasiswaTerdaftarLombaController extends Controller
                         return '<button onclick="modalAction(\'' . url('/mahasiswa_lomba/' . $row->mahasiswa_lomba_id . '/edit-verifikasi') . '\')" class="badge bg-warning" style="color: white; border: none; outline: none; box-shadow: none;">Menunggu</button>';
                     }
                 })
+                ->addColumn('status_verifikasi_from_mhs', function ($row) {
+                    if ($row->status_verifikasi_from_mhs === 1) {
+                        return '<div class="badge bg-success" style="color: white; border: none; outline: none; box-shadow: none;">Diterima</div>';
+                    } else if ($row->status_verifikasi_from_mhs === 0) {
+                        return '<div class="badge bg-danger" style="color: white; border: none; outline: none; box-shadow: none;">Ditolak</div>';
+                    } else if ($row->status_verifikasi_from_mhs === null) {
+                        return '<div class="badge bg-warning" style="color: white; border: none; outline: none; box-shadow: none;">Menunggu</div>';
+                    }
+                })
                 ->addColumn('aksi', function ($row) {
                     $btn = '<button onclick="modalAction(\'' . url('/mahasiswa_lomba/' . $row->mahasiswa_lomba_id . '/show') . '\')" class="btn btn-info btn-sm mt-1 mb-1"><i class="fa fa-eye"></i> Detail</button> ';
                     // $btn .= '<button onclick="modalAction(\'' . url('/mahasiswa_lomba/' . $row->mahasiswa_lomba_id . '/edit') . '\')" class="btn btn-sm btn-warning mt-1 mb-1" title="Edit"><i class="fa fa-pen"></i> Edit</button> ';
                     $btn .= '<button onclick="modalAction(\'' . url('/mahasiswa_lomba/' . $row->mahasiswa_lomba_id . '/confirm-delete') . '\')" class="btn btn-danger btn-sm mt-1 mb-1"><i class="fa fa-trash"></i> Hapus</button> ';
                     return $btn;
                 })
-                ->rawColumns(['status_verifikasi', 'aksi'])
+                ->rawColumns(['status_verifikasi', 'aksi', 'status_verifikasi_from_mhs'])
                 ->make(true);
         }
     }
@@ -118,7 +127,8 @@ class MahasiswaTerdaftarLombaController extends Controller
                 MahasiswaLombaModel::create([
                     'mahasiswa_id' => $request->mahasiswa_id,
                     'lomba_id' => $request->lomba_id,
-                    'status_verifikasi' => 1,
+                    'status_verifikasi' => true,
+                    'status_verifikasi_from_mhs' => true,
                     'pengaju' => 'ADM',
                     'user_id' => auth()->user()->user_id,
                     'created_at' => Carbon::now(),
@@ -142,7 +152,7 @@ class MahasiswaTerdaftarLombaController extends Controller
      */
     public function show(MahasiswaLombaModel $mahasiswaLombaModel)
     {
-        //
+        return 'show';
     }
 
     /**

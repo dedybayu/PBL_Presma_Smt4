@@ -109,6 +109,7 @@ class RekomendasiMahasiswaController extends Controller
     public function destroy()
     {
         RekomendasiMahasiswaLombaModel::truncate();
+        MahasiswaLombaModel::where('pengaju', 'SPK')->delete();
         return response()->json([
             'status' => true,
             'message' => 'Data rekomendasi berhasil di hapus.'
@@ -165,6 +166,7 @@ class RekomendasiMahasiswaController extends Controller
                         "mahasiswa_id" => $mahasiswa['mahasiswa_id'],
                         "lomba_id" => $lomba->lomba_id,
                         'status_verifikasi' => true,
+                        'status_verifikasi_from_mhs' => true,
                         'pengaju' => 'SPK',
                         'user_id' => Auth::user()->user_id
                     ]);
@@ -210,6 +212,15 @@ class RekomendasiMahasiswaController extends Controller
                         "mahasiswa_id" => $mahasiswa['mahasiswa_id'],
                         "lomba_id" => $lomba->lomba_id,
                         "rank" => $mahasiswa['rank']
+                    ]);
+
+                    MahasiswaLombaModel::create([
+                        "mahasiswa_id" => $mahasiswa['mahasiswa_id'],
+                        "lomba_id" => $lomba->lomba_id,
+                        'status_verifikasi' => true,
+                        'status_verifikasi_from_mhs' => true,
+                        'pengaju' => 'SPK',
+                        'user_id' => Auth::user()->user_id
                     ]);
                 }
             } else {

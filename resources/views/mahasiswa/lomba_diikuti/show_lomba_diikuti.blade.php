@@ -137,7 +137,7 @@
     </div>
 
     <x-slot:modal>
-        <div id="modal-delete" class="modal fade animate shake" tabindex="-1" role="dialog" data-backdrop="static"
+        <div id="modal-lomba-diikuti" class="modal fade animate shake" tabindex="-1" role="dialog" data-backdrop="static"
             data-keyboard="false" aria-hidden="true">
             <div class="modal-dialog modal-xs" role="document">
                 <div class="modal-content"></div>
