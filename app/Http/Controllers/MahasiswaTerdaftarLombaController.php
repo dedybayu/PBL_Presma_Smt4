@@ -51,7 +51,7 @@ class MahasiswaTerdaftarLombaController extends Controller
                 })
                 ->addColumn('status_verifikasi', function ($row) {
                     if ($row->status_verifikasi === 1) {
-                        return '<button onclick="modalAction(\'' . url('/mahasiswa_lomba/' . $row->mahasiswa_lomba_id . '/edit-verifikasi') . '\')" class="badge bg-success" style="color: white; border: none; outline: none; box-shadow: none;">Disetujui</button>';
+                        return '<button onclick="modalAction(\'' . url('/mahasiswa_lomba/' . $row->mahasiswa_lomba_id . '/edit-verifikasi') . '\')" class="badge bg-success" style="color: white; border: none; outline: none; box-shadow: none;">Terverifikasi</button>';
                     } else if ($row->status_verifikasi === 0) {
                         return '<button onclick="modalAction(\'' . url('/mahasiswa_lomba/' . $row->mahasiswa_lomba_id . '/edit-verifikasi') . '\')" class="badge bg-danger" style="color: white; border: none; outline: none; box-shadow: none;">Ditolak</button>';
                     } else if ($row->status_verifikasi === null) {
@@ -106,7 +106,7 @@ class MahasiswaTerdaftarLombaController extends Controller
                 'mahasiswa_id' => [
                     'required',
                     function ($attribute, $value, $fail) use ($request) {
-                        $exists = \App\Models\MahasiswaLombaModel::where('mahasiswa_id', $value)
+                        $exists = MahasiswaLombaModel::where('mahasiswa_id', $value)
                             ->where('lomba_id', $request->lomba_id)
                             ->exists();
                         if ($exists) {
@@ -150,9 +150,9 @@ class MahasiswaTerdaftarLombaController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(MahasiswaLombaModel $mahasiswaLombaModel)
+    public function show(MahasiswaLombaModel $mahasiswaLomba)
     {
-        return 'show';
+        return view('admin.mahasiswa_lomba.show_mahasiswa_lomba')->with(['mahasiswa_lomba' => $mahasiswaLomba]);
     }
 
     /**

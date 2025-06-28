@@ -162,14 +162,22 @@ class RekomendasiMahasiswaController extends Controller
                         "rank" => $mahasiswa['rank']
                     ]);
 
-                    MahasiswaLombaModel::create([
-                        "mahasiswa_id" => $mahasiswa['mahasiswa_id'],
-                        "lomba_id" => $lomba->lomba_id,
-                        'status_verifikasi' => true,
-                        'status_verifikasi_from_mhs' => true,
-                        'pengaju' => 'SPK',
-                        'user_id' => Auth::user()->user_id
-                    ]);
+                    // Cek apakah kombinasi mahasiswa_id dan lomba_id sudah ada
+                    $sudahAda = MahasiswaLombaModel::where('mahasiswa_id', $mahasiswa['mahasiswa_id'])
+                        ->where('lomba_id', $lomba->lomba_id)
+                        ->exists();
+
+                    // Hanya insert jika belum ada
+                    if (!$sudahAda) {
+                        MahasiswaLombaModel::create([
+                            "mahasiswa_id" => $mahasiswa['mahasiswa_id'],
+                            "lomba_id" => $lomba->lomba_id,
+                            'status_verifikasi' => true,
+                            'status_verifikasi_from_mhs' => true,
+                            'pengaju' => 'SPK',
+                            'user_id' => Auth::user()->user_id
+                        ]);
+                    }
                 }
             } else {
                 Log::error('Gagal mendapatkan data dari TOPSIS API', [
@@ -214,14 +222,22 @@ class RekomendasiMahasiswaController extends Controller
                         "rank" => $mahasiswa['rank']
                     ]);
 
-                    MahasiswaLombaModel::create([
-                        "mahasiswa_id" => $mahasiswa['mahasiswa_id'],
-                        "lomba_id" => $lomba->lomba_id,
-                        'status_verifikasi' => true,
-                        'status_verifikasi_from_mhs' => true,
-                        'pengaju' => 'SPK',
-                        'user_id' => Auth::user()->user_id
-                    ]);
+                    // Cek apakah kombinasi mahasiswa_id dan lomba_id sudah ada
+                    $sudahAda = MahasiswaLombaModel::where('mahasiswa_id', $mahasiswa['mahasiswa_id'])
+                        ->where('lomba_id', $lomba->lomba_id)
+                        ->exists();
+
+                    // Hanya insert jika belum ada
+                    if (!$sudahAda) {
+                        MahasiswaLombaModel::create([
+                            "mahasiswa_id" => $mahasiswa['mahasiswa_id'],
+                            "lomba_id" => $lomba->lomba_id,
+                            'status_verifikasi' => true,
+                            'status_verifikasi_from_mhs' => true,
+                            'pengaju' => 'SPK',
+                            'user_id' => Auth::user()->user_id
+                        ]);
+                    }
                 }
             } else {
                 Log::error('Gagal mendapatkan data dari SAW API', [
