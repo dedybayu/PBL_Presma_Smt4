@@ -50,6 +50,7 @@
                             <th>Mahasiswa yang Terdaftar</th>
                             <th>NIM Mahasiswa</th>
                             <th>Status Verifikasi</th>
+                            <th>Status dari Mahasiswa</th>
                             <th>Aksi</th>
                         </tr>
                     </thead>
@@ -126,6 +127,11 @@
                         },
                         {
                             data: 'status_verifikasi',
+                            orderable: false,
+                            searchable: false
+                        },
+                        {
+                            data: 'status_verifikasi_from_mhs',
                             orderable: false,
                             searchable: false
                         },

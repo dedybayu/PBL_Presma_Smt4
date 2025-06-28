@@ -11,7 +11,7 @@
         <div class="form-group">
             <label>Lomba<span style="color: red;">*</span></label>
             <select class="form-select" id="craete_mhs_lomba-lomba_id" name="lomba_id" style="width: 100%">
-                <option value="" disabled selected>- Pilih bidang -</option>
+                <option value="" disabled selected>- Pilih Lomba -</option>
                 @foreach ($lomba as $item)
                     <option value="{{ $item->lomba_id }}">
                         {{ $item->lomba_nama }}

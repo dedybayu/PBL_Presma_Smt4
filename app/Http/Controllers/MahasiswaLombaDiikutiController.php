@@ -7,6 +7,7 @@ use App\Models\MahasiswaLombaModel;
 use App\Models\TingkatLombaModel;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Validator;
 
 class MahasiswaLombaDiikutiController extends Controller
 {
@@ -103,6 +104,7 @@ class MahasiswaLombaDiikutiController extends Controller
                 'mahasiswa_id' => auth()->user()->mahasiswa->mahasiswa_id,
                 'lomba_id' => $lomba_id,
                 'pengaju' => 'MHS',
+                'status_verifikasi_from_mhs' => true,
                 'user_id' => auth()->user()->user_id,
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),
@@ -132,9 +134,36 @@ class MahasiswaLombaDiikutiController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(MahasiswaLombaModel $mahasiswaLombaModel)
+    public function verifikasi_from_mhs(MahasiswaLombaModel $mahasiswaLomba)
     {
-        //
+        return view('mahasiswa.lomba_diikuti.verifikasi_ikuti_lomba')->with(['mahasiswa_lomba' => $mahasiswaLomba]);
+    }
+    public function update_verifikasi_from_mhs(Request $request, MahasiswaLombaModel $mahasiswaLomba)
+    {
+        if ($request->ajax()) {
+            $rules = [
+                'status_verifikasi' => 'required',
+                'message' => 'nullable',
+            ];
+            $messages = [
+                'status_verifikasi.required' => 'Status verifikasi harus diisi.',
+            ];
+            $validator = Validator::make($request->all(), $rules, $messages);
+            if ($validator->fails()) {
+                return response()->json(['status' => false, 'message' => $validator->errors()->first()]);
+            }
+
+            try {
+                $mahasiswaLomba->update([
+                    'status_verifikasi_from_mhs' => $request->status_verifikasi,
+                    'message' => $request->message,
+                ]);
+                return response()->json(['status' => true, 'message' => 'Status verifikasi berhasil diubah.']);
+            } catch (\Throwable $th) {
+                return response()->json(['status' => false, 'message' => $th->getMessage()]);
+            }
+
+        }
     }
 
     /**

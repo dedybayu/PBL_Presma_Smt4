@@ -118,6 +118,20 @@
                                     $bgColor = 'rgba(255, 255, 0, 0.144)'; // Kuning
                                 }
 
+                                if ($mhs_lmb->status_verifikasi_from_mhs == '1') {
+                                    $btnBgColor = 'btn-success'; // Hijau
+                                    $btnIcon = 'fa-check';
+                                    $btnValue = 'Mengikuti';
+                                } elseif ($mhs_lmb->status_verifikasi_from_mhs == '0') {
+                                    $btnBgColor = 'btn-danger'; // Merah
+                                    $btnIcon = 'fa-ban';
+                                    $btnValue = 'Tidak Mengikuti';
+                                } else {
+                                    $btnBgColor = 'btn-warning'; // Kuning
+                                    $btnIcon = 'fa-clock';
+                                    $btnValue = 'Menunggu';
+                                }
+
                                 if ($mhs_lmb->lomba->tanggal_mulai < date('Y-m-d')) {
                                     $bgColor = 'rgba(128, 128, 128, 0.2)'; // warna abu-abu
                                 }
@@ -154,7 +168,8 @@
                                                     </p>
                                                 </div>
 
-                                                <a href="{{ route('lomba_diikuti.show', $mhs_lmb->mahasiswa_lomba_id) }}">
+                                                <a
+                                                    href="{{ route('lomba_diikuti.show', $mhs_lmb->mahasiswa_lomba_id) }}">
                                                     <h5 class="card-title">{{ $mhs_lmb->lomba->lomba_nama }}</h5>
                                                 </a>
 
@@ -169,13 +184,15 @@
                                                         <th style="padding: 4px 8px;">Bidang</th>
                                                         <td style="padding: 4px 4px;">:</td>
                                                         <td style="padding: 4px 8px;">
-                                                            {{ $mhs_lmb->lomba->bidang->bidang_keahlian_nama ?? '-' }}</td>
+                                                            {{ $mhs_lmb->lomba->bidang->bidang_keahlian_nama ?? '-' }}
+                                                        </td>
                                                     </tr>
                                                     <tr>
                                                         <th style="padding: 4px 8px;">Penyelenggara</th>
                                                         <td style="padding: 4px 4px;">:</td>
                                                         <td style="padding: 4px 8px;">
-                                                            {{ $mhs_lmb->lomba->penyelenggara->penyelenggara_nama }}</td>
+                                                            {{ $mhs_lmb->lomba->penyelenggara->penyelenggara_nama }}
+                                                        </td>
                                                     </tr>
                                                     <tr>
                                                         <th style="padding: 4px 8px;">Tanggal Mulai</th>
@@ -186,6 +203,15 @@
                                                         </td>
                                                     </tr>
                                                 </table>
+                                            </div>
+
+                                            <div class="d-flex justify-content-end mr-4 mb-4">
+                                                <button
+                                                    onclick="modalAction('{{ route('lomba_diikuti.verifikasi_from_mhs', $mhs_lmb->mahasiswa_lomba_id) }}')"
+                                                    class="btn btn-sm {{ $btnBgColor }} ml-1" @if ($mhs_lmb->pengaju == 'MHS') disabled @endif>
+                                                    <i class="fa {{ $btnIcon }}"></i>
+                                                    {{ $btnValue }}
+                                                </button>
                                             </div>
                                         </div>
                                     </div>
@@ -208,15 +234,9 @@
     </div>
 
     <x-slot:modal>
-        <div id="modal-lomba" class="modal fade animate shake" tabindex="-1" role="dialog" data-backdrop="static"
-            data-keyboard="false" aria-hidden="true">
-            <div class="modal-dialog modal-lg" role="document">
-                <div class="modal-content"></div>
-            </div>
-        </div>
-        <div id="modal-delete" class="modal fade animate shake" tabindex="-1" role="dialog"
+        <div id="modal-lomba-diikuti" class="modal fade animate shake" tabindex="-1" role="dialog"
             data-backdrop="static" data-keyboard="false" aria-hidden="true">
-            <div class="modal-dialog modal-xl" role="document">
+            <div class="modal-dialog modal-lg" role="document">
                 <div class="modal-content"></div>
             </div>
         </div>
@@ -226,35 +246,20 @@
         <script>
             function modalAction(url) {
                 // Kosongkan modal sebelum memuat konten baru
-                $("#modal-lomba .modal-content").html("");
+                $("#modal-lomba-diikuti .modal-content").html("");
 
                 // Panggil modal melalui AJAX
                 $.get(url, function(response) {
-                    $("#modal-lomba .modal-content").html(response);
-                    $("#modal-lomba").modal("show");
+                    $("#modal-lomba-diikuti .modal-content").html(response);
+                    $("#modal-lomba-diikuti").modal("show");
                 });
             }
 
             // Bersihkan isi modal setelah ditutup
-            $('#modal-lomba').on('hidden.bs.modal', function() {
-                $("#modal-lomba .modal-content").html("");
+            $('#modal-lomba-diikuti').on('hidden.bs.modal', function() {
+                $("#modal-lomba-diikuti .modal-content").html("");
             });
 
-            function modalDelete(url) {
-                // Kosongkan modal sebelum memuat konten baru
-                $("#modal-delete .modal-content").html("");
-
-                // Panggil modal melalui AJAX
-                $.get(url, function(response) {
-                    $("#modal-delete .modal-content").html(response);
-                    $("#modal-delete").modal("show");
-                });
-            }
-
-            // Bersihkan isi modal setelah ditutup
-            $('#modal-delete').on('hidden.bs.modal', function() {
-                $("#modal-delete .modal-content").html("");
-            });
 
             $(document).ready(function() {
                 $('#tingkat_lomba_id, #bidang_keahlian_id').select2({

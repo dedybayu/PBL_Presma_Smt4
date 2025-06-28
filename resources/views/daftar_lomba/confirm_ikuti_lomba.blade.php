@@ -28,7 +28,7 @@
         <h5 class="text-center mt-3"><strong>{{ $lomba->lomba_nama }}</strong></h5>
 
     </div>
-    <form action="{{ route('lomba_diikuti.store', $lomba->lomba_id) }}" method="POST" id="form-delete">
+    <form action="{{ route('lomba_diikuti.store', $lomba->lomba_id) }}" method="POST" id="form-ikuti-lomba">
         @csrf
         <div class="modal-footer">
             <button type="button" data-dismiss="modal" class="btn btn-primary btn-sm">Batal</button>
@@ -38,7 +38,7 @@
 
     <script>
         $(document).ready(function() {
-            $("#form-delete").validate({
+            $("#form-ikuti-lomba").validate({
                 rules: {},
                 submitHandler: function(form) {
                     $.ajax({

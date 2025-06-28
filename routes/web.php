@@ -242,6 +242,8 @@ Route::middleware('auth')->group(function () {
             Route::get('/{mahasiswaLomba}', [MahasiswaLombaDiikutiController::class, 'show'])->name('show');
             Route::get('/{mahasiswaLomba}/edit', [MahasiswaLombaDiikutiController::class, 'edit'])->name('edit');
             Route::put('/{mahasiswaLomba}', [MahasiswaLombaDiikutiController::class, 'update'])->name('update');
+            Route::get('/{mahasiswaLomba}/verifikasi_from_mhs', [MahasiswaLombaDiikutiController::class, 'verifikasi_from_mhs'])->name('verifikasi_from_mhs');
+            Route::put('/{mahasiswaLomba}', [MahasiswaLombaDiikutiController::class, 'update_verifikasi_from_mhs'])->name('update_verifikasi_from_mhs');
             Route::get('/{mahasiswaLomba}/confirm', [MahasiswaLombaDiikutiController::class, 'confirm'])->name('confirm');
             Route::delete('/{mahasiswaLomba}', [MahasiswaLombaDiikutiController::class, 'destroy'])->name('destroy');
         });
