@@ -64,7 +64,7 @@
         </div>
         <div class="card">
             <div class="card-body">
-                <h5 class="card-title">Pesan Dari Admin</h5>
+                <h5 class="card-title">Pesan Dari Mahasiswa</h5>
                 <div class="card" style="background-color: rgb(243, 243, 255)">
                     <div class="card-body">
                         <p class="card-text mb-0"
