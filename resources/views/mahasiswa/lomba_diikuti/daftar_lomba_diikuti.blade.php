@@ -92,7 +92,7 @@
                     </div>
                     <div class="col-md-12">
                         <span class="badge bg-warning">Menunggu Verifikasi</span>
-                        <span class="badge bg-success">Terverifikasi/Tersedia</span>
+                        <span class="badge bg-success">Terverifikasi</span>
                         <span class="badge bg-danger">Ditolak</span>
                         <span class="badge" style="background-color: rgba(128, 128, 128, 0.2)">Sudah Berakhir</span>
                     </div>
