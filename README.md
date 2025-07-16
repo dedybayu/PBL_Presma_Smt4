@@ -45,8 +45,8 @@
 
 2. **Instalasi Dependensi**
     ```bash
-    composer install
-    npm install && npm run dev
+    - composer install
+    - npm install && npm run dev
 
 3. **Konfigurasi Environment**
     Copy file .env.example ke .env
