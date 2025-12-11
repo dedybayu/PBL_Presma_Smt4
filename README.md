@@ -1,3 +1,8 @@
+> [!TIP]
+> You can find the end-to-end testing implementation using Playwright Python in the [tests/e2e](tests/e2e) directory
+
+---
+
 # 🎓 PresApp
 
 **PresApp** adalah *Sistem Informasi Pencatatan Prestasi Mahasiswa dan Rekomendasi Peserta Lomba* berbasis web yang dirancang untuk membantu pengelolaan data prestasi mahasiswa dan memberikan rekomendasi peserta lomba secara objektif menggunakan metode pengambilan keputusan: **TOPSIS**, **SAW**, dan **PSI**.
